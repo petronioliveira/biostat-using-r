@@ -1,0 +1,1741 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>7&nbsp; Introdução à Teoria das Probabilidades – Bioestatística Usando o R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./08-assimetria_curtose.html" rel="next">
+<link href="./06-descrevendoDados.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-8da5b4427184b79ecddefad3d342027e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-probabilidades.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introdução à Teoria das Probabilidades</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Bioestatística Usando o R</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefácio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-dados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Natureza dos Dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-producaoDados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Produção dos Dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-ambienteR.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Ambiente do <em>R</em></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-manipulandoDados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Manipulando os dados no <em>RStudio</em></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-descrevendoDados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Descrevendo os dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-probabilidades.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introdução à Teoria das Probabilidades</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-assimetria_curtose.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Assimetria e Curtose</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-distAmostrais.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Distribuições Amostrais</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-estimacao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Estimação</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-testeHipoteses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Teste de Hipóteses</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Índice</h2>
+   
+  <ul>
+  <li><a href="#pacotes-necessários-neste-capítulo" id="toc-pacotes-necessários-neste-capítulo" class="nav-link active" data-scroll-target="#pacotes-necessários-neste-capítulo"><span class="header-section-number">7.1</span> Pacotes necessários neste capítulo</a></li>
+  <li><a href="#introdução" id="toc-introdução" class="nav-link" data-scroll-target="#introdução"><span class="header-section-number">7.2</span> Introdução</a></li>
+  <li><a href="#processo-aleatório" id="toc-processo-aleatório" class="nav-link" data-scroll-target="#processo-aleatório"><span class="header-section-number">7.3</span> Processo aleatório</a></li>
+  <li><a href="#definição-frequentista" id="toc-definição-frequentista" class="nav-link" data-scroll-target="#definição-frequentista"><span class="header-section-number">7.4</span> Definição frequentista</a>
+  <ul class="collapse">
+  <li><a href="#sec-aplicafreq" id="toc-sec-aplicafreq" class="nav-link" data-scroll-target="#sec-aplicafreq"><span class="header-section-number">7.4.1</span> Aplicando a visão frequentista no dia a dia</a></li>
+  </ul></li>
+  <li><a href="#propriedades-das-probabilidades" id="toc-propriedades-das-probabilidades" class="nav-link" data-scroll-target="#propriedades-das-probabilidades"><span class="header-section-number">7.5</span> Propriedades das probabilidades</a></li>
+  <li><a href="#distribuição-de-probabilidades" id="toc-distribuição-de-probabilidades" class="nav-link" data-scroll-target="#distribuição-de-probabilidades"><span class="header-section-number">7.6</span> Distribuição de Probabilidades</a></li>
+  <li><a href="#sec-normal" id="toc-sec-normal" class="nav-link" data-scroll-target="#sec-normal"><span class="header-section-number">7.7</span> Distribuição Normal</a>
+  <ul class="collapse">
+  <li><a href="#características-da-distribuição-normal" id="toc-características-da-distribuição-normal" class="nav-link" data-scroll-target="#características-da-distribuição-normal"><span class="header-section-number">7.7.1</span> Características da distribuição normal</a></li>
+  <li><a href="#sec-dnp" id="toc-sec-dnp" class="nav-link" data-scroll-target="#sec-dnp"><span class="header-section-number">7.7.2</span> Distribuição normal padronizada</a></li>
+  <li><a href="#regra-empírica-68-95-99.7" id="toc-regra-empírica-68-95-99.7" class="nav-link" data-scroll-target="#regra-empírica-68-95-99.7"><span class="header-section-number">7.7.3</span> Regra Empírica 68-95-99.7</a></li>
+  <li><a href="#calculando-probabilidades-em-uma-distribuição-normal" id="toc-calculando-probabilidades-em-uma-distribuição-normal" class="nav-link" data-scroll-target="#calculando-probabilidades-em-uma-distribuição-normal"><span class="header-section-number">7.7.4</span> Calculando probabilidades em uma distribuição normal</a></li>
+  </ul></li>
+  <li><a href="#distribuição-binomial" id="toc-distribuição-binomial" class="nav-link" data-scroll-target="#distribuição-binomial"><span class="header-section-number">7.8</span> Distribuição Binomial</a>
+  <ul class="collapse">
+  <li><a href="#funções-da-distribuição-binomial" id="toc-funções-da-distribuição-binomial" class="nav-link" data-scroll-target="#funções-da-distribuição-binomial"><span class="header-section-number">7.8.1</span> Funções da distribuição binomial</a></li>
+  <li><a href="#sec-mudpbinom" id="toc-sec-mudpbinom" class="nav-link" data-scroll-target="#sec-mudpbinom"><span class="header-section-number">7.8.2</span> Média e desvio padrão da distribuição binomial</a></li>
+  </ul></li>
+  <li><a href="#distribuição-de-poisson" id="toc-distribuição-de-poisson" class="nav-link" data-scroll-target="#distribuição-de-poisson"><span class="header-section-number">7.9</span> Distribuição de Poisson</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introdução à Teoria das Probabilidades</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="pacotes-necessários-neste-capítulo" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="pacotes-necessários-neste-capítulo"><span class="header-section-number">7.1</span> Pacotes necessários neste capítulo</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(dplyr, readxl)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="introdução" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="introdução"><span class="header-section-number">7.2</span> Introdução</h2>
+<p>A teoria das probabilidades é a base sobre a qual a estatística é desenvolvida. Os jogos de azar deram um grande impulso ao conhecimento da moderna teoria das probabilidades, principalmente, pelo trabalho de Blaise Pascal (1623-1662), em parceria com Pierre de Fermat (1601-1665). Eles foram estimulados por um escritor francês e matemático amador, Antoine Gombaud (1607-1684), conhecido como Chevalier de Méré, que era muito interessado em jogos de azar <span class="citation" data-cites="debnath2015short">(<a href="references.html#ref-debnath2015short" role="doc-biblioref">1</a>)</span>.</p>
+<p>A Teoria das probabilidades permite que seja possível modelar populações, experimentos ou qualquer situação que possa ser considerada aleatória. Estes modelos possibilitam fazer inferência sobre populações a partir da observação de uma amostra dessa população. Ao usar apenas uma parte da população, inevitavelmente, é cometido um erro, o <strong>erro amostral</strong>. Este erro amostral pode ser dimensionado pela teoria das probabilidades.</p>
+<p>Existem duas interpretações alternativas de probabilidades: a <strong>frequentista</strong> e a <strong>bayesiana</strong> <span class="citation" data-cites="menezes2004probabilidade">(<a href="references.html#ref-menezes2004probabilidade" role="doc-biblioref">2</a>)</span>. Neste livro, será discutida, basicamente, a definição de probabilidade frequentista. O processo bayesiano de formulação de um modelo probabilístico faz uso do conhecimento subjetivo, estabelecendo uma especificação <strong>a priori</strong>, combinado com a informação objetiva ou empírica. A teoria bayesiana é a estrutura integradora dessas duas fontes de informação, derivando como resultado a distribuição <strong>a posteriori</strong> dos parâmetros de interesse. Na <span class="quarto-unresolved-ref">?sec-diagbayes</span>, sobre análise de testes diagnósticos, serão abordados alguns aspectos relacionados à teoria bayesiana em medicina.</p>
+</section>
+<section id="processo-aleatório" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="processo-aleatório"><span class="header-section-number">7.3</span> Processo aleatório</h2>
+<p>Um processo ou experimento é dito <strong>aleatório</strong> quando em uma situação se sabe quais os resultados que podem acontecer, mas não se sabe qual resultado particular irá acontecer. Por exemplo, quando uma moeda é lançada, se conhece que a probabilidade de o desfecho <code>cara</code> ocorrer é de 50%, mas se desconhece o que irá ocorrer até que a moeda esteja no chão.</p>
+<p>O número de caras que podem surgir em vários lançamentos da moeda é chamado de <strong>variável aleatória</strong>, ou seja, uma variável que pode assumir mais de um valor com determinadas probabilidades <span class="citation" data-cites="pagano2000random">(<a href="references.html#ref-pagano2000random" role="doc-biblioref">3</a>)</span>. Da mesma forma, um dado lançado pode mostrar seis faces, numeradas de um a seis, com igual probabilidade de 16,7%. Portanto, quando a probabilidade é associada a todos os conjuntos de valores possíveis de uma variável, diz-se que ela é aleatória. O conjunto de todos os possíveis resultados de um experimento aleatório é denominado <strong>espaço amostral</strong>.</p>
+<p>Na área da saúde, trabalha-se com uma infinidade de variáveis aleatórias, por exemplo, o número de filhos de uma mulher, o número de mortos diários em uma epidemia, o número de vacinados em uma campanha, etc. Essas variáveis são variáveis aleatórias discretas, pois apenas permitem ser quantificadas por processo de contagem. Por outro lado, o peso ou a altura de uma mulher são ditos variáveis aleatórias contínuas, pois podem assumir qualquer valor real entre uma medida e outra, dependendo da precisão do aparelho usado.</p>
+<p>Em geral, variáveis aleatórias são representadas por letras maiúsculas, como X, Y e Z e sua a probabilidade, por exemplo, pode ser denotada por: <span class="math inline">\(P(X)\)</span>.</p>
+</section>
+<section id="definição-frequentista" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="definição-frequentista"><span class="header-section-number">7.4</span> Definição frequentista</h2>
+<p>A probabilidade se relaciona a eventos futuros ou que ainda não ocorreram, desta forma a probabilidade pode ser entendida como uma medida de incerteza em relação ao evento. A probabilidade de um evento ocorrer, em determinadas circunstâncias, pode ser definida como a proporção de vezes que o evento é observado quando o experimento é repetido um número infinitamente grande de vezes <span class="citation" data-cites="menezes2004probabilidade">(<a href="references.html#ref-menezes2004probabilidade" role="doc-biblioref">2</a>)</span>. Pode-se dizer que a visão frequentista define a probabilidade como uma <strong>frequência de longo prazo</strong>.</p>
+<p>A chamada <strong>Lei dos Grandes Números</strong> diz que à medida que múltiplas observações são coletadas, a proporção observada de ocorrências de um determinado desfecho, após <em>n</em> ensaios, converge para a probabilidade real P desse desfecho. Ou seja, quanto mais vezes for repetido uma experiência, a melhor estimativa de probabilidade tende a ocorrer. Suponha que seja lançada uma moeda honesta repetidas vezes. Por definição, essa é uma moeda que tem <span class="math inline">\(P(cara)=0,5\)</span>. O que se observaria? O autor fez 20 lançamentos seguidos com uma mesma moeda e obteve o seguinte resultado, onde 1 = cara (<a href="#fig-moeda20" class="quarto-xref">Figura&nbsp;<span>7.1</span></a>):</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-moeda20" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-moeda20-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://i.imgur.com/57v7i9n.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-moeda20-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.1: 20 lançamentos seguidos de uma moeda
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Neste caso, 10 (50%) desses lançamentos deram cara. Agora, suponha que foram feitos registros do número de caras (<span class="math inline">\(n_1\)</span>) dos primeiros lançamentos (<em>N</em>) e calculadas as proporções de caras (<span class="math inline">\(n_1⁄N\)</span>) todas as vezes. O resultado está na <span class="quarto-unresolved-ref">?fig-propmoeda</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://i.imgur.com/joXyqmz.png" style="width:80.0%;height:80.0%" class="figure-img"></p>
+<figcaption>Proporção em 20 lançamentos de moeda</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Observa-se, nessa sequência, que a proporção de caras flutua muito, variando de 0,17 a 0,75. Se o número de lançamentos for aumentando tem-se a sensação de que a proporção se aproxima da “correta”. Por exemplo, com 100 jogadas, obteve-se 53 caras (0,53); com 150 jogadas, 79 (0,53) e com 200 jogadas, 111 (0,56). Quando N se aproximar do infinito (<span class="math inline">\(N \to\infty\)</span>) a proporção de caras convergirá para 0,50. A definição frequentista de probabilidade segue essa definição. Ninguém consegue um número infinito de lançamentos de moedas, mas um computador pode simular milhares de lançamentos. A <a href="#fig-nmoeda" class="quarto-xref">Figura&nbsp;<span>7.2</span></a> mostra o que acontece com a proporção <span class="math inline">\(n_1⁄N\)</span> à medida que <em>N</em> aumenta em lançamentos de moedas. As simulações foram repetidas 4 vezes somente para ter certeza de que o que aconteceu não foi obra do acaso.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-nmoeda" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-nmoeda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://i.imgur.com/H1eeJNj.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nmoeda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.2: Proporção à medida que N aumenta em lançamentos de moedas
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Embora nenhuma das simulações tenha realmente terminado com um valor exato de 0,5, elas se aproximaram, oscilando muito pouco em torno desse valor.</p>
+<section id="sec-aplicafreq" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="sec-aplicafreq"><span class="header-section-number">7.4.1</span> Aplicando a visão frequentista no dia a dia</h3>
+<p>A definição frequentista também pode ser aplicada no cotidiano. Utilizando a altura de 1368 mulheres, uma medida numérica contínua, incluída no conjunto de dados <code>dadosMater.xlsx</code> (veja <a href="05-manipulandoDados.html#sec-mater" class="quarto-xref"><span>Seção 5.3</span></a>). Essas alturas serão selecionadas e colocadas em um objeto, denominado <code>dados</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a> dados <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"dados/dadosMater.xlsx"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(altura)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Usando a função <code>summary()</code>, será feito um resumo da variável <code>altura</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dados<span class="sc">$</span>altura)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  1.400   1.550   1.600   1.598   1.650   1.850 </code></pre>
+</div>
+</div>
+<p>A mediana da altura das gestantes é 1.6 m. Em um longo conjunto de sorteios, a probabilidade de uma mulher ter altura acima devalor é 50%. O percentil 75 (3º quartil) é igual a 1.65 m, a probabilidade de estar acima deste valor, portanto, é 25%. É possível encontrar a probabilidade de a altura estar acima, abaixo ou entre quaisquer valores. Quando se faz a mensuração de uma variável contínua, fica-se limitado ao método usado. Portanto, quando se diz que uma mulher tem 160 cm, significa dizer que está entre 159,5 e 160,5 cm, dependendo da precisão do instrumento de medição. Dessa maneira, o interesse está na probabilidade de a variável aleatória assumir valores entre certos limites.</p>
+<p>A probabilidade de encontrar um valor exatamente igual à média (159.8) cm é quase igual a zero. Como se verá a seguir, isto pode ser verificado, no <em>R</em>, com bastante facilidade,calculando a distância que esta medida está da média em número de desvios padrão (escore <em>Z</em>):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">&lt;-</span> (<span class="fl">1.60</span> <span class="sc">-</span> <span class="fu">mean</span>(dados<span class="sc">$</span>altura))<span class="sc">/</span><span class="fu">sd</span>(dados<span class="sc">$</span>altura)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>Z</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.03103551</code></pre>
+</div>
+</div>
+<p>Observe que o valor de 1,60 m está muito próximo da média e isto é um indicativo de que essa variável tem uma distribuição praticamente simétrica. Sabendo a distância, em números de desvios padrão, que 1,60 m está da média, qual a probabilidade de encontrar, na maternidade do HGCS <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, uma parturiente que tenha exatamente esta altura?<br>
+Para responder a essa pergunta, será usada a função <code>pnorm()</code> (veja adiante na <a href="#sec-dnp" class="quarto-xref"><span>Seção 7.7.2</span></a>) que utiliza o escore <em>Z</em>, a média e o desvio padrão para encontrar essa proporção que, multiplicada por 100, fornece a percentagem.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a> p <span class="ot">&lt;-</span> <span class="fu">pnorm</span> (Z, <span class="fu">mean</span>(dados<span class="sc">$</span>altura),<span class="fu">sd</span>(dados <span class="sc">$</span>altura))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a> p</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7.387473e-127</code></pre>
+</div>
+</div>
+<p>O <em>R</em> por padrão retorna números grandes como notação científica. O resultado dessa operação é um número tão grande que para escrevê-lo sem este tipo de notação, seriam necessários 127 dígitos decimais. O resultado não caberia em apenas uma linha. Ficaria assim, suprimindo a notação científica <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">options</span>(<span class="at">scipen =</span><span class="dv">999</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a> p</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007387473</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">options</span>(<span class="at">scipen =</span> <span class="dv">0</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ou seja, um número tão próximo de zero que poderia muito bem ser zero!</p>
+</section>
+</section>
+<section id="propriedades-das-probabilidades" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="propriedades-das-probabilidades"><span class="header-section-number">7.5</span> Propriedades das probabilidades</h2>
+<p>As seguintes propriedades simples decorrem da definição de probabilidade.</p>
+<p>Sendo <code>E</code> um evento aleatório, a <span class="math inline">\(P[E]\)</span> está entre 0 e 1, ou seja <span class="math inline">\(0\le P[E]\le 1\)</span>. Quando o evento certamente não ocorre, a probabilidade é 0, quando sempre ocorre a probabilidade é 1. Quando a probabilidade for igual a 0,50 tem-se máxima incerteza.</p>
+<ol type="1">
+<li><em>Regra de adição (regra do “ou”)</em></li>
+</ol>
+<p>Dois eventos A e B são mutuamente exclusivos, ou seja, quando A acontece, B não pode acontecer. Então, a probabilidade de que um ou outro aconteça é a soma de suas probabilidades. Por exemplo, um dado lançado pode mostrar um ou dois, mas não ambos. A probabilidade de mostrar um ou dois é igual a <span class="math inline">\(1/6 + 1/6 = 1/3\)</span>.</p>
+<p><span class="math display">\[
+P[A ou B]=P[A]+P[B]
+\]</span></p>
+<p>Se A e B não são mutuamente exclusivos, ou seja, quando A acontece pode também ocorrer B. Por exemplo, o nascimento de uma menina pode ser concomitante com o fato de ser branca.</p>
+<p><span class="math display">\[
+P[A ou B]=P[A]+P[B]-P[A \space e \space B]
+\]</span></p>
+<ol start="2" type="1">
+<li><em>Regra de multiplicação (regra do “e”)</em></li>
+</ol>
+<p>Suponha que dois eventos (A e B) sejam independentes, ou seja, saber que um aconteceu não nos diz nada sobre se o outro aconteceu. Então, a probabilidade de que ambos aconteçam é o produto de suas probabilidades. Por exemplo, suponha que jogamos duas moedas. Uma moeda não influencia a outra, portanto os resultados dos dois lançamentos são independentes e a probabilidade de ocorrerem duas caras é 050 × 0,50 = 0,25.</p>
+<p><span class="math display">\[
+P[A \quad e\quad B]=P[A]×P[B]
+\]</span></p>
+<p>Se os eventos são dependentes, a probabilidade que ambos aconteçam é igual a:</p>
+<p><span class="math display">\[
+P[A \quad e \quad B]=P[A]×P[B \rvert A]
+\]</span> Com essas propriedades simples e outras mais complexas, é possível construir algumas ferramentas matemáticas extremamente poderosas, mas isso não faz parte do objetivo deste livro e não se entrará em detalhes.</p>
+</section>
+<section id="distribuição-de-probabilidades" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="distribuição-de-probabilidades"><span class="header-section-number">7.6</span> Distribuição de Probabilidades</h2>
+<p>Um conjunto de eventos que são mutuamente excludentes e que inclui todos os eventos que podem acontecer, é chamado de exaustivo. A soma de suas probabilidades é 1. O conjunto dessas probabilidades constitui uma <em>distribuição de probabilidade</em>.</p>
+<p>Existem diversos modelos probabilísticos que procuram descrever vários tipos de variáveis aleatórias discretas ou contínuas. Estas distribuições também são chamadas de <em>modelos probabilísticos estocásticos</em> que são definidas por duas funções matemáticas: a <em>função de probabilidade</em> (fp) para variáveis discretas, que atribui a cada valor a sua probabilidade de ocorrência (<code>P(X=x</code>)) e <em>função densidade de probabilidade</em> (<code>fdp</code>) para variáveis contínuas.</p>
+<p>A função de probabilidade é a função que atribui probabilidades a cada um dos possíveis valores da variável aleatória discreta, usando, em geral, as frequências relativas, apresentadas em uma tabela de frequência. O <em>modelo de Bernoulli</em> ou <em>Binomial</em> e o <em>modelo de Poisson</em> são exemplos de modelo probabilístico de variáveis discretas.</p>
+<p>A função densidade de probabilidade é a função que atribui probabilidade a qualquer intervalo de número reais, ou seja, um conjunto de valores não enumerável (infinito). Não é possível atribuir probabilidades para um determinado valor, é possível apenas para um intervalo. Por exemplo, o peso dos recém-nascidos. Para atribuir probabilidade a intervalos de valores é utilizada uma função e as probabilidades são representadas por áreas. Existem diversos modelos contínuos de probabilidade, mas o mais importante deles, é o <em>modelo normal</em>, também conhecido como <em>modelo gaussiano</em>.</p>
+</section>
+<section id="sec-normal" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="sec-normal"><span class="header-section-number">7.7</span> Distribuição Normal</h2>
+<p>O <em>modelo probabilístico normal</em> ou <em>gaussiano</em> é extremamente importante em estatística, pois serve como um fundamento para técnicas de inferência. Variáveis como os pesos dos recém-nascidos a termo, as alturas das mulheres adultas, a renda familiar em reais e muitas outras variáveis, na natureza, se ajustam ao modelo da distribuição normal.</p>
+<p>O modelo de distribuição normal sempre descreve uma curva simétrica, unimodal e em forma de sino (<a href="#fig-curvanormal" class="quarto-xref">Figura&nbsp;<span>7.3</span></a>).</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-curvanormal" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-curvanormal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-probabilidades_files/figure-html/fig-curvanormal-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%" data-fig-pos="H">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-curvanormal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.3: Curva normal.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Uma distribuição normal é descrita por meio de dois parâmetros: a média da distribuição <span class="math inline">\(\mu\)</span> e o desvio padrão da distribuição <span class="math inline">\(\sigma\)</span>. Em função dessa informação, observe como a distribuição normal funciona se esses parâmetros forem alterados.</p>
+<p>Como é fácil prever, alterar a média desloca a curva de sino para a esquerda ou para a direita, enquanto a alteração do desvio padrão estende ou achata a curva, ou seja, muda a dispersão da distribuição.</p>
+<p>A <a href="#fig-threecurves" class="quarto-xref">Figura&nbsp;<span>7.4</span></a>, mostra a distribuição normal com média 0 e desvio padrão 1, na curva à direita, a distribuição normal com média 1.5 e desvio padrão 1. Sobrepondo-se à curva da esquerda observa-se uma curva mais achatada (verde) que tem média 0 e desvio padrão 1.5. Observa-se, como mencionado, que modificando os parâmetros da curva, altera-se a posição ou o formato da mesma.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-threecurves" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-threecurves-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-probabilidades_files/figure-html/fig-threecurves-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%" data-fig-pos="H">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-threecurves-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.4: Curvas normais com modificação dos parâmetros.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="características-da-distribuição-normal" class="level3" data-number="7.7.1">
+<h3 data-number="7.7.1" class="anchored" data-anchor-id="características-da-distribuição-normal"><span class="header-section-number">7.7.1</span> Características da distribuição normal</h3>
+<p>A curva normal apresenta as seguintes características:</p>
+<ul>
+<li><p>A média e o desvio padrão descrevem exatamente uma distribuição normal, eles são chamados de parâmetros da distribuição. Se uma distribuição normal tem média <span class="math inline">\(\mu\)</span> e desvio padrão <span class="math inline">\(\sigma\)</span>, pode-se escrever a distribuição como <span class="math inline">\(N (\mu,\sigma)\)</span>. As três distribuições dos gráficos da <a href="#fig-threecurves" class="quarto-xref">Figura&nbsp;<span>7.4</span></a> podem ser escritas como:</p>
+<ul>
+<li>Curva azul <span class="math inline">\(\to\)</span> <span class="math inline">\(N(\mu = 0,\sigma = 1)\)</span></li>
+<li>Curva verde <span class="math inline">\(\to\)</span> <span class="math inline">\(N(\mu = 0,\sigma = 1.5)\)</span></li>
+<li>Curva vermelha <span class="math inline">\(\to\)</span> <span class="math inline">\(N(\mu = 1.5,\sigma = 1)\)</span></li>
+</ul></li>
+<li><p>Na distribuição normal, a média, a mediana e a moda coincidem.</p></li>
+<li><p>A curva normal é simétrica em torno da média (<span class="math inline">\(\mu\)</span>).</p></li>
+<li><p>As extremidades da curva, em ambos os lados da média, se estendem cada vez mais próximas do eixo <em>x</em> (abscissa) sem jamais tocá-lo. É assintótica.</p></li>
+<li><p>Os pontos de inflexão da curva são <span class="math inline">\(\mu - \sigma\)</span> e <span class="math inline">\(\mu + \sigma\)</span>.</p></li>
+<li><p>A área total sob a curva é 1 ou 100%.</p></li>
+</ul>
+</section>
+<section id="sec-dnp" class="level3" data-number="7.7.2">
+<h3 data-number="7.7.2" class="anchored" data-anchor-id="sec-dnp"><span class="header-section-number">7.7.2</span> Distribuição normal padronizada</h3>
+<p>Cada variável aleatória contínua tem a sua média e seu desvio padrão e, portanto, a sua curva normal correspondente.</p>
+<p>Para facilitar a comparação entre variáveis, foi criado o conceito de <strong>curva normal padronizada</strong>, que é uma curva normal com média 0 e desvio padrão 1. A distribuição normal padrão também pode ser chamada de <em>distribuição normal centrada</em> ou <em>reduzida</em>.</p>
+<p>Para calcular probabilidades associadas a distribuição normal, costuma-se converter a variável aleatória original <em>X</em>, em unidades reduzidas ou padronizadas, denominadas de <strong>escore Z</strong> ou <strong>escore padrão</strong>. Essa transformação é realizada pela equação que indica o número de desvios padrão envolvidos no afastamento do valor <em>x</em> em relação à média da população:</p>
+<p><span class="math display">\[
+Z =\frac{x-\mu}{\sigma}
+\]</span> onde:</p>
+<ul>
+<li><em>Z</em> <span class="math inline">\(\to\)</span> escore Z<br>
+</li>
+<li><em>x</em> <span class="math inline">\(\to\)</span> valor qualquer da variável aleatória <em>X</em><br>
+</li>
+<li><span class="math inline">\(\mu\)</span> <span class="math inline">\(\to\)</span> média da variável <em>X</em><br>
+</li>
+<li><span class="math inline">\(\sigma\)</span> <span class="math inline">\(\to\)</span> desvio padrão da variável <em>X</em></li>
+</ul>
+<p>Qualquer distribuição de uma variável aleatória normal pode ser padronizada, usando o escore <em>Z</em>. Isto permite que se calcule a probabilidade de se encontrar determinados intervalos de valores <span class="citation" data-cites="gonzalez2021normal">(<a href="references.html#ref-gonzalez2021normal" role="doc-biblioref">4</a>)</span>.</p>
+<p>Como exemplo, se retornará à <code>altura</code> das mulheres. É, praticamente, impossível saber o valor da média populacional, por isso. costuma-se usar a média aritmética como um estimador da média populacional. Dessa forma, a variável <code>dados$altura</code> poderá utilizada com estimativa da média populacional. Em primeiro lugar, se construirá um <code>tibble</code> de nome <code>resumo</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a> resumo <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>   dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">media =</span> <span class="fu">mean</span>(altura, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">dp =</span> <span class="fu">sd</span>(altura, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">min =</span> <span class="fu">min</span>(altura, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">max =</span> <span class="fu">max</span>(altura, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a> resumo</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 5
+      n media     dp   min   max
+  &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1  1368  1.60 0.0655   1.4  1.85</code></pre>
+</div>
+</div>
+<p>Assim, pode-se verificar quantos desvios padrão uma mulher, pertencente a essa amostra, com 1,725m está afastada da média:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">&lt;-</span> (<span class="fl">1.725</span> <span class="sc">-</span> resumo<span class="sc">$</span>media)<span class="sc">/</span>resumo<span class="sc">$</span>dp</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(Z, <span class="dv">2</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.94</code></pre>
+</div>
+</div>
+<p>Esta mulher está distante praticamente 2 desvios padrão acima da média da sua população. Portanto, ela é considerada alta. Por que?</p>
+<p>Para responder a essa pergunta, há necessidade de calcular a probabilidade de encontrar uma mulher com esta altura, nesta população. Primeiro, calcula-se a probabilidade de encontrar uma mulher com esta altura, nesta amostra. No <em>R</em>, existem as funções <code>dnorm()</code>, <code>pnorm()</code> e <code>qnorm()</code>, que permitem calcular a densidade de probabilidade, a distribuição cumulativa e a função quantílica da distribuição normal para um conjunto de valores. Além dessas, há a função <code>rnorm()</code> que permite obter observações aleatórias que seguem uma distribuição normal@jain_2022norm.</p>
+<section id="função-pnorm" class="level4" data-number="7.7.2.1">
+<h4 data-number="7.7.2.1" class="anchored" data-anchor-id="função-pnorm"><span class="header-section-number">7.7.2.1</span> Função pnorm()</h4>
+<p>A função <code>pnorm()</code> fornece a <em>Função de Distribuição Cumulativa</em> (CDF) da distribuição Normal, que é a probabilidade de que a variável <em>X</em> contenha um valor menor ou igual a <em>x</em>.</p>
+<p><u>Argumentos</u>:</p>
+<ul>
+<li><strong>q</strong> <span class="math inline">\(\rightarrow\)</span> vetor de quantis<br>
+</li>
+<li><strong>mean</strong> <span class="math inline">\(\rightarrow\)</span> média<br>
+</li>
+<li><strong>sd</strong> <span class="math inline">\(\rightarrow\)</span> desvio padrão<br>
+</li>
+<li><strong>lower.tail</strong> <span class="math inline">\(\rightarrow\)</span> Se <code>TRUE</code>, as probabilidades são <span class="math inline">\(P(X\le x)\)</span>, caso contrário <span class="math inline">\(P(X &gt; x)\)</span></li>
+</ul>
+<p>Se for usado <span class="math inline">\(mean = 0\)</span> e <span class="math inline">\(sd = 1\)</span>, o valor de q = Z, caso contrário, toma-se os valores da média, o desvio padrão da população e o valor de <em>x</em>. Com esta função, é possível responder a pergunta feita anteriormente em relação a probabilidade de encontrar uma mulher com mais de 1,725m, equivalente a 1.94 desvios padrão acima da média, em uma população com média = 1.5979678 e desvio padrão = 0.0654787.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(Z, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.02618654</code></pre>
+</div>
+</div>
+<p>Ou, usando os valores:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="fl">1.725</span>, <span class="at">mean =</span> resumo<span class="sc">$</span>media, <span class="at">sd =</span> resumo<span class="sc">$</span>dp, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.02618654</code></pre>
+</div>
+</div>
+<p>Observa-se que, nesta amostra, apenas 2.6% das mulheres têm acima de 1,725m, razão de ser considerada uma mulher alta. Ou seja, é pouco provável encontrar mulheres acima dessa altura, nesta amostra.</p>
+<p>Para representar graficamente essa pequena probabilidade, será construída uma curva com essa pequena área sombreada, colorida em vermelho. Para isso, será feito uso de uma função própria, denominada <code>normal_area()</code>. Ela pode ser obtida <a href="https://github.com/petronioliveira/Arquivos/blob/main/normal_area.R">aqui</a> para ser baixada em seu diretório de trabalho para uso posterior <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+<p>A <a href="#fig-prob1725" class="quarto-xref">Figura&nbsp;<span>7.5</span></a> representa com clareza esta pequena probabilidade. Foi usada a função <code>text()</code> para escrever o valor da probabilidade.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"dados/normal_area.R"</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">normal_area</span>(<span class="at">media =</span> <span class="dv">0</span>, <span class="at">dp =</span> <span class="dv">1</span>, <span class="at">linf =</span> <span class="fl">1.94</span>, <span class="at">lsup =</span> <span class="dv">3</span>, <span class="at">cor =</span> <span class="st">"tomato"</span>, <span class="at">lwd =</span> <span class="dv">2</span> )</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">2.6</span>, <span class="fl">0.05</span>, <span class="st">"2.6%"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-prob1725" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-prob1725-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-probabilidades_files/figure-html/fig-prob1725-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%" data-fig-pos="H">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-prob1725-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.5: Probabilidade de encontrar mulheres com mais de 1,725m
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="função-qnorm" class="level4" data-number="7.7.2.2">
+<h4 data-number="7.7.2.2" class="anchored" data-anchor-id="função-qnorm"><span class="header-section-number">7.7.2.2</span> Função qnorm()</h4>
+<p>A função <code>qnorm()</code> permite encontrar o quantil <em>q</em> para qualquer probabilidade <em>p</em>. Portanto, a função <code>qnorm</code> é o inverso da função <code>pnorm()</code>.</p>
+<p><u>Argumentos</u>:</p>
+<ul>
+<li><em>p</em> <span class="math inline">\(\to\)</span> vetor de probabilidades<br>
+</li>
+<li><em>mean</em> <span class="math inline">\(\to\)</span> média<br>
+</li>
+<li><em>sd</em> <span class="math inline">\(\to\)</span> desvio padrão<br>
+</li>
+<li><em>lower.tail</em> <span class="math inline">\(\to\)</span> Se <code>TRUE</code>, as probabilidades são (<span class="math inline">\(P \le x\)</span>), caso contrário <span class="math inline">\(P(X &gt; x)\)</span></li>
+</ul>
+<p>No exemplo anterior, a probabilidade de se encontrar mulheres, na maternidade, com mais de 1,725m foi de 2.6%. Poderia ser calculado com a função <code>qnorm()</code> qual o escore <em>Z</em> correspondente:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(p, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.940054</code></pre>
+</div>
+</div>
+</section>
+<section id="função-dnorm" class="level4" data-number="7.7.2.3">
+<h4 data-number="7.7.2.3" class="anchored" data-anchor-id="função-dnorm"><span class="header-section-number">7.7.2.3</span> Função dnorm()</h4>
+<p>Essa função retorna o valor da <em>função de densidade de probabilidade</em> (pdf) da distribuição normal dada uma certa variável aleatória X, uma média populacional <span class="math inline">\(\mu\)</span> e o desvio padrão populacional <span class="math inline">\(\sigma\)</span>.</p>
+<p><u>Argumentos</u>:</p>
+<ul>
+<li><strong>x</strong> <span class="math inline">\(\to\)</span> vetor de quantis<br>
+</li>
+<li><strong>mean</strong> <span class="math inline">\(\to\)</span> média<br>
+</li>
+<li><strong>sd</strong> <span class="math inline">\(\to\)</span> desvio padrão</li>
+</ul>
+<p>Embora <em>x</em> represente a variável independente da <em>pdf</em> para a distribuição normal, também é útil pensar em <em>x</em> como um escore <em>Z</em>. Por exemplo, a densidade de probabilidade quando <em>x</em> = 0 é igual:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3989423</code></pre>
+</div>
+</div>
+<p>Para se construir uma curva de densidade de probabilidades normal ( <span class="math inline">\(X \sim N(μ=0,σ=1)\)</span>), basta aplicar a função <code>dnorm()</code> a uma sequência contínua de escores <em>Z</em>. O vetor de escores Z é obtido com a função <code>seq()</code>, como mostrado a seguir:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>escores_z <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>, <span class="at">by =</span> <span class="fl">0.05</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>escores_z</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] -3.00 -2.95 -2.90 -2.85 -2.80 -2.75 -2.70 -2.65 -2.60 -2.55 -2.50 -2.45
+ [13] -2.40 -2.35 -2.30 -2.25 -2.20 -2.15 -2.10 -2.05 -2.00 -1.95 -1.90 -1.85
+ [25] -1.80 -1.75 -1.70 -1.65 -1.60 -1.55 -1.50 -1.45 -1.40 -1.35 -1.30 -1.25
+ [37] -1.20 -1.15 -1.10 -1.05 -1.00 -0.95 -0.90 -0.85 -0.80 -0.75 -0.70 -0.65
+ [49] -0.60 -0.55 -0.50 -0.45 -0.40 -0.35 -0.30 -0.25 -0.20 -0.15 -0.10 -0.05
+ [61]  0.00  0.05  0.10  0.15  0.20  0.25  0.30  0.35  0.40  0.45  0.50  0.55
+ [73]  0.60  0.65  0.70  0.75  0.80  0.85  0.90  0.95  1.00  1.05  1.10  1.15
+ [85]  1.20  1.25  1.30  1.35  1.40  1.45  1.50  1.55  1.60  1.65  1.70  1.75
+ [97]  1.80  1.85  1.90  1.95  2.00  2.05  2.10  2.15  2.20  2.25  2.30  2.35
+[109]  2.40  2.45  2.50  2.55  2.60  2.65  2.70  2.75  2.80  2.85  2.90  2.95
+[121]  3.00</code></pre>
+</div>
+</div>
+<p>Agora, usando a função <code>dnorm()</code>, será construído conjunto de valores de densidade de probabilidade correspondentes aos escores <em>Z</em> obtidos anteriormente:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>valores_d <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(escores_z, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Estes valores serão plotados para construir a curva normal (<a href="#fig-pdf" class="quarto-xref">Figura&nbsp;<span>7.6</span></a>):</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(valores_d,</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"l"</span>,                          </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">lwd =</span> <span class="dv">2</span>,                             </span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"steelblue"</span>,                  </span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xaxt =</span> <span class="st">"n"</span>,                          </span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Densidade de Probabilidade"</span>,</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Escores Z"</span>)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Rótulos do eixo x</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="at">side =</span> <span class="dv">1</span>, <span class="at">at =</span> <span class="fu">which</span>(valores_d <span class="sc">==</span> <span class="fu">dnorm</span>(<span class="dv">0</span>)), <span class="at">labels =</span> <span class="fu">c</span>(<span class="dv">0</span>))</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="at">side =</span> <span class="dv">1</span>, <span class="at">at=</span><span class="fu">which</span>(valores_d <span class="sc">==</span> <span class="fu">dnorm</span>(<span class="dv">1</span>)), <span class="at">labels=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="at">side =</span> <span class="dv">1</span>, <span class="at">at=</span><span class="fu">which</span>(valores_d <span class="sc">==</span> <span class="fu">dnorm</span>(<span class="dv">2</span>)), <span class="at">labels=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="at">side =</span> <span class="dv">1</span>, <span class="at">at=</span><span class="fu">which</span>(valores_d <span class="sc">==</span> <span class="fu">dnorm</span>(<span class="dv">3</span>)), <span class="at">labels=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-pdf" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pdf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-probabilidades_files/figure-html/fig-pdf-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%" data-fig-pos="H">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pdf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.6: Função densidade de probabilidade.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Os argumentos básicos a serem informados da função <code>axis()</code> são: <code>side=</code>, <code>at=</code> e <code>labels=</code>. Esses argumentos determinam qual eixo será preenchido, qual a posição dos valores no eixo e a sequência de valores a ser preenchida, respectivamente. O argumento <code>side=</code> recebe valores que vão de 1 a 4: 1 = eixo inferior, 2 = eixo lateral esquerdo, 3 = eixo superior, 4= eixo lateral direito. Ou seja, partindo do eixo inferior (eixo <em>x</em>), os valores aumentam até 4 seguindo o sentindo horário para os quatros lados do gráfico. No exemplo, foi modificado o eixo <em>x</em>, logo <code>side = 1</code>. O argumento <code>at =</code> estabelece os pontos (densidades de probabilidade) do eixo <em>x</em> que receberão os rótulos, especificados no argumento <code>label =</code>.</p>
+<p>Como se pode ver, <code>dnorm()</code> fornece a “altura” do <em>pdf</em> da distribuição normal em qualquer escore <em>Z</em> que se forneça como argumento.</p>
+</section>
+<section id="sec-rnorm" class="level4" data-number="7.7.2.4">
+<h4 data-number="7.7.2.4" class="anchored" data-anchor-id="sec-rnorm"><span class="header-section-number">7.7.2.4</span> Função rnorm()</h4>
+<p>A função <code>rnorm()</code> gera <em>n</em> números aleatórios com distribuição normal com média <span class="math inline">\(\mu\)</span> e desvio padrão <span class="math inline">\(\sigma\)</span>.</p>
+<p><u>Argumentos</u>:</p>
+<ul>
+<li><strong>n</strong> <span class="math inline">\(\to\)</span> número de observações a serem geradas<br>
+</li>
+<li><strong>mean</strong> <span class="math inline">\(\to\)</span> média<br>
+</li>
+<li><strong>sd</strong> <span class="math inline">\(\to\)</span> desvio padrão</li>
+</ul>
+<p>Com esta função é possível, por exemplo, gerar 10 observações de uma distribuição normal:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">10</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  0.31194350  0.39201730  0.07379794 -3.37601146 -1.14370917  1.50529114
+ [7] -0.06993193 -0.65400389 -1.71783984  1.69320070</code></pre>
+</div>
+</div>
+<p>No entanto, deve-se notar que, se uma “semente” (<code>seed</code>) não for especificada, a saída não será reproduzível, ou seja, cada vez que o comando for executado, retornará um novo conjunto de observações:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">10</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] -0.31884098 -0.02170959 -0.85545352  0.19618619 -0.40156944  0.18941762
+ [7]  0.12231559 -2.48697051  2.69862635 -0.05908628</code></pre>
+</div>
+</div>
+<p>Cada vez que este comando for reproduzido, retornará uma nova série de 10 números diferentes do anterior. Para tornar o código reproduzível, retornando o mesmo conjunto de valores, deve-se usar uma “semente” (<em>seed</em>), usando a função <em>set.seed()</em>, cujo argumento é um número que identificará a série gerada, no exemplo, pela função <code>rnorm()</code>. O valor do número (“semente”) não é importante, é apenas um identificador. Para ilustrar, será construído dois conjuntos de 10 números que serão recebidos pelos objetos <em>x</em> e <em>y</em>. Para gerar o conjunto de números <em>x</em>, será usado o número <code>123</code> como “semente”. A “semente” funciona como uma espécie de marca. Para o <em>y</em> não será usado a função <code>set.seed()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span> (<span class="dv">123</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span> (n)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] -0.56047565 -0.23017749  1.55870831  0.07050839  0.12928774  1.71506499
+ [7]  0.46091621 -1.26506123 -0.68685285 -0.44566197</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>y</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  1.2240818  0.3598138  0.4007715  0.1106827 -0.5558411  1.7869131
+ [7]  0.4978505 -1.9666172  0.7013559 -0.4727914</code></pre>
+</div>
+</div>
+<p>Comparando os conjuntos com a função <code>identical()</code> do R base, observa-se que os conjuntos são diferentes:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(x, y)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<p>Agora, repetindo os mesmos comandos, mas usando antes a mesma “semente”, observa-se que os conjuntos são idênticos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span> (<span class="dv">123</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span> (n)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] -0.56047565 -0.23017749  1.55870831  0.07050839  0.12928774  1.71506499
+ [7]  0.46091621 -1.26506123 -0.68685285 -0.44566197</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span> (<span class="dv">123</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>y</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] -0.56047565 -0.23017749  1.55870831  0.07050839  0.12928774  1.71506499
+ [7]  0.46091621 -1.26506123 -0.68685285 -0.44566197</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(x, y)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p><u>Outros usos da função rnorm()</u>:</p>
+<p>A função <code>rnorm()</code>será usada para gerar três vetores diferentes de números aleatórios de uma distribuição normal.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>n10 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>n100 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>n10000 <span class="ot">&lt;-</span>  <span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Emn sequência, serão construídos histogramas (<a href="#fig-pdf1" class="quarto-xref">Figura&nbsp;<span>7.7</span></a>), onde se pode observar que, aumentando o número de observações, tem-se gráficos que irão progressivamente se aproximando da verdadeira função de densidade normal.<br>
+A função <code>par(mfrow(1,3))</code> coloca os gráficos gerados em uma mesma linha e em três colunas. No final, se repete a função, restaurando as configurações basais de plotagem (uma linha e uma coluna).</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Este comando coloca os gráficos em uma mesma linha, o argumento mfrow(c(1,3)) diz ao R para construir uma linha e três colunas:</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogramas</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(n10, <span class="at">breaks =</span> <span class="dv">5</span>, <span class="at">main =</span> <span class="st">"n =10"</span>, <span class="at">ylab =</span> <span class="st">"Frequência"</span>)</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(n100, <span class="at">breaks =</span> <span class="dv">20</span>, <span class="at">main =</span> <span class="st">"n =100"</span>, <span class="at">ylab =</span> <span class="st">"Frequência"</span>)</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(n10000, <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">main =</span> <span class="st">"n =10000"</span>, <span class="at">ylab =</span> <span class="st">"Frequência"</span>)</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Restaura as configurações basais de plotagem</span></span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-pdf1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pdf1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-probabilidades_files/figure-html/fig-pdf1-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:100.0%;height:800.0%" data-fig-pos="H">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pdf1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.7: Histogramas construídos com amostras geradas pela função rnorm.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Observe também que à medida que n aumenta, a distribuição dos dados caracteriza-se como uma distribuição normal. Na <a href="09-distAmostrais.html#sec-dam" class="quarto-xref"><span>Seção 9.2.2</span></a>, este assunto voltará à cena.</p>
+</section>
+</section>
+<section id="regra-empírica-68-95-99.7" class="level3" data-number="7.7.3">
+<h3 data-number="7.7.3" class="anchored" data-anchor-id="regra-empírica-68-95-99.7"><span class="header-section-number">7.7.3</span> Regra Empírica 68-95-99.7</h3>
+<p>A regra empírica diz que, se uma população de um conjunto de dados tem uma distribuição normal com média 0 e desvio padrão 1 (<span class="math inline">\(X\sim N(\mu=0,\sigma=1)\)</span>) pode-se afirmar que aproximadamente, 68%, 95% e 99,7% dos valores encontram-se, respectivamente, dentro de <span class="math inline">\(\pm\)</span> 1, 2 e 3 desvio padrão acima e abaixo média.</p>
+<p>Essa regra pode ser usada para descrever uma população e ajudar a decidir se uma amostra de dados veio de uma distribuição normal. Se uma amostra é grande o suficiente e a observação do histograma tem um formato parecido com um sino, é possível verificar se os dados seguem as especificações 68-95-99,7%. Se sim, é razoável concluir que os dados vieram de uma distribuição normal.</p>
+<p><u>Exemplo</u>:</p>
+<p>Com a função <code>rnorm()</code>, será gerado um vetor de 1000 números e um histograma com curva normal sobreposta:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-histdp" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-histdp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-probabilidades_files/figure-html/fig-histdp-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-histdp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.8: Histograma com curva de densidade de probabilidade sobreposta
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>No histograma (<a href="#fig-histdp" class="quarto-xref">Figura&nbsp;<span>7.8</span></a>), a probabilidade entre os escores Z - 1 e + 1 (entre as duas linhas tracejadas A e B) é igual a aproximadamente 68%. Pode-se calcular isto facilmente, usando a função <code>pnorm()</code>:</p>
+<p><u>Probabilidade abaixo de z = 1, abaixo do ponto B</u>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">pnorm</span> (<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">round</span>(B, <span class="dv">3</span>)<span class="sc">*</span><span class="dv">100</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>B</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 84.1</code></pre>
+</div>
+</div>
+<p><u>Probabilidade abaixo de z = -1, abaixo do ponto A</u>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a> A <span class="ot">&lt;-</span> <span class="fu">pnorm</span> (<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a> A <span class="ot">&lt;-</span> <span class="fu">round</span>(A, <span class="dv">3</span>)<span class="sc">*</span><span class="dv">100</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a> A</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15.9</code></pre>
+</div>
+</div>
+<p>Logo , a área abaixo da curva entre A e B é igual a:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a> prob <span class="ot">&lt;-</span> B <span class="sc">-</span> A</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a> prob</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 68.2</code></pre>
+</div>
+</div>
+</section>
+<section id="calculando-probabilidades-em-uma-distribuição-normal" class="level3" data-number="7.7.4">
+<h3 data-number="7.7.4" class="anchored" data-anchor-id="calculando-probabilidades-em-uma-distribuição-normal"><span class="header-section-number">7.7.4</span> Calculando probabilidades em uma distribuição normal</h3>
+<p>Como visto na <a href="#sec-aplicafreq" class="quarto-xref"><span>Seção 7.4.1</span></a>, a variável <code>dados$altura</code> tem uma distribuição praticamente simétrica. Usando esses dados (<span class="math inline">\(X\sim N(\mu=1,598,\sigma=0,065)\)</span>), pode-se calcular probabilidades, dadas pela área sob a curva.</p>
+<p><strong>Exemplo 1</strong>: Qual a probabilidade de se encontrar mulheres com altura entre 1,47 e 1,73 m?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dados</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a> mu <span class="ot">&lt;-</span> <span class="fl">1.598</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a> sigma <span class="ot">&lt;-</span> <span class="fl">0.065</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a> x1 <span class="ot">&lt;-</span> <span class="fl">1.47</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a> x2 <span class="ot">&lt;-</span> <span class="fl">1.73</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a> <span class="co"># Solução</span></span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a> z1 <span class="ot">&lt;-</span>  (x1 <span class="sc">-</span> mu)<span class="sc">/</span>sigma</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a> z2 <span class="ot">&lt;-</span>  (x2 <span class="sc">-</span> mu)<span class="sc">/</span>sigma</span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a> p1 <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(x1, mu, sigma)</span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a> p2 <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(x2, mu, sigma)</span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a> p2 <span class="sc">-</span> p1</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9543975</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-normal954" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-normal954-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-probabilidades_files/figure-html/fig-normal954-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-normal954-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.9: Probabilidade de alturas entre 1,47 e 1,73m.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>A probabilidade de alturas entre 1,47 m e 1,73m é igual a 95,4% (<a href="#fig-normal954" class="quarto-xref">Figura&nbsp;<span>7.9</span></a>).</p>
+<p><strong>Exemplo 2</strong>: Os dados de uma pesquisa mostram informações sobre o tempo de cirurgia para reconstrução do ligamento cruzado anterior (LCA). A distribuição de probabilidades se a justa à normal com o tempo médio de cirurgia de 129 minutos com um desvio padrão de 14 minutos.</p>
+<ol type="a">
+<li>Qual a probabilidade de uma cirurgia de reconstrução do LCA requerer um tempo menor do que 100 minutos?</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dados</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a> mu <span class="ot">&lt;-</span> <span class="dv">129</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a> sigma <span class="ot">&lt;-</span> <span class="dv">14</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a> x <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Solução</span></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a> z <span class="ot">&lt;-</span>  (x <span class="sc">-</span> mu)<span class="sc">/</span>sigma</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a> p <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(x, mu, sigma, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a> p</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.01915938</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-normal192" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-normal192-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-probabilidades_files/figure-html/fig-normal192-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-normal192-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.10: Probabilidade do tempo de cirurgia de LCA menor ou igual a 100 minutos.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>De acordo com a distribuição, 1,92%% das cirurgias irão demandar quantidade de tempo menor do que 100 minutos (<a href="#fig-normal192" class="quarto-xref">Figura&nbsp;<span>7.10</span></a>).</p>
+<ol start="2" type="a">
+<li>Se uma cirurgia demorar 160 minutos, o que se conclui em relação a essa informação?</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dados</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a> mu <span class="ot">&lt;-</span> <span class="dv">129</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a> sigma <span class="ot">&lt;-</span> <span class="dv">14</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a> x <span class="ot">&lt;-</span> <span class="dv">160</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a> <span class="co"># Solução</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a> z <span class="ot">&lt;-</span>  (x <span class="sc">-</span> mu)<span class="sc">/</span>sigma</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a> p <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(x, mu, sigma, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a> p</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.01340457</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-normal134" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-normal134-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-probabilidades_files/figure-html/fig-normal134-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-normal134-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.11: Probabilidade do tempo de cirurgia de LCA maior ou igual a 160 minutos.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>De acordo com a distribuição, 1,34% das cirurgias irão demandar quantidade de tempo <span class="math inline">\(\ge 160\)</span> minutos (<a href="#fig-normal134" class="quarto-xref">Figura&nbsp;<span>7.11</span></a>). Ou seja, é uma probabilidade muito pequena!</p>
+<p><strong>Exemplo 3</strong>: Suponha-se que em uma determinada ilha hipotética existam duas populações etnicamente diferentes onde as mulheres têm as seguintes medidas de altura: população 1 tem μ = 160 cm e σ = 6,6 cm e a população 2 tem μ = 140 cm e σ = 6,6 cm. As alturas de ambas as populações têm distribuição normal. Essas duas populações têm o mesmo aspecto físico, podendo ser distinguidas apenas geneticamente.</p>
+<ol type="a">
+<li>Qual a probabilidade de uma mulher com 150 cm pertencer a população 1?</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dados</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a> mu <span class="ot">&lt;-</span> <span class="dv">160</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a> sigma <span class="ot">&lt;-</span> <span class="fl">6.6</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a> x <span class="ot">&lt;-</span> <span class="dv">150</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Solução</span></span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a> z <span class="ot">&lt;-</span>  (x <span class="sc">-</span> mu)<span class="sc">/</span>sigma</span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a> p <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(x, mu, sigma, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a> p</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.06486702</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-normal649" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-normal649-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-probabilidades_files/figure-html/fig-normal649-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-normal649-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.12: Probabilidade de uma mulher com 150 cmm pertencer a uma população de média igual a 160 cmm.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Na população 1, apenas 6.5% das mulheres tem altura <span class="math inline">\(\le 1,50\)</span> m (<a href="#fig-normal649" class="quarto-xref">Figura&nbsp;<span>7.12</span></a>). Em outras palavras, existe pouca probabilidade dessa mulher pertence à população 1.</p>
+<ol start="2" type="a">
+<li>Qual a probabilidade de uma mulher com 150 cm pertencer a população 2?</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dados</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a> mu <span class="ot">&lt;-</span> <span class="dv">140</span></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a> sigma <span class="ot">&lt;-</span> <span class="fl">6.6</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a> x <span class="ot">&lt;-</span> <span class="dv">150</span></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Solução</span></span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a> z <span class="ot">&lt;-</span>  (x <span class="sc">-</span> mu)<span class="sc">/</span>sigma</span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a> p <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(x, mu, sigma, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a> p</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.935133</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-normal935" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-normal935-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-probabilidades_files/figure-html/fig-normal935-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-normal935-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.13: Probabilidade de uma mulher com 150 cmm pertencer a uma população de média igual a 140 cmm.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Na população 2, 93,5% das mulheres tem altura <span class="math inline">\(\le 1,50\)</span> m (<a href="#fig-normal935" class="quarto-xref">Figura&nbsp;<span>7.13</span></a>). Concluindo, ela pode pertencer a qualquer uma das populações. Pode ser uma mulher alta da população 2 ou uma “baixinha” da população 1!</p>
+</section>
+</section>
+<section id="distribuição-binomial" class="level2" data-number="7.8">
+<h2 data-number="7.8" class="anchored" data-anchor-id="distribuição-binomial"><span class="header-section-number">7.8</span> Distribuição Binomial</h2>
+<p>A distribuição normal padrão é apenas um dos exemplos de distribuição de probabilidade. Uma boa parte das situações se ajustam a ela. Entretanto, diversas situações reais muitas vezes se aproximam de outras distribuições estocásticas definidas por algumas hipóteses. Daí a importância de se conhecer e manipular algumas destas distribuições. Entre elas, a <strong>distribuição binomial</strong>.</p>
+<p>Quando um experimento aleatório resulta em um de dois, mutuamente exclusivos, desfechos, tais como vivo/morto, positivo/negativo, sim/não, masculino/feminino é denominado de <em>Ensaio de Bernoulli</em>. Recebeu esta denominação em homenagem ao matemático suíço, Jacob Bernoulli (1654-1705), considerado fundador do cálculo e da teoria da probabilidade <span class="citation" data-cites="robertson2022bernoulli">(<a href="references.html#ref-robertson2022bernoulli" role="doc-biblioref">5</a>)</span>.</p>
+<p>A distribuição de frequências que descreve as proporções de um ensaio de Bernoulli, chama-se <strong>Distribuição Binomial</strong>. A probabilidade binomial dá a probabilidade de determinado desfecho ocorrer em determinado número de ensaios independentes. Uma sequência de ensaios de Bernoulli forma um <strong>Processo de Bernoulli</strong>.</p>
+<p>A distribuição binomial é importante para variáveis discretas. Existem poucas condições que precisam ser atendidas para distribuição binomial:</p>
+<ul>
+<li>Cada ensaio resulta em um de dois desfechos, mutuamente exclusivos, denominados, arbitrariamente, de sucesso e fracasso;
+<ul>
+<li>A probabilidade de sucesso é fixa, igual a <em>p</em>, constante em cada ensaio, e a probabilidade de fracasso é igual a <em>1 – p</em>;</li>
+<li>O número de repetições <em>n</em> em um ensaio é fixo.</li>
+</ul></li>
+<li>Os ensaios são independentes</li>
+</ul>
+<p>A distribuição binomial é na verdade uma família de distribuições, cujos membros são definidos pelos valores de <em>n</em> e <em>p</em> (parâmetros da distribuição binomial).</p>
+<p>A probabilidade de sucesso <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>, em uma distribuição binomial, é dada pela fórmula:</p>
+<p><span class="math display">\[
+P(X = x)= C \times p^x \times (1 - p)^{n-x}
+\]</span></p>
+<p>onde <em>n</em> = ensaios, <em>x</em> = sucessos, <em>p</em> = probabilidade de um sucesso e <em>C</em> representa o número possível de combinações em um ensaio.</p>
+<p>O número de combinações, <em>C</em> de <em>x</em> sucessos entre <em>n</em> repetições podem ser computado pela fórmula:</p>
+<p><span class="math display">\[
+C = \frac{n!}{x!(n - x)!}
+\]</span></p>
+<p>ou, no R, com a função <code>choose (n, x)</code>.</p>
+<p>O modelo de distribuição binomial trata de encontrar a probabilidade de sucesso de um evento que tem apenas dois resultados possíveis em uma série de experimentos. Usando dados de uma distribuição binomial, é possível calcular os valores esperados de uma variável aleatória conforme ela passa por tentativas independentes. Em outras palavras, é possível prever o número exato de caras ou coroas que se deve esperar ao jogar uma moeda um certo número de vezes.</p>
+<p>Também, pode-se usar a probabilidade binomial cumulativa para encontrar a probabilidade de obter um determinado intervalo de resultados. Por exemplo, saber a probabilidade do nascimento de até três meninos em 10 nascimentos consecutivos quando a probabilidade de nascer um menino é 0,50.</p>
+<p>O <em>R</em> tem quatro funções embutidas para gerar distribuição binomial. Ela são descritas a seguir.</p>
+<section id="funções-da-distribuição-binomial" class="level3" data-number="7.8.1">
+<h3 data-number="7.8.1" class="anchored" data-anchor-id="funções-da-distribuição-binomial"><span class="header-section-number">7.8.1</span> Funções da distribuição binomial</h3>
+<section id="função-pbinom" class="level4" data-number="7.8.1.1">
+<h4 data-number="7.8.1.1" class="anchored" data-anchor-id="função-pbinom"><span class="header-section-number">7.8.1.1</span> Função pbinom()</h4>
+<p>Esta função retorna o valor da <em>função de densidade cumulativa</em> (cdf) da distribuição binomial dada uma certa variável aleatória <em>q</em>, número de tentativas (<em>size</em>) e probabilidade de sucesso em cada tentativa (<em>prob</em>).</p>
+<p><u>Argumentos</u>:</p>
+<ul>
+<li><strong>q</strong> <span class="math inline">\(\to\)</span> vetor de quantis<br>
+</li>
+<li><strong>size</strong> <span class="math inline">\(\to\)</span> numero de ensaios<br>
+</li>
+<li><strong>prob</strong> <span class="math inline">\(\to\)</span> probabilidade de sucesso em cada ensaio<br>
+</li>
+<li><strong>lower.tail</strong> <span class="math inline">\(\to\)</span> Se <code>TRUE</code>, as probabilidades são (<span class="math inline">\(P \le x\)</span>), caso contrário <span class="math inline">\(P(X &gt; x)\)</span></li>
+</ul>
+<p>Por exemplo, qual é a probabilidade de nascer até três meninos em cinco nascimentos, sabendo que a probabiliade de nascer um menino é igual a 0.50?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pbinom</span> (<span class="dv">3</span>, <span class="dv">5</span>, <span class="fl">0.50</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8125</code></pre>
+</div>
+</div>
+<p>Isso corresponde a soma das probabilidades de nascer nenhum menino, um menino, dois meninos e três meninos (<a href="#fig-menino3" class="quarto-xref">Figura&nbsp;<span>7.14</span></a>). Isto é calculado pela equação <span class="math inline">\(P(X = x)\)</span>, vista anteriormente.<br>
+Colocando no <em>R</em>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">5</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="fl">0.50</span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Probabilidades de meninos </span></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>Fx <span class="ot">&lt;-</span> (<span class="fu">factorial</span>(n)<span class="sc">/</span>(<span class="fu">factorial</span>(x)<span class="sc">*</span><span class="fu">factorial</span>(n<span class="sc">-</span>x)))<span class="sc">*</span> p<span class="sc">^</span>x <span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p)<span class="sc">^</span>(n<span class="sc">-</span>x)</span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>Fx</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.03125 0.15625 0.31250 0.31250 0.15625 0.03125</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8125</code></pre>
+</div>
+<div class="cell-output-display">
+<div id="fig-menino3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-menino3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-probabilidades_files/figure-html/fig-menino3-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%" data-fig-pos="H">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menino3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.14: Distribuição binomial, mostrando a P (x &lt; 4) com n = 5 e p = 0.50
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="função-qbinom" class="level4" data-number="7.8.1.2">
+<h4 data-number="7.8.1.2" class="anchored" data-anchor-id="função-qbinom"><span class="header-section-number">7.8.1.2</span> Função qbinom()</h4>
+<p>Esta função retorna o valor da função de densidade cumulativa inversa (cdf) da distribuição binomial dada uma certa variável aleatória <em>q</em>, número de tentativas (<em>size</em>) e probabilidade de sucesso em cada tentativa (<em>prob</em>). Com o uso desta função, podemos descobrir o quantil da distribuição binomial.</p>
+<p><u>Argumentos</u>:</p>
+<ul>
+<li><strong>p</strong> <span class="math inline">\(\to\)</span> probabilidade ou vetor de probabilidades<br>
+</li>
+<li><strong>size</strong> <span class="math inline">\(\to\)</span> numero de ensaios<br>
+</li>
+<li><strong>prob</strong> <span class="math inline">\(\to\)</span> probabilidade de sucesso em cada ensaio<br>
+</li>
+<li><strong>lower.tail</strong> <span class="math inline">\(\to\)</span> Se <code>TRUE</code>, as probabilidades são (<span class="math inline">\(P \le x\)</span>), caso contrário <span class="math inline">\(P(X &gt; x)\)</span></li>
+</ul>
+<p>Por exemplo, quantos meninos nascerão em 5 partos com 81.25% de probabilidade cumulativa?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qbinom</span> (<span class="fl">0.8125</span>, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">prob =</span> <span class="fl">0.50</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+</section>
+<section id="função-rbinom" class="level4" data-number="7.8.1.3">
+<h4 data-number="7.8.1.3" class="anchored" data-anchor-id="função-rbinom"><span class="header-section-number">7.8.1.3</span> Função rbinom()</h4>
+<p>A função <code>rbinom()</code> permite extrair <em>n</em> observações aleatórias de uma distribuição binomial. Os argumentos da função são descritos abaixo:</p>
+<p><u>Argumentos</u>:</p>
+<ul>
+<li><strong>n</strong> <span class="math inline">\(\to\)</span> número de observações aleatórias a ser gerado<br>
+</li>
+<li><strong>size</strong> <span class="math inline">\(\to\)</span> numero de ensaios<br>
+</li>
+<li><strong>prob</strong> <span class="math inline">\(\to\)</span> probabilidade de sucesso em cada ensaio</li>
+</ul>
+<p>Para fazer uma simulação de 1000 amostras, aleatoriamente, de tamanho 5 e com probabilidade de nascer menino igual a 0,50, usa-se <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">23</span>)</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>menino <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">1000</span>, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Cada amostra de n = 5 exibe o número de meninos nascidos. Pode-se fazer a média que representa o valor esperado do número de sucessos (nascimento de menino, no exemplo) em um conjunto de ensaios independentes:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(menino)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.515</code></pre>
+</div>
+</div>
+<p>Quanto maior o número de variáveis aleatória criadas, mais próximo a média do número de sucessos estará do número esperado de sucessos que é igual ao número de sucessos vezes a probabilidade de sucesso em cada ensaio (5 x 0,50 = 2,5).</p>
+<p>Estranho, não é? Dois meninos e meio, em média por ensaio! É, a média é assim, uma estimativa, expectativa matemática! Não é real…</p>
+</section>
+<section id="função-dbinom" class="level4" data-number="7.8.1.4">
+<h4 data-number="7.8.1.4" class="anchored" data-anchor-id="função-dbinom"><span class="header-section-number">7.8.1.4</span> Função dbinom()</h4>
+<p>Essa função retorna o valor da função de densidade de probabilidade (<em>pdf</em>) da distribuição binomial dada uma determinada variável aleatória X, número de tentativas (<em>size</em>) e probabilidade de sucesso em cada tentativa (<em>prob</em>). A função tem a seguinte sintaxe:</p>
+<p><u>Argumentos</u>:</p>
+<ul>
+<li><strong>x</strong> <span class="math inline">\(\to\)</span> vetor de números<br>
+</li>
+<li><strong>size</strong> <span class="math inline">\(\to\)</span> numero de ensaios<br>
+</li>
+<li><strong>prob</strong> <span class="math inline">\(\to\)</span> probabilidade de sucesso em cada ensaio</li>
+</ul>
+<p>A função é usada para encontrar a probabilidade de um determinado valor para dados que seguem a distribuição binomial, ou seja, encontra <span class="math inline">\(P(X=x)\)</span>, probabilidade de <em>x</em> sucessos em tentativas de tamanho (<em>size</em>) <em>n</em> quando a probabilidade (<em>p</em>) de sucesso é <em>prob</em>. Obtém o mesmo resultado da fórmula:</p>
+<p><span class="math display">\[
+P(X = x)= C \times p^x \times (1 - p)^{n-x}
+\]</span></p>
+<p>Por exemplo, no nascimento de uma criança, as duas possibilidades, menino ou menina, são mutuamente excludentes e esses são os únicos eventos que podem acontecer. A probabilidade de nascimento de menino, como visto, é 0,50, qual seria a probabilidade de nascerem 4 meninos em 5 partos consecutivos não gemelares (<a href="#fig-menino5" class="quarto-xref">Figura&nbsp;<span>7.15</span></a>)?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="dv">4</span>, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">prob =</span> <span class="fl">0.50</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.15625</code></pre>
+</div>
+</div>
+<p>As probabilidades de nascerem meninos em 5 nascimentos são:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>Fx <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="fl">0.50</span>)</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>Fx</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.03125 0.15625 0.31250 0.31250 0.15625 0.03125</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-menino5" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-menino5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-probabilidades_files/figure-html/fig-menino5-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%" data-fig-pos="H">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-menino5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.15: Distribuição binomial para P (x = 4) com n = 5 e p = 0,50
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-mudpbinom" class="level3" data-number="7.8.2">
+<h3 data-number="7.8.2" class="anchored" data-anchor-id="sec-mudpbinom"><span class="header-section-number">7.8.2</span> Média e desvio padrão da distribuição binomial</h3>
+<p>Quando o número de repetições é grande, geralmente há necessidade de resumir as probabilidades. A distribuição binomial pode ser descrita por sua <em>média</em> e <em>variância</em>.</p>
+<p>A média é o valor médio da variável aleatória em um longo número de repetições. É também chamada de <em>valor esperado</em> ou <em>expectativa</em>. A expectativa de uma variável aleatória X, geralmente, é denotada por <span class="math inline">\(E(X)\)</span> e obtida pela multiplicação do número de ensaios independentes (<em>n</em>) pela probabilidade (<em>p</em>) de sucesso em cada ensaio:</p>
+<p><span class="math display">\[
+\mu = E(X) = n \times p
+\]</span></p>
+<p>Portanto, a expectativa (esperança) de nascimento de meninos em 5 partos é <span class="math inline">\(E(X)=5 \times 0,50 = 2,5\)</span>, como visto na função <code>rbinom()</code>. Observe que o valor esperado de uma variável aleatória discreta não tem um valor que a variável aleatória pode realmente assumir.</p>
+<p>Por exemplo, para o número médio de meninos em um parto, ou não se tem menino ou se tem 1 menino, cada uma possibilidade com probabilidade de 0,50 e o valor esperado é (0 × 0,50) + (1 × 0,50) = 0,50. O número de meninos deve ser 0 ou 1, mas o valor esperado é a metade, a média que se obteria no longo prazo.</p>
+<p>A variância de uma variável aleatória discreta <em>X</em> é igual a</p>
+<p><span class="math display">\[
+\sigma^2=var(X) = n\times p \times (1-p)
+\]</span></p>
+<p>Consequentemente, o desvio padrão é igual a</p>
+<p><span class="math display">\[
+\sigma = \sqrt{var(X)} = \sqrt{n\times p \times (1-p)}
+\]</span></p>
+<p>Para o exemplo de 5 nascimentos, a média foi de 2,5 meninos e o desvio padrão</p>
+<p><span class="math display">\[
+\sigma =\sqrt{5\times 0.50 \times (1-0.50)}=\sqrt{2.5 \times 0.50}= 1.12
+\]</span></p>
+<p>Portanto, se espera que ocorram em média 2,5 (<span class="math inline">\(\sigma\)</span> = 1,12) nascimentos de meninos em 5 partos.</p>
+</section>
+</section>
+<section id="distribuição-de-poisson" class="level2" data-number="7.9">
+<h2 data-number="7.9" class="anchored" data-anchor-id="distribuição-de-poisson"><span class="header-section-number">7.9</span> Distribuição de Poisson</h2>
+<p>A distribuição de Poisson é utilizada para descrever a probabilidade do número de ocorrências em um intervalo contínuo (de tempo ou espaço). No caso da distribuição binomial, a variável de interesse é o número de sucessos em um intervalo discreto (<em>n</em> ensaios de Bernoulli).</p>
+<p>A unidade de medida (tempo ou espaço) é uma variável contínua, mas a variável aleatória, o número de ocorrências, é discreta. Esta distribuição segue as mesmas premissas da distribuição binomial:</p>
+<ul>
+<li>as tentativas são independentes;</li>
+<li>a variável aleatória é o número de eventos em cada amostra;</li>
+<li>a probabilidade é constante em cada intervalo</li>
+</ul>
+<p>Ela é utilizada para modelar eventos discretos que ocorrem com pouca frequência no tempo ou espaço, por isso é algumas vezes denominada de <em>distribuição de eventos raros</em>. Pode-se usar a distribuição de Poisson como uma aproximação da distribuição Binomial quando <em>n</em>, o número de tentativas, for grande e <em>p</em> ou (1 – <em>p</em>) for pequeno (eventos raros).</p>
+<p>Um bom princípio básico é usar a distribuição de Poisson quando <span class="math inline">\(n \ge 20\)</span> e <span class="math inline">\(n \times p\)</span> ou <span class="math inline">\(n \times (1- p)\)</span> &lt; 5% <span class="citation" data-cites="fisher1993poisson">(<a href="references.html#ref-fisher1993poisson" role="doc-biblioref">6</a>)</span>. Nessas condições, a probabilidade que uma variável aleatória <em>X</em> adote um valor <em>x</em> é</p>
+<p><span class="math display">\[
+P(X = x) = \frac {e^{-\lambda} \times \lambda^x}{x!}
+\]</span></p>
+<p>onde <span class="math inline">\(\lambda\)</span> (lambda) representa o número de ocorrências de um evento em um intervalo de tempo e é conhecida como parâmetro da distribuição de Poisson e é igual em média a <span class="math inline">\(n \times p\)</span>.</p>
+<p>No <em>R</em>, essa probabilidade é dada pela função <code>dpois(x, lambda)</code>.</p>
+<p><u>Exemplo</u>:</p>
+<p>Suponha que a probabilidade de uma puérpera ter infecção congênita (rubéola) seja igual a 0,0009. Qual seria a probabilidade, em uma população de 6000 gestantes, de que 5 estejam infectadas?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.0009</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">6000</span></span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> n <span class="sc">*</span> p</span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>P <span class="ot">&lt;-</span> <span class="fu">dpois</span>(x, lambda)</span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span> (P, <span class="dv">3</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.173</code></pre>
+</div>
+</div>
+<p>Portanto, a probabilidade de se encontrar 5 mulheres com infecção congênita é de aproximadamente 17%.</p>
+
+
+<div id="refs" class="references csl-bib-body" role="list" style="display: none">
+<div id="ref-debnath2015short" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Debnath L, Basu K. A short history of probability theory and its applications. International Journal of Mathematical Education in Science and Technology. 2015;46(1):13–39. </div>
+</div>
+<div id="ref-menezes2004probabilidade" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Menezes RX de. Introdução à Probabilidade. Em: Massad E, Menezes RX de, Silveira PSP, Ortega NRS, editores. Métodos Quantitativos em Medicina. Barueri, São Paulo: Editora Manole Ltda.; 2004. p. 151–87. </div>
+</div>
+<div id="ref-pagano2000random" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Pagano M, Kimberly G. Theoretical Probability Distributions. Em: Principles of Biostatistics. Second Edition. CRC Press; 2000. p. 162. </div>
+</div>
+<div id="ref-gonzalez2021normal" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Gonzalez JCS. Normal distribution in R [Internet]. R CODER. 2021. Disponível em: <a href="https://r-coder.com/">https://r-coder.com/</a></div>
+</div>
+<div id="ref-robertson2022bernoulli" class="csl-entry" role="listitem">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Robertson E, O’Connor J. Jacob (Jacques) Bernoulli [Internet]. Maths History. School of Mathematics; Statistics, University of St Andrews; 2022. Disponível em: <a href="https://mathshistory.st-andrews.ac.uk/Biographies/Bernoulli_Jacob/">https://mathshistory.st-andrews.ac.uk/Biographies/Bernoulli_Jacob/</a></div>
+</div>
+<div id="ref-fisher1993poisson" class="csl-entry" role="listitem">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Fisher LD, Van Belle G. Poisson Random Variables. Em: Biostatistics: A Methodology for the Health Sciences. New York, NY: John Wiley &amp; Sons; 1993. p. 211–8. </div>
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Hospital Geral de Caxias do Sul, Hospital de Ensino da Universidade de Caxias do Sul, RS<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Para remover a notação científica, usar a função options (scipen = 999) e, para desfazer essa ação, trocar o 999 por 0.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Veja na Seção <a href="04-ambienteR.html#sec-funcpropria" class="quarto-xref"><span>Seção 4.8.1</span></a>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p><em>Sucesso</em>, aqui, não está no sentido de vitória, êxito, triunfo, glória e sim com a conotação de obter o desfecho esperado. Por exemplo, se uma moeda é lançada e se espera obter cara, sucesso significa um resultado igual a cara.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Deve ser especificado uma “semente” (seed) antes de executar a função, senão será obtido um conjunto diferente de observações aleatórias a cada execução. Teste para verificar<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiada");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiada");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./06-descrevendoDados.html" class="pagination-link" aria-label="Descrevendo os dados">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Descrevendo os dados</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./08-assimetria_curtose.html" class="pagination-link" aria-label="Assimetria e Curtose">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Assimetria e Curtose</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

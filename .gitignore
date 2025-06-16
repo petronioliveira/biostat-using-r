@@ -3,7 +3,7 @@
 .RData
 .Ruserdata
 .quarto/
-_book/
+#_book/
 _book.yml
 
 /.quarto/
