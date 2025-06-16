@@ -1,0 +1,605 @@
+# Manipulando os dados no *RStudio*
+
+## Importando dados de outros *softwares*
+
+É possível inserir dados diretamente no *R Script*, como mostrado na @sec-dataframes. Entretanto, se o conjunto de dados for muito extenso, torna-se complicado. Desta forma, é melhor importar os dados de outro software, como o Excel, SPSS, etc. A recomendação é que se construa o banco de dados, por exemplo, no *Excel*, e, depois, exporte o arquivo em um formato que o *R* reconheça – `.xlsx`, `.csv`, `.sav`.
+
+### Importando dados de um arquivo CSV {#sec-csv}
+
+O formato CSV significa *Comma Separated Values*, ou seja, é um arquivo de valores separados por vírgula. Esse formato de armazenamento é simples e agrupa informações de arquivos de texto em planilhas. É possível gerar um arquivo `.csv`, a partir de uma planilha do *Excel*, usando o menu `salvar como` e escolher `CSV`.
+
+As funções `read.csv()` e `read.csv2()`, incluídas no *R* base, podem ser utilizadas para importar arquivos CSV. Existe uma pequena diferença entre elas. Dois argumentos dessas funções têm padrão diferentes em cada uma. São eles: `sep` (separador de colunas) e `dec` (separador de decimais). Na `read.csv()`, o padrão é `sep = ”,”` e `dec = ”.”` e em `read.csv2()` o padrão é `sep = “;”` e `dec = ”,”`. Portanto, quando se importa um arquivo `.csv`, é importante saber qual a sua estrutura. Verificar se os decimais estão separados por *ponto* ou por *vírgula* e se as colunas (variáveis), por *vírgula* ou *ponto e vírgula*. Para ver isso, basta abrir o arquivo em um bloco de notas (por exemplo, *Bloco de Notas do Windows*, *Notepad ++*).
+
+Quando se usa o `read.csv()` há necessidade de informar o separador e o decimal, pois senão ele usará o padrão inglês e o arquivo não será lido. Já com `read.csv2()`, que usa o padrão brasileiro, não há necessidade de informar ao *R* qual o separador de colunas e nem o separador dos decimais.
+
+Além disso, é necessário saber em que diretório do computador está o arquivo para informar ao comando. Recomenda-se colocar o arquivo na pasta do diretório de trabalho, pois assim basta apenas colocar o nome do arquivo na função de leitura dos dados. Caso contrário, tem-se que se usar todo o caminho (*path*).
+
+Como exemplo, será importado o arquivo `dadosNeonatos.csv` que se encontra no diretório de trabalho do autor, salvo anteriormente. Para obter o arquivo, clique [**aqui**](https://github.com/petronioliveira/Arquivos/blob/main/dadosNeonatos.csv) e salve em seu diretório de trabalho.
+
+A estrutura deste arquivo mostra que as colunas estão separadas por ponto-e-virgula e, portanto, a leitura dos dados será feita com a função `read.csv2()` e, como o arquivo está no diretório de trabalho, não há necessidade de informar o diretório completo. Os dados serão colocados em um objeto de nome `neonatos` [^05-manipulandodados-1]:
+
+[^05-manipulandodados-1]: A mudança do nome do dataframe de `dadosNeonatos` para `neonatos` é desnecessária. Foi realizada apenas por questões didáticas.
+
+```{r}
+neonatos <- read.csv2("./dados/dadosNeonatos.csv")
+```
+
+Use a função `str()` para visualizar o conjunto de dados:[^05-manipulandodados-2]
+
+[^05-manipulandodados-2]: Observe, na saída, que a variável `utiNeo` aparece palavras com acentuação (“não”). Às vezes, ao abrir o arquivo com a função `read.csv2()`, pode acontecer de esta palavra aparecer, por exemplo, como: “n\xe3o”. Louco, não é? Se ocorrer isso, use, após o nome do arquivo e separado por vírgula, o argumento `fileEncoding = “latin1”`. Dessa forma, o erro será corrigido.
+
+```{r}
+str(neonatos)
+```
+
+Recentemente, foi desenvolvido o pacote `readr`, incluído no conjunto de pacotes `tidyverse` @wickham2019tidyverse, para lidar rapidamente com a leitura de grandes arquivos. O pacote fornece substituições para funções como `read.csv()`. As funções `read_csv()` e `read_csv2()` oferecidas pelo `readr` são análogas às do *R* base. Entretanto, são muito mais rápidas e fornecem mais recursos, como um método compacto para especificar tipos de coluna. Além disso, produzem `tibbles` (ver adiante, @sec-tibble) que são mais reproduzíveis, pois as funções básicas do R herdam alguns comportamentos do sistema operacional e das variáveis de ambiente, portanto, o código de importação que funciona no seu computador pode não funcionar no de outra pessoa. Para usar a função é necessário instalar e ativar o pacote `readr`. A função `read_csv2()` será utilizada para criar um outro objeto de nome `recemNascidos`, mas o conjunto de dados a ser ativado é o mesmo (`dadosNeonatos`):
+
+```{r}
+ library(readr)
+ recemNascidos <- read_csv2("dados/dadosNeonatos.csv")
+```
+
+Quando você executa `read_csv2()`, ele imprime uma especificação de coluna que fornece o nome e o tipo de cada coluna.
+
+Novamente, a função `str()` mostrará a estrutura do arquivo [^05-manipulandodados-3]:
+
+[^05-manipulandodados-3]: Da mesma maneira, como acontece com a função `read.csv2()`, a função equivalente do `readr` pode retornar erro na leitura de palavras com acento. Para corrigir isso, usa-se o argumento `locale (encoding = "latin1")`
+
+```{r}
+str(recemNascidos)
+```
+
+### Importando um arquivo do Excel {#sec-xlsx}
+
+O pacote `readxl`, pertencente ao conjunto de pacotes do `tidyverse`, facilita a obtenção de dados do Excel para o R, através da função `read_excel()`. esta função tem o argumento `sheet =` , que deve ser usado indicando o número ou o nome da planilha, colocado entre aspas. Este argumento é importante se houver mais de uma planilha, caso contrário, ele é opcional. Para saber os outros argumentos da função, colque o cursor dentro da função e aperte a tecla `Tab` (@fig-sheet). Isto abrirá um menu com os argumentos:
+
+```{r #fig-sheet, echo = FALSE, out.width = '80%', fig.align = 'center', fig.cap="Argumentos da função para importar arquivos xlsx", fig.pos="H"}
+ knitr::include_graphics("https://i.imgur.com/5qY7z0C.png")
+```
+
+Será feita a leitura dos mesmos dados, usados na leitura de dados `csv`, apenas o arquivo agora está no formato `.xlsx`. Para obter o arquivo, siga os mesmos passos, usados anteriormente. Clique [**aqui**](https://github.com/petronioliveira/Arquivos/blob/main/dadosNeonatos.xlsx) e salve em seu diretório de trabalho.
+
+Os dados serão atribuídos a um objeto com outro nome (`recemNatos`):
+
+```{r}
+recemNatos <- readxl::read_excel("dados/dadosNeonatos.xlsx")
+str(recemNatos)
+```
+
+Na @fig-sheet, o duplo dois pontos (`::`) precedido do nome do pacote, no caso `readxl`, especifica a procedência da função usada. Nesta situação, não há necessidade de usar a função `library()` para carregar o pacote já instalado em um diretório (biblioteca) previamente.
+
+### Importando arquivos com o RStudio
+
+O `RStudio` permite importar arquivos sem a necessidade de digitar comandos, que, para alguns podem ser tediosos.
+
+Na tela inicial do `RStudio`, à direita, na parte superior, clique na aba *Environment* e em `Import Dataset`. Esta ação abre um menu que permite importar arquivos .csv, Excel, SPSS, etc.
+
+Por exemplo, para importar o arquivo `dadosNeonatos.xlsx`, clicar em `From Excel...` Abre uma janela com uma caixa de diálogo. Clicar no botão `Browse...`, localizado em cima à direita, para buscar o arquivo `dadosNeonatos.xlsx`. Assim que o arquivo for aberto, ele mostra uma *preview* do arquivo e, em baixo, à direita mostra uma *preview* do código (@fig-import)), igual ao digitado anteriormente, que cria um objeto denominado `dadosNeonatos`, nome do objeto escolhido pelo R, mas pode ser modificado na janela, à esquerda, `Import Option` em `Name`, onde pode-se digitar qualquer nome. Após encerrar as escolhas, clicar em `Import`. É um caminho diferente para fazer o mesmo. Este é um dos fascínios do R!
+
+```{r #fig-import, echo = FALSE, out.width = '100%', fig.align = 'center', fig.cap="Importando arquivos do excel com o RStudio.", fig.pos="H"}
+ knitr::include_graphics("https://i.imgur.com/xjEpK6A.png")
+```
+
+## Tibble {#sec-tibble}
+
+A maneira mais comum de armazenar dados no *R* é usar `data.frames` ou `tibble`.
+
+*Tibble* é um novo tipo de dataframe. É como se fosse um dataframe mais moderno. Ele mantém muitos recursos importantes do data frame original, mas remove muitos dos recursos desatualizados.
+
+Os `tibbles` são outro recurso incrível adicionado ao *R* por Hadley Wickham, através do `tidyverse`, conjunto de pacotes que formam um conjunto básico de funções que facilitam a manipulação e representação gráfica dos dados @wickham2019tidyverse. Para saber mais sobre `tibble`, veja vignette('tibbles'), em \`help´.
+
+A maioria dos pacotes do *R* usa dataframes tradicionais, entretanto é possível transformá-los para `tibble`, usando a função `as_tibble()`, incluída no pacote `tidyr` @wickham2022tidyr. O único propósito deste pacote é simplificar o processo de criação de `tidy data`(dados organizados).
+
+O conceito de *tidy data*, introduzido por Wickman @wickham2014tidy, se refere à estrutura dos dados organizados de maneira que cada linha é uma observação, cada coluna representa variáveis e cada entrada nas células do dataframe são os valores. A transformação de um dataframe tradicional em um `tibble`, é um procedimento rescomendável, em função da maior flexibilidade destes.
+
+Como exemplo deste procedimento, será usado o famoso conjunto de dados da flor iris @fisher1936use que fornece as medidas em centímetros das variáveis comprimento e largura da sepala e comprimento e largura da pétala, repectivamente, para 50 flores de cada uma das 3 espécies de íris (*Iris setosa*, *versicolor* e *virginica*). Este conjunto de dados encontra-se no pacote `datasets` no *R* base. Para visualizar os dados, será usado a função `str()`, também do *R* base, que mostra a estrutura interna de um objeto:
+
+```{r}
+str(iris)
+```
+
+Observa-se que é um conjunto de dados da classe `data.frame`, contendo 150 observações de 5 variáveis (colunas). Fazendo a coerção para um `tibble`, tem-se:
+
+```{r}
+library(tidyr)
+as_tibble(iris)
+```
+
+Verifica-se que não houve grandes mudanças, apenas o conjunto de dados está estruturalmente mais organizado, mais flexível.  
+
+## Pacote `dplyr`   {#sec-mater}
+
+O pacote `dpylr` é comumente usado para limpar e trabalhar com dados @wickham2015dplyr. No nível mais básico, as funções do pacote referem-se a “verbos” de manipulação de dados, como `select`, `filter`, `mutate`, `arrange`, `summarize`, entre outros, que permitem encadear várias etapas em algumas linhas de código, como será visto adiante.   
+
+O pacote `dplyr` é adequado para trabalhar com um único conjunto de dados, bem como para obter resultados complexos em grandes conjuntos de dados. As funções `dplyr` são processadas mais rápido do que as funções *R* base. 
+
+Para trabalhar na manipulação dos dados serão usados alguns pacotes, já mencionados anteriormente, `readxl` e `dplyr`, e o conjunto de dados `dadosMater.xlsx`. Para obter estes dados, clique [**aqui**](https://github.com/petronioliveira/Arquivos/blob/main/dadosMater.xlsx) e faça o download para o seu diretório de trabalho, como orientado anteriormente.
+
+```{r}
+library(readxl)
+library(dplyr)
+```
+
+
+```{r}
+mater <- read_excel("dados/dadosMater.xlsx")
+```
+
+A função `read_excel()` carrega o arquivo e o atribui a um objeto , arbitrariamente, denominado de `mater`^[ATENÇÃO: Volta-se a insistir, o comando para carregar o conjunto de dados somente funciona, sem colocar o caminho (*path*) completo, se tudo está sendo realizado no diretório de trabalho.]. 
+
+
+```{r}
+as_tibble(mater)
+```
+
+Por padrão, a função retorna as dez primeiras linhas. Além disso, colunas que não couberem na largura da tela serão omitidas. Também são apresentadas a dimensão da tabela e as classes de cada coluna. Observa-se que ele tem 1368 linhas (observações) e 30 colunas (variáveis). Além disso, verifica-se que todas as variáveis estão como numéricas (`dbl`) e, certamente, algumas, dependendo do objetivo na análise, precisarão ser transformadas.
+
+O significado de cada uma das variáveis do arquivo `dadosMater.xlsx` ^[Conjunto de dados coletados na maternidade-escola do Hospital Geral de Caxias do Sul] é mostrado abaixo.
+
+* **id**          $\to$ identificação do participante   
+* **idadeMae**    $\to$ idade da parturiente em anos   
+* **altura**      $\to$ altura da parturiente em metros  
+* **peso**        $\to$ peso da parturiente em kg   
+* **ganhoPeso**   $\to$ aumento de peso durante a gestação   
+* **anosEst**     $\to$ anos de estudo completos  
+* **cor**         $\to$ cor declarada pela parturiente: 1 = branca; 2 = não branca  
+* **eCivil**      $\to$ estado civil: 1 = solteira; 2 = casada ou companheira  
+* **renda**       $\to$ renda familiar em salários minimos  
+* **fumo**        $\to$ tabagismo: 1 = sim; 2 = não  
+* **quantFumo**   $\to$ quantidade de cigarros fumados diariamente  
+* **prenatal**    $\to$ realizou pelo menos 6 consultas no pré-natal? 1 = sim; 2 = não 
+* **para**        $\to$ número de filhos paridos  
+* **droga**       $\to$ drogadição? 1 = sim; 2 = não  
+* **ig**          $\to$ idade gestacional em semanas  
+* **tipoParto**   $\to$ tipo de parto: 1 = normal; 2 = cesareana  
+* **pesoPla**     $\to$ peso da placenta em gramas 
+* **sexo**        $\to$ sexo do recém-nascido (RN): 1 = masc; 2 = fem   
+* **pesoRN**      $\to$ peso do RN em gramas  
+* **compRN**      $\to$ comprimento do RN em cm   
+* **pcRN**        $\to$ perímetro cefálico dorecém-nascido em cm  
+* **apgar1**      $\to$ escore de Apgar no primeiro minuto  
+* **apgar5**      $\to$ escore de Apgar no quinto minuto  
+* **utiNeo**      $\to$ RN necessitou de terapia intesiva? 1 = sim; 2 = não  
+* **obito**       $\to$ obito no período neonatal? 1 = sim; 2 = não  
+* **hiv**         $\to$ parturiente portadora de HIV? 1 = sim; 2 = não  
+* **sifilis**     $\to$ parturiente portadora de sífilis? 1 = sim; 2 = não  
+* **rubeola**     $\to$ parturiente portadora de rubéola? 1 = sim; 2 = não  
+* **toxo**        $\longrightarrow$ parturiente portadora de toxoplasmose? 1 = sim; 2 = não  
+* **infCong**     $\to$ parturiente portadora de alguma infecção congênita? 1 = sim; 2 = não   
+
+### Função `select()`
+
+A função `select ()` é usada para escolher quais colunas (variáveis) entrarão na análise. Ela recebe os nomes das colunas como argumentos e cria um novo banco de dados usando as colunas selecionadas. A função `select ()` pode ser combinada com outras funções, como `filter ()`.
+
+Por exemplo, um novo banco de dados será criado (`mater1`), contendo as mesmas 1368 linhas, mas apenas com as variáveis `idadeMae`, `altura`, `peso`, `anosEst`, `renda`, `ig`, `fumo`, `pesoRN`, `sexo`. Consulte a ajuda (`?select()`) para obter maiores informações em relação aos argumentos da função:
+
+```{r}
+mater1 <- select(mater, idadeMae, altura, peso, anosEst, renda, ig, tipoParto, fumo, pesoRN, sexo)
+```
+
+Para visualizar este novo banco de dados, pode-se usar a função `str()`:
+
+```{r}
+str(mater1)
+```
+
+Como mostrado anteriormente, muitas variáveis numéricas do `mater`, na realidade, são fatores e necessitam de modificação. Entretanto, das selecionadas, para constituir o novo banco de dados, apenas `tipoParto`, `fumo` e `sexo` necessitam serem transformadas para fator:
+
+```{r}
+mater1$tipoParto <- factor(mater1$tipoParto, 
+                           levels = c(1,2),
+                           labels = c("normal","cesareo"))
+
+mater1$fumo <- factor (mater1$fumo,
+                       levels = c(1,2), 
+                       labels = c('sim','não'))
+
+mater1$sexo <- factor (mater1$sexo, 
+                       levels = c(1,2), 
+                       labels = c("masc","fem"))
+```
+
+Usando, de novo, a função `str()`, é possível observar a transformação:
+
+```{r}
+str(mater1)
+```
+
+Se houver necessidade de se excluir alguma variável (coluna), basta colocar o sinal de subtração (-) antes do nome da variável:
+
+```{r}
+mater2 <- select(mater1, -altura)
+```
+
+
+```{r}
+str(mater2)
+```
+
+### Função `filter()`
+
+A função `filter()` é usada para criar um subconjunto de dados que obedeçam determinadas condições lógicas: & (e), | (ou) e ! (não).
+Por exemplo:
+
+* **y & !x**  $\to$ seleciona *y* e não *x*
+* **x & !y**  $\to$ seleciona *x* e não *y*
+* **x | !x**  $\to$ seleciona *x* ou *y*
+* **x & !x**  $\to$ seleciona *x* e *y*
+
+Um recém-nascido é dito a termo quando a duração da gestação é igual a 37 a 42 semanas incompletas. Se quisermos extrair do banco de dados `mater1` os recém-nascidos a termo (`mater3`), pode-se usar a função `filter()`:
+
+```{r}
+mater3 <- filter (mater1, ig>=37 & ig<42)
+```
+
+Para exibir o resultado, execute a função `str()`:
+
+```{r}
+str(mater3)
+```
+
+Observe que, agora, o conjunto de dados `mater3` tem `r length(mater3$sexo)` linhas, número de recém-nascidos a termo do banco de dados original `mater` (`r length(mater$sexo)`). Logo, os recém nascidos a termo correspondem a `r round((length(mater3$sexo)/length(mater$sexo)*100),1)`% dos nascimentos, nesta maternidade.
+
+**Outro exemplo**
+
+Para selecionar apenas os meninos, nascidos a termo, codificados como `"masc"`, procede-se da seguinte maneira^[Lembrar que o sinal de igualdade, no R, é duplo $=$]:
+
+```{r}
+meninos <- filter (mater3, sexo == 'masc')
+```
+
+```{r}
+str(meninos)
+```
+
+O banco de dados `meninos` é constituídos por `r length(meninos$sexo)` meninos. Isto representa `r round((length(meninos$sexo)/length(mater$sexo)*100),1)`% dos nascimentos.
+
+Uma outra maneira de se fazer a mesma coisa, é usar a função `grepl()`, dentro da função `filter ()`. Ela é usada para pesquisar a correspondência de padrões. No código a seguir, pesquisa-se os registros em que a variável `sexo` contém `“fem”`, correspondentes às meninas.  
+
+```{r}
+meninas <- filter (mater3, grepl("fem", sexo))
+```
+
+```{r}
+str(meninas)
+```
+
+### Função `mutate()`  {#sec-mutate}
+
+Esta função tem a finalidade de computar ou anexar uma ou mais colunas (variáveis) novas.  
+
+O Índice de Massa Corporal (IMC) é igual a 
+
+$$IMC = \frac {peso}{altura ^2}$$. 
+
+O peso deve ser expreso em kg e a altura em metros. Para acrescentar este indicador no banco de dados `mater1` , se fará uso da função `mutate()`, nomeando a nova variável de imc:
+
+
+Será acrescentado a variável `imc`, no banco de dados `mater1`, usando a função `mutate()`, nomenando essa variável de `imc`:  
+
+```{r}
+mater1 <- mutate(mater1, imc = peso/altura^2)
+str (mater1)
+```
+
+### Função `sample_n()`
+
+Função usada para selecionar de forma aleatória linhas de um dataframe. Acostume-se a usar a ajuda (`?sample_n`) para obter informações das funções. Os seus argumentos básicos são:
+
+* **tbl**      $\to$ dataframe
+* **size**     $\to$ número de linhas para selecionar
+* **replace**  $\to$ amostra com ou sem reposição?. Padrão = FALSE
+
+Uma mostra de 20 neonatos do banco de dados  meninos, pode ser selecionada, usando a função `sample_n`:
+
+```{r}
+meninos1 <- sample_n(meninos, 20)
+```
+
+Assim, selecionou-se uma amostra de 20 meninos do banco de dados de recém-nascidos a termo. Pode-se, fazer um resumo da variável peso do recém-nascido (`meninos1$pesoRN`) para ver como ela se comporta, usando a função `summary()`:
+
+```{r}
+summary(meninos1$pesoRN)
+```
+
+É importante mencionar que toda vez que a função `sample_n()` for executada, ela irá gerar uma amostra aleatória diferente. Em consequência não se deve esperar, por exemplo, que a média dos pesos dos recém-nascidos de amostras diferentes sejam iguais.
+
+```{r}
+meninos2 <- sample_n(meninos, 20)
+summary(meninos2$pesoRN)
+```
+
+Na @sec-dam (Distribuições Amostrais), este assunto voltará à cena.
+
+A função `sample_n()` está sendo eliminada, pois será substituída por `slice_sample()` do conjunto de funções que acompanham a função `slice()`.
+
+### Função `slice()`  
+
+Esta função é usada para selecionar um subconjunto linhas com base em seus locais inteiros. Permite selecionar, remover e duplicar linhas. Para os exemplos, será usado o conjunto de dados `meninos`, criado acima.
+Os argumentos básicos da função `slice()` são
+
+*	**.data** $\to$ dataframe
+*	**.by** $\to$ seleciona por grupo
+*	**n, prop** $\to$ fornecer n, o número de linhas, ou prop, a proporção de linhas a serem selecionadas.
+
+Exemplpos:
+```{r}
+# Selecionando a linha 10
+slice(.data = meninos, 10)
+
+# Selecionando varias linhas, por exemplo, de 1 a 5
+slice(.data = meninos, 1:5)
+```
+
+É possível também selecionar linhas de acordo com determinado grupo. Como grupo, será usada a variável `fumo` que tem dois níveis (`sim` e `não`). Será selecionada uma linha de cada grupo:
+
+```{r}
+slice(.data = meninos, .by = fumo, 1)
+```
+
+Para separar por grupo , é possível usar a função `group_by()`, incluída no pacote `dplyr`. A melhor solução, neste caso, para aplicar diversas funções de manipulação em um dataframe é aplicar o operador pipe: `%>%`. No final desta seção, será discutido com mais detalhes este operador.
+
+```{r}
+ meninos %>% 
+   group_by(fumo) %>% 
+   slice (1)
+```
+
+A saída desse código é a mesma vista anteriormente. A vantagem é termos escrito o código na ordem em que as funções são aplicadas. Portanto, é um código mais legível.
+
+#### Funções auxiliares da função slice()
+
+A função `slice()` é acompanhada por várias funções auxiliares para casos de uso comuns:  
+
+*	`slice_head()` e `slice_tail()` selecionam a primeira ou a última linha;
+*	`slice_sample()` seleciona linhas aleatoriamente, substitui a `sample_n()`;
+*	`slice_min()` e `slice_max()` selecionam linhas com valores mais altos ou mais baixos de uma variável.  
+
+Por exemplo, para selecionar uma amostra aleatória de 20 meninos do conjunto de dados `meninos`, pode-se usar a função `slice_sample()`:
+
+```{r}
+ meninos3 <- slice_sample(.data = meninos, n = 20)
+ str (meninos3)
+```
+
+Como se observa no código, o argumento `n` da função deve ser nomeado explicitamente (`n = 20`). É possível também usar o argumento `prop`, colocando a proporção de linhas que se deseja selecionar. Se o objetivo é selecionar 10% da amostra, coloca-se o argumento como `prop = 0.10`. Como o dataframe `meninos` contém  592 casos, serão selecionados 59. Além disso, a função permite selecionar por grupos com o argumento `by =`.
+
+```{r}
+meninos4 <- slice_sample(.data = meninos, prop = 0.10)
+str (meninos4)
+```
+
+Para maiores informações em relação a estas funções consulte a ajuda (`?slice()`).
+
+### Função `arrange()`
+
+Ordena as linhas pelos valores de uma coluna de forma ascendente ou descentente.
+
+Voltando a amostra `meninos1`, será colocado em ordem crescente a variável `pesoRN`:
+
+```{r}
+arrange(meninos1, pesoRN)
+```
+
+Para a ordem decrescente, colocar a função `desc()`, dentro da função `arrange()`
+
+```{r}
+arrange(meninos1, desc(pesoRN))
+```
+
+### Função `count()`
+
+Permite contar rapidamente os valores únicos de uma ou mais variáveis. Esta função tem os seguintes argumentos:
+
+* **x**       $\to$ dataframe
+* **wt**      $\to$ pode ser NULL (padrão) ou uma variável
+* **sort**    $\to$ padrão = FALSE; se TRUE, mostrará os maiores grupos no topo
+* **name**    $\to$ O nome da nova coluna na saída; padrão = NULL
+
+Quando o argumento `name` é omitido, a função retorna *n* como nome padrão.
+
+Usando o dataframe `mater1`, a função `count()` irá contar o número de parturientes fumantes, variável dicotômica `fumo`:
+
+```{r}
+count(mater1, fumo)
+```
+
+### Operador pipe %>%  
+
+O operador pipe `%>%` pode ser usado para inserir um valor ou um objeto no primeiro argumento de uma função. Ele pode ser acionado digitando  `%>% ` ou usando o atalho `ctrl + shift + M`. Em vez de passar o argumento para a função separadamente, é possível escrever o valor ou objeto e, em seguida, usar o `pipe` para convertê-lo como o argumento da função na mesma linha. Funciona como se o `pipe` jogasse o objeto dentro da função seguinte. 
+
+Vários comando foram utilizados, manipulando o banco de dados `mater.` Alguns procedimentos, serão mostrados, usando, agora, o operador pipe.
+
+Em primeiro lugar, serão selecionadas algumas colunas do dataframe `mater`;  adicionada a variável `imc`; selecionado os recém-nascidos a termo do sexo masculino, que no banco de dados `mater` está codificado como 1. Tudo em um só comando! 
+
+```{r}
+meusDados <- mater %>% 
+  select(idadeMae, altura, peso, anosEst, renda, 
+         ig, tipoParto, fumo, pesoRN, sexo) %>% 
+  mutate(imc = peso/altura^2) %>% 
+  filter (ig>=37 & ig<42, sexo == 1)
+```
+
+```{r}
+str(meusDados)
+```
+
+Observe que o dataframe `mater` aparece apenas no início e, como ele é um argumento das outras funções, ele é transferido, automaticamente, não havendo necessidade de escrever dentro na função.  
+
+No final, retornará um novo dataframe que foi colocado em um objeto, denominado `meuDados`, o qual contém informações de todos os `r length(meusDados$sexo)` meninos, nascidos a termo e de suas mães.  
+
+## Manipulação de datas   
+
+Originalmente, todos os que trabalham com o *R* queixavam-se de como era frustrante trabalhar com datas. Era um processo que causava grande perda de tempo nas análises. O pacote `lubridate` @grolemund2011dates foi criado  para simplificar ao máximo a leitura de datas e extração de informações das mesmas.  
+Quando o `lubridate` é carregado aparece uma mensagem, avisando que alguns nomes de funções também estão contidas no pacote base do R.  
+
+```{r message=TRUE}
+library(lubridate)
+```
+
+Para evitar confusões e verificar que as funções corretas estão sendo usadas, usa-se o duplo dois pontos (`::`) antes do nome da função, precedido do nome do pacote, por exemplo: `lubridate::date()`.  
+
+Para obter a data atual ou a data-hora, você pode usar as funções  `today()`^[Equivalente ao `Sys.Date()`que acessa a data do sistema operacional.]  ou `now()`^[Equivalente ao `Sys.time()` que acessa a data e hora do sistema operacional.]:
+
+```{r}
+today() 
+now()
+```
+
+### Convertendo *strings* ou caractere para data  
+
+Para converter *string* ou caracteres em datas, basta executar funções específicas adequadas aos dados. Elas determinam automaticamente o formato quando você especifica a ordem do componente. Para usá-los, identifique a ordem em que o ano, o mês e o dia aparecem em suas datas e, em seguida, organize "y", "m" e "d" na mesma ordem. Isso lhe dá o nome da função do `lubridate` que analisará a data. Por exemplo, suponhamos a data de 25/12/2022:
+
+```{r}
+natal <- "25/12/2022"
+natal
+```
+
+Aparentemente, o *R* aceitou a informação como uma data. Entretanto, se for verificada a classe do objeto, tem-se:
+
+```{r}
+class(natal)
+```
+
+Estando como caractere, esta data não poderá ser usada em operações com datas, pois necessitaria estar como uma classe `date`. Para converte-la em data, usa-se a função `dmy()`:
+
+```{r}
+natal <- dmy(natal)
+natal
+class(natal)
+```
+
+Dessa forma, a data, agora está sendo reconhecida pelo *R* como `date`. É sempre importante verificar a classe da data.  
+
+Às vezes, as datas escritas estão com o mês abreviado, como 25/dez/2022. O procedimento é o mesmo
+
+```{r}
+minha.data <- "25/dez/2022"
+class (minha.data)
+```
+
+```{r}
+minha.data <- dmy(minha.data)
+class (minha.data)
+```
+
+Se além da data, houver necessidade de especificar o horário, basta usar `dmy_h()`, `dmy_hm()` e `dmy_hms()`. No padrão americano, pode ser usado `ymd()`.  
+
+O `lubridate` traz diversas funções para extrair os componentes de um objeto da classe date.  
+
+*	`second()` $\rightarrow$ extrai os segundos.
+* `minute()` $\rightarrow$ extrai os minutos.
+*	`hour()` $\rightarrow$ extrai a hora.
+*	`wday()` $\rightarrow$ extrai o dia da semana.
+*	`mday()` $\rightarrow$ extrai o dia do mês.
+*	`month()` $\rightarrow$ extrai o mês.
+*	`year()` $\rightarrow$ extrai o ano.
+
+Por exemplo, usando a data de nascimento (`dn`) de um dos netos do autor:
+
+```{r}
+dn <- dmy("06/06/2018")
+year(dn)
+```
+
+Para acrescentar um horário ao objeto data de nascimento (`dn`)^[UTC = Coordinated Universal Time}:  
+
+```{r}
+hour(dn) <- 18
+dn
+```
+
+### Juntando componentes de datas
+
+Para juntar componentes de datas e horas, pode-se utilizar as funções `make_date()` e `make_datetime()`. Em muitos arquivos, os componentes da data estão em colunas diferentes e há necessidade de juntá-los em uma única coluna para compor a data:
+
+```{r}
+felix <- make_date(year = 2018, month = 06, day = 06)
+felix
+```
+
+Para juntar ano, mês, dia, hora e minuto:
+
+```{r}
+minha.data <- make_datetime(year = 2018, 
+                            month = 06, 
+                            day = 06, 
+                            hour = 18 ,
+                            min = 00, 
+                            sec = 15)
+minha.data
+```
+
+### Extraindo componentes de datas  
+
+Quando temos objetos do tipo POSIXt^[POSIXt é uma classe de objetos do R que representa datas e horas. POSIXt significa Portable Operating System Interface for Unix Time, que é um padrão para medir o tempo em segundos desde 1 de janeiro de 1970. Existem duas formas internas de implementar POSIXt: POSIXct e POSIXlt. POSIXct armazena os segundos desde a época UNIX e POSIXlt armazena uma lista de dia, mês, ano, hora, minuto, segundo, etc.]  podemos extrair componentes ou elementos deles. Para isso são usadas algumas funções específicas do pacote `lubridate` como mostrado a seguir.  
+
+```{r}
+data <- now()
+
+year(data)            # Extrai o ano
+ 
+month(data)           # Extrai o mês
+
+week(data)            # Extrai a semana
+
+day(data)             # Extrai o dia
+
+minute(data)          # Extrai o minuto
+
+second(data)          # Extrai o segundo
+```
+
+Para verificar o número de dias tem em um determinado mês, usa-se a função `days_in_month()`:  
+
+```{r}
+ data1 <- dmy("25/02/2000")
+ days_in_month(data1)          
+```
+
+### Operações com datas
+
+O pacote `lubridate` possui funções de duração e de período para manipular as datas.  As funções de duração calculam o número de segundos em um determinado num determinado número de dias. As funções de duração não levam em consideração anos bissextos e horário de verão, enquanto as funções de período consideram esses fatores. 
+
+```{r}
+ddays (1)           # Número de segundos em 1 dia
+
+dhours (1)          # Número de segundos em 1 hora
+
+dminutes (1)        # Número de segundos em 1 minuto
+
+days (5)            # Cria um período de 5 dias
+
+weeks (5)           # Cria um período de 5 semanas
+```
+
+Suponha-se que haja necessidade de saber em qual dia cairá após acrescentarmos  5 semanas à `data1` (25/02/2000),  criada acima:
+
+```{r}
+data1 + weeks (5)           
+```
+
+Adicionando 1 ano à `data1` (25/02/2000) com uma função de duração, tem-se: 
+
+```{r}
+data1 + dyears (1)           
+```
+
+Se for adicionado um ano à mesma data, mas agora com uma função de período, tem-se:
+
+```{r}
+data1 + years (1)           
+```
+
+Um intervalo de tempo pode ser obtido a partir de uma data inicial e uma data final. Suponha que uma gestante tenha como data da sua última menstruação 04/10/2022 e o bebê tenha nascido em 30/06/2023. Qual a idade gestacional em dias? A sintaxe para calcular um intervalo é dada pela subtração das duas datas:
+
+```{r}
+data.inicial <- dmy("04/10/2022")
+data.final <- dmy("30/06/2023")
+idade_gesta <- data.final - data.inicial
+idade_gesta
+```
+
+Ou seja a gestação durou 269 dias, constituindo-se em um parto a termo, entre 37 (259 dias) e 42 semanas (294 dias).
+
+Para mais informações sobre o `lubridate`, consulte a ajuda do pacote ou o capítulo 16 do livro *R for Data Science*, Hadley Wickman e Garrett Grolemund, 2017 [https://r4ds.had.co.nz/index.html] .

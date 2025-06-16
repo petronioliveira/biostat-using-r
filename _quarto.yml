@@ -1,0 +1,38 @@
+project:
+  type: book
+
+book:
+  title: "Bioestatística Usando o R"
+  author: "Petronio Fagundes de Oliveira Filho"
+  date: today
+  date-format: "DD/MM/YYYY"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - 02-dados.qmd
+    - 03-producaoDados.qmd
+    - 04-ambienteR.qmd
+    - 05-manipulandoDados.qmd
+    - 06-descrevendoDados.qmd
+    - 07-probabilidades.qmd
+    - 08-assimetria_curtose.qmd
+    - 09-distAmostrais.qmd
+    - 10-estimacao.qmd
+    - 11-testeHipoteses.qmd
+    - summary.qmd
+    - references.qmd
+
+bibliography: book.bib
+csl: vancouver.csl
+lang: pt
+
+format:
+  html:
+    theme:
+      - cosmo
+    css: style.css
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+

@@ -1,0 +1,10 @@
+# Prefácio {.unnumbered}
+
+Este livro foi escrito com o objetivo de consultoria educacional. Aqui você encontrará uma introdução à Bioestatística usando a linguagem R, salientando os assuntos que se constituem em uma instrumentação básica para a análise de dados na área da saúde.
+
+Este livro tem a ambição de ser um pouco mais tolerável e amistoso, a fim de estimular o estudo da Bioestatística e, assim, facilitar a crítica da literatura científica e , desta forma, ajudar a evitar a intoxicação causada pela pseudociência.
+
+Petrônio Fagundes de Oliveira Filho
+
+email: petronioliveira\@gmail.com\
+WhatsApp: +55 54 9997 15499
