@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>References – Bioestatística Usando o R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./summary.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-8da5b4427184b79ecddefad3d342027e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./references.html">References</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Bioestatística Usando o R</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefácio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-dados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Natureza dos Dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-producaoDados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Produção dos Dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-ambienteR.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Ambiente do <em>R</em></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-manipulandoDados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Manipulando os dados no <em>RStudio</em></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-descrevendoDados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Descrevendo os dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-probabilidades.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introdução à Teoria das Probabilidades</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-assimetria_curtose.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Assimetria e Curtose</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-distAmostrais.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Distribuições Amostrais</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-estimacao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Estimação</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-testeHipoteses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Teste de Hipóteses</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">References</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div id="refs" class="references csl-bib-body" role="list">
+<div id="ref-armitage2008statistical" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Armitage P, Berry G, Matthews JNS. Statistical
+methods in medical research. John Wiley &amp; Sons; 2008. </div>
+</div>
+<div id="ref-massad2004metodos" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Massad E, Silveira PSP, Menezes RX de, Ortega
+NRS. Métodos quantitativos em medicina. Editora Manole Ltda; 2004.
+</div>
+</div>
+<div id="ref-kendall1960studies" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Kendall MG. Studies in the history of
+probability and statistics. Where shall the history of statistics begin?
+Biometrika. 1960;47(3/4):447–9. </div>
+</div>
+<div id="ref-ine2014censos" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Breve história dos censos [Internet]. Instituto
+Nacional de Estatistica. Statistics Portugal; 2014. Available from: <a href="https://censos.ine.pt/xportal/xmain?xpid=CENSOS&amp;amp;xpgid=censos_bhistoria">https://censos.ine.pt/xportal/xmain?xpid=CENSOS&amp;amp;xpgid=censos_bhistoria</a></div>
+</div>
+<div id="ref-salgado2011sir" class="csl-entry" role="listitem">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Salgado-Neto G, Salgado A. Sir francis galton e
+os extremos superiores da curva normal. Revista de Ciências Humanas.
+2011;45(1):223–39. </div>
+</div>
+<div id="ref-stolley1995beginnings" class="csl-entry" role="listitem">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Stolley PD, Lasky T. The beginnings of
+epidemiology. In: Investigating disease patterns. Scientific American
+Library; 2000. p. 23–49. </div>
+</div>
+<div id="ref-stolley1995lung" class="csl-entry" role="listitem">
+<div class="csl-left-margin">7. </div><div class="csl-right-inline">Stolley PD, Lasky T. Lung cancer: New methods
+of studying disease. In: Investigating disease patterns. Scientific
+American Library; 2000. p. 51–79. </div>
+</div>
+<div id="ref-history2009" class="csl-entry" role="listitem">
+<div class="csl-left-margin">8. </div><div class="csl-right-inline">Editors History com. <span>Florence
+Nightingale</span>.
+https://www.history.com/topics/womens-history/florence-nightingale-1;
+</div>
+</div>
+<div id="ref-moore_2000" class="csl-entry" role="listitem">
+<div class="csl-left-margin">9. </div><div class="csl-right-inline">Moore DS. Topics in inferency. In: The basic
+practice of statistics. W.H. Freeman; 2000. p. 417. </div>
+</div>
+<div id="ref-hald2007" class="csl-entry" role="listitem">
+<div class="csl-left-margin">10. </div><div class="csl-right-inline">Hald A. Biography of fisher. In: A history of
+parametric statistics inference from bernoulli to fisher,1713-1935. John
+Wiley &amp; Sons; 2007. p. 159–63. </div>
+</div>
+<div id="ref-salsburg2009" class="csl-entry" role="listitem">
+<div class="csl-left-margin">11. </div><div class="csl-right-inline">Salsburg D. Uma senhora toma chá... In: Uma
+senhora toma chá. Zahar; 2009. p. 17–23. </div>
+</div>
+<div id="ref-kruskal1980" class="csl-entry" role="listitem">
+<div class="csl-left-margin">12. </div><div class="csl-right-inline">Kruskal W. The significance of fisher: A review
+of r.a. Fisher: The life of a scientist. Journal of the American
+Statistical Association [Internet]. 1980;75(372):1019–30. Available
+from: <a href="https://doi.org/10.1080/01621459.1980.10477590">https://doi.org/10.1080/01621459.1980.10477590</a></div>
+</div>
+<div id="ref-matthews2018douglas" class="csl-entry" role="listitem">
+<div class="csl-left-margin">13. </div><div class="csl-right-inline">Matthews R, Chalmers I, Rothwell P. Douglas g
+altman: Statistician, researcher, and driving force behind global
+initiatives to improve the reliability of health research. British
+Medical Journal Publishing Group; 2018. </div>
+</div>
+<div id="ref-altman1994scandal" class="csl-entry" role="listitem">
+<div class="csl-left-margin">14. </div><div class="csl-right-inline">Altman DG. The scandal of poor medical
+research. Vol. 308, Bmj. British Medical Journal Publishing Group; 1994.
+p. 283–4. </div>
+</div>
+<div id="ref-rproject2022" class="csl-entry" role="listitem">
+<div class="csl-left-margin">15. </div><div class="csl-right-inline">R
+Core Team. The r project for statistical computing | what is r?
+Disponível em: https://www.r-project.org/about.html; 2022. </div>
+</div>
+<div id="ref-cranmirrors2022" class="csl-entry" role="listitem">
+<div class="csl-left-margin">16. </div><div class="csl-right-inline">R
+Core Team. The r project for statistical computing | CRAN mirrors.
+Disponível em: https://cran.r-project.org/mirrors.html; 2022. </div>
+</div>
+<div id="ref-Whitney2020" class="csl-entry" role="listitem">
+<div class="csl-left-margin">17. </div><div class="csl-right-inline">Whitney L et al. R programming language
+continues to grow in popularity [Internet]. TechRepublic. 2020.
+Available from: <a href="https://www.techrepublic.com/article/r-programming-language-continues-to-grow-in-popularity">https://www.techrepublic.com/article/r-programming-language-continues-to-grow-in-popularity</a></div>
+</div>
+<div id="ref-oliveira2022epidemiologia" class="csl-entry" role="listitem">
+<div class="csl-left-margin">18. </div><div class="csl-right-inline">Oliveira Filho PF de. Natureza dos dados. In:
+Epidemiologia e bioestatística–fundamentos para a leitura crítica. 2ª
+edição. Editora Rubio; 2022. p. 3–6. </div>
+</div>
+<div id="ref-kirkwood2003essential" class="csl-entry" role="listitem">
+<div class="csl-left-margin">19. </div><div class="csl-right-inline">Kirkwood BR, Sterne JA. Defining the data. In:
+Essential medical statistics. Second Edition. Blackwell Science Company;
+2003. p. 9–14. </div>
+</div>
+<div id="ref-sternbach2000glasgow" class="csl-entry" role="listitem">
+<div class="csl-left-margin">20. </div><div class="csl-right-inline">Sternbach GL. The glasgow coma scale. The
+Journal of emergency medicine. 2000;19(1):67–71. </div>
+</div>
+<div id="ref-american2006apgar" class="csl-entry" role="listitem">
+<div class="csl-left-margin">21. </div><div class="csl-right-inline">Pediatrics AA of, Obstetricians AC of. The
+apgar score. Pediatrics. 2006;117(4):1444–7. </div>
+</div>
+<div id="ref-bowers2008scratch" class="csl-entry" role="listitem">
+<div class="csl-left-margin">22. </div><div class="csl-right-inline">Bowers D. First things first-the nature of
+data. In: Medical statistics from scratch. Second Edition. John Wiley;
+Sons; 2008. p. 3–13. </div>
+</div>
+<div id="ref-mendes2012" class="csl-entry" role="listitem">
+<div class="csl-left-margin">23. </div><div class="csl-right-inline">Ribeiro Mendes F. O que é um trabalho
+científico. In: Iniciacão cientifica. Autonomia Editora; 2012. p. 17–26.
+</div>
+</div>
+<div id="ref-hulley2015delineando" class="csl-entry" role="listitem">
+<div class="csl-left-margin">24. </div><div class="csl-right-inline">Hulley SB, Cummings SR, Browner WS, Grady DG,
+Newman TB. Elaborando a questão de pesquisa e desenvolvendo o plano de
+estudo. In: Delineando a pesquisa clinica. Quarta Edição. Artmed
+Editora; 2015. p. 15–24. </div>
+</div>
+<div id="ref-mccombes2019sampling" class="csl-entry" role="listitem">
+<div class="csl-left-margin">25. </div><div class="csl-right-inline">McCombes S. Sampling methods [Internet].
+https://www.scribbr.com/methodology/sampling-methods/. scribbr.com Team;
+2019. Available from: <a href="https://www.scribbr.com/">https://www.scribbr.com/</a></div>
+</div>
+<div id="ref-callegari2003bioestatistica" class="csl-entry" role="listitem">
+<div class="csl-left-margin">26. </div><div class="csl-right-inline">Callegari-Jacques SM. Amostras. In:
+Bioestatistica: Principios e aplicações. Artmed Editora; 2003. p. 146–7.
+</div>
+</div>
+<div id="ref-faul2007g" class="csl-entry" role="listitem">
+<div class="csl-left-margin">27. </div><div class="csl-right-inline">Faul F, Erdfelder E, Lang A-G, Buchner A. G*
+power 3: A flexible statistical power analysis program for the social,
+behavioral, and biomedical sciences. Behavior research methods.
+2007;39(2):175–91. </div>
+</div>
+<div id="ref-cohen1988statistical" class="csl-entry" role="listitem">
+<div class="csl-left-margin">28. </div><div class="csl-right-inline">Cohen J. Statistical power analysis for the
+behavioral sciences. Lawrence Erlbaum Associates; 1988. </div>
+</div>
+<div id="ref-grimes2002overview" class="csl-entry" role="listitem">
+<div class="csl-left-margin">29. </div><div class="csl-right-inline">Grimes DA, Schulz KF. An overview of clinical
+research: The lay of the land. The lancet. 2002;359(9300):57–61. </div>
+</div>
+<div id="ref-fletcher2014epidemiologia" class="csl-entry" role="listitem">
+<div class="csl-left-margin">30. </div><div class="csl-right-inline">Fletcher RH, Fletcher SW, Fletcher GS.
+Prognóstico. In: Epidemiologia clínica: Elementos essenciais. Artmed
+Editora; 2014. p. 108–9. </div>
+</div>
+<div id="ref-grimes2002descriptive" class="csl-entry" role="listitem">
+<div class="csl-left-margin">31. </div><div class="csl-right-inline">Grimes DA, Schulz KF. Descriptive studies: What
+they can and cannot do. The Lancet. 2002;359(9301):145–9. </div>
+</div>
+<div id="ref-fletcher2014risco" class="csl-entry" role="listitem">
+<div class="csl-left-margin">32. </div><div class="csl-right-inline">Fletcher RH, Fletcher SW, Fletcher GS. Risco:
+Da doença à exposição. In: Epidemiologia clínica: Elementos essenciais.
+Artmed Editora; 2014. p. 88. </div>
+</div>
+<div id="ref-grimes2005compared" class="csl-entry" role="listitem">
+<div class="csl-left-margin">33. </div><div class="csl-right-inline">Grimes DA, Schulz KF. Compared to what? Finding
+controls for case-control studies. The Lancet. 2005;365(9468):1429–33.
+</div>
+</div>
+<div id="ref-ernster1994nested" class="csl-entry" role="listitem">
+<div class="csl-left-margin">34. </div><div class="csl-right-inline">Ernster VL. Nested case-control studies.
+Preventive Medicine. 1994;23(5):587–90. </div>
+</div>
+<div id="ref-hulley2015aninhado" class="csl-entry" role="listitem">
+<div class="csl-left-margin">35. </div><div class="csl-right-inline">Newman TB, Browner WS, Cummings SR, Hulley SB.
+Delineando estudos de caso-controle. In: Delineando a pesquisa clinica.
+Quarta Edição. Artmed Editora; 2015. p. 111. </div>
+</div>
+<div id="ref-grimes2002cohort" class="csl-entry" role="listitem">
+<div class="csl-left-margin">36. </div><div class="csl-right-inline">Grimes DA, Schulz KF. Cohort studies: Marching
+towards outcomes. The Lancet. 2002;359(9303):341–5. </div>
+</div>
+<div id="ref-fletcher2014coorte" class="csl-entry" role="listitem">
+<div class="csl-left-margin">37. </div><div class="csl-right-inline">Fletcher RH, Fletcher SW, Fletcher GS. Risco:
+Da doença à exposição. In: Epidemiologia clínica: Elementos essenciais.
+Artmed Editora; 2014. p. 68. </div>
+</div>
+<div id="ref-david2019gordis" class="csl-entry" role="listitem">
+<div class="csl-left-margin">38. </div><div class="csl-right-inline">Celentano DD, Szklo M. Cohort studies. In:
+Gordis epidemiology. 6th Edition. Elsevier; 2019. p. 179. </div>
+</div>
+<div id="ref-kannel1979diabetes" class="csl-entry" role="listitem">
+<div class="csl-left-margin">39. </div><div class="csl-right-inline">Kannel WB, McGee DL. Diabetes and
+cardiovascular risk factors: The framingham study. Circulation.
+1979;59(1):8–13. </div>
+</div>
+<div id="ref-coutinho1998principios" class="csl-entry" role="listitem">
+<div class="csl-left-margin">40. </div><div class="csl-right-inline">Coutinho M. Principios de epidemiologia clínica
+aplicada a cardiologia. Arquivos Brasileiros de Cardiologia.
+1998;71:109–16. </div>
+</div>
+<div id="ref-cambridge2014systematic" class="csl-entry" role="listitem">
+<div class="csl-left-margin">41. </div><div class="csl-right-inline">McCambridge J, Witton J, Elbourne DR.
+Systematic review of the hawthorne effect: New concepts are needed to
+study research participation effects. Journal of Clinical Epidemiology.
+2014;67(3):267–77. </div>
+</div>
+<div id="ref-bland1994statistic" class="csl-entry" role="listitem">
+<div class="csl-left-margin">42. </div><div class="csl-right-inline">Bland JM, Altman DG. Statistic notes:
+Regression towards the mean. BMJ. 1994;308(6942):1499. </div>
+</div>
+<div id="ref-kabisch2011randomized" class="csl-entry" role="listitem">
+<div class="csl-left-margin">43. </div><div class="csl-right-inline">Kabisch M, Ruckes C, Seibert-Grafe M, Blettner
+M. Randomized controlled trials: Part 17 of a series on evaluation of
+scientific publications. Deutsches <span>Ä</span>rzteblatt
+International. 2011;108(39):663. </div>
+</div>
+<div id="ref-fletcher2014tratamento" class="csl-entry" role="listitem">
+<div class="csl-left-margin">44. </div><div class="csl-right-inline">Fletcher RH, Fletcher SW, Fletcher GS.
+Tratamento. In: Epidemiologia clínica: Elementos essenciais. Artmed
+Editora; 2014. p. 143. </div>
+</div>
+<div id="ref-elander1995placebo" class="csl-entry" role="listitem">
+<div class="csl-left-margin">45. </div><div class="csl-right-inline">Elander G, Hermerén G. Placebo effect and
+randomized clinical trials. Theoretical Medicine. 1995;16(2):171–82.
+</div>
+</div>
+<div id="ref-schulz2002blinding" class="csl-entry" role="listitem">
+<div class="csl-left-margin">46. </div><div class="csl-right-inline">Schulz KF, Grimes DA. Blinding in randomised
+trials: Hiding who got what. The Lancet. 2002;359(9307):696–700. </div>
+</div>
+<div id="ref-montori2001intention" class="csl-entry" role="listitem">
+<div class="csl-left-margin">47. </div><div class="csl-right-inline">Montori VM, Guyatt GH. Intention-to-treat
+principle. CMAJ. 2001;165(10):1339–41. </div>
+</div>
+<div id="ref-christensen2007methodology" class="csl-entry" role="listitem">
+<div class="csl-left-margin">48. </div><div class="csl-right-inline">Christensen E. Methodology of superiority vs.
+Equivalence trials and non-inferiority trials. Journal of hepatology.
+2007;46(5):947–54. </div>
+</div>
+<div id="ref-trial2020crossover" class="csl-entry" role="listitem">
+<div class="csl-left-margin">49. </div><div class="csl-right-inline">Health Improvement O for, Disparities.
+Crossover randomised controlled trial: Comparative studies [Internet].
+Office for Health Improvement and Disparities. UK Health improvement;
+2020. Available from: <a href="https://www.gov.uk/guidance/crossover-randomised-controlled-trial-comparative-studies">https://www.gov.uk/guidance/crossover-randomised-controlled-trial-comparative-studies</a></div>
+</div>
+<div id="ref-hennekens1996lack" class="csl-entry" role="listitem">
+<div class="csl-left-margin">50. </div><div class="csl-right-inline">Hennekens CH, Buring JE, et al. Lack of effect
+of long-term supplementation with beta carotene on the incidence of
+malignant neoplasms and cardiovascular disease. New England Journal of
+Medicine. 1996;334(18):1145–9. </div>
+</div>
+<div id="ref-stanley2007design" class="csl-entry" role="listitem">
+<div class="csl-left-margin">51. </div><div class="csl-right-inline">Stanley K. Design of randomized controlled
+trials. Circulation. 2007;115(9):1164–9. </div>
+</div>
+<div id="ref-chang2021cookbook" class="csl-entry" role="listitem">
+<div class="csl-left-margin">52. </div><div class="csl-right-inline">Chang W. Cookbook for r. Cookbook for R.
+http://www.cookbook-r.com; 2021. </div>
+</div>
+<div id="ref-verzani2004using" class="csl-entry" role="listitem">
+<div class="csl-left-margin">53. </div><div class="csl-right-inline">Verzani J. Using r for introductory statistics.
+Chapman; Hall/CRC; 2004. </div>
+</div>
+<div id="ref-cursor2015livro" class="csl-entry" role="listitem">
+<div class="csl-left-margin">54. </div><div class="csl-right-inline">Damiani A, Milz B, Lente C, al et. Ciência de
+dados em r [Internet]. R6 Consultoria; 2015. Available from: <a href="https://livro.curso-r.com/index.html">https://livro.curso-r.com/index.html</a></div>
+</div>
+<div id="ref-zuur2009beginner" class="csl-entry" role="listitem">
+<div class="csl-left-margin">55. </div><div class="csl-right-inline">Zuur AF, Ieno EN, Meesters EH. Getting data
+into r. In: A beginner’s guide to r. Springer; 2009. p. 29–56. </div>
+</div>
+<div id="ref-wickham2015dplyr" class="csl-entry" role="listitem">
+<div class="csl-left-margin">56. </div><div class="csl-right-inline">Wickham H, François R, Henry L, Müller K, et
+al. Dplyr: A grammar of data manipulation. R package version 04.
+2015;3:156. </div>
+</div>
+<div id="ref-wickham2017factors" class="csl-entry" role="listitem">
+<div class="csl-left-margin">57. </div><div class="csl-right-inline">Wickham H, Grolemund G. 15 factors|r for data
+science [Internet]. Welcome | R for Data Science. O’Reilly; 2017.
+Available from: <a href="https://r4ds.had.co.nz/factors.html">https://r4ds.had.co.nz/factors.html</a></div>
+</div>
+<div id="ref-ooms2022writexl" class="csl-entry" role="listitem">
+<div class="csl-left-margin">58. </div><div class="csl-right-inline">Ooms J. Writexl: Export data frames to excel
+’xlsx’ format [Internet]. 2022. Available from: <a href="https://CRAN.R-project.org/package=writexl">https://CRAN.R-project.org/package=writexl</a></div>
+</div>
+<div id="ref-write2022csv" class="csl-entry" role="listitem">
+<div class="csl-left-margin">59. </div><div class="csl-right-inline">Team RC. Write.table: Data output/CSV files
+[Internet]. DataCamp; 2022. Available from: <a href="https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/write.table">https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/write.table</a></div>
+</div>
+<div id="ref-wickham2019tidyverse" class="csl-entry" role="listitem">
+<div class="csl-left-margin">60. </div><div class="csl-right-inline">Wickham H, Averick M, Bryan J, Chang W, et al.
+Welcome to the tidyverse. Journal of Open Source Software.
+2019;4(43):1686. </div>
+</div>
+<div id="ref-wickham2014tidy" class="csl-entry" role="listitem">
+<div class="csl-left-margin">61. </div><div class="csl-right-inline">Wickham H. Tidy data. Journal of Statistical
+Software. 2014;59(10):11–23. </div>
+</div>
+<div id="ref-wickham2022tidyr" class="csl-entry" role="listitem">
+<div class="csl-left-margin">62. </div><div class="csl-right-inline">Wickham H, Girlich M. Tidyr: Tidy messy data
+[Internet]. 2022. Available from: <a href="https://CRAN.R-project.org/package=tidyr">https://CRAN.R-project.org/package=tidyr</a></div>
+</div>
+<div id="ref-fisher1936use" class="csl-entry" role="listitem">
+<div class="csl-left-margin">63. </div><div class="csl-right-inline">Fisher RA. The use of multiple measurements in
+taxonomic problems. Annals of eugenics. 1936;7(2):179–88. </div>
+</div>
+<div id="ref-grolemund2011dates" class="csl-entry" role="listitem">
+<div class="csl-left-margin">64. </div><div class="csl-right-inline">Grolemund G, Wickham H. Dates and times made
+easy with lubridate. Journal of Statistical Software [Internet].
+2011;40(3):1–25. Available from: <a href="https://www.jstatsoft.org/v40/i03/">https://www.jstatsoft.org/v40/i03/</a></div>
+</div>
+<div id="ref-field2012df" class="csl-entry" role="listitem">
+<div class="csl-left-margin">65. </div><div class="csl-right-inline">Field A, Miles J, Field Z. Everithing you ever
+wanted to know about statistics (well, sort of). In: Discovering
+statistics using r. Sage Publications, Ltd; 2012. p. 38. </div>
+</div>
+<div id="ref-oliveira2022tab" class="csl-entry" role="listitem">
+<div class="csl-left-margin">66. </div><div class="csl-right-inline">Oliveira Filho PF de. Tabelas. In:
+Epidemiologia e bioestatística-fundamentos para a leitura crítica. 2ª
+edição. Editora Rubio; 2022. p. 9–12. </div>
+</div>
+<div id="ref-arango2009tab" class="csl-entry" role="listitem">
+<div class="csl-left-margin">67. </div><div class="csl-right-inline">Arango HG. Organização dos dados em tabelas.
+In: Bioestatística: Teórica e computacional. 3ª edição. Guanabara
+Koogan; 2009. p. 32–57. </div>
+</div>
+<div id="ref-xie2018knitr" class="csl-entry" role="listitem">
+<div class="csl-left-margin">68. </div><div class="csl-right-inline">Xie
+Y. Knitr: A comprehensive tool for reproducible research in r. In:
+Implementing reproducible research. Chapman; Hall/CRC; 2018. p. 3–31.
+</div>
+</div>
+<div id="ref-zhu2021construct" class="csl-entry" role="listitem">
+<div class="csl-left-margin">69. </div><div class="csl-right-inline">Zhu
+H et al. Construct complex table with <span>“kable”</span> and pipe
+syntax [Internet]. 2021. Available from: <a href="https://CRAN.R-project.org/package=kableExtra">https://CRAN.R-project.org/package=kableExtra</a></div>
+</div>
+<div id="ref-arango2009classes" class="csl-entry" role="listitem">
+<div class="csl-left-margin">70. </div><div class="csl-right-inline">Arango HG. Números de classes e intervalo de
+classes. In: Bioestatística teórica e computacional. Terceira edição.
+Guanabara Koogan, RJ; 2009. p. 35–40. </div>
+</div>
+<div id="ref-rasmussen2009weight" class="csl-entry" role="listitem">
+<div class="csl-left-margin">71. </div><div class="csl-right-inline">Rasmussen KM, Yaktine AL, et al. Weight gain
+during pregnancy: Reexamining the guidelines. 2009; </div>
+</div>
+<div id="ref-field2012graphs" class="csl-entry" role="listitem">
+<div class="csl-left-margin">72. </div><div class="csl-right-inline">Field A, Miles J, Field Z. Exploring data with
+graphs. In: Discovering statistics using r. Sage Publications, Ltd;
+2012. p. 117. </div>
+</div>
+<div id="ref-wickham2016getting" class="csl-entry" role="listitem">
+<div class="csl-left-margin">73. </div><div class="csl-right-inline">Wickham H. Getting started with ggplot2. In:
+ggplot2. Second edition. Springer; 2016. p. 11–31. </div>
+</div>
+<div id="ref-tufte2001aesthetics" class="csl-entry" role="listitem">
+<div class="csl-left-margin">74. </div><div class="csl-right-inline">Tufte ER. Aesthetics and technique in data
+graphical design. In: The visual display of quantitative information.
+Second edition. Graphics Press; 2001. p. 178. </div>
+</div>
+<div id="ref-lemon2015package" class="csl-entry" role="listitem">
+<div class="csl-left-margin">75. </div><div class="csl-right-inline">Lemon J, Bolker B, Oom S, et al. Package
+<span>“plotrix.”</span> Vienna: R Development Core Team. 2015; </div>
+</div>
+<div id="ref-kabacoff2011graphs" class="csl-entry" role="listitem">
+<div class="csl-left-margin">76. </div><div class="csl-right-inline">Kabacoff RI. Basic graphs. In: R in action:
+Data analysis and graphics with r. Manning Publications Co.; 2011. p.
+120–4. </div>
+</div>
+<div id="ref-harrell2022hmisc" class="csl-entry" role="listitem">
+<div class="csl-left-margin">77. </div><div class="csl-right-inline">Harrell FE, Dupont C. Hmisc: Harrell
+miscellaneous [Internet]. R package version. 2022. Available from: <a href="https://cran.r-project.org/web/packages/Hmisc/index.html">https://cran.r-project.org/web/packages/Hmisc/index.html</a></div>
+</div>
+<div id="ref-wickham2010layered" class="csl-entry" role="listitem">
+<div class="csl-left-margin">78. </div><div class="csl-right-inline">Wickham H. A layered grammar of graphics.
+Journal of Computational and Graphical Statistics. 2010;19(1):3–28.
+</div>
+</div>
+<div id="ref-wickham2016ggplot2" class="csl-entry" role="listitem">
+<div class="csl-left-margin">79. </div><div class="csl-right-inline">Wickham H. ggplot2: Elegant graphics for data
+analysis [Internet]. Springer-Verlag New York; 2016. Available from: <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a></div>
+</div>
+<div id="ref-tyler2018pacman" class="csl-entry" role="listitem">
+<div class="csl-left-margin">80. </div><div class="csl-right-inline">Rinker TW, Kurkiewicz D. Pacman: Package
+management for r [Internet]. Buffalo, New York; 2018. Available from: <a href="http://github.com/trinker/pacman">http://github.com/trinker/pacman</a></div>
+</div>
+<div id="ref-debnath2015short" class="csl-entry" role="listitem">
+<div class="csl-left-margin">81. </div><div class="csl-right-inline">Debnath L, Basu K. A short history of
+probability theory and its applications. International Journal of
+Mathematical Education in Science and Technology. 2015;46(1):13–39.
+</div>
+</div>
+<div id="ref-menezes2004probabilidade" class="csl-entry" role="listitem">
+<div class="csl-left-margin">82. </div><div class="csl-right-inline">Menezes RX de. Introdução à probabilidade. In:
+Massad E, Menezes RX de, Silveira PSP, Ortega NRS, editors. Métodos
+quantitativos em medicina. Barueri, São Paulo: Editora Manole Ltda.;
+2004. p. 151–87. </div>
+</div>
+<div id="ref-pagano2000random" class="csl-entry" role="listitem">
+<div class="csl-left-margin">83. </div><div class="csl-right-inline">Pagano M, Kimberly G. Theoretical probability
+distributions. In: Principles of biostatistics. Second Edition. CRC
+Press; 2000. p. 162. </div>
+</div>
+<div id="ref-gonzalez2021normal" class="csl-entry" role="listitem">
+<div class="csl-left-margin">84. </div><div class="csl-right-inline">Gonzalez JCS. Normal distribution in r
+[Internet]. R CODER. 2021. Available from: <a href="https://r-coder.com/">https://r-coder.com/</a></div>
+</div>
+<div id="ref-robertson2022bernoulli" class="csl-entry" role="listitem">
+<div class="csl-left-margin">85. </div><div class="csl-right-inline">Robertson E, O’Connor J. Jacob (jacques)
+bernoulli [Internet]. Maths History. School of Mathematics; Statistics,
+University of St Andrews; 2022. Available from: <a href="https://mathshistory.st-andrews.ac.uk/Biographies/Bernoulli_Jacob/">https://mathshistory.st-andrews.ac.uk/Biographies/Bernoulli_Jacob/</a></div>
+</div>
+<div id="ref-fisher1993poisson" class="csl-entry" role="listitem">
+<div class="csl-left-margin">86. </div><div class="csl-right-inline">Fisher LD, Van Belle G. Poisson random
+variables. In: Biostatistics: A methodology for the health sciences. New
+York, NY: John Wiley &amp; Sons; 1993. p. 211–8. </div>
+</div>
+<div id="ref-peat2014descriptive" class="csl-entry" role="listitem">
+<div class="csl-left-margin">87. </div><div class="csl-right-inline">Peat J, Barton B. Descriptive statistics. In:
+Medical statistics : A guide to SPSS, data analysis, and critical
+appraisal. New York, NY: John Wiley &amp; Sons; 2014. p. 24–51. </div>
+</div>
+<div id="ref-joanes1998skewkurt" class="csl-entry" role="listitem">
+<div class="csl-left-margin">88. </div><div class="csl-right-inline">Joanes D, Gill C. Comparing measures of sample
+skewness and kurtosis. Journal of the Royal Statistical Society.
+1998;47(1):183–9. </div>
+</div>
+<div id="ref-george2020asymmetry" class="csl-entry" role="listitem">
+<div class="csl-left-margin">89. </div><div class="csl-right-inline">George D, Mallery P. Descriptive statistics.
+In: IBM SPSS statistics 26 step by step: A simple guide and reference.
+New York, NY: Taylor &amp; Francis Group; 2020. p. 114–20. </div>
+</div>
+<div id="ref-pagano2000sampling" class="csl-entry" role="listitem">
+<div class="csl-left-margin">90. </div><div class="csl-right-inline">Pagano M, Gavreau K. The central limit theorem.
+In: Principles of biostatistics. Second Edition. Pacific Grove, CA:
+Duxbury; 2000. p. 197–8. </div>
+</div>
+<div id="ref-motulsky2010ci" class="csl-entry" role="listitem">
+<div class="csl-left-margin">91. </div><div class="csl-right-inline">Motulsky H. The theory of confidence intervals.
+In: Intuitive biostatistics: A nonmathematical guide to statistical
+thinking. Second Edition. New York, NY: Oxford University Press; 2010.
+p. 96–102. </div>
+</div>
+<div id="ref-signorell2022desctools" class="csl-entry" role="listitem">
+<div class="csl-left-margin">92. </div><div class="csl-right-inline">Signorell A et al. DescTools: Tools for
+descriptive statistics [Internet]. 2022. Available from: <a href="https://cran.r-project.org/package=DescTools">https://cran.r-project.org/package=DescTools</a></div>
+</div>
+<div id="ref-kelen1988hypothesis" class="csl-entry" role="listitem">
+<div class="csl-left-margin">93. </div><div class="csl-right-inline">Kelen GD, Brown CB, Ashton J. Statistical
+reasoning in clinical trials: Hypothesis testing. Am J Emerg Med.
+1988;1(1):52–61. </div>
+</div>
+<div id="ref-menezes2004hipoteses" class="csl-entry" role="listitem">
+<div class="csl-left-margin">94. </div><div class="csl-right-inline">Menezes RX de, Burattini MN. Testes de hipótese
+e intervalos de confiança. In: Massad E, Menezes RX de, Silveira PSP,
+Ortega NRS, editors. Métodos quantitativos em medicina. Barueri, São
+Paulo: Editora Manole Ltda.; 2004. p. 225–41. </div>
+</div>
+<div id="ref-guyatt1995basic" class="csl-entry" role="listitem">
+<div class="csl-left-margin">95. </div><div class="csl-right-inline">Guyatt G, Jaeschke R, Heddle N, et al. Basic
+statistics for clinicians: 1. Hypothesis testing. CMAJ: Canadian Medical
+Association Journal. 1995;152(1):27. </div>
+</div>
+<div id="ref-fletcher2014acaso" class="csl-entry" role="listitem">
+<div class="csl-left-margin">96. </div><div class="csl-right-inline">Fletcher RH, Fletcher SW, Fletcher GS. Acaso.
+In: Epidemiologia clínica: Elementos essenciais. Quinta Edição. Artmed
+Editora; 2014. p. 108–9. </div>
+</div>
+<div id="ref-menezes2004testes" class="csl-entry" role="listitem">
+<div class="csl-left-margin">97. </div><div class="csl-right-inline">Menezes RX de, Burattini MN. Testes de hipótese
+e intervalos de confiança. In: Massad E, Menezes RX de, Silveira PSP,
+Ortega NRS, editors. Métodos quantitativos em medicina. Barueri, São
+Paulo: Editora Manole Ltda.; 2004. p. 225–41. </div>
+</div>
+<div id="ref-steering1989final" class="csl-entry" role="listitem">
+<div class="csl-left-margin">98. </div><div class="csl-right-inline">Physicians’ Health Study Research Group* SC of
+the. Final report on the aspirin component of the ongoing physicians’
+health study. New England Journal of Medicine. 1989;321(3):129–35.
+</div>
+</div>
+<div id="ref-meyer2019package" class="csl-entry" role="listitem">
+<div class="csl-left-margin">99. </div><div class="csl-right-inline">Meyer D, Dimitriadou E, Hornik K, Weingessel A,
+Leisch F, Chang C-C, et al. Package <span>“e1071.”</span> The R Journal.
+2019;1–67. </div>
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiada");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiada");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./summary.html" class="pagination-link" aria-label="Summary">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Summary</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
