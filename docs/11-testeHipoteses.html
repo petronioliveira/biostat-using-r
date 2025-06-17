@@ -370,8 +370,8 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dados)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>tibble [200 × 2] (S3: tbl_df/tbl/data.frame)
- $ sexo  : num [1:200] 2 1 1 1 1 1 2 2 2 1 ...
- $ pesoRN: num [1:200] 3850 4090 3245 2550 3895 ...</code></pre>
+ $ sexo  : num [1:200] 1 1 1 2 2 2 1 2 1 1 ...
+ $ pesoRN: num [1:200] 3585 2675 3435 3480 2880 ...</code></pre>
 </div>
 </div>
 <p>A seguir, transformar a variável <code>sexo</code> em fator:</p>
@@ -392,11 +392,11 @@ window.Quarto = {
 <pre><code># A tibble: 2 × 4
   sexo      n media    dp
   &lt;fct&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 masc    116 3275.  412.
-2 fem      84 3173.  475.</code></pre>
+1 masc    122 3321.  462.
+2 fem      78 3146.  476.</code></pre>
 </div>
 </div>
-<p>Esta amostra de 116 meninos e 84 meninas, informa que os meninos têm, em média, 3275 g ao nascer e as meninas 3173 g. Esta diferença de peso entre os sexos pode ter ocorrido devido ao acaso. Portanto, há necessidade de realizar um teste de hipóteses para tomar uma decisão sobre o parâmetro populacional. Esta diferença é grande o suficiente para rejeitar a hipótese de igualdade entre os pesos e concluir que existe uma diferença real entre eles?</p>
+<p>Esta amostra de 122 meninos e 78 meninas, informa que os meninos têm, em média, 3321 g ao nascer e as meninas 3146 g. Esta diferença de peso entre os sexos pode ter ocorrido devido ao acaso. Portanto, há necessidade de realizar um teste de hipóteses para tomar uma decisão sobre o parâmetro populacional. Esta diferença é grande o suficiente para rejeitar a hipótese de igualdade entre os pesos e concluir que existe uma diferença real entre eles?</p>
 </section>
 </section>
 <section id="introdução" class="level2" data-number="11.3">
@@ -463,7 +463,7 @@ H_{1}: \mu_{peso_{masc}} \neq \mu_{peso_{fem}} \quad ou \quad \mu_{peso_{masc}} 
 <p>Este valor de referência é determinado pelo <strong>nível de significância</strong>, <span class="math inline">\(\alpha\)</span>, e deve ser explicitamente mencionado <em>antes</em> de se iniciar a pesquisa, pois é baseado nele que se fundamentam as conclusões da mesma. O nível de significância corresponde a probabilidade de rejeitar uma hipótese nula verdadeira. Quando a hipótese alternativa não tem uma direção definida, a área de rejeição, <span class="math inline">\(\alpha\)</span>, é colocada nas duas caudas (<a href="#fig-rejeicao" class="quarto-xref">Figura&nbsp;<span>11.1</span></a>), superior), dividindo a probabilidade (<span class="math inline">\(\frac {\alpha}{2}\)</span>); quando houver indicação prévia de um sentido, a área de rejeição ficará a direita (<a href="#fig-rejeicao" class="quarto-xref">Figura&nbsp;<span>11.1</span></a>), inferior) ou a esquerda dependendo da direção escolhida.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-rejeicao" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-rejeicao" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rejeicao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/ttCoLro.png.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%" data-fig-pos="H">
@@ -500,7 +500,7 @@ P(não \quad rejeitar \quad H_{0}|H_{0} \quad falsa) = \beta
 <p>Na <a href="#fig-erros" class="quarto-xref">Figura&nbsp;<span>11.2</span></a> estão resumidas as possíveis consequências na tomada de decisão em um teste de hipótese <span class="citation" data-cites="fletcher2014acaso">(<a href="references.html#ref-fletcher2014acaso" role="doc-biblioref">4</a>)</span>.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-erros" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-erros" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-erros-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/wL61R9C.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%" data-fig-pos="H">
@@ -516,7 +516,7 @@ Figura&nbsp;11.2: Tomada de decisão e erros.
 </section>
 <section id="sec-exeth1" class="level3" data-number="11.5.3">
 <h3 data-number="11.5.3" class="anchored" data-anchor-id="sec-exeth1"><span class="header-section-number">11.5.3</span> Exemplo (continuação)</h3>
-<p>Continuando com o exemplo da <a href="#sec-exeth" class="quarto-xref"><span>Seção 11.4.1</span></a>, aceita-se que os pesos dos recém-nascidos de ambas as amostras tenham distribuição normal e que as variâncias são semelhantes. Apesar de o desvio padrão (<span class="math inline">\(\sigma\)</span>) da <code>população-alvo</code> ser conhecido (412, 475g), será suposto que ele é desconhecido <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. Portanto, o teste <em>t</em> de amostras independentes será o teste escolhido como o teste estatístico. A hipótese alternativa é bilateral e o <span class="math inline">\(\alpha\)</span> = 0,05.<br>
+<p>Continuando com o exemplo da <a href="#sec-exeth" class="quarto-xref"><span>Seção 11.4.1</span></a>, aceita-se que os pesos dos recém-nascidos de ambas as amostras tenham distribuição normal e que as variâncias são semelhantes. Apesar de o desvio padrão (<span class="math inline">\(\sigma\)</span>) da <code>população-alvo</code> ser conhecido (462, 476g), será suposto que ele é desconhecido <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. Portanto, o teste <em>t</em> de amostras independentes será o teste escolhido como o teste estatístico. A hipótese alternativa é bilateral e o <span class="math inline">\(\alpha\)</span> = 0,05.<br>
 A distribuição <em>t</em> é dependente dos grau de liberdade, que para duas amostras independentes é igual <span class="math inline">\(gl=n_1+n_2-2\)</span>. Para os dados em uso, tem-se:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a> n1 <span class="ot">&lt;-</span> resumo<span class="sc">$</span>n[<span class="dv">1</span>]</span>
@@ -560,14 +560,14 @@ A distribuição <em>t</em> é dependente dos grau de liberdade, que para duas a
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>teste</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 15
-  estimate estimate1 estimate2 .y.    group1 group2    n1    n2 statistic     p
-*    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;
-1     102.     3275.     3173. pesoRN masc   fem      116    84      1.59 0.114
+  estimate estimate1 estimate2 .y.    group1 group2    n1    n2 statistic      p
+*    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt;  &lt;dbl&gt;
+1     175.     3321.     3146. pesoRN masc   fem      122    78      2.56 0.0113
 # ℹ 5 more variables: df &lt;dbl&gt;, conf.low &lt;dbl&gt;, conf.high &lt;dbl&gt;, method &lt;chr&gt;,
 #   alternative &lt;chr&gt;</code></pre>
 </div>
 </div>
-<p>A saída do teste mostra uma estatística de teste <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> igual a 1.59. Esta é maior do que o <em>t_crítico</em> = 1.972, consequentemente, rejeita-se a hipótese nula e conclui-se, com uma confiança de 95%, que existe uma diferença estatisticamente significativa no peso dos recém-nascidos entre os sexos. Esta diferença é em média igual a 102 g (IC95%: -25, 230), <span class="math inline">\(peso_{meninos} &gt; peso_{meninas}\)</span>.</p>
+<p>A saída do teste mostra uma estatística de teste <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> igual a 2.563. Esta é maior do que o <em>t_crítico</em> = 1.972, consequentemente, rejeita-se a hipótese nula e conclui-se, com uma confiança de 95%, que existe uma diferença estatisticamente significativa no peso dos recém-nascidos entre os sexos. Esta diferença é em média igual a 175 g (IC95%: 40, 310), <span class="math inline">\(peso_{meninos} &gt; peso_{meninas}\)</span>.</p>
 </section>
 </section>
 <section id="sec-valorp" class="level2" data-number="11.6">
@@ -578,7 +578,7 @@ A distribuição <em>t</em> é dependente dos grau de liberdade, que para duas a
 <p>Uma boa parte dos pesquisadores, principalmente no início da carreira, ficam empolgados pelo conhecimento do valor <em>P</em>. Entretanto, deve ser sempre lembrado que encontrar o valor <em>P</em> não é o único foco da pesquisa. O foco deve estar dirigido ao <em>tamanho do efeito</em> (<em>effect size</em>). O valor <em>P</em> obtido pelo teste estatístico, vai informar apenas sobre a probabilidade de se cometer erro ao rejeitar ou não rejeitar a hipóteses nula.</p>
 <section id="exemplo-continuação" class="level3" data-number="11.6.1">
 <h3 data-number="11.6.1" class="anchored" data-anchor-id="exemplo-continuação"><span class="header-section-number">11.6.1</span> Exemplo (continuação)</h3>
-<p>O teste realizado, <code>t_test()</code>, fornece o valor <em>P</em> = 0.114. Este valor é menor do que <span class="math inline">\(\alpha\)</span> e leva as mesmas conclusões da <a href="#sec-exeth1" class="quarto-xref"><span>Seção 11.5.3</span></a>.</p>
+<p>O teste realizado, <code>t_test()</code>, fornece o valor <em>P</em> = 0.0113. Este valor é menor do que <span class="math inline">\(\alpha\)</span> e leva as mesmas conclusões da <a href="#sec-exeth1" class="quarto-xref"><span>Seção 11.5.3</span></a>.</p>
 </section>
 </section>
 <section id="poder-do-teste" class="level2" data-number="11.7">
@@ -591,7 +591,7 @@ Poder \quad do \quad teste = P(rejeitar \quad H_{0}|H_{0} \quad falsa)
 <p>Na Figura <a href="#fig-power" class="quarto-xref">Figura&nbsp;<span>11.3</span></a>, visualiza-se o poder em verde mais escuro. Em um teste de hipótese, o valor <span class="math inline">\(\alpha\)</span> sempre é estabelecido com antecedência, que geralmente é definido como 0,05, de modo que a taxa de erro do Tipo I é definida antes mesmo de se iniciar o teste. Em seguida, pode-se calcular o valor crítico mínimo necessário para rejeitar <span class="math inline">\(H_0\)</span>. É possível traçar uma linha da distribuição da hipótese nula até a distribuição da hipótese alternativa e separar a área sob a curva em duas partes. Se o valor <em>t</em> calculado cair à esquerda da linha tracejada, não se consegue rejeitar <span class="math inline">\(H_0\)</span> quando <span class="math inline">\(H_1\)</span> for verdadeira e é cometido um erro do Tipo II. Se o valor calculado cair à direita, rejeita-se <span class="math inline">\(H_0\)</span> quando <span class="math inline">\(H_1\)</span> é verdadeira e a decisão é correta. Portanto, a área à direita da curva é o poder.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-power" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-power" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-power-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://imgur.com/GsC4d6D.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%" data-fig-pos="H">
@@ -623,12 +623,12 @@ Existem diferentes métodos para calcular o poder do teste, dependendo do tipo d
 </ul>
 <section id="exemplo-continuação-1" class="level3" data-number="11.7.1">
 <h3 data-number="11.7.1" class="anchored" data-anchor-id="exemplo-continuação-1"><span class="header-section-number">11.7.1</span> Exemplo (continuação)</h3>
-<p>O teste <em>t</em> retornou um resultado significativo, com valor de t = 1.59 &gt; 1.972, com <em>P</em> = 0.114. Um resultado significativo não informa sobre a magnitude do efeito. Para isso, lançamos mão do teste <em>d</em> de Cohen que pode ser calculado, usando a função <code>cohensD()</code> do pacote <code>lsr</code>:</p>
+<p>O teste <em>t</em> retornou um resultado significativo, com valor de t = 2.563 &gt; 1.972, com <em>P</em> = 0.0113. Um resultado significativo não informa sobre a magnitude do efeito. Para isso, lançamos mão do teste <em>d</em> de Cohen que pode ser calculado, usando a função <code>cohensD()</code> do pacote <code>lsr</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> lsr<span class="sc">::</span><span class="fu">cohensD</span> (<span class="at">data =</span> dados, <span class="at">formula =</span> pesoRN <span class="sc">~</span> sexo)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>d</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2329345</code></pre>
+<pre><code>[1] 0.373996</code></pre>
 </div>
 </div>
 <p>Na <a href="12-teste-t.html#sec-cohen" class="quarto-xref"><span>Seção 12.2.6.1</span></a>, se entrará em maiores detalhes, por enquanto, será assumido que a magnitude do efeito é pequena.</p>
@@ -655,15 +655,15 @@ Existem diferentes métodos para calcular o poder do teste, dependendo do tipo d
      Two-sample t test power calculation 
 
               n = 150
-              d = 0.2329345
+              d = 0.373996
       sig.level = 0.05
-          power = 0.5202953
+          power = 0.8976869
     alternative = two.sided
 
 NOTE: n is number in *each* group</code></pre>
 </div>
 </div>
-<p>A saída mostra que no lugar do <code>NULL</code>, aparece o poder do teste estatístico. Ou seja, o poder foi de 0.52 , consequentemente, como <span class="math inline">\(\beta = 1 – Poder\)</span>, então, <span class="math inline">\(\beta\)</span> = 0.48.</p>
+<p>A saída mostra que no lugar do <code>NULL</code>, aparece o poder do teste estatístico. Ou seja, o poder foi de 0.898 , consequentemente, como <span class="math inline">\(\beta = 1 – Poder\)</span>, então, <span class="math inline">\(\beta\)</span> = 0.102.</p>
 <p>O poder geralmente é definido em 0,80 (ou 0,90). Isto significa que se existirem efeitos verdadeiros a serem encontrados em 100 estudos diferentes com 80% de poder, apenas 80 em 100 testes estatísticos irão realmente detectá-los. Se não for garantido poder suficiente, é possível que nenhum efeito seja detectado, por isso, deve-se calcular o tamanho amostral necessário, antes de iniciar qualquer estudo, para garantir o poder pretendido.</p>
 
 
