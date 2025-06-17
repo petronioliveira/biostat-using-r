@@ -20,6 +20,8 @@ book:
     - 09-distAmostrais.qmd
     - 10-estimacao.qmd
     - 11-testeHipoteses.qmd
+    - 12-teste-t.qmd
+    - 13-anova.qmd
     - summary.qmd
     - references.qmd
 

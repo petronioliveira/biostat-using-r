@@ -1,0 +1,2127 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>13&nbsp; Análise de Variância – Bioestatística Usando o R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./summary.html" rel="next">
+<link href="./12-teste-t.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-8da5b4427184b79ecddefad3d342027e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./13-anova.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Análise de Variância</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Bioestatística Usando o R</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefácio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-dados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Natureza dos Dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-producaoDados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Produção dos Dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-ambienteR.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Ambiente do <em>R</em></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-manipulandoDados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Manipulando os dados no <em>RStudio</em></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-descrevendoDados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Descrevendo os dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-probabilidades.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introdução à Teoria das Probabilidades</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-assimetria_curtose.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Assimetria e Curtose</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-distAmostrais.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Distribuições Amostrais</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-estimacao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Estimação</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-testeHipoteses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Teste de Hipóteses</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-teste-t.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comparação entre duas médias</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-anova.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Análise de Variância</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Índice</h2>
+   
+  <ul>
+  <li><a href="#pacotes-necessários-para-este-capítulo" id="toc-pacotes-necessários-para-este-capítulo" class="nav-link active" data-scroll-target="#pacotes-necessários-para-este-capítulo"><span class="header-section-number">13.1</span> Pacotes necessários para este capítulo</a></li>
+  <li><a href="#por-que-realizar-uma-anova" id="toc-por-que-realizar-uma-anova" class="nav-link" data-scroll-target="#por-que-realizar-uma-anova"><span class="header-section-number">13.2</span> Por que realizar uma ANOVA?</a>
+  <ul class="collapse">
+  <li><a href="#lógica-do-modelo-da-anova" id="toc-lógica-do-modelo-da-anova" class="nav-link" data-scroll-target="#lógica-do-modelo-da-anova"><span class="header-section-number">13.2.1</span> Lógica do Modelo da ANOVA</a></li>
+  <li><a href="#distribuição-f" id="toc-distribuição-f" class="nav-link" data-scroll-target="#distribuição-f"><span class="header-section-number">13.2.2</span> Distribuição <em>F</em></a></li>
+  </ul></li>
+  <li><a href="#anova-de-um-fator" id="toc-anova-de-um-fator" class="nav-link" data-scroll-target="#anova-de-um-fator"><span class="header-section-number">13.3</span> ANOVA de um fator</a>
+  <ul class="collapse">
+  <li><a href="#dados-do-exemplo" id="toc-dados-do-exemplo" class="nav-link" data-scroll-target="#dados-do-exemplo"><span class="header-section-number">13.3.1</span> Dados do exemplo</a></li>
+  <li><a href="#definição-das-hipóteses-estatísticas" id="toc-definição-das-hipóteses-estatísticas" class="nav-link" data-scroll-target="#definição-das-hipóteses-estatísticas"><span class="header-section-number">13.3.2</span> Definição das hipóteses estatísticas</a></li>
+  <li><a href="#definição-da-regra-de-decisão" id="toc-definição-da-regra-de-decisão" class="nav-link" data-scroll-target="#definição-da-regra-de-decisão"><span class="header-section-number">13.3.3</span> Definição da regra de decisão</a></li>
+  <li><a href="#teste-estatístico" id="toc-teste-estatístico" class="nav-link" data-scroll-target="#teste-estatístico"><span class="header-section-number">13.3.4</span> Teste Estatístico</a></li>
+  <li><a href="#testes-post-hoc" id="toc-testes-post-hoc" class="nav-link" data-scroll-target="#testes-post-hoc"><span class="header-section-number">13.3.5</span> Testes <em>post-hoc</em></a></li>
+  <li><a href="#tamanho-do-efeito" id="toc-tamanho-do-efeito" class="nav-link" data-scroll-target="#tamanho-do-efeito"><span class="header-section-number">13.3.6</span> Tamanho do efeito</a></li>
+  <li><a href="#conclusão" id="toc-conclusão" class="nav-link" data-scroll-target="#conclusão"><span class="header-section-number">13.3.7</span> Conclusão</a></li>
+  </ul></li>
+  <li><a href="#anova-de-dois-fatores" id="toc-anova-de-dois-fatores" class="nav-link" data-scroll-target="#anova-de-dois-fatores"><span class="header-section-number">13.4</span> ANOVA de dois fatores</a>
+  <ul class="collapse">
+  <li><a href="#dados-usados-nesta-seção" id="toc-dados-usados-nesta-seção" class="nav-link" data-scroll-target="#dados-usados-nesta-seção"><span class="header-section-number">13.4.1</span> Dados usados nesta seção</a></li>
+  <li><a href="#hipóteses-estatísticas" id="toc-hipóteses-estatísticas" class="nav-link" data-scroll-target="#hipóteses-estatísticas"><span class="header-section-number">13.4.2</span> Hipóteses estatísticas</a></li>
+  <li><a href="#pressupostos-do-modelo" id="toc-pressupostos-do-modelo" class="nav-link" data-scroll-target="#pressupostos-do-modelo"><span class="header-section-number">13.4.3</span> Pressupostos do modelo</a></li>
+  <li><a href="#verificação-dos-pressupostos-nos-dados-brutos" id="toc-verificação-dos-pressupostos-nos-dados-brutos" class="nav-link" data-scroll-target="#verificação-dos-pressupostos-nos-dados-brutos"><span class="header-section-number">13.4.4</span> Verificação dos pressupostos nos dados brutos</a></li>
+  <li><a href="#sec-preresiduos" id="toc-sec-preresiduos" class="nav-link" data-scroll-target="#sec-preresiduos"><span class="header-section-number">13.4.5</span> Verificação dos pressupostos nos resíduos</a></li>
+  <li><a href="#realização-do-teste-de-anova-de-dois-fatores" id="toc-realização-do-teste-de-anova-de-dois-fatores" class="nav-link" data-scroll-target="#realização-do-teste-de-anova-de-dois-fatores"><span class="header-section-number">13.4.6</span> Realização do teste de ANOVA de dois fatores</a></li>
+  <li><a href="#testes-post-hoc-1" id="toc-testes-post-hoc-1" class="nav-link" data-scroll-target="#testes-post-hoc-1"><span class="header-section-number">13.4.7</span> Testes <em>post hoc</em></a></li>
+  <li><a href="#relatando-os-resultados-de-uma-anova-de-dois-fatores" id="toc-relatando-os-resultados-de-uma-anova-de-dois-fatores" class="nav-link" data-scroll-target="#relatando-os-resultados-de-uma-anova-de-dois-fatores"><span class="header-section-number">13.4.8</span> Relatando os resultados de uma ANOVA de dois fatores</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Análise de Variância</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="pacotes-necessários-para-este-capítulo" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="pacotes-necessários-para-este-capítulo"><span class="header-section-number">13.1</span> Pacotes necessários para este capítulo</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(car,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               dplyr,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>               effectsize,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>               emmeans,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>               fastGraph,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>               ggplot2,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>               ggpubr,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>               ggsci,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>               kableExtra,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>               knitr,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>               readxl,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>               rstatix)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="por-que-realizar-uma-anova" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="por-que-realizar-uma-anova"><span class="header-section-number">13.2</span> Por que realizar uma ANOVA?</h2>
+<p>Inicialmente, para analisar os grupos, se ficaria tentado a fazer comparações por pares usando um teste <em>t</em> de amostras independentes. Com existem quatro grupos, é possível compará-los realizando seis testes, grupo 1 versus grupo 2, grupo 1 versus grupo 3, grupo 1 versus grupo 4, grupo 2 versus grupo 3, grupo 2 versus grupo 4 e grupo 3 versus grupo 4. Se os dados têm <em>k</em> grupos são necessários <span class="math inline">\(\frac {k!}{2!(k-2)!}\)</span> testes.</p>
+<p>A probabilidade de um erro do tipo I não ocorrer para cada teste <em>t</em> é de 0,95 (isto é, 1 – 0,05), supondo um <span class="math inline">\(\alpha\)</span> = 0,05. Os três testes são independentes; portanto, a probabilidade de um erro do tipo I não ocorrer nos seis testes é de <span class="math inline">\((0,95)^6 = 0,735\)</span>. Dessa maneira, a probabilidade de ocorrer pelo menos um erro do tipo I nos seis testes <em>t</em> de duas amostras é de 1 – 0,735 ou 0,265 (26,5%), o que é mais alto do que o nível de significância definido de 0,05 <span class="citation" data-cites="field2012anova">(<a href="references.html#ref-field2012anova" role="doc-biblioref">1</a>)</span>.</p>
+<p>Logo, uma ANOVA de um fator é usada para verificar as diferenças entre vários grupos dentro de um fator, reduzindo assim o número de comparações em pares e a probabilidade de ocorrer um erro tipo I.</p>
+<section id="lógica-do-modelo-da-anova" class="level3" data-number="13.2.1">
+<h3 data-number="13.2.1" class="anchored" data-anchor-id="lógica-do-modelo-da-anova"><span class="header-section-number">13.2.1</span> Lógica do Modelo da ANOVA</h3>
+<p>O procedimento de ANOVA é utilizado para testar a hipótese nula de que as médias de três <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> ou mais populações são as mesmas contra hipótese alternativa de que nem todas as médias são iguais.</p>
+<p>Na <a href="12-teste-t.html#sec-homovar" class="quarto-xref"><span>Seção 12.2.4.2</span></a>, foram comparadas duas variâncias, usando um teste, denominado de <em>teste F</em>. Este teste, é uma razão entre duas variâncias e recebeu este nome em homenagem a Sir Ronald Aylmer <em>Fisher</em> (veja a <a href="intro.html#sec-historia" class="quarto-xref"><span>Seção 1.2</span></a>. A variância é uma medida de dispersão que mensura como os dados estão espalhados em torno da média (veja <a href="06-descrevendoDados.html#sec-variancia" class="quarto-xref"><span>Seção 6.3.4.3</span></a>). Quanto maior o seu valor, maior a dispersão.</p>
+<p>Considere a <a href="#fig-logica" class="quarto-xref">Figura&nbsp;<span>13.1</span></a>, onde está representada a distribuição de uma variável <em>X</em> em três grupos independentes. Pode-se, claramente, distinguir observações provenientes dessas distribuições, pois a sobreposição delas é pequena. Cada uma dela se dispersa pouco em torno da média.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-logica" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-logica-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="13-anova_files/figure-html/fig-logica-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-logica-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;13.1: Três distribuições diferentes
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Agora, observe o <a href="#fig-logicb" class="quarto-xref">Figura&nbsp;<span>13.2</span></a>, onde a distribuição da variável <em>X</em> é mostrada, mantendo as mesmas médias, mas com variâncias maiores. Isto torna claro que se o objetivo é distinguir observações provenientes desses grupos não basta avaliar suas médias, há necessidade de comparar a variação entre os grupos com a variação dentro de cada grupo <span class="citation" data-cites="menezes2004anova">(<a href="references.html#ref-menezes2004anova" role="doc-biblioref">2</a>)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-logicb" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-logicb-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="13-anova_files/figure-html/fig-logicb-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-logicb-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;13.2: Distribuições com mesmas médias da figura anterior, mas variâncias maiores
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Se a variação entre os grupos for grande quando comparada à variação dentro de cada grupo, aumenta a probabilidade de reconhecer a proveniência das observações (<a href="#fig-logica" class="quarto-xref">Figura&nbsp;<span>13.1</span></a>). Entretanto, se a variação entre os grupos for pequena comparada à variação dentro do grupo, torna difícil a distinção de observações provenientes dos grupos (<a href="#fig-logicb" class="quarto-xref">Figura&nbsp;<span>13.2</span></a>).</p>
+<p>Portanto, usar o teste <em>F</em> para determinar se as médias de grupo são iguais é apenas uma questão de incluir as variâncias corretas na razão. Na ANOVA com um fator, a estatística <em>F</em> é a razão dos estimadores das <strong>variância entre e dentro dos grupos</strong>.</p>
+<p><span class="math display">\[
+F = \frac{variância \quad ENTRE \quad os \quad grupos}{variância \quad DENTRO \quad dos \quad grupos}
+\]</span></p>
+<p>Quando o valor de <em>F</em> fica próximo de 1, significa que as variâncias são muito próximas; quando <em>F</em> é significativamente maior do que 1, é possível distinguir os indivíduos de diferentes grupos. Ou seja, se o objetivo for mostrar que as médias são diferentes, será bom que a variância dentro dos grupos seja baixa. Pode-se pensar na variância dentro do grupo como o ruído que pode obscurecer a diferença entre os sons (as médias). No gráfico da <a href="#fig-logica" class="quarto-xref">Figura&nbsp;<span>13.1</span></a>, o valor de <em>F</em> seria alto; no da <a href="#fig-logicb" class="quarto-xref">Figura&nbsp;<span>13.2</span></a>, seria baixo.</p>
+<p>Como saber se o valor de <em>F</em> é alto o suficiente? Um único valor <em>F</em> é difícil de interpretar sozinho. Há necessidade de colocá-lo em um contexto maior antes que seja possível interpretá-lo. Para fazer isso, usa-se a distribuição <em>F</em> para calcular as probabilidades.</p>
+</section>
+<section id="distribuição-f" class="level3" data-number="13.2.2">
+<h3 data-number="13.2.2" class="anchored" data-anchor-id="distribuição-f"><span class="header-section-number">13.2.2</span> Distribuição <em>F</em></h3>
+<p>A razão entre a variabilidade entre os grupos e a variabilidade dentro do grupo segue uma distribuição <em>F</em> quando a hipótese nula é verdadeira. Quando se realiza uma ANOVA com um fator obtém-se um valor <em>F</em>. No entanto, se forem extraídas várias amostras aleatórias do mesmo tamanho da mesma população e fosse repetida a mesma análise, o resultado seriam muitos valores <em>F</em> diferentes, constituindo uma distribuição amostral, denominada de <em>distribuição F</em>.</p>
+<p>Dessa forma, como a distribuição <em>F</em> assume que a hipótese nula é verdadeira, é possível colocar o resultado de qualquer valor <em>F</em>, resultante do teste de ANOVA, e determinar quão consistente ele é com a hipótese nula e calcular a probabilidade. A probabilidade que se quer calcular é a probabilidade de observar uma estatística <em>F</em> que é pelo menos tão alta quanto o valor que o estudo obteve. Essa probabilidade permite determinar quão comum ou raro é o valor <em>F</em>, sob a suposição de que a hipótese nula é verdadeira. Se a probabilidade for pequena o suficiente, pode-se concluir que dados são inconsistentes com a hipótese nula. Como já foi mostrado em outros momentos, essa probabilidade é o valor <em>P</em> (<a href="11-testeHipoteses.html#sec-valorp" class="quarto-xref"><span>Seção 11.6</span></a>).</p>
+<p>O formato de uma curva de distribuição <em>F</em> depende do número de graus de liberdade. No entanto, a distribuição <em>F</em> tem dois números de graus de liberdade: <em>graus de liberdade para o numerador</em> (variância entre) e <em>graus de liberdade para o denominador</em> (variância dentro). Esses dois graus de liberdade são os parâmetros da distribuição <em>F</em>. Cada combinação de graus de liberdade fornece uma curva de distribuição <em>F</em> diferente. As unidades de uma distribuição <em>F</em> são denotadas por <em>F</em>, que assume apenas valores positivos. Como as distribuições normal, <em>t</em> e qui-quadrado (veja <span class="quarto-unresolved-ref">?sec-qui</span>), a distribuição <em>F</em> é uma distribuição contínua. A forma de uma curva de distribuição <em>F</em> é inclinada para à direita, mas a assimetria diminui à medida que o número de graus de liberdade aumenta, conforme observado na <a href="#fig-distf" class="quarto-xref">Figura&nbsp;<span>13.3</span></a>.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-distf" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-distf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="13-anova_files/figure-html/fig-distf-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:90.0%;height:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-distf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;13.3: Distribuições F.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="funções-do-r-para-trabalhar-com-a-distribuição-f" class="level4" data-number="13.2.2.1">
+<h4 data-number="13.2.2.1" class="anchored" data-anchor-id="funções-do-r-para-trabalhar-com-a-distribuição-f"><span class="header-section-number">13.2.2.1</span> Funções do R para trabalhar com a distribuição <em>F</em></h4>
+<p>No <em>R</em>, existem quatro funções principais para trabalhar com a distribuição <em>F</em>:</p>
+<ul>
+<li><code>df(x, gl1,gl2)</code> calcula a densidade de probabilidade da distribuição <em>F</em> no ponto <em>x</em>; <em>df1</em> e <em>df2</em> são os graus de liberdade do numerador e denominador, respectivamente <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> ;</li>
+<li><code>pf(x, gl1, gl2)</code> calcula a função de probabilidade acumulada da distribuição <em>F</em> no ponto <em>x</em>;</li>
+<li><code>qf(p, gl1, gl2)</code> calcula o quantil da distribuição F correspondente a uma probabilidade p;</li>
+<li><code>rf(n, gl1, gl2)</code> gera n valores aleatórios da distribuição F com os parâmetros gl1 e gl2.</li>
+</ul>
+<p>Essas funções são úteis para resolver problemas de probabilidade envolvendo a distribuição <em>F</em>. Por exemplo, se o objetivo é saber qual é a probabilidade de uma variável aleatória <em>F</em> com 10 e 20 graus de liberdade no numerador e no denominador, respectivamente, ser menor que 1, pode-se usar a função <code>pf()</code> da seguinte forma:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a> x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a> p <span class="ot">&lt;-</span> <span class="fu">pf</span>(x, <span class="dv">10</span>, <span class="dv">20</span>,<span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">round</span>(p, <span class="dv">3</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.524</code></pre>
+</div>
+</div>
+<p>Ou seja, ao se observar a curva da <a href="#fig-distf" class="quarto-xref">Figura&nbsp;<span>13.3</span></a> de cor verde (gl1 = 10 e gl2 = 20), a probabilidade abaixo de x = 1 é igual a 52,4%.</p>
+<p>Para calcular a densidade de probabilidade quando <em>x</em> = 1, pode-se usar a função <code>df()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a> x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a> d <span class="ot">&lt;-</span> <span class="fu">df</span>(x, <span class="dv">10</span>, <span class="dv">20</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">round</span>(d, <span class="dv">3</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.714</code></pre>
+</div>
+</div>
+<p>A saída da função <code>df()</code> corresponde à altura da curva da <a href="#fig-distf" class="quarto-xref">Figura&nbsp;<span>13.3</span></a> de cor verde (<em>gl1</em> = 10 e <em>gl2</em> = 20) quando <em>x</em> é igual a 1.</p>
+<p>Para encontrar o valor da distribuição <em>F</em>(10,20) que corresponde ao percentil 50%, ou seja, o valor que deixa 50% da área da curva à esquerda, usa-se a função <code>qf()</code> com <code>lower.tail=TRUE</code>. Assim:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a> p <span class="ot">&lt;-</span> <span class="fl">0.50</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a> x <span class="ot">&lt;-</span> <span class="fu">qf</span>(p, <span class="dv">10</span>, <span class="dv">20</span>, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">round</span>(x,<span class="dv">3</span>) </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.966</code></pre>
+</div>
+</div>
+<p>Para representar, graficamente, esse resultado, foi construido o gráfico da <a href="#fig-distf1020" class="quarto-xref">Figura&nbsp;<span>13.4</span></a> com a função <code>shadeDist()</code> do pacote <code>fastGraph</code> <span class="citation" data-cites="garren1919fastgraph">(<a href="references.html#ref-garren1919fastgraph" role="doc-biblioref">3</a>)</span> , verifica-se que a área sob a curva abaixo de 0,97 é igual a 50%. Consulte a ajuda do <em>RStudio</em> para maiores detalhes dos argumentos da função.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-distf1020" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-distf1020-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="13-anova_files/figure-html/fig-distf1020-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-distf1020-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;13.4: Área da curva da distribuição F (10,20) abaixo de x = 0,97 é igual a 50%
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Para gerar 100.000 valores aleatórios da distribuição F com <em>gl1</em>=10 e <em>gl2</em>=20,será usada a função <code>rf()</code>. Em seguida, plota-se um histograma (<a href="#fig-distfcurve" class="quarto-xref">Figura&nbsp;<span>13.5</span></a>) com curva da distribuição <em>F</em> sobreposta (linha vermelha) e compara-se com a função de densidade de probabilidade da distribuição <em>F</em> (curva verde da <a href="#fig-distf" class="quarto-xref">Figura&nbsp;<span>13.3</span></a>).</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rf</span>(<span class="dv">100000</span>, <span class="at">df1 =</span> <span class="dv">10</span>, <span class="at">df2 =</span> <span class="dv">20</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(x, </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="st">'Scott'</span>, </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">freq =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">3</span>), </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Densidade"</span>,     </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">''</span>, </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">'Histograma para uma distribuição F(10,20)'</span>, </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex.main=</span><span class="fl">0.9</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">df</span>(x, <span class="at">df1 =</span> <span class="dv">10</span>, <span class="at">df2 =</span> <span class="dv">20</span>), </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">from =</span> <span class="dv">0</span>, </span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">to =</span> <span class="dv">4</span>, </span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">n =</span> <span class="dv">5000</span>, </span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">col=</span> <span class="st">'red'</span>, </span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">add =</span> T)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-distfcurve" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-distfcurve-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="13-anova_files/figure-html/fig-distfcurve-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-distfcurve-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;13.5: Histograma com curva sobreposta de uma distribuição F (10,20)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="anova-de-um-fator" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="anova-de-um-fator"><span class="header-section-number">13.3</span> ANOVA de um fator</h2>
+<p>A <strong>análise de variância (ANOVA) de um fator</strong>, também conhecida como ANOVA de uma via, é uma extensão do teste <em>t</em> independente para comparar duas médias em uma situação em que há mais de dois grupos. Dito de outra forma, o teste <em>t</em> para uso com duas amostras independentes é um caso especial da análise de variância de uma via.<br>
+A ANOVA de um fator compara o efeito de uma variável preditora (variável independente, fator) sobre uma variável contínua (desfecho). Por exemplo, verificar se a intensidade do tabagismo na gestação (não fumantes, fumantes leves, moderados ou pesados) afetam o peso dos recém-nascidos <a href="#fig-bxpfumo" class="quarto-xref">Figura&nbsp;<span>13.6</span></a>.</p>
+<section id="dados-do-exemplo" class="level3" data-number="13.3.1">
+<h3 data-number="13.3.1" class="anchored" data-anchor-id="dados-do-exemplo"><span class="header-section-number">13.3.1</span> Dados do exemplo</h3>
+<p>Para testar a hipótese de que a intensidade do tabagismo materno tem efeito sobre o peso do recém-nascido, foram selecionados aleatoriamente 200 recém-nascidos classificados em quatro grupos de n = 50 cada grupo, conforme a quantidade de cigarros fumados por dia por suas mães.</p>
+<ul>
+<li><strong>Grupo 1</strong>: recém-nascidos de mães não fumantes;</li>
+<li><strong>Grupo 2</strong>: recém-nascidos de mães que fumavam até 10 cigarros/dia – categorizado como tabagismo leve;</li>
+<li><strong>Grupo 3</strong>: recém-nascidos de mães que fumavam de 11 a 19 cigarros/dia – categorizado como tabagismo moderado;</li>
+<li><strong>Grupo 4</strong>: recém-nascidos de mães que fumavam <span class="math inline">\(\ge\)</span> 20 cigarros por dia – categorizado como tabagismo pesado.</li>
+</ul>
+<p>Estes dados estão no arquivo <code>dadosFumo.xlsx</code>. Para baixar o banco de dados, clique <a href="https://github.com/petronioliveira/Arquivos/blob/main/dadosFumo.xlsx"><strong>aqui</strong></a>. Salve o mesmo no seu diretório de trabalho.</p>
+<section id="leitura-dos-dados" class="level4" data-number="13.3.1.1">
+<h4 data-number="13.3.1.1" class="anchored" data-anchor-id="leitura-dos-dados"><span class="header-section-number">13.3.1.1</span> Leitura dos dados</h4>
+<p>A leitura será feita com a função <code>read_excel()</code> do pacote <code>readxl</code> e serão atribuídos a um objeto de nome <code>dados</code> e verificada a sua estrutura com a função <code>str()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="st">"dados/dadosFumo.xlsx"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span> (dados)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [200 × 3] (S3: tbl_df/tbl/data.frame)
+ $ id    : num [1:200] 1 2 3 4 5 6 7 8 9 10 ...
+ $ pesoRN: num [1:200] 3458 2723 4125 2905 3608 ...
+ $ fumo  : num [1:200] 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+</div>
+</div>
+</section>
+<section id="exploração-e-resumo-dos-dados" class="level4" data-number="13.3.1.2">
+<h4 data-number="13.3.1.2" class="anchored" data-anchor-id="exploração-e-resumo-dos-dados"><span class="header-section-number">13.3.1.2</span> Exploração e resumo dos dados</h4>
+<p>Como a variável <code>fumo</code> encontra-se como uma variável numérica, será transformada em fator que é a sua verdadeira classe com 4 níveis.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dados<span class="sc">$</span>fumo <span class="ot">&lt;-</span> <span class="fu">factor</span> (dados<span class="sc">$</span>fumo, </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">ordered =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>),</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">labels =</span> <span class="fu">c</span> (<span class="st">"não"</span>, </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"leve"</span>, </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"moderado"</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"pesado"</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As medidas resumidoras serão obtidas, usando as funções <code>group_by ()</code> e <code>summarise ()</code> do pacote <code>dplyr</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fl">0.05</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>resumo <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(fumo) <span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">media =</span> <span class="fu">mean</span>(pesoRN, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">dp =</span> <span class="fu">sd</span> (pesoRN, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">ep =</span> dp<span class="sc">/</span><span class="fu">sqrt</span>(n),</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">me =</span> <span class="fu">qt</span> ((<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>), n<span class="dv">-1</span>)<span class="sc">*</span>ep,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">IC_Inf =</span> media <span class="sc">-</span> me,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>                   <span class="at">IC_sup =</span> media <span class="sc">+</span> me)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>resumo</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 8
+  fumo         n media    dp    ep    me IC_Inf IC_sup
+  &lt;ord&gt;    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+1 não         50 3395.  405.  57.3  115.  3280.  3510.
+2 leve        50 3102.  431.  60.9  122.  2980.  3225.
+3 moderado    50 3151.  495.  70.0  141.  3011.  3292.
+4 pesado      50 2954.  443.  62.6  126.  2828.  3080.</code></pre>
+</div>
+</div>
+</section>
+<section id="visualização-gráfica-dos-dados" class="level4" data-number="13.3.1.3">
+<h4 data-number="13.3.1.3" class="anchored" data-anchor-id="visualização-gráfica-dos-dados"><span class="header-section-number">13.3.1.3</span> Visualização gráfica dos dados</h4>
+<p>Os boxplots (<a href="#fig-bxpfumo" class="quarto-xref">Figura&nbsp;<span>13.6</span></a>) são uma maneira interessante de visualizar os dados, principalmente com o pacote <code>ggplot2</code><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> :</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-bxpfumo" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bxpfumo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="13-anova_files/figure-html/fig-bxpfumo-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bxpfumo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;13.6: Boxplots do impacto do tabagismo materno no peso ao nascer
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Observa-se que há uma tendência de o peso ao nascer diminuir à medida que quantidade de cigarros fumados aumenta. Entretanto, esta diferença pode ser pelo acaso.</p>
+</section>
+</section>
+<section id="definição-das-hipóteses-estatísticas" class="level3" data-number="13.3.2">
+<h3 data-number="13.3.2" class="anchored" data-anchor-id="definição-das-hipóteses-estatísticas"><span class="header-section-number">13.3.2</span> Definição das hipóteses estatísticas</h3>
+<p>Para testar a igualdade entre as médias, <span class="math inline">\(H_{0}: \mu_{1} = \mu_{2} =  \mu_{3} =  \mu_{4}\)</span>, supondo homocedasticidade, isto é, as variâncias <span class="math inline">\(σ_1^2=σ_2^2=σ_3^3=σ_4^2\)</span>.</p>
+<p>A hipótese alternativa, <span class="math inline">\(H_1\)</span>, diz que, pelo menos, uma das médias é diferente das demais. Ela não é unilateral ou bilateral, é <em>multifacetada</em> porque permite qualquer relação que não seja <em>todas as médias iguais</em>. Por exemplo, a <span class="math inline">\(H_1\)</span> inclui o caso em que <span class="math inline">\(μ_1=μ_2=μ_3\)</span>, mas <span class="math inline">\(μ_4\)</span> tem um valor diferente.</p>
+</section>
+<section id="definição-da-regra-de-decisão" class="level3" data-number="13.3.3">
+<h3 data-number="13.3.3" class="anchored" data-anchor-id="definição-da-regra-de-decisão"><span class="header-section-number">13.3.3</span> Definição da regra de decisão</h3>
+<p>O nível significância, <span class="math inline">\(\alpha\)</span>, geralmente escolhido é igual a 0,05. A distribuição da estatística do teste, sob a <span class="math inline">\(H_{0}\)</span>, é a distribuição <em>F</em>. O número de graus de liberdade total <span class="math inline">\((n – 1)\)</span> é dividido em dois componentes:</p>
+<ul>
+<li>Grau de liberdade do numerador (ENTRE) é dado por <span class="math inline">\(gl_{E} = k - 1\)</span>, onde <em>k</em> é o número de grupos.</li>
+<li>Grau de liberdade do denominador (DENTRO ou residual) é dado por <span class="math inline">\(gl_{D} = n - k\)</span>, onde, <span class="math inline">\(n = \sum n_{i}\)</span>.</li>
+</ul>
+<p>No exemplo, para um <span class="math inline">\(\alpha = 0,05\)</span>, tem-se:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span>  <span class="fu">length</span>(resumo<span class="sc">$</span>media)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(dados)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>glE <span class="ot">&lt;-</span>  k <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>glE</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>glD <span class="ot">&lt;-</span> n <span class="sc">-</span> k</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>glD</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 196</code></pre>
+</div>
+</div>
+<p>Com esses dados, usando a a função <code>qf()</code>calcula-se o valor crítico de <em>F</em> (<a href="#fig-fc3196" class="quarto-xref">Figura&nbsp;<span>13.7</span></a>) que é igual:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>Fc <span class="ot">&lt;-</span> <span class="fu">qf</span>(<span class="dv">1</span> <span class="sc">-</span> alpha, glE, glD)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(Fc, <span class="dv">2</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.65</code></pre>
+</div>
+</div>
+<p>Portanto, se</p>
+<p><span class="math display">\[
+|F_{calculado}| &lt; |F_{crítico}|  \to não \quad se \quad rejeita \quad H_{0} \\F_{calculado}| \ge F_{crítico}| \to rejeita-se \quad H_{0}
+\]</span></p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-fc3196" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fc3196-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="13-anova_files/figure-html/fig-fc3196-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fc3196-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;13.7: Curva da Distribuição F 3,196 = 2,65
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="teste-estatístico" class="level3" data-number="13.3.4">
+<h3 data-number="13.3.4" class="anchored" data-anchor-id="teste-estatístico"><span class="header-section-number">13.3.4</span> Teste Estatístico</h3>
+<p>A estatística de teste é obtida calculando duas estimativas da variância populacional, <span class="math inline">\(\sigma^2\)</span>: a <em>variância entre os grupos</em> (<span class="math inline">\(s_{E}^2\)</span>) e a <em>variância dentro dos grupos</em> (<span class="math inline">\(s_{D}^2\)</span>).</p>
+<p>A variância entre os grupos também é chamada de <em>quadrado médio entre os grupos</em> (<span class="math inline">\(QM_{E}\)</span>) e é igual a soma dos quadrados entre (<span class="math inline">\(SQ_{E}\)</span>) ou do fator dividida pelos graus de liberdade entre:</p>
+<p><span class="math display">\[
+QM_{E} = \frac{SQ_{E}}{gl_{E}}
+\]</span></p>
+<p>A variância dentro dos grupos é também denominada de <em>quadrado médio dentro dos grupos</em> ou residual (<span class="math inline">\(QM_{D}\)</span>) e é igual a soma dos quadrados dentro dividida pelos graus de liberdade dentro:</p>
+<p><span class="math display">\[
+QM_{D} = \frac {SQ_{D}}{gl_{D}}
+\]</span></p>
+<p>A variância entre os grupos, <span class="math inline">\(QM_{E}\)</span>, dá uma estimativa de <span class="math inline">\(\sigma^2\)</span> com base na variação entre as médias das amostras extraídas de diferentes populações. Para o exemplo das quatro categorias de tabagismo durante a gestação, o <span class="math inline">\(QM_{E}\)</span> será baseado nos valores das médias dos pesos dos recém-nascidos nos quatro grupos diferentes. Se as médias de todas as populações em consideração forem iguais, as médias das respectivas amostras ainda serão diferentes, mas a variação entre elas deverá ser pequena e, consequentemente, espera-se que o valor do <span class="math inline">\(QM_{E}\)</span> seja pequeno. No entanto, se as médias das populações consideradas não são todas iguais, espera-se que a variação entre as médias das respectivas amostras seja grande e, consequentemente, o valor de <span class="math inline">\(QM_{E}\)</span> seja grande.</p>
+<p>A variância dentro das amostras, <span class="math inline">\(QM_{D}\)</span>, dá uma estimativa de <span class="math inline">\(\sigma^2\)</span> com base na variação dos dados de diferentes amostras. Para o exemplo das quatro categorias de tabagismo durante a gestação, o <span class="math inline">\(QM_{D}\)</span> será baseado nas médias individuais dos pesos dos recém-nascidos incluídos nas quatro amostras retiradas de quatro populações. O conceito de <span class="math inline">\(QM_{D}\)</span> é semelhante ao conceito de desvio padrão conjugado ou agrupado, <span class="math inline">\(s_{o}\)</span>, para duas amostras.</p>
+<p>A estatística de teste é, como visto, a razão das variâncias entre e dentro do grupo. Dessa maneira,</p>
+<p><span class="math display">\[
+F = \frac {s_{E}^2}{s_{D}^2} = \frac {\frac {SQ_{E}}{gl_{E}}}{\frac {SQ_{D}}{gl_{D}}} = \frac {QM_{E}}{QM_{D}}
+\]</span></p>
+<section id="avaliação-dos-pressupostos-do-teste" class="level4" data-number="13.3.4.1">
+<h4 data-number="13.3.4.1" class="anchored" data-anchor-id="avaliação-dos-pressupostos-do-teste"><span class="header-section-number">13.3.4.1</span> Avaliação dos pressupostos do teste</h4>
+<p>Ao realizar um teste de ANOVA de um fator deve-se assumir que:</p>
+<ol type="1">
+<li>As populações das quais as amostras são retiradas são normalmente distribuídas;</li>
+<li>As populações das quais as amostras são retiradas têm a mesma variância (homocedasticidade);</li>
+<li>Amostras aleatórias e independentes;</li>
+<li>Todos os grupos devem ter tamanho amostral adequado. Grupos com menos de 10 participantes são problemáticos por reduzirem a precisão da média. Na prática, deve-se evitar menos de 30 participantes. A relação entre os grupos não deve ser maior do que 1:4 <span class="citation" data-cites="peat2014anova">(<a href="references.html#ref-peat2014anova" role="doc-biblioref">4</a>)</span>;</li>
+<li>Não devem existir valores atípicos (<em>outliers</em>);</li>
+<li>A mensuração dos dados deve ser em nível intervalar ou de razão.</li>
+</ol>
+<p>Portanto, antes iniciar com o teste de hipótese, verifica-se se as suposições mencionadas para o teste de hipótese ANOVA unidirecional foram atendidas. As amostras são amostras aleatórias e independentes. Isto já é um bom começo!</p>
+<p><u>Avaliação da normalidade</u></p>
+<p>Verifica-se a premissa de normalidade, usando o teste de Shapiro-Wilk para os múltiplos grupos e desenhando um gráfico de probabilidade normal (<em>gráficos Q-Q</em>) para cada grupo.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a> dados <span class="sc">%&gt;%</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(fumo) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shapiro_test</span>(pesoRN)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 4
+  fumo     variable statistic     p
+  &lt;ord&gt;    &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt;
+1 não      pesoRN       0.976 0.385
+2 leve     pesoRN       0.979 0.499
+3 moderado pesoRN       0.985 0.776
+4 pesado   pesoRN       0.971 0.257</code></pre>
+</div>
+</div>
+<p>Para o gráfico Q-Q (<a href="#fig-qqfumo" class="quarto-xref">Figura&nbsp;<span>13.8</span></a>), pode ser usado a função <code>ggqqplot ()</code> do pacote <code>ggpubr</code> que produz um gráfico QQ normal com uma linha de referência, acompanhada de area sombreada, correspondente ao IC95%.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>ggpubr<span class="sc">::</span><span class="fu">ggqqplot</span>(dados, </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">x=</span><span class="st">"pesoRN"</span>, </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">facet.by =</span> <span class="st">"fumo"</span>) <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Peso ao nascer (g) (m)"</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Quantis teóricos"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-qqfumo" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-qqfumo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="13-anova_files/figure-html/fig-qqfumo-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:90.0%;height:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-qqfumo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;13.8: Gráficos Q-Q
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>O resultado do teste de Shapiro-Wilk entregou todos os resultados com valor <em>P</em> acima de 0.05 e os gráficos Q-Q, não são perfeitos, mas pode-se assumir que os dados para cada grupo caem aproximadamente em uma linha reta.</p>
+<p><u>Avaliação da homogeneidade das variâncias</u></p>
+<p>Em seguida, testa-se a suposição de que as variâncias são iguais, usando o Teste de Levene através da função <code>leveneTest ()</code> do pacote <code>car</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">leveneTest</span>(pesoRN<span class="sc">~</span>fumo, <span class="at">center =</span> mean, <span class="at">data =</span> dados)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Levene's Test for Homogeneity of Variance (center = mean)
+       Df F value Pr(&gt;F)
+group   3  0.6306 0.5961
+      196               </code></pre>
+</div>
+</div>
+<p>O teste de Levene exibe como resultado um valor <em>P</em> &gt; 0,05, mostrando que não é possível rejeitar a <span class="math inline">\(H_0\)</span> de igualdade das variâncias.</p>
+<p><u>Verificação da presença de outliers</u></p>
+<p>Pode-se aqui, além de verificar nos boxplots, usar a função <code>by_group()</code> do pacote <code>dplyr</code> junto com a função <code>identify_outliers()</code> do pacote <code>rstatix</code> :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">%&gt;%</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(fumo) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  rstatix<span class="sc">::</span><span class="fu">identify_outliers</span>(pesoRN)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 5
+  fumo      id pesoRN is.outlier is.extreme
+  &lt;ord&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;lgl&gt;      &lt;lgl&gt;     
+1 pesado   168  1611. TRUE       FALSE     </code></pre>
+</div>
+</div>
+<p>Como mostrado nos boxplots, existe um valor atípico, ou seja, está abaixo de 1,5 IIQ. Entretanto, ele não é extremo (&gt; 3 IIQ).</p>
+<p>Da mesma maneira que no teste <em>t</em>, os pressupostos têm mais importância em grupos pequenos e desiguais. Para o exemplo em análise, os pressupostos foram verificados e pode-se assumir que os grupos são independentes e as médias têm distribuição normal e existe homocedasticidade, além disso, os grupos têm o mesmo tamanho (n = 50). Portanto, a análise pode ser continuada.</p>
+<p><u>O que fazer se os pressupostos são violados?</u></p>
+<p>Se a homogeneidade da variância é o problema, um teste possível de ser implementado no <em>R</em> é o <em>F de Welch</em>, aplicando a função<code>welch.test()</code>, incluída no pacote <code>onewaytests</code> <span class="citation" data-cites="dag2018onewaytests">(<a href="references.html#ref-dag2018onewaytests" role="doc-biblioref">5</a>)</span>. Existem também testes não paramétricos, como o <em>Teste de Kruskal-Wallis</em>, que será visto mais adiante (<span class="quarto-unresolved-ref">?sec-kuskalwallis</span>).</p>
+</section>
+<section id="execução-do-teste-estatístico" class="level4" data-number="13.3.4.2">
+<h4 data-number="13.3.4.2" class="anchored" data-anchor-id="execução-do-teste-estatístico"><span class="header-section-number">13.3.4.2</span> Execução do teste estatístico</h4>
+<p>Para realizar um teste de hipótese ANOVA unidirecional, aplica-se a função <code>aov()</code> do <em>R</em> base. Esta função espera a chamada notação de fórmula, portanto, os dados são incluídos separando as duas variáveis de interesse separadas por ~ (til) e os dados, no qual as variáveis especificadas na fórmula, são encontradas. Além da fórmula e dos dados, a função <code>aov()</code> pode necessitar outros argumentos:</p>
+<ul>
+<li><strong>effect.size</strong> <span class="math inline">\(\to\)</span> tamanho do efeito a ser calculado e mostrado nos resultados da ANOVA. Os valores permitidos podem ser “ges” (eta ao quadrado) ou “pes” (eta parcial ao quadrado) ou ambos. O padrão é “ges”;</li>
+<li><strong>contrasts</strong> <span class="math inline">\(\to\)</span> uma lista de contrastes a ser usada para alguns dos fatores da fórmula</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>modelo.aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(pesoRN <span class="sc">~</span> fumo, dados)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo.aov)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Df   Sum Sq Mean Sq F value   Pr(&gt;F)    
+fumo          3  5030606 1676869   8.482 2.52e-05 ***
+Residuals   196 38748837  197698                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>A saída, liberada pela função <code>summary()</code>, é bem reduzida, relatando as informações específicas da <em>Tabela da ANOVA</em>, a estatística <em>F</em> junto com o valor <em>P</em> e os graus de liberdade, soma dos quadrados (<em>Sum Sq</em>) e quadrados médios (<em>Mean Sq</em>), que com frequência se necessita para o relatório do modelo.</p>
+<p>A variância entre os grupos também é chamada de <strong>quadrado médio entre os grupos</strong> e é igual à soma dos quadrados entre ou do fator dividida pelos graus de liberdade entre. A variância dentro dos grupos é também denominada de <strong>quadrado médio dentro dos grupos ou residual</strong> e é igual à soma dos quadrados dentro dividida pelos graus de liberdade dentro.</p>
+<p>A ANOVA detectou um efeito significativo do fator, que neste caso é o <code>fumo</code>, o valor <span class="math inline">\(F_{calculado} = 8,48 &gt; F_{crítico} = 2,65\)</span> e o valor <em>P</em> &lt; 0,0001.</p>
+<p>Pode-se simplesmente relatar isso e encerrar, mas é provável que se queira saber quais grupos diferem uns dos outros. Lembre-se de que não se pode apenas inferir isso a partir de uma visão dos dados, existem testes estatísticos para ajudar a entender as diferenças dos grupos.</p>
+</section>
+</section>
+<section id="testes-post-hoc" class="level3" data-number="13.3.5">
+<h3 data-number="13.3.5" class="anchored" data-anchor-id="testes-post-hoc"><span class="header-section-number">13.3.5</span> Testes <em>post-hoc</em></h3>
+<p>Os testes de comparações múltiplas constituem-se em uma análise após a realização da ANOVA. Se houve uma diferença, indicada pela ANOVA, os testes de comparações múltiplas ou também conhecidos como <em>teste post hoc</em>, ajudam a quantificar as diferenças entre os grupos para determinar quais grupos diferem significativamente uns dos outros.</p>
+<p>Aqui será usado o <em>HSD de Tukey</em>, que é conservador. <em>HSD</em> vem da expressão em inglês - <em>Honest Significant Difference</em>. Este teste requer um objeto <code>aov</code> no qual executa seu procedimento, que chamaremos de <code>pwc</code>. O procedimento de Tukey HSD executará uma comparação de pares de todas as combinações possíveis dos grupos e testará esses pares para diferenças significativas entre suas médias, tudo enquanto ajusta o valor <em>P</em> a um limite superior de significância para compensar o fato de que muitos testes estatísticos estão sendo realizados e a probabilidade de um falso positivo aumenta com o aumento do número de testes. A função a ser usada é a <code>tukey_hsd()</code>, do pacote <code>rstatix</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>pwc <span class="ot">&lt;-</span> rstatix<span class="sc">::</span><span class="fu">tukey_hsd</span> (modelo.aov)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>pwc</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 9
+  term  group1   group2   null.value estimate conf.low conf.high      p.adj
+* &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+1 fumo  não      leve              0   -292.     -523.     -61.8 0.00654   
+2 fumo  não      moderado          0   -243.     -474.     -12.8 0.0341    
+3 fumo  não      pesado            0   -441.     -671.    -210.  0.00000915
+4 fumo  leve     moderado          0     49.0    -181.     279.  0.946     
+5 fumo  leve     pesado            0   -149.     -379.      81.9 0.342     
+6 fumo  moderado pesado            0   -198.     -428.      32.8 0.121     
+# ℹ 1 more variable: p.adj.signif &lt;chr&gt;</code></pre>
+</div>
+</div>
+<p>Com base nos valores <em>P</em> &lt; 0,05 tem-se três combinações de grupos que diferem: leve-não, moderado-não e pesado-não. Isto mostra que o grupo que difere é o das mães não fumantes.</p>
+<p>Pode-se visualizar isso na <a href="#fig-tukeyhsd" class="quarto-xref">Figura&nbsp;<span>13.9</span></a> obtida com a função <code>plot()</code>, usando os resultados da função <code>TukeyHSD()</code> disponível no <em>R</em> base. Esta função gera o teste de Tukey com as diferença entre os pares e os intervalos de confiança que permitem a construção do gráfico. A função <code>par()</code>é empregada para adaptar as margens da figura ao tamanho da mesma e depois é usada novamente para retornar ao padrão <code>par(mar=c(5.1, 4.1, 4.1, 2.1))</code>. O argumento <code>mar</code> é um vetor numérico que define os tamanhos das margens na seguinte ordem: inferior, esquerda, superior e direita.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">8</span>,<span class="dv">3</span>,<span class="dv">3</span>)) <span class="co"># Adaptar o tamanho das margens</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">TukeyHSD</span>(modelo.aov, <span class="at">conf.level =</span> <span class="fl">0.95</span>), <span class="at">las =</span> <span class="dv">1</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="fl">5.1</span>, <span class="fl">4.1</span>, <span class="fl">4.1</span>, <span class="fl">2.1</span>)) <span class="co"># Retorna as margens ao padrão</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-tukeyhsd" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tukeyhsd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="13-anova_files/figure-html/fig-tukeyhsd-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tukeyhsd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;13.9: Gráficos do Teste de Tukey
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="tamanho-do-efeito" class="level3" data-number="13.3.6">
+<h3 data-number="13.3.6" class="anchored" data-anchor-id="tamanho-do-efeito"><span class="header-section-number">13.3.6</span> Tamanho do efeito</h3>
+<p>Uma das medidas de tamanho de efeito mais comumente relatadas para a ANOVA é o <strong>eta ao quadrado</strong> (<span class="math inline">\(\eta^2\)</span>), que é um índice da força da associação entre um fator e uma variável dependente. Eta ao quadrado é a proporção da variação total atribuível ao fator. É calculado como a razão da variância do fator para a variância total e os valores variam de 0 a 1.</p>
+<p>Esta medida pode ser obtida com o pacote <code>effectsize</code> <span class="citation" data-cites="ben2020effectsize">(<a href="references.html#ref-ben2020effectsize" role="doc-biblioref">6</a>)</span>, usando a função <code>eta_squared()</code>com um objeto da classe tipo <code>modelo.aov</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>effectsize<span class="sc">::</span><span class="fu">eta_squared</span> (modelo.aov, <span class="at">partial =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Effect Size for ANOVA (Type I)
+
+Parameter | Eta2 |       95% CI
+-------------------------------
+fumo      | 0.11 | [0.05, 1.00]
+
+- One-sided CIs: upper bound fixed at [1.00].</code></pre>
+</div>
+</div>
+<p>O <em>eta quadrado</em> é uma estimativa tendenciosa da força da associação, na medida em que superestima os efeitos, especialmente para amostras pequenas. Uma outra medida do tamanho do efeito menos tendenciosa é o <em>ômega ao quadrado</em> (<span class="math inline">\(\omega^2\)</span>). O ômega ao quadrado é uma medida corrigida, menos enviesada e menos inflacionada. Ela pode ser calculada com a função <code>omega_squared()</code>, também do pacote <code>effectsize</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>effectsize<span class="sc">::</span><span class="fu">omega_squared</span> (modelo.aov, <span class="at">partial =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Effect Size for ANOVA (Type I)
+
+Parameter | Omega2 |       95% CI
+---------------------------------
+fumo      |   0.10 | [0.04, 1.00]
+
+- One-sided CIs: upper bound fixed at [1.00].</code></pre>
+</div>
+</div>
+<p>Apesar de ser controverso, pode-se seguir a orientação da <a href="#tbl-effectsize" class="quarto-xref">Tabela&nbsp;<span>13.1</span></a>), para a interpretação <span class="citation" data-cites="watson2021effectsize">(<a href="references.html#ref-watson2021effectsize" role="doc-biblioref">7</a>)</span>:</p>
+<div class="cell">
+<div id="tbl-effectsize" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-effectsize-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;13.1: Interpretação do tamanho do efeito
+</figcaption>
+<div aria-describedby="tbl-effectsize-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:350px; ">
+<table class="table table-striped table-hover table-condensed do-not-create-environment cell caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">Resultado</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">Effectsize</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0.01</td>
+<td style="text-align: left;">pequeno</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0,06</td>
+<td style="text-align: left;">médio</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">0,14</td>
+<td style="text-align: left;">grande</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+<section id="conclusão" class="level3" data-number="13.3.7">
+<h3 data-number="13.3.7" class="anchored" data-anchor-id="conclusão"><span class="header-section-number">13.3.7</span> Conclusão</h3>
+<p>O peso dos recém-nascidos foi estatisticamente diferente entre os diferentes grupos, <em>F</em>(3, 196) = 8,48, <em>P</em> = 0.0000252, <span class="math inline">\(\eta^2\)</span> = 0,11.</p>
+<p>As análises <em>post-hoc</em> de Tukey revelaram que o peso dos recém-nascidos a termo no grupo das gestantes não fumantes apresentou uma diferença estatisticamente significativa do grupo de tabagismo leve (-292 g, IC95%: -523 a -62 g; <em>P</em> = 0,0065); do grupo de tabagismo moderado (-243 g, IC95%: -474 a -13 g; <em>P</em> = 0,0341) e do grupo de tabagismo pesado (-441 g, IC95%: -671 a -210 g; <em>P</em> &lt; 0,0001), mas entre os grupos de fumantes não houve diferença estatisticamente significativa.</p>
+<section id="apresentação-dos-resultados" class="level4" data-number="13.3.7.1">
+<h4 data-number="13.3.7.1" class="anchored" data-anchor-id="apresentação-dos-resultados"><span class="header-section-number">13.3.7.1</span> Apresentação dos resultados</h4>
+<p>Serão apresentados boxplots (<a href="#fig-view" class="quarto-xref">Figura&nbsp;<span>13.10</span></a>)), com <code>ggboxplot()</code>, do pacote <code>ggpubr</code>, utilizando, para cores, a <code>pallete = "jama"</code>, do pacote <code>ggsci</code>. Para adicionar teste estatístico, usou-se a função <code>get_test_label()</code> e para o teste <em>post hoc</em>, a função <code>get_pwc_label()</code>, ambas do pacote <code>rstatix</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>tab.aov <span class="ot">&lt;-</span> <span class="fu">anova_test</span>(dados, </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                       pesoRN <span class="sc">~</span> fumo, </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">type =</span> <span class="dv">2</span>)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>pwc <span class="ot">&lt;-</span> <span class="fu">tukey_hsd</span>(dados,pesoRN<span class="sc">~</span>fumo)</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>pwc <span class="ot">&lt;-</span> pwc <span class="sc">%&gt;%</span> <span class="fu">add_xy_position</span> (<span class="at">x =</span> <span class="st">"fumo"</span>)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(dados, <span class="fu">aes</span>(<span class="at">x=</span>fumo, <span class="at">y=</span>pesoRN)) <span class="sc">+</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_boxplot</span>(<span class="at">geom =</span> <span class="st">"errorbar"</span>, </span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">width =</span> <span class="fl">0.1</span>) <span class="sc">+</span> </span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">color =</span> fumo), <span class="at">size =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_nejm</span>() <span class="sc">+</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Tabagismo"</span>, </span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Peso ao nascer (g)"</span>,</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="fu">get_test_label</span> (tab.aov, <span class="at">detailed =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="fu">get_pwc_label</span>(pwc)) <span class="sc">+</span></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_pvalue_manual</span> (pwc,</span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>                      <span class="at">label =</span> <span class="st">"p.adj.signif"</span>,</span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>                      <span class="at">label.size =</span> <span class="fl">3.5</span>,</span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>                      <span class="at">hide.ns =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> </span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span> (<span class="at">text =</span> <span class="fu">element_text</span> (<span class="at">size =</span> <span class="dv">12</span>)) <span class="sc">+</span></span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span></span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>) </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-view" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-view-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="13-anova_files/figure-html/fig-view-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-view-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;13.10: Efeito do tabagismo na gestação sobre o peso do recém-nascido.([*]: P entre 0,01 e 0,05; [**]: P entre 0,001 e 0,01; [****]: P &lt; 0,0001).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="anova-de-dois-fatores" class="level2" data-number="13.4">
+<h2 data-number="13.4" class="anchored" data-anchor-id="anova-de-dois-fatores"><span class="header-section-number">13.4</span> ANOVA de dois fatores</h2>
+<p>A <strong>ANOVA de dois fatores</strong> é uma extensão da ANOVA de um fator. Neste tipo de ANOVA, ao invés de observar o efeito de um fator sobre a variável desfecho contínua, é analisado simultaneamente o efeito de duas variáveis de agrupamento. Outros sinônimos para a ANOVA de dois fatores são: <em>ANOVA fatorial</em> ou <em>ANOVA de duas vias</em>.<br>
+Quando se tem dois ou mais fatores, além de observar o efeito desses fatores sobre a variável desfecho, há necessidade de verificar se eles não interagem entre si. Portanto, é um objetivo importante da ANOVA fatorial avaliar se há um efeito de <em>interação</em> estatisticamente significativo entre os fatores.</p>
+<section id="dados-usados-nesta-seção" class="level3" data-number="13.4.1">
+<h3 data-number="13.4.1" class="anchored" data-anchor-id="dados-usados-nesta-seção"><span class="header-section-number">13.4.1</span> Dados usados nesta seção</h3>
+<p>O conjunto de dados <code>dadosMemoria.xlsx</code> que contém informações de um teste de memória realizado em homens e mulheres, após o consumo de álcool, categorizado em três grupos (nenhum, 3 latas e 6 latas de cerveja tipo <em>pilsen</em> com 4,5% de álcool). O grupo sem consumo de álcool (cerveja sem álcool) serve como controle. Após o consumo de álcool, foi avaliada a memória para a realização de uma tarefa cognitiva.</p>
+<p>Neste exemplo, modificado de Andy Field <span class="citation" data-cites="field2012factorial">(<a href="references.html#ref-field2012factorial" role="doc-biblioref">8</a>)</span>, o efeito do álcool sobre a memória do indivíduo é a variável focal, a principal preocupação. Acredita-se que o efeito de álcool depende de outro fator, sexo, que são chamados de variáveis moderadoras.</p>
+<p>Para baixar o banco de dados, clique <a href="https://github.com/petronioliveira/Arquivos/blob/main/dadosMemoria.xlsx"><strong>aqui</strong></a>. Salve o mesmo no seu diretório de trabalho.</p>
+<section id="leitura-dos-dados-1" class="level4" data-number="13.4.1.1">
+<h4 data-number="13.4.1.1" class="anchored" data-anchor-id="leitura-dos-dados-1"><span class="header-section-number">13.4.1.1</span> Leitura dos dados</h4>
+<p>A leitura será feita com a função <code>read_excel()</code> do pacote <code>readxl</code> e serão atribuídos a um objeto de nome <code>dados</code> e verificada a sua estrutura com a função <code>str()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="st">"dados/dadosMemoria.xlsx"</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dados)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [48 × 4] (S3: tbl_df/tbl/data.frame)
+ $ sexo    : chr [1:48] "Feminino" "Feminino" "Feminino" "Feminino" ...
+ $ alcool  : chr [1:48] "nenhum" "nenhum" "nenhum" "nenhum" ...
+ $ escore  : num [1:48] 65 70 60 60 60 55 60 55 70 65 ...
+ $ latencia: num [1:48] 2.5 3 1.4 1.5 1.8 2.2 2.3 1.6 3.9 4 ...</code></pre>
+</div>
+</div>
+</section>
+<section id="exploração-e-sumarização-dos-dados" class="level4" data-number="13.4.1.2">
+<h4 data-number="13.4.1.2" class="anchored" data-anchor-id="exploração-e-sumarização-dos-dados"><span class="header-section-number">13.4.1.2</span> Exploração e sumarização dos dados</h4>
+<p>Na saída da função <code>str()</code>, verifica-se que as variáveis <code>alcool</code> e <code>sexo</code> estão como <code>&lt;chr&gt;</code>e o ideal é que estejam como fatores. Portanto, serão colocadas as categorias do consumo de álcool como fator e em uma ordem lógica (nenhum consumo, três latas e 6 latas). A variável <code>sexo</code> será apenas colocada como fator porque não tem uma ordem lógica. As demais variáveis, <code>id</code> (identificação) e <code>escore</code>(escore de memória) podem permanecer com <code>dbl</code> (numérica).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>dados<span class="sc">$</span>alcool <span class="ot">&lt;-</span> <span class="fu">factor</span>(dados<span class="sc">$</span>alcool,</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"nenhum"</span>,</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"3 latas"</span>,</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"6 latas"</span>)) </span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>dados<span class="sc">$</span>sexo <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(dados<span class="sc">$</span>sexo)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A sumarização dos dados será feita com as funções <code>group_by()</code> e <code>summarise()</code> do pacote <code>dplyr</code> para a variável <code>escore</code> por grupos, <code>sexo</code> e <code>alcool</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>resumo <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> </span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(sexo, alcool) <span class="sc">%&gt;%</span> </span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">media =</span> <span class="fu">mean</span>(escore, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">dp =</span> <span class="fu">sd</span>(escore, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">ep =</span> dp<span class="sc">/</span><span class="fu">sqrt</span>(n),</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">me =</span> <span class="fu">qt</span>((<span class="dv">1</span> <span class="sc">-</span> alpha<span class="sc">/</span><span class="dv">2</span>),n<span class="dv">-1</span>)<span class="sc">*</span>ep,</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">linf =</span> media <span class="sc">-</span> me,</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">lsup =</span> media <span class="sc">+</span> me)</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>resumo</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 9
+# Groups:   sexo [2]
+  sexo      alcool      n media    dp    ep    me  linf  lsup
+  &lt;fct&gt;     &lt;fct&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 Feminino  nenhum      8  60.6  4.96  1.75  4.14  56.5  64.8
+2 Feminino  3 latas     8  62.5  6.55  2.31  5.47  57.0  68.0
+3 Feminino  6 latas     8  57.5  7.07  2.5   5.91  51.6  63.4
+4 Masculino nenhum      8  66.9 10.3   3.65  8.64  58.2  75.5
+5 Masculino 3 latas     8  66.9 12.5   4.43 10.5   56.4  77.3
+6 Masculino 6 latas     8  35.6 10.8   3.83  9.06  26.6  44.7</code></pre>
+</div>
+</div>
+<p>Os dados estão estruturados com um desenho onde as células tem um formato 2 x 3 (<a href="#tbl-tab2x3" class="quarto-xref">Tabela&nbsp;<span>13.2</span></a>) com os fatores <code>sexo</code> e <code>alcool</code> e 8 indivíduos em cada célula. O fator <code>sexo</code> tem dois níveis (feminino e masculino) e o fator <code>alcool</code> tem três níveis (nenhum, 3 latas e 6 latas). Observe que o desenho é <em>balanceado</em>, pois todas as células têm o mesmo número de indivíduos. Esta estrutura é o caso mais simples; desenhos não balanceados são mais complexos.</p>
+<div class="cell">
+<div id="tbl-tab2x3" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tab2x3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;13.2: Distribuição Balanceada do Sexo e Consumo de Álcool
+</figcaption>
+<div aria-describedby="tbl-tab2x3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:350px; ">
+<table class="table table-striped table-hover table-condensed do-not-create-environment cell caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;"></th>
+<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">nenhum</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">3 latas</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">6 latas</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Feminino</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Masculino</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">8</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+<section id="visualização-gráfica-dos-dados-1" class="level4" data-number="13.4.1.3">
+<h4 data-number="13.4.1.3" class="anchored" data-anchor-id="visualização-gráfica-dos-dados-1"><span class="header-section-number">13.4.1.3</span> Visualização gráfica dos dados</h4>
+<p>Para visualizar os dados, será construido um gráfico com boxplots (<a href="#fig-alcool" class="quarto-xref">Figura&nbsp;<span>13.11</span></a>), usando o pacote <code>ggpubr</code><span class="citation" data-cites="kassambara2022ggpubr">(<a href="references.html#ref-kassambara2022ggpubr" role="doc-biblioref">9</a>)</span>, com a função <code>ggboxplot()</code>, que fornece algumas funções fáceis de usar para criar e personalizar gráficos prontos para publicação baseados em ‘ggplot2’. O boxplot irá plotar os dados agrupados pelas combinações dos níveis dos dois fatores.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>ggpubr<span class="sc">::</span><span class="fu">ggboxplot</span> (dados,</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">bxp.errorbar =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">bxp.errorbar.width =</span> <span class="fl">0.2</span>,</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">x =</span> <span class="st">"alcool"</span>, </span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> <span class="st">"escore"</span>, </span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">color =</span> <span class="st">"black"</span>,</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fill =</span> <span class="st">"sexo"</span>,</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">palette =</span> <span class="st">"bmj"</span>,</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">ylab =</span> <span class="st">"Escore da Memória"</span>,</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>                   <span class="at">xlab =</span> <span class="st">""</span>,</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>                   <span class="at">legend.title =</span> <span class="st">"Sexo"</span>,</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>                   <span class="at">legend =</span> <span class="st">"top"</span>) <span class="sc">+</span></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span> (<span class="at">text =</span> <span class="fu">element_text</span> (<span class="at">size =</span> <span class="dv">12</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-alcool" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-alcool-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="13-anova_files/figure-html/fig-alcool-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:85.0%;height:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-alcool-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;13.11: Efeito do álcool na memória de acordo com o sexo.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Além dos boxplot, é interessante desenhar um gráfico de linhas (<a href="#fig-alcool2" class="quarto-xref">Figura&nbsp;<span>13.12</span></a>)) que plota a média (ou outro resumo) da variável escore (resposta) para combinações bidirecionais de fatores, ilustrando assim possíveis interações. Aqui, pode-se usar a função <code>ggline()</code>, também pertencente ao interessante pacote <code>ggpubr</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>ggpubr<span class="sc">::</span><span class="fu">ggline</span>(dados, </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">x =</span> <span class="st">"alcool"</span>, </span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">y =</span> <span class="st">"escore"</span>, </span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"sexo"</span>,</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">size =</span> <span class="fl">0.7</span>,</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.2</span>),</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">add =</span> <span class="st">"mean_ci"</span>,</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"dodgerblue4"</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-alcool2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-alcool2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="13-anova_files/figure-html/fig-alcool2-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:85.0%;height:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-alcool2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;13.12: Efeito do álcool na memória de acordo com o sexo.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>O gráfico sugere um possível efeito do álcool sobre a memória, bem como uma interação entre os sexos.</p>
+</section>
+</section>
+<section id="hipóteses-estatísticas" class="level3" data-number="13.4.2">
+<h3 data-number="13.4.2" class="anchored" data-anchor-id="hipóteses-estatísticas"><span class="header-section-number">13.4.2</span> Hipóteses estatísticas</h3>
+<p>Como mencionado acima, uma ANOVA de duas vias é usada para avaliar simultaneamente o efeito de duas variáveis categóricas em uma variável quantitativa contínua. Ela é chamada de ANOVA de duas vias porque compara grupos formados por duas variáveis categóricas independentes.</p>
+<p>No exemplo, o objetivo é saber se a memória depende da álcool e/ou do sexo. Em particular, estamos interessados em:</p>
+<ol type="1">
+<li>medir e testar a relação entre a alcool e a memória,</li>
+<li>medir e testar a relação entre sexo e memória, e</li>
+<li>possivelmente verificar se a relação entre álcool e memória é diferente para mulheres e homens (o que é equivalente a verificar se a relação entre sexo e memória depende da álcool)</li>
+</ol>
+<p>As duas primeiras relações são chamadas de <em>efeitos principais</em>, enquanto o item 3 é conhecido como <em>efeito de interação</em>.</p>
+<p>Os efeitos principais testam se pelo menos um grupo é diferente de outro (durante o controle da outra variável independente). Por outro lado, o efeito de interação tem como objetivo testar se a relação entre duas variáveis difere dependendo do nível de uma terceira variável. Em outras palavras, se a variação entre a resposta e a primeira variável categórica não depender das modalidades da segunda variável categórica, então não há interação entre as duas variáveis. Se, ao contrário, houver uma modificação dessa variação, seja por um aumento no efeito da primeira variável, seja por uma diminuição, então há uma interação.</p>
+<p>Voltando ao exemplo, tem-se os seguintes testes de hipótese:</p>
+<p><u>Efeito principal do sexo no escore de memória:</u></p>
+<p><span class="math inline">\(H_{0}\)</span>: o escore de memória médio é igual entre mulheres e homens.</p>
+<p><span class="math inline">\(H_{1}\)</span>: o escore de memória médio é diferente entre mulheres e homens.</p>
+<p><u>Efeito principal do álcool no escore de memória:</u></p>
+<p><span class="math inline">\(H_{0}\)</span>: o escore de memória médio é igual entre as categorias de ingesta de álcool.<br>
+<span class="math inline">\(H_{1}\)</span>: o escore de memória médio é diferente entre as categorias de ingesta de. álcool</p>
+<p><u>Interação entre sexo e álcool:</u></p>
+<p><span class="math inline">\(H_{0}\)</span>: não há interação entre sexo e álcool, o que significa que a relação entre álcool e memória é a mesma para mulheres e homens (da mesma forma, a relação entre sexo e memória é a mesma para todas as três categorias de ingesta de álcool).<br>
+<span class="math inline">\(H_{1}\)</span>: há interação entre sexo e álcool, o que significa que a relação entre álcool e memória é diferente para mulheres e homens (da mesma forma, a relação entre sexo e memória depende da ingesta de álcool).</p>
+</section>
+<section id="pressupostos-do-modelo" class="level3" data-number="13.4.3">
+<h3 data-number="13.4.3" class="anchored" data-anchor-id="pressupostos-do-modelo"><span class="header-section-number">13.4.3</span> Pressupostos do modelo</h3>
+<p>Para usar uma ANOVA de duas vias, os dados devem atender a certos pressupostos. A ANOVA de duas vias faz todas as suposições usuais de um teste paramétrico de diferença:</p>
+<ol type="1">
+<li><u>Independência de observações</u></li>
+</ol>
+<p>As variáveis respostas não devem ser dependentes umas das outras (ou seja, uma não deve causar a outra). Isso é impossível de testar com variáveis categóricas - só pode ser garantido por um bom projeto experimental.</p>
+<p>Além disso, a variável dependente deve representar observações únicas - não devem ser agrupadas em locais ou indivíduos. Se esta premissa for violada, você pode incluir uma variável de bloqueio e/ou usar uma ANOVA de medidas repetidas.</p>
+<ol start="2" type="1">
+<li><u>Normalidade</u></li>
+</ol>
+<p>Variável desfecho normalmente distribuída em todos os grupos.</p>
+<ol start="3" type="1">
+<li><u>Ausência de valores atípicos (<em>outliers</em>)</u></li>
+</ol>
+<p>Um valor aberrante ou valor atípico, é uma observação que apresenta um grande afastamento das demais da série, <span class="math inline">\(\pm 1,5\)</span> o intervalo interquartil (IIQ) e extremo se estiver <span class="math inline">\(\pm 3\)</span> IIQ. A existência de outliers implica, tipicamente, em prejuízos à interpretação dos resultados.</p>
+<ol start="4" type="1">
+<li><u>Homogeneidade de variância (homocedasticidade)</u></li>
+</ol>
+<p>A variação em torno da média para cada grupo sendo comparado deve ser semelhante entre todos os grupos. Se os dados não atenderem a essa suposição, é possível usar uma alternativa não paramétrica, como o teste de Kruskal-Wallis.</p>
+</section>
+<section id="verificação-dos-pressupostos-nos-dados-brutos" class="level3" data-number="13.4.4">
+<h3 data-number="13.4.4" class="anchored" data-anchor-id="verificação-dos-pressupostos-nos-dados-brutos"><span class="header-section-number">13.4.4</span> Verificação dos pressupostos nos dados brutos</h3>
+<p>Existe uma discussão se os pressupostos devem ser avaliados nos dados brutos ou apenas nos resíduos. Aqui serão realizadas as duas abordagens que frequentemente resultam no mesmo resultado.</p>
+<section id="normalidade" class="level4" data-number="13.4.4.1">
+<h4 data-number="13.4.4.1" class="anchored" data-anchor-id="normalidade"><span class="header-section-number">13.4.4.1</span> Normalidade</h4>
+<p>A variável dependente (<code>escore</code>) deve apresentar distribuição aproximadamente normal dentro de cada grupo. Os grupos aqui serão formados pela combinação das duas variáveis independentes (<code>sexo</code> e <code>alcool</code>). A normalidade será avaliada pelo <code>teste de Shapiro-Wilk</code>, com a função <code>shapiro_test()</code> do pacote <code>rstatix</code> <span class="citation" data-cites="kassambara2022rstatix">(<a href="references.html#ref-kassambara2022rstatix" role="doc-biblioref">10</a>)</span>, separando os grupos com a função <code>group_by()</code> do pacote <code>dplyr</code>, encadeadas com o operador <code>pipe</code> (<code>%&gt;%</code>):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">%&gt;%</span> </span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>     dplyr<span class="sc">::</span><span class="fu">group_by</span> (sexo, alcool) <span class="sc">%&gt;%</span> </span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>     rstatix<span class="sc">::</span><span class="fu">shapiro_test</span> (escore)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  sexo      alcool  variable statistic     p
+  &lt;fct&gt;     &lt;fct&gt;   &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt;
+1 Feminino  nenhum  escore       0.872 0.156
+2 Feminino  3 latas escore       0.899 0.283
+3 Feminino  6 latas escore       0.897 0.273
+4 Masculino nenhum  escore       0.941 0.622
+5 Masculino 3 latas escore       0.967 0.870
+6 Masculino 6 latas escore       0.951 0.720</code></pre>
+</div>
+</div>
+<p>Os resultados suportam a conclusão de não rejeição da hipótese nula de que os dados se ajustam a distribuição normal.</p>
+</section>
+<section id="pesquisa-de-valores-atípicos" class="level4" data-number="13.4.4.2">
+<h4 data-number="13.4.4.2" class="anchored" data-anchor-id="pesquisa-de-valores-atípicos"><span class="header-section-number">13.4.4.2</span> Pesquisa de valores atípicos</h4>
+<p>A forma mais simples de verificar a presença de um valor atípico é observar o boxplot, mostrado anteriormente. Se observa a presença de valores atípicos entre as mulheres que não ingeriram álcool e nas que ingeriram 3 latas de cerveja. Agora, para confirmar esse achado, será usado a função <code>identify_outliers ()</code>, do pacote <code>rstatix</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">%&gt;%</span> </span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">group_by</span> (sexo, alcool) <span class="sc">%&gt;%</span> </span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>      rstatix<span class="sc">::</span><span class="fu">identify_outliers</span>(escore)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 6
+  sexo     alcool  escore latencia is.outlier is.extreme
+  &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;      &lt;lgl&gt;     
+1 Feminino nenhum      70      3   TRUE       TRUE      
+2 Feminino 3 latas     50      3.2 TRUE       FALSE     </code></pre>
+</div>
+</div>
+<p>A saída do teste confirma a existência dos dois valores atípicos, sendo um deles extremo, entretanto como estes valores são possíveis e, relativamente, próximos da média do sexo feminino, portanto, causam pouca preocupação, principalmente porque o teste de ANOVA é bastante robusto.</p>
+</section>
+<section id="verificação-da-homogeneidade-das-variâncias" class="level4" data-number="13.4.4.3">
+<h4 data-number="13.4.4.3" class="anchored" data-anchor-id="verificação-da-homogeneidade-das-variâncias"><span class="header-section-number">13.4.4.3</span> Verificação da homogeneidade das variâncias</h4>
+<p>Para verificar a homocedasticidade, como os dados têm distribuição normal, é possível usar o teste de Levene, o <code>leveneTest()</code> do pacote <code>car</code> <span class="citation" data-cites="fox2018car">(<a href="references.html#ref-fox2018car" role="doc-biblioref">11</a>)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">leveneTest</span> (escore <span class="sc">~</span> sexo<span class="sc">*</span>alcool, </span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> dados, </span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">center =</span> mean)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Levene's Test for Homogeneity of Variance (center = mean)
+      Df F value Pr(&gt;F)
+group  5  1.5268 0.2021
+      42               </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-preresiduos" class="level3" data-number="13.4.5">
+<h3 data-number="13.4.5" class="anchored" data-anchor-id="sec-preresiduos"><span class="header-section-number">13.4.5</span> Verificação dos pressupostos nos resíduos</h3>
+<p>O modelo da ANOVA pode ser considerado como um modelo de regressão. Desta forma, este modelo de regressão vai usar os dados brutos para criar um modelo de previsão para esses dados. Este modelo de regressão não é perfeito, existe uma diferença entre os valores previstos e os valores observados, são os resíduos. Faz sentido, então, preocupar-se com os resíduos quando se analisa fatores tentando explicar uma variável dependente contínua, como na ANOVA, pensando em uma regressão linear simples.</p>
+<p>A ANOVA prevê que todos os valores do grupo sejam iguais a média do grupo. Ou seja, um homem que ingere 3 latas de cerveja tem um valor de seu escore de memória igual ao deste grupo. Por este motivo, fazer a análise dos resíduos é praticamente o mesmo que a análise dos valores brutos.</p>
+<p>Para analisar os resíduos (diferença entre os valores observados e o previsto pelo modelo), em primeiro lugar se constrói o modelo da ANOVA com efeito da interação, usando a função <code>lm()</code> do pacote <code>stats</code>, incluído no R base:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>mod.int.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> escore <span class="sc">~</span> alcool <span class="sc">*</span> sexo,</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> dados)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ao se executar o comando, tem-se a impressão que nada ocorreu, entretanto foi criado o <em>modelo da ANOVA</em> com uma série de variáveis, entre elas os resíduos (<code>residuals</code>). Para observar os resíduos, basta digitar:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>mod.int.lm<span class="sc">$</span>residuals</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      1       2       3       4       5       6       7       8       9      10 
+  4.375   9.375  -0.625  -0.625  -0.625  -5.625  -0.625  -5.625   7.500   2.500 
+     11      12      13      14      15      16      17      18      19      20 
+ -2.500   7.500   2.500  -2.500  -2.500 -12.500  -2.500   7.500  12.500  -2.500 
+     21      22      23      24      25      26      27      28      29      30 
+ -2.500   2.500  -7.500  -7.500 -16.875 -11.875  13.125  -1.875   3.125   8.125 
+     31      32      33      34      35      36      37      38      39      40 
+  8.125  -1.875 -21.875  -6.875  18.125  -1.875   3.125   3.125  13.125  -6.875 
+     41      42      43      44      45      46      47      48 
+ -5.625  -5.625  -5.625  19.375  -0.625 -15.625   9.375   4.375 </code></pre>
+</div>
+</div>
+<p>Função <code>summary()</code> fornece um resumo estatístico dos resíduos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod.int.lm<span class="sc">$</span>residuals)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+-21.875  -5.625  -0.625   0.000   5.156  19.375 </code></pre>
+</div>
+</div>
+<section id="avaliação-da-normalidade-dos-resíduos" class="level4" data-number="13.4.5.1">
+<h4 data-number="13.4.5.1" class="anchored" data-anchor-id="avaliação-da-normalidade-dos-resíduos"><span class="header-section-number">13.4.5.1</span> Avaliação da normalidade dos resíduos</h4>
+<p>Uma das suposições de uma ANOVA é que os resíduos são normalmente distribuídos. A normalidade dos resíduos, inicialmente, será verificada, usando o teste de Shapiro-Wilk com a função <code>shapiro.test()</code>, também pertencente ao pacote <code>stats</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro_test</span> (mod.int.lm<span class="sc">$</span>residuals)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  variable             statistic p.value
+  &lt;chr&gt;                    &lt;dbl&gt;   &lt;dbl&gt;
+1 mod.int.lm$residuals     0.982   0.664</code></pre>
+</div>
+</div>
+<p>O teste entrega um valor <em>P</em> &gt; 0.05, indicando que não é possível rejeitar <span class="math inline">\(H_{0}\)</span> de normalidade dos resíduos.</p>
+<p>Uma outra maneira comum de verificar essa suposição é criando um <em>gráfico Q-Q</em>. Se os resíduos forem normalmente distribuídos, os pontos em um gráfico Q-Q ficarão em uma linha diagonal reta. Este gráfico (<a href="#fig-normresiduos" class="quarto-xref">Figura&nbsp;<span>13.13</span></a>) pode ser contruído com a função <code>ggqqplot()</code> do pacote <code>ggpubr</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>ggpubr<span class="sc">::</span><span class="fu">ggqqplot</span>(mod.int.lm<span class="sc">$</span>residuals,</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">conf.int =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">shape =</span> <span class="dv">19</span>,</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">xlab =</span> <span class="st">"Quantis teóricos"</span>,</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ylab =</span> <span class="st">"Resíduos"</span>,</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"dodgerblue4"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-normresiduos" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-normresiduos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="13-anova_files/figure-html/fig-normresiduos-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-normresiduos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;13.13: Normalidade dos resíduos - QQ plot.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>O gráfico QQ de normalidade, mostra que os resíduos seguem aproximadamente uma linha reta, permitindo assumir a normalidade dos mesmos.</p>
+</section>
+<section id="pesquisa-de-valores-atípicos-nos-resíduos" class="level4" data-number="13.4.5.2">
+<h4 data-number="13.4.5.2" class="anchored" data-anchor-id="pesquisa-de-valores-atípicos-nos-resíduos"><span class="header-section-number">13.4.5.2</span> Pesquisa de valores atípicos nos resíduos</h4>
+<p>Para a verificação da presença de valores atípicos entre os resíduos, cria-se uma variável que será denominada de <code>residuos</code> (observe o banco de dados com a função <code>str()</code> para ver o acréscimo dessa variável):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>dados<span class="sc">$</span>residuos <span class="ot">&lt;-</span> mod.int.lm<span class="sc">$</span>residuals</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span> (dados)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [48 × 5] (S3: tbl_df/tbl/data.frame)
+ $ sexo    : Factor w/ 2 levels "Feminino","Masculino": 1 1 1 1 1 1 1 1 1 1 ...
+ $ alcool  : Factor w/ 3 levels "nenhum","3 latas",..: 1 1 1 1 1 1 1 1 2 2 ...
+ $ escore  : num [1:48] 65 70 60 60 60 55 60 55 70 65 ...
+ $ latencia: num [1:48] 2.5 3 1.4 1.5 1.8 2.2 2.3 1.6 3.9 4 ...
+ $ residuos: Named num [1:48] 4.375 9.375 -0.625 -0.625 -0.625 ...
+  ..- attr(*, "names")= chr [1:48] "1" "2" "3" "4" ...</code></pre>
+</div>
+</div>
+<p>Para identificar os <em>outliers</em>, usa-se função <code>identify_outliers()</code> do pacote <code>rstatix</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">%&gt;%</span> </span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(sexo, alcool) <span class="sc">%&gt;%</span> </span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>  rstatix<span class="sc">::</span><span class="fu">identify_outliers</span>(residuos)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 7
+  sexo     alcool  escore latencia residuos is.outlier is.extreme
+  &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;      &lt;lgl&gt;     
+1 Feminino nenhum      70      3       9.38 TRUE       TRUE      
+2 Feminino 3 latas     50      3.2   -12.5  TRUE       FALSE     </code></pre>
+</div>
+</div>
+<p>Observando os resultados com os dados brutos, verifica-se que eles são iguais aos atuais, confirmando, que neste caso, tanto faz avaliar os dados brutos como os resíduos.</p>
+</section>
+<section id="verificação-da-homogeneidade-da-variância-nos-resíduos" class="level4" data-number="13.4.5.3">
+<h4 data-number="13.4.5.3" class="anchored" data-anchor-id="verificação-da-homogeneidade-da-variância-nos-resíduos"><span class="header-section-number">13.4.5.3</span> Verificação da homogeneidade da variância nos resíduos</h4>
+<p>A verificação da homogeneidade da variância entre os resíduos pode ser feita com o <code>teste de Levene</code>, como feito com os dados brutos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">leveneTest</span> (residuos <span class="sc">~</span> sexo<span class="sc">*</span>alcool, </span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> dados, </span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">center =</span> mean)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Levene's Test for Homogeneity of Variance (center = mean)
+      Df F value Pr(&gt;F)
+group  5  1.5268 0.2021
+      42               </code></pre>
+</div>
+</div>
+<p>Uma outra maneira de avaliar a homogeneidade da variância, é construir um gráfico diagnóstico<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> (<a href="#fig-residuals" class="quarto-xref">Figura&nbsp;<span>13.14</span></a>)) do modelo com a função <code>plot()</code>, tipo 1, resíduos versus ajustes (<em>Residuals vs Fitted</em>).</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod.int.lm, <span class="dv">1</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-residuals" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-residuals-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="13-anova_files/figure-html/fig-residuals-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-residuals-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;13.14: Resíduos versus ajuste
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Não há correlações óbvias entre resíduos e valores ajustados (a média de cada grupo) no gráfico abaixo,onde a linha vermelha tracejada (@fig-residuals) segue praticamente uma linha horizontal em torno de 0, o que é bom. Como resultado, pode-se, assim como no teste de Levene, assumir que as variâncias são homogêneas.</p>
+<p>Verica-se o mesmo ocorrido com a normalidade, os resultados nos resíduos não diferem daqueles realizados com os dados brutos.</p>
+</section>
+</section>
+<section id="realização-do-teste-de-anova-de-dois-fatores" class="level3" data-number="13.4.6">
+<h3 data-number="13.4.6" class="anchored" data-anchor-id="realização-do-teste-de-anova-de-dois-fatores"><span class="header-section-number">13.4.6</span> Realização do teste de ANOVA de dois fatores</h3>
+<p>Mostrou-se que praticamente todos os pressupostos foram atendidos, portanto, agora pode-se prosseguir com a implementação da ANOVA de duas vias.</p>
+<p>A inclusão de um efeito de interação em uma ANOVA de duas vias não é obrigatória. Entretanto, para evitar conclusões errôneas, recomenda-se verificar primeiro se a interação é significativa ou não e, dependendo dos resultados, incluí-la ou não.</p>
+<p>Se a interação não for significativa, é seguro removê-la do modelo final. Por outro lado, se a interação for significativa, ela deverá ser incluída no modelo final que será usado para interpretar os resultados.</p>
+<p>Portanto, deve-se começar com um modelo que inclui os dois efeitos principais (ou seja, sexo e alcool) e a interação:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>mod.aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(<span class="at">formula =</span> escore <span class="sc">~</span> alcool <span class="sc">*</span> sexo,</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">data =</span> dados)</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span> (mod.aov)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+alcool       2   3332  1666.1  20.065 7.65e-07 ***
+sexo         1    169   168.7   2.032    0.161    
+alcool:sexo  2   1978   989.1  11.911 7.99e-05 ***
+Residuals   42   3488    83.0                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Semelhante a uma ANOVA de uma via, o princípio de uma ANOVA de duas vias baseia-se na dispersão total dos dados e em sua decomposição em quatro componentes:</p>
+<ol type="1">
+<li>a parcela atribuível ao primeiro fator</li>
+<li>a parcela atribuível ao segundo fator</li>
+<li>a parcela atribuível à interação dos dois fatores</li>
+<li>a parte não explicada ou residual.</li>
+</ol>
+<p>A soma dos quadrados (coluna Sum Sq) mostra esses quatro componentes. A ANOVA de duas vias consiste em usar um teste estatístico para determinar se cada componente de dispersão (atribuível aos dois fatores estudados e à interação deles) é significativamente maior do que o componente residual. Se esse for o caso, concluímos que o efeito considerado (fator A, fator B ou a interação) é significativo.</p>
+<p>Vê-se que a variável alcool explica uma grande parte da variabilidade da memória. Ela é o fator mais importante para explicar essa variabilidade. Os valore P são exibidos na última coluna do resultado acima (Pr(&gt;F)). A partir desses valores conclui-se que, no nível de significância de 5%:</p>
+<ul>
+<li>controlando para o alcool, o escore de memória não é significativamente diferente entre os dois sexos (P = 0,161),</li>
+<li>controlando para o sexo, o escore memória é significativamente diferente (P &lt; 0,0001) para pelo menos uma categoria de ingesta de álcool, e</li>
+<li>a interação entre sexo e álcool (exibida na linha alcool:sexo no resultado) é significativa (P &lt; 0,0001).</li>
+</ul>
+<p>Portanto, com base no efeito de interação significativo, se observa que relação entre os escores de memória e álcool é diferente entre os sexos. Como ela é significativa, deve-se mantê-la no modelo e interpretar os resultados desse modelo.</p>
+<p>Se, ao contrário, a interação não for significativa (ou seja, se o valor P &gt; 0,05), esse efeito de interação do modelo seria removido. Abaixo, segue o código de uma ANOVA de dois fatores sem interação, chamada de <strong>modelo aditivo</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a> mod.aov2 <span class="ot">&lt;-</span> <span class="fu">aov</span>(<span class="at">formula =</span> escore <span class="sc">~</span> alcool <span class="sc">*</span> sexo, </span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> dados)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Na <a href="#sec-preresiduos" class="quarto-xref"><span>Seção 13.4.5</span></a>, foi construído um modelo para analisar os resíduos. Este modelo está baseado na semelhança dos modelos de regressão linear (veja <span class="quarto-unresolved-ref">?sec-rls</span>) com o modelo da ANOVA. Observa-se que o código é bem semelhante, usando a fórmula <code>variável dependente ~ variável independentes</code>, o sinal <code>+</code> é usado para incluir variáveis independentes sem interação e o sinal <code>*</code> quando há interação. Ou seja, a ANOVA, como todas as ANOVAs, é na verdade um modelo linear. Observe que o código a seguir, usando a função <code>lm()</code> e após <code>Anova()</code> do pacote <code>car</code>, também funciona e retorna os mesmos resultados <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a> mod.int.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> escore <span class="sc">~</span> sexo <span class="sc">*</span> alcool,</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> dados)</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">Anova</span>(mod.int.lm)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type II tests)
+
+Response: escore
+            Sum Sq Df F value    Pr(&gt;F)    
+sexo         168.7  1  2.0323    0.1614    
+alcool      3332.3  2 20.0654 7.649e-07 ***
+sexo:alcool 1978.1  2 11.9113 7.987e-05 ***
+Residuals   3487.5 42                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Observe que a função <code>aov()</code> pressupõe um projeto balanceado, o que significa tamanhos de amostra iguais dentro dos níveis das variáveis de agrupamento independentes. Para verificar se os dados estão balanceados, proceda como mostrado na <a href="#tbl-tab2x3" class="quarto-xref">Tabela&nbsp;<span>13.2</span></a>. Os resultados mostram o mesmo número de indivíduos em todas as células, portanto, não importa qual o tipo de ANOVA a ser usado. Os resultados serão iguais. Além disso, <code>aov()</code> usa as somas de quadrados do tipo I.</p>
+<p>Para delineamentos não balanceados, ou seja, números desiguais de indivíduos em cada subgrupo, os métodos recomendados são:</p>
+<ul>
+<li>a ANOVA do tipo II, quando não há interação significativa, que pode ser feita no R com <code>Anova(mod, type = “II”)</code> ou <code>Anova(mod, type = 2)</code>, em que <code>mod</code> é o nome do seu modelo salvo, e</li>
+<li>a ANOVA do tipo III, quando há uma interação significativa, que pode ser feita no R com <code>Anova(mod, type = “III”)</code> ou <code>Anova(mod, type = 3)</code>.</li>
+</ul>
+<p>Fundamentalmente, a diferença entre um método e outro é como o <em>R</em> calcula a soma dos quadrados ao calcular a ANOVA. Quando os dados são balanceados, os três tipos dão o mesmo resultado <a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p>
+</section>
+<section id="testes-post-hoc-1" class="level3" data-number="13.4.7">
+<h3 data-number="13.4.7" class="anchored" data-anchor-id="testes-post-hoc-1"><span class="header-section-number">13.4.7</span> Testes <em>post hoc</em></h3>
+<p>Neste estágio, chegou-se ao ponto em que se constatou que o efeito principal do sexo não é significativo e que o efeito principal do álcool é significativo. Além disso, mais importante, existe uma interação entre o álcool e o sexo, o efeito do álcool depende do sexo.</p>
+<p>Não é possível saber exatamente qual categoria da variável <code>alcool</code> é diferente da outra em termos de escore de memória. Para saber isso, há que comparar cada categoria duas a duas graças aos testes <code>post-hoc</code>, também conhecidos como comparações entre pares <span class="citation" data-cites="wickens2004anova">(<a href="references.html#ref-wickens2004anova" role="doc-biblioref">13</a>)</span> <span class="citation" data-cites="maxwell2017factorial">(<a href="references.html#ref-maxwell2017factorial" role="doc-biblioref">14</a>)</span> <span class="citation" data-cites="lenth2018emmeans">(<a href="references.html#ref-lenth2018emmeans" role="doc-biblioref">15</a>)</span>. Há vários testes post-hoc, sendo os mais comuns o Tukey HSD, que testa todos os pares possíveis de grupos. Será utilizada a função <code>TukeyHSD()</code>, usando como argumento o modelo com interação, <code>mod.aov</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(mod.aov)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = escore ~ alcool * sexo, data = dados)
+
+$alcool
+                    diff        lwr        upr     p adj
+3 latas-nenhum    0.9375  -6.889643   8.764643 0.9544456
+6 latas-nenhum  -17.1875 -25.014643  -9.360357 0.0000105
+6 latas-3 latas -18.1250 -25.952143 -10.297857 0.0000040
+
+$sexo
+                    diff       lwr      upr     p adj
+Masculino-Feminino -3.75 -9.058607 1.558607 0.1613818
+
+$`alcool:sexo`
+                                       diff        lwr        upr     p adj
+3 latas:Feminino-nenhum:Feminino      1.875 -11.726381  15.476381 0.9983764
+6 latas:Feminino-nenhum:Feminino     -3.125 -16.726381  10.476381 0.9825753
+nenhum:Masculino-nenhum:Feminino      6.250  -7.351381  19.851381 0.7432243
+3 latas:Masculino-nenhum:Feminino     6.250  -7.351381  19.851381 0.7432243
+6 latas:Masculino-nenhum:Feminino   -25.000 -38.601381 -11.398619 0.0000306
+6 latas:Feminino-3 latas:Feminino    -5.000 -18.601381   8.601381 0.8796489
+nenhum:Masculino-3 latas:Feminino     4.375  -9.226381  17.976381 0.9277939
+3 latas:Masculino-3 latas:Feminino    4.375  -9.226381  17.976381 0.9277939
+6 latas:Masculino-3 latas:Feminino  -26.875 -40.476381 -13.273619 0.0000080
+nenhum:Masculino-6 latas:Feminino     9.375  -4.226381  22.976381 0.3286654
+3 latas:Masculino-6 latas:Feminino    9.375  -4.226381  22.976381 0.3286654
+6 latas:Masculino-6 latas:Feminino  -21.875 -35.476381  -8.273619 0.0002776
+3 latas:Masculino-nenhum:Masculino    0.000 -13.601381  13.601381 1.0000000
+6 latas:Masculino-nenhum:Masculino  -31.250 -44.851381 -17.648619 0.0000003
+6 latas:Masculino-3 latas:Masculino -31.250 -44.851381 -17.648619 0.0000003</code></pre>
+</div>
+</div>
+<p>Quando se tem muitos grupos para fazer a comparação, fica mais fácil interpretar, usando gráficos (<a href="#fig-anova2tukey" class="quarto-xref">Figura&nbsp;<span>13.15</span></a>):</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir as margens do eixo para que os rótulos não sejam cortados</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="fl">4.1</span>, <span class="dv">15</span>, <span class="fl">4.1</span>, <span class="fl">2.1</span>))</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Criar intervalo de confiança para cada comparação</span></span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">TukeyHSD</span>(mod.aov, <span class="at">which =</span> <span class="st">"alcool:sexo"</span>), <span class="at">las =</span> <span class="dv">1</span>)</span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Retorna as margens ao padrão</span></span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="fl">5.1</span>, <span class="fl">4.1</span>, <span class="fl">4.1</span>, <span class="fl">2.1</span>)) </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-anova2tukey" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-anova2tukey-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="13-anova_files/figure-html/fig-anova2tukey-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-anova2tukey-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;13.15: Resíduos versus ajuste
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>As Saída exibe resultados onde aparece que o consumo de álcool não afetou a memória das mulheres, mas o consumo de 6 latas de cerveja diminuiu o escore de memória dos homens quando comparados com homens que consumiram cerveja sem álcool ou que ingeriram apenas 3 latas de cerveja. Em outras palavras, os termos de interação dizem como o efeito dos álcool muda quando quem o ingere é do sexo masculino ou feminino. O efeito do álcool na memória das mulheres é pequeno, ficando praticamente estável nas três condições. Por outro lado, os homens permanecem estáveis no seu escore de memória quando quantidades pequenas de álcool são ingeridas, declina rapidamente quando ingerem 6 latas de cerveja.</p>
+</section>
+<section id="relatando-os-resultados-de-uma-anova-de-dois-fatores" class="level3" data-number="13.4.8">
+<h3 data-number="13.4.8" class="anchored" data-anchor-id="relatando-os-resultados-de-uma-anova-de-dois-fatores"><span class="header-section-number">13.4.8</span> Relatando os resultados de uma ANOVA de dois fatores</h3>
+<p>Pode-se relatar os resultados da ANOVA de dois fatores da seguinte maneira:</p>
+<ol type="1">
+<li><p>Uma ANOVA de dois fatores foi realizada para avaliar se a memória de homens e mulheres era afetada pelo consumo do álcool avliado em três níveis:</p>
+<ul>
+<li>Não consumiram álcool</li>
+<li>Consumiram 3 latas de cerveja (~ 1L)</li>
+<li>Consumiram 6 latas de cerveja (~ 2L)</li>
+</ul></li>
+<li><p>Os dados são apresentados como média e desvio padrão, na <a href="#tbl-result" class="quarto-xref">Tabela&nbsp;<span>13.3</span></a>).<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p></li>
+</ol>
+<div class="cell">
+<div id="tbl-result" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-result-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;13.3: Efeito do Álcool sobre a Memória - Escore médio (desvio padrão)
+</figcaption>
+<div aria-describedby="tbl-result-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table lightable-classic do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">Sexo</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">Sem_alcool</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">Um_litro</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">Dois_litros</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left; width: 3.5cm;">Feminino</td>
+<td style="text-align: left; width: 3.5cm;">60,6 (5,0)</td>
+<td style="text-align: left; width: 3.5cm;">62,5 (6,6)</td>
+<td style="text-align: left; width: 3.5cm;">57,5 (7,1)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; width: 3.5cm;">Masculino</td>
+<td style="text-align: left; width: 3.5cm;">66,9 (10,3)</td>
+<td style="text-align: left; width: 3.5cm;">66,9 (12,5)</td>
+<td style="text-align: left; width: 3.5cm;">35,6 (10,8)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; width: 3.5cm;">Valor P</td>
+<td style="text-align: left; width: 3.5cm;">0,145</td>
+<td style="text-align: left; width: 3.5cm;">0,396</td>
+<td style="text-align: left; width: 3.5cm;">0,0003</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<ol start="3" type="1">
+<li><p>O efeito principal do sexo na memória foi não significativo (<em>F</em>(1,42) = 2,03, <em>P</em> = 0,1614).</p></li>
+<li><p>Houve um efeito principal significativo de acordo com a quantidade de álcool consumida na memória dos participantes (<em>F</em>(2,42) = 20,07, <em>P</em> &lt;0,0001).</p></li>
+<li><p>As análises posteriores (teste de Tukey, <a href="#fig-anova2tukey" class="quarto-xref">Figura&nbsp;<span>13.15</span></a>) revelaram que a memória não foi afetada nas mulheres pelo consumo de álcool, mas o consumo de 6 latas de cerveja afetou a memória dos homens quando comparados os homens que não consumiram álcool ou que consumiram até 3 latas de cerveja.</p></li>
+<li><p>Visualização dos resultados:</p></li>
+</ol>
+<p>Serão apresentados gráficos de barra de erro (<a href="#fig-result1" class="quarto-xref">Figura&nbsp;<span>13.16</span></a>), com <code>ggbarplot()</code>, do pacote <code>ggpubr</code>, utilizando, para cores tonalidades de cinza. Para adicionar teste estatístico, usou-se a função <code>get_test_label()</code> e para o teste <em>post hoc</em>, a função <code>get_pwc_label()</code>, ambas do pacote <code>rstatix</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Construção de um gráfico de barra de erro</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>be <span class="ot">&lt;-</span> ggpubr<span class="sc">::</span><span class="fu">ggbarplot</span>(dados, </span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">x =</span> <span class="st">"alcool"</span>, <span class="at">y =</span> <span class="st">"escore"</span>, </span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">add =</span> <span class="st">"mean_ci"</span>,</span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">error.plot =</span> <span class="st">"upper_errorbar"</span>,</span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">fill =</span> <span class="st">"sexo"</span>, </span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"gray60"</span>, <span class="st">"gray40"</span>),</span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>                        <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="fl">0.8</span>)) <span class="sc">+</span></span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.key.size =</span> <span class="fu">unit</span>(<span class="fl">0.3</span>, <span class="st">'cm'</span>)) <span class="sc">+</span></span>
+<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"right"</span>)</span>
+<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-12"><a href="#cb73-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparações por pares (pairwise comparisons)</span></span>
+<span id="cb73-13"><a href="#cb73-13" aria-hidden="true" tabindex="-1"></a>pwc <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span></span>
+<span id="cb73-14"><a href="#cb73-14" aria-hidden="true" tabindex="-1"></a>   dplyr<span class="sc">::</span><span class="fu">group_by</span>(alcool) <span class="sc">%&gt;%</span></span>
+<span id="cb73-15"><a href="#cb73-15" aria-hidden="true" tabindex="-1"></a>   rstatix<span class="sc">::</span><span class="fu">tukey_hsd</span>(<span class="at">formula =</span> escore <span class="sc">~</span> sexo)</span>
+<span id="cb73-16"><a href="#cb73-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-17"><a href="#cb73-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular e adicionar as posições x e y.</span></span>
+<span id="cb73-18"><a href="#cb73-18" aria-hidden="true" tabindex="-1"></a>pwc <span class="ot">&lt;-</span> pwc <span class="sc">%&gt;%</span></span>
+<span id="cb73-19"><a href="#cb73-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_xy_position</span>(<span class="at">fun =</span> <span class="st">"mean_ci"</span>, </span>
+<span id="cb73-20"><a href="#cb73-20" aria-hidden="true" tabindex="-1"></a>                  <span class="at">x =</span> <span class="st">"alcool"</span>, </span>
+<span id="cb73-21"><a href="#cb73-21" aria-hidden="true" tabindex="-1"></a>                  <span class="at">dodge =</span> <span class="fl">0.8</span>) </span>
+<span id="cb73-22"><a href="#cb73-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-23"><a href="#cb73-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Cálculo do teste estatístico com pacote rstatix</span></span>
+<span id="cb73-24"><a href="#cb73-24" aria-hidden="true" tabindex="-1"></a>anova <span class="ot">&lt;-</span>  <span class="fu">anova_test</span>(mod.aov)</span>
+<span id="cb73-25"><a href="#cb73-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-26"><a href="#cb73-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Acrescentar o teste e o valor P ajustado ao gráfico</span></span>
+<span id="cb73-27"><a href="#cb73-27" aria-hidden="true" tabindex="-1"></a>be <span class="sc">+</span> <span class="fu">stat_pvalue_manual</span>(pwc,  </span>
+<span id="cb73-28"><a href="#cb73-28" aria-hidden="true" tabindex="-1"></a>                        <span class="at">label =</span> <span class="st">"p.adj"</span>, </span>
+<span id="cb73-29"><a href="#cb73-29" aria-hidden="true" tabindex="-1"></a>                        <span class="at">tip.length =</span> <span class="fl">0.01</span>,</span>
+<span id="cb73-30"><a href="#cb73-30" aria-hidden="true" tabindex="-1"></a>                        <span class="at">y.position =</span> <span class="dv">85</span>) <span class="sc">+</span></span>
+<span id="cb73-31"><a href="#cb73-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span> (<span class="at">x =</span> <span class="st">"Ingestão de álcool"</span>,</span>
+<span id="cb73-32"><a href="#cb73-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">"Média escore de memória"</span>,</span>
+<span id="cb73-33"><a href="#cb73-33" aria-hidden="true" tabindex="-1"></a>        <span class="at">subtitle =</span> rstatix<span class="sc">::</span><span class="fu">get_test_label</span> (anova, <span class="at">detailed =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb73-34"><a href="#cb73-34" aria-hidden="true" tabindex="-1"></a>        <span class="at">caption =</span> rstatix<span class="sc">::</span><span class="fu">get_pwc_label</span>(pwc))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-result1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-result1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="13-anova_files/figure-html/fig-result1-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-result1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;13.16: Efeito do álcool na memória de acordo com o sexo.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Uma opção, é apresentar os resultados como um gráfico de linhas (<a href="#fig-result2" class="quarto-xref">Figura&nbsp;<span>13.17</span></a>), já mostrado anteriormente , usando a função <code>ggline()</code> do pacote <code>ggpubr</code>, com as cores do periódico <em>Lancet</em>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Construção de um gráfico linha</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>gl <span class="ot">&lt;-</span> ggpubr<span class="sc">::</span><span class="fu">ggline</span>(dados, </span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">x =</span> <span class="st">"alcool"</span>, <span class="at">y =</span> <span class="st">"escore"</span>, </span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">add =</span> <span class="st">"mean_ci"</span>,</span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">color =</span> <span class="st">"sexo"</span>,</span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">size =</span> <span class="fl">0.7</span>,</span>
+<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">linetype =</span> <span class="st">"dashed"</span>, </span>
+<span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a>                     <span class="at">palette =</span> <span class="st">"lancet"</span>,</span>
+<span id="cb74-9"><a href="#cb74-9" aria-hidden="true" tabindex="-1"></a>                     <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="fl">0.2</span>)) <span class="sc">+</span></span>
+<span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.key.size =</span> <span class="fu">unit</span>(<span class="fl">0.3</span>, <span class="st">'cm'</span>)) <span class="sc">+</span></span>
+<span id="cb74-11"><a href="#cb74-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"right"</span>)</span>
+<span id="cb74-12"><a href="#cb74-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-13"><a href="#cb74-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparações por pares (pairwise comparisons)</span></span>
+<span id="cb74-14"><a href="#cb74-14" aria-hidden="true" tabindex="-1"></a>pwc <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span></span>
+<span id="cb74-15"><a href="#cb74-15" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(alcool) <span class="sc">%&gt;%</span></span>
+<span id="cb74-16"><a href="#cb74-16" aria-hidden="true" tabindex="-1"></a>  rstatix<span class="sc">::</span><span class="fu">tukey_hsd</span>(<span class="at">formula =</span> escore <span class="sc">~</span> sexo)</span>
+<span id="cb74-17"><a href="#cb74-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-18"><a href="#cb74-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular e adicionar as posições x e y.</span></span>
+<span id="cb74-19"><a href="#cb74-19" aria-hidden="true" tabindex="-1"></a>pwc <span class="ot">&lt;-</span> pwc <span class="sc">%&gt;%</span></span>
+<span id="cb74-20"><a href="#cb74-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_xy_position</span>(<span class="at">fun =</span> <span class="st">"mean_ci"</span>, </span>
+<span id="cb74-21"><a href="#cb74-21" aria-hidden="true" tabindex="-1"></a>                  <span class="at">x =</span> <span class="st">"alcool"</span>, </span>
+<span id="cb74-22"><a href="#cb74-22" aria-hidden="true" tabindex="-1"></a>                  <span class="at">dodge =</span> <span class="fl">0.8</span>)</span>
+<span id="cb74-23"><a href="#cb74-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-24"><a href="#cb74-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Cálculo do teste estatístico com pacote rstatix</span></span>
+<span id="cb74-25"><a href="#cb74-25" aria-hidden="true" tabindex="-1"></a>anova <span class="ot">&lt;-</span>  <span class="fu">anova_test</span>(mod.aov)</span>
+<span id="cb74-26"><a href="#cb74-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-27"><a href="#cb74-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Acrescentar o teste e o valor P ajustado ao gráfico</span></span>
+<span id="cb74-28"><a href="#cb74-28" aria-hidden="true" tabindex="-1"></a>gl <span class="sc">+</span> <span class="fu">stat_pvalue_manual</span>(pwc,  </span>
+<span id="cb74-29"><a href="#cb74-29" aria-hidden="true" tabindex="-1"></a>                        <span class="at">label =</span> <span class="st">"p.adj"</span>, </span>
+<span id="cb74-30"><a href="#cb74-30" aria-hidden="true" tabindex="-1"></a>                        <span class="at">tip.length =</span> <span class="fl">0.01</span>,</span>
+<span id="cb74-31"><a href="#cb74-31" aria-hidden="true" tabindex="-1"></a>                        <span class="at">y.position =</span> <span class="dv">85</span>) <span class="sc">+</span></span>
+<span id="cb74-32"><a href="#cb74-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span> (<span class="at">x =</span> <span class="st">"Ingestão de álcool"</span>,</span>
+<span id="cb74-33"><a href="#cb74-33" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">"Média escore de memória"</span>,</span>
+<span id="cb74-34"><a href="#cb74-34" aria-hidden="true" tabindex="-1"></a>        <span class="at">subtitle =</span> rstatix<span class="sc">::</span><span class="fu">get_test_label</span> (anova, </span>
+<span id="cb74-35"><a href="#cb74-35" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">detailed =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb74-36"><a href="#cb74-36" aria-hidden="true" tabindex="-1"></a>        <span class="at">caption =</span> rstatix<span class="sc">::</span><span class="fu">get_pwc_label</span>(pwc))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-result2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-result2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="13-anova_files/figure-html/fig-result2-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-result2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;13.17: Efeito do álcool na memória de acordo com o sexo.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body" role="list" style="display: none">
+<div id="ref-field2012anova" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Field A, Miles J, Field Z. Comparing several means: ANOVA (GML 1). Em: Discovering Statistics Using R. Sage Publications, Ltd; 2012. p. 399–400. </div>
+</div>
+<div id="ref-menezes2004anova" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Menezes RX de. Análise de Variância. Em: Massad E, Menezes RX de, Silveira PSP, Ortega NRS, editores. Métodos Quantitativos em Medicina. Barueri, São Paulo: Editora Manole Ltda.; 2004. p. 297–300. </div>
+</div>
+<div id="ref-garren1919fastgraph" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Garren ST. Package fastgraph [Internet]. CRAN. Comprehensive R Archive Network (CRAN); 1919. Disponível em: <a href="https://CRAN.R-project.org/package=fastGraph">https://CRAN.R-project.org/package=fastGraph</a></div>
+</div>
+<div id="ref-peat2014anova" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Peat J, Barton B. Continuous variables: analysis of variance. Em: Medical statistics : a guide to SPSS, data analysis, and critical appraisal. New York, NY: John Wiley &amp; Sons; 2014. p. 114. </div>
+</div>
+<div id="ref-dag2018onewaytests" class="csl-entry" role="listitem">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Dag O, Dolgun A, Konar NM. Onewaytests: An R Package for One-Way Tests in Independent Groups Designs. R Journal. 2018;10(1):175–99. </div>
+</div>
+<div id="ref-ben2020effectsize" class="csl-entry" role="listitem">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Ben-Shachar MS, Lüdecke D, Makowski D. effectsize: Estimation of effect size indices and standardized parameters. Journal of Open Source Software. 2020;5(56):2815. </div>
+</div>
+<div id="ref-watson2021effectsize" class="csl-entry" role="listitem">
+<div class="csl-left-margin">7. </div><div class="csl-right-inline">Watson P. Rules of thumb on magnitudes of effect sizes [Internet]. MRC Cognition and Brain Sciences Unit. Cambridge University; 2021. Disponível em: <a href="https://imaging.mrc-cbu.cam.ac.uk/statswiki/FAQ/effectSize">https://imaging.mrc-cbu.cam.ac.uk/statswiki/FAQ/effectSize</a></div>
+</div>
+<div id="ref-field2012factorial" class="csl-entry" role="listitem">
+<div class="csl-left-margin">8. </div><div class="csl-right-inline">Field A, Miles J, Field Z. Factorial ANOVA (GLM3). Em: Discovering statistics using R. Sage Publications, Ltd; 2012. p. 513–4. </div>
+</div>
+<div id="ref-kassambara2022ggpubr" class="csl-entry" role="listitem">
+<div class="csl-left-margin">9. </div><div class="csl-right-inline">Kassambara A. ggpubr:’ggplot2’ based publication ready plots [R package ggpubr version 0.5.0] [Internet]. The Comprehensive R Archive Network. Comprehensive R Archive Network (CRAN); 2022. Disponível em: <a href="https://cloud.r-project.org/web/packages/ggpubr/index.html">https://cloud.r-project.org/web/packages/ggpubr/index.html</a></div>
+</div>
+<div id="ref-kassambara2022rstatix" class="csl-entry" role="listitem">
+<div class="csl-left-margin">10. </div><div class="csl-right-inline">Kassambara A. rstatix: Pipe-Friendly Framework for Basic Statistical Tests [Internet]. 2022. Disponível em: <a href="https://CRAN.R-project.org/package=rstatix">https://CRAN.R-project.org/package=rstatix</a></div>
+</div>
+<div id="ref-fox2018car" class="csl-entry" role="listitem">
+<div class="csl-left-margin">11. </div><div class="csl-right-inline">Fox J, Weisberg S. An R Companion to Applied Regression [Internet]. Third. Thousand Oaks <span>CA</span>: Sage; 2019. Disponível em: <a href="https://socialsciences.mcmaster.ca/jfox/Books/Companion/">https://socialsciences.mcmaster.ca/jfox/Books/Companion/</a></div>
+</div>
+<div id="ref-patterson2015diagnostic" class="csl-entry" role="listitem">
+<div class="csl-left-margin">12. </div><div class="csl-right-inline">Patterson R, Coffman J, Goldstein-Greenwood J, Others. Understanding Diagnostic Plots for Linear Regression Analysis [Internet]. Research Data Services + Sciences. University of Virginia Library; 2015. Disponível em: <a href="https://data.library.virginia.edu/diagnostic-plots/">https://data.library.virginia.edu/diagnostic-plots/</a></div>
+</div>
+<div id="ref-wickens2004anova" class="csl-entry" role="listitem">
+<div class="csl-left-margin">13. </div><div class="csl-right-inline">Wickens TD, Keppel G. Two-way factorial experiments. Em: Design and analysis: A researcher’s handbook. Pearson Prentice-Hall; 2004. p. 193–286. </div>
+</div>
+<div id="ref-maxwell2017factorial" class="csl-entry" role="listitem">
+<div class="csl-left-margin">14. </div><div class="csl-right-inline">Maxwell SE, Delaney HD, Kelley K. Two-way Between-Subject Factorial Designs. Em: Designing experiments and analyzing data: A model comparison perspective. Third Edition. Routledge; 2017. p. 312–82. </div>
+</div>
+<div id="ref-lenth2018emmeans" class="csl-entry" role="listitem">
+<div class="csl-left-margin">15. </div><div class="csl-right-inline">Lenth R, Singmann H, Love J, Buerkner P, Herve M. Emmeans: Estimated marginal means, aka least-squares means. R package version. 2018;1(1):3. </div>
+</div>
+</div>
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Pode ser usada também para comparar a média de duas populações e o resultado será o mesmo de um teste <em>t</em> para amostras independentes.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>No texto, <em>df1</em> e <em>df2</em> (em inglês, <em>df</em> = <em>degree of freedom</em>) foram traduzidos para o português como <em>gl1</em> e <em>gl2</em> (<em>gl</em> = graus de liberdade).<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Volte à <a href="06-descrevendoDados.html#sec-ggplot2" class="quarto-xref"><span>Seção 6.6</span></a> para mais informações sobre o como fazer gráficos no <code>ggplot2.</code><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Outros gráficos diagnósticos podem ser obtidos para analisar resíduos em um modelo de regressão <span class="citation" data-cites="patterson2015diagnostic">(<a href="references.html#ref-patterson2015diagnostic" role="doc-biblioref">12</a>)</span><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>A função <code>Anova()</code> do pacote <code>car</code>, usada para testar efeitos principais e de interação em modelos lineares gerais, não deve ser confundida com a função <code>anova()</code>, da base do R, porque esta fornece resultados sequenciais que dependem da ordem em que as variáveis aparecem no modelo.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Para os interessados, pode-se obter maiores informações sobre os diferentes tipos de ANOVA em https://www.r-bloggers.com/2011/03/anova-%E2%80%93-type-iiiiii-ss-explained/<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>lembrar que um litro de cerveja (4,5%) = 5 unidades de alcool<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiada");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiada");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./12-teste-t.html" class="pagination-link" aria-label="Comparação entre duas médias">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comparação entre duas médias</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./summary.html" class="pagination-link" aria-label="Summary">
+        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -263,8 +263,20 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./12-teste-t.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comparação entre duas médias</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Análise de Variância</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -355,7 +367,7 @@ window.Quarto = {
 <p>A chamada <strong>Lei dos Grandes Números</strong> diz que à medida que múltiplas observações são coletadas, a proporção observada de ocorrências de um determinado desfecho, após <em>n</em> ensaios, converge para a probabilidade real P desse desfecho. Ou seja, quanto mais vezes for repetido uma experiência, a melhor estimativa de probabilidade tende a ocorrer. Suponha que seja lançada uma moeda honesta repetidas vezes. Por definição, essa é uma moeda que tem <span class="math inline">\(P(cara)=0,5\)</span>. O que se observaria? O autor fez 20 lançamentos seguidos com uma mesma moeda e obteve o seguinte resultado, onde 1 = cara (<a href="#fig-moeda20" class="quarto-xref">Figura&nbsp;<span>7.1</span></a>):</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-moeda20" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-moeda20" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-moeda20-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/57v7i9n.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -381,7 +393,7 @@ Figura&nbsp;7.1: 20 lançamentos seguidos de uma moeda
 <p>Observa-se, nessa sequência, que a proporção de caras flutua muito, variando de 0,17 a 0,75. Se o número de lançamentos for aumentando tem-se a sensação de que a proporção se aproxima da “correta”. Por exemplo, com 100 jogadas, obteve-se 53 caras (0,53); com 150 jogadas, 79 (0,53) e com 200 jogadas, 111 (0,56). Quando N se aproximar do infinito (<span class="math inline">\(N \to\infty\)</span>) a proporção de caras convergirá para 0,50. A definição frequentista de probabilidade segue essa definição. Ninguém consegue um número infinito de lançamentos de moedas, mas um computador pode simular milhares de lançamentos. A <a href="#fig-nmoeda" class="quarto-xref">Figura&nbsp;<span>7.2</span></a> mostra o que acontece com a proporção <span class="math inline">\(n_1⁄N\)</span> à medida que <em>N</em> aumenta em lançamentos de moedas. As simulações foram repetidas 4 vezes somente para ter certeza de que o que aconteceu não foi obra do acaso.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-nmoeda" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-nmoeda" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-nmoeda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/H1eeJNj.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -479,7 +491,7 @@ P[A \quad e \quad B]=P[A]×P[B \rvert A]
 <p>O modelo de distribuição normal sempre descreve uma curva simétrica, unimodal e em forma de sino (<a href="#fig-curvanormal" class="quarto-xref">Figura&nbsp;<span>7.3</span></a>).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-curvanormal" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-curvanormal" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-curvanormal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="07-probabilidades_files/figure-html/fig-curvanormal-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%" data-fig-pos="H">
@@ -496,7 +508,7 @@ Figura&nbsp;7.3: Curva normal.
 <p>A <a href="#fig-threecurves" class="quarto-xref">Figura&nbsp;<span>7.4</span></a>, mostra a distribuição normal com média 0 e desvio padrão 1, na curva à direita, a distribuição normal com média 1.5 e desvio padrão 1. Sobrepondo-se à curva da esquerda observa-se uma curva mais achatada (verde) que tem média 0 e desvio padrão 1.5. Observa-se, como mencionado, que modificando os parâmetros da curva, altera-se a posição ou o formato da mesma.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-threecurves" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-threecurves" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-threecurves-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="07-probabilidades_files/figure-html/fig-threecurves-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%" data-fig-pos="H">
@@ -605,7 +617,7 @@ Z =\frac{x-\mu}{\sigma}
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">normal_area</span>(<span class="at">media =</span> <span class="dv">0</span>, <span class="at">dp =</span> <span class="dv">1</span>, <span class="at">linf =</span> <span class="fl">1.94</span>, <span class="at">lsup =</span> <span class="dv">3</span>, <span class="at">cor =</span> <span class="st">"tomato"</span>, <span class="at">lwd =</span> <span class="dv">2</span> )</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">2.6</span>, <span class="fl">0.05</span>, <span class="st">"2.6%"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-prob1725" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-prob1725" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-prob1725-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="07-probabilidades_files/figure-html/fig-prob1725-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%" data-fig-pos="H">
@@ -695,7 +707,7 @@ Figura&nbsp;7.5: Probabilidade de encontrar mulheres com mais de 1,725m
 <span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="at">side =</span> <span class="dv">1</span>, <span class="at">at=</span><span class="fu">which</span>(valores_d <span class="sc">==</span> <span class="fu">dnorm</span>(<span class="dv">2</span>)), <span class="at">labels=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>))</span>
 <span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="at">side =</span> <span class="dv">1</span>, <span class="at">at=</span><span class="fu">which</span>(valores_d <span class="sc">==</span> <span class="fu">dnorm</span>(<span class="dv">3</span>)), <span class="at">labels=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-pdf" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-pdf" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-pdf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="07-probabilidades_files/figure-html/fig-pdf-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%" data-fig-pos="H">
@@ -725,16 +737,16 @@ Figura&nbsp;7.6: Função densidade de probabilidade.
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">10</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] -0.49000946 -0.06874496 -0.52055728 -1.93588972  1.58838806  2.20933411
- [7]  1.14848532 -0.46223950  0.92151023  0.34540268</code></pre>
+<pre><code> [1]  0.7378873 -1.1793459  3.2344488  1.1096913 -0.8802631 -0.6632957
+ [7] -1.5680313 -1.3382914 -0.8231131 -0.7948554</code></pre>
 </div>
 </div>
 <p>No entanto, deve-se notar que, se uma “semente” (<code>seed</code>) não for especificada, a saída não será reproduzível, ou seja, cada vez que o comando for executado, retornará um novo conjunto de observações:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">10</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  1.1020523  1.2014683 -0.0411443  0.5611064  0.3278706  0.7839972
- [7]  0.2513932 -2.8458580  1.2682509  0.2154016</code></pre>
+<pre><code> [1]  0.257142480  0.565264071  0.723535592 -0.179028772  1.623530003
+ [6] -0.006439652  0.121287379  0.214983636  0.044561585  0.758706913</code></pre>
 </div>
 </div>
 <p>Cada vez que este comando for reproduzido, retornará uma nova série de 10 números diferentes do anterior. Para tornar o código reproduzível, retornando o mesmo conjunto de valores, deve-se usar uma “semente” (<em>seed</em>), usando a função <em>set.seed()</em>, cujo argumento é um número que identificará a série gerada, no exemplo, pela função <code>rnorm()</code>. O valor do número (“semente”) não é importante, é apenas um identificador. Para ilustrar, será construído dois conjuntos de 10 números que serão recebidos pelos objetos <em>x</em> e <em>y</em>. Para gerar o conjunto de números <em>x</em>, será usado o número <code>123</code> como “semente”. A “semente” funciona como uma espécie de marca. Para o <em>y</em> não será usado a função <code>set.seed()</code>:</p>
@@ -804,7 +816,7 @@ A função <code>par(mfrow(1,3))</code> coloca os gráficos gerados em uma mesma
 <span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Restaura as configurações basais de plotagem</span></span>
 <span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-pdf1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-pdf1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-pdf1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="07-probabilidades_files/figure-html/fig-pdf1-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:100.0%;height:800.0%" data-fig-pos="H">
@@ -827,7 +839,7 @@ Figura&nbsp;7.7: Histogramas construídos com amostras geradas pela função rno
 <p>Com a função <code>rnorm()</code>, será gerado um vetor de 1000 números e um histograma com curva normal sobreposta:</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-histdp" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-histdp" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-histdp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="07-probabilidades_files/figure-html/fig-histdp-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -892,7 +904,7 @@ Figura&nbsp;7.8: Histograma com curva de densidade de probabilidade sobreposta
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-normal954" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-normal954" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-normal954-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="07-probabilidades_files/figure-html/fig-normal954-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -926,7 +938,7 @@ Figura&nbsp;7.9: Probabilidade de alturas entre 1,47 e 1,73m.
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-normal192" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-normal192" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-normal192-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="07-probabilidades_files/figure-html/fig-normal192-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -959,7 +971,7 @@ Figura&nbsp;7.10: Probabilidade do tempo de cirurgia de LCA menor ou igual a 100
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-normal134" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-normal134" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-normal134-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="07-probabilidades_files/figure-html/fig-normal134-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -993,7 +1005,7 @@ Figura&nbsp;7.11: Probabilidade do tempo de cirurgia de LCA maior ou igual a 160
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-normal649" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-normal649" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-normal649-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="07-probabilidades_files/figure-html/fig-normal649-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -1026,7 +1038,7 @@ Figura&nbsp;7.12: Probabilidade de uma mulher com 150 cmm pertencer a uma popula
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-normal935" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-normal935" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-normal935-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="07-probabilidades_files/figure-html/fig-normal935-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -1109,7 +1121,7 @@ Colocando no <em>R</em>:</p>
 <pre><code>[1] 0.8125</code></pre>
 </div>
 <div class="cell-output-display">
-<div id="fig-menino3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-menino3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-menino3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="07-probabilidades_files/figure-html/fig-menino3-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%" data-fig-pos="H">
@@ -1201,7 +1213,7 @@ P(X = x)= C \times p^x \times (1 - p)^{n-x}
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-menino5" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-menino5" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-menino5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="07-probabilidades_files/figure-html/fig-menino5-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%" data-fig-pos="H">

@@ -83,7 +83,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./summary.html" rel="next">
+<link href="./12-teste-t.html" rel="next">
 <link href="./10-estimacao.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -263,8 +263,20 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./12-teste-t.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comparação entre duas médias</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Análise de Variância</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -358,8 +370,8 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dados)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>tibble [200 × 2] (S3: tbl_df/tbl/data.frame)
- $ sexo  : num [1:200] 2 1 2 1 1 1 2 2 1 2 ...
- $ pesoRN: num [1:200] 3685 2860 3415 2720 4380 ...</code></pre>
+ $ sexo  : num [1:200] 2 1 1 1 1 1 2 2 2 1 ...
+ $ pesoRN: num [1:200] 3850 4090 3245 2550 3895 ...</code></pre>
 </div>
 </div>
 <p>A seguir, transformar a variável <code>sexo</code> em fator:</p>
@@ -380,11 +392,11 @@ window.Quarto = {
 <pre><code># A tibble: 2 × 4
   sexo      n media    dp
   &lt;fct&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 masc    121 3362.  488.
-2 fem      79 3210.  461.</code></pre>
+1 masc    116 3275.  412.
+2 fem      84 3173.  475.</code></pre>
 </div>
 </div>
-<p>Esta amostra de 121 meninos e 79 meninas, informa que os meninos têm, em média, 3362 g ao nascer e as meninas 3210 g. Esta diferença de peso entre os sexos pode ter ocorrido devido ao acaso. Portanto, há necessidade de realizar um teste de hipóteses para tomar uma decisão sobre o parâmetro populacional. Esta diferença é grande o suficiente para rejeitar a hipótese de igualdade entre os pesos e concluir que existe uma diferença real entre eles?</p>
+<p>Esta amostra de 116 meninos e 84 meninas, informa que os meninos têm, em média, 3275 g ao nascer e as meninas 3173 g. Esta diferença de peso entre os sexos pode ter ocorrido devido ao acaso. Portanto, há necessidade de realizar um teste de hipóteses para tomar uma decisão sobre o parâmetro populacional. Esta diferença é grande o suficiente para rejeitar a hipótese de igualdade entre os pesos e concluir que existe uma diferença real entre eles?</p>
 </section>
 </section>
 <section id="introdução" class="level2" data-number="11.3">
@@ -504,7 +516,7 @@ Figura&nbsp;11.2: Tomada de decisão e erros.
 </section>
 <section id="sec-exeth1" class="level3" data-number="11.5.3">
 <h3 data-number="11.5.3" class="anchored" data-anchor-id="sec-exeth1"><span class="header-section-number">11.5.3</span> Exemplo (continuação)</h3>
-<p>Continuando com o exemplo da <a href="#sec-exeth" class="quarto-xref"><span>Seção 11.4.1</span></a>, aceita-se que os pesos dos recém-nascidos de ambas as amostras tenham distribuição normal e que as variâncias são semelhantes. Apesar de o desvio padrão (<span class="math inline">\(\sigma\)</span>) da <code>população-alvo</code> ser conhecido (488, 461g), será suposto que ele é desconhecido <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. Portanto, o teste <em>t</em> de amostras independentes será o teste escolhido como o teste estatístico. A hipótese alternativa é bilateral e o <span class="math inline">\(\alpha\)</span> = 0,05.<br>
+<p>Continuando com o exemplo da <a href="#sec-exeth" class="quarto-xref"><span>Seção 11.4.1</span></a>, aceita-se que os pesos dos recém-nascidos de ambas as amostras tenham distribuição normal e que as variâncias são semelhantes. Apesar de o desvio padrão (<span class="math inline">\(\sigma\)</span>) da <code>população-alvo</code> ser conhecido (412, 475g), será suposto que ele é desconhecido <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. Portanto, o teste <em>t</em> de amostras independentes será o teste escolhido como o teste estatístico. A hipótese alternativa é bilateral e o <span class="math inline">\(\alpha\)</span> = 0,05.<br>
 A distribuição <em>t</em> é dependente dos grau de liberdade, que para duas amostras independentes é igual <span class="math inline">\(gl=n_1+n_2-2\)</span>. Para os dados em uso, tem-se:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a> n1 <span class="ot">&lt;-</span> resumo<span class="sc">$</span>n[<span class="dv">1</span>]</span>
@@ -548,14 +560,14 @@ A distribuição <em>t</em> é dependente dos grau de liberdade, que para duas a
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>teste</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 15
-  estimate estimate1 estimate2 .y.    group1 group2    n1    n2 statistic      p
-*    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt;  &lt;dbl&gt;
-1     151.     3362.     3210. pesoRN masc   fem      121    79      2.21 0.0281
+  estimate estimate1 estimate2 .y.    group1 group2    n1    n2 statistic     p
+*    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;
+1     102.     3275.     3173. pesoRN masc   fem      116    84      1.59 0.114
 # ℹ 5 more variables: df &lt;dbl&gt;, conf.low &lt;dbl&gt;, conf.high &lt;dbl&gt;, method &lt;chr&gt;,
 #   alternative &lt;chr&gt;</code></pre>
 </div>
 </div>
-<p>A saída do teste mostra uma estatística de teste <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> igual a 2.215. Esta é maior do que o <em>t_crítico</em> = 1.972, consequentemente, rejeita-se a hipótese nula e conclui-se, com uma confiança de 95%, que existe uma diferença estatisticamente significativa no peso dos recém-nascidos entre os sexos. Esta diferença é em média igual a 151 g (IC95%: 16, 286), <span class="math inline">\(peso_{meninos} &gt; peso_{meninas}\)</span>.</p>
+<p>A saída do teste mostra uma estatística de teste <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> igual a 1.59. Esta é maior do que o <em>t_crítico</em> = 1.972, consequentemente, rejeita-se a hipótese nula e conclui-se, com uma confiança de 95%, que existe uma diferença estatisticamente significativa no peso dos recém-nascidos entre os sexos. Esta diferença é em média igual a 102 g (IC95%: -25, 230), <span class="math inline">\(peso_{meninos} &gt; peso_{meninas}\)</span>.</p>
 </section>
 </section>
 <section id="sec-valorp" class="level2" data-number="11.6">
@@ -566,7 +578,7 @@ A distribuição <em>t</em> é dependente dos grau de liberdade, que para duas a
 <p>Uma boa parte dos pesquisadores, principalmente no início da carreira, ficam empolgados pelo conhecimento do valor <em>P</em>. Entretanto, deve ser sempre lembrado que encontrar o valor <em>P</em> não é o único foco da pesquisa. O foco deve estar dirigido ao <em>tamanho do efeito</em> (<em>effect size</em>). O valor <em>P</em> obtido pelo teste estatístico, vai informar apenas sobre a probabilidade de se cometer erro ao rejeitar ou não rejeitar a hipóteses nula.</p>
 <section id="exemplo-continuação" class="level3" data-number="11.6.1">
 <h3 data-number="11.6.1" class="anchored" data-anchor-id="exemplo-continuação"><span class="header-section-number">11.6.1</span> Exemplo (continuação)</h3>
-<p>O teste realizado, <code>t_test()</code>, fornece o valor <em>P</em> = 0.0281. Este valor é menor do que <span class="math inline">\(\alpha\)</span> e leva as mesmas conclusões da <a href="#sec-exeth1" class="quarto-xref"><span>Seção 11.5.3</span></a>.</p>
+<p>O teste realizado, <code>t_test()</code>, fornece o valor <em>P</em> = 0.114. Este valor é menor do que <span class="math inline">\(\alpha\)</span> e leva as mesmas conclusões da <a href="#sec-exeth1" class="quarto-xref"><span>Seção 11.5.3</span></a>.</p>
 </section>
 </section>
 <section id="poder-do-teste" class="level2" data-number="11.7">
@@ -611,15 +623,15 @@ Existem diferentes métodos para calcular o poder do teste, dependendo do tipo d
 </ul>
 <section id="exemplo-continuação-1" class="level3" data-number="11.7.1">
 <h3 data-number="11.7.1" class="anchored" data-anchor-id="exemplo-continuação-1"><span class="header-section-number">11.7.1</span> Exemplo (continuação)</h3>
-<p>O teste <em>t</em> retornou um resultado significativo, com valor de t = 2.215 &gt; 1.972, com <em>P</em> = 0.0281. Um resultado significativo não informa sobre a magnitude do efeito. Para isso, lançamos mão do teste <em>d</em> de Cohen que pode ser calculado, usando a função <code>cohensD()</code> do pacote <code>lsr</code>:</p>
+<p>O teste <em>t</em> retornou um resultado significativo, com valor de t = 1.59 &gt; 1.972, com <em>P</em> = 0.114. Um resultado significativo não informa sobre a magnitude do efeito. Para isso, lançamos mão do teste <em>d</em> de Cohen que pode ser calculado, usando a função <code>cohensD()</code> do pacote <code>lsr</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> lsr<span class="sc">::</span><span class="fu">cohensD</span> (<span class="at">data =</span> dados, <span class="at">formula =</span> pesoRN <span class="sc">~</span> sexo)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>d</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.3166647</code></pre>
+<pre><code>[1] 0.2329345</code></pre>
 </div>
 </div>
-<p>Na <span class="quarto-unresolved-ref">?sec-cohen</span>, se entrará em maiores detalhes, por enquanto, será assumido que a magnitude do efeito é pequena.</p>
+<p>Na <a href="12-teste-t.html#sec-cohen" class="quarto-xref"><span>Seção 12.2.6.1</span></a>, se entrará em maiores detalhes, por enquanto, será assumido que a magnitude do efeito é pequena.</p>
 <p>De posse do valor do <em>d</em> de Cohen, é possível calcular, através da função <code>pwr.t.test()</code> do pacote <code>pwr</code>, o poder do teste estatístico. Os argumentos dessa função são:</p>
 <ul>
 <li><strong>n</strong> <span class="math inline">\(\to\)</span> número de observações por amostra;</li>
@@ -643,15 +655,15 @@ Existem diferentes métodos para calcular o poder do teste, dependendo do tipo d
      Two-sample t test power calculation 
 
               n = 150
-              d = 0.3166647
+              d = 0.2329345
       sig.level = 0.05
-          power = 0.7804131
+          power = 0.5202953
     alternative = two.sided
 
 NOTE: n is number in *each* group</code></pre>
 </div>
 </div>
-<p>A saída mostra que no lugar do <code>NULL</code>, aparece o poder do teste estatístico. Ou seja, o poder foi de 0.78 , consequentemente, como <span class="math inline">\(\beta = 1 – Poder\)</span>, então, <span class="math inline">\(\beta\)</span> = 0.22.</p>
+<p>A saída mostra que no lugar do <code>NULL</code>, aparece o poder do teste estatístico. Ou seja, o poder foi de 0.52 , consequentemente, como <span class="math inline">\(\beta = 1 – Poder\)</span>, então, <span class="math inline">\(\beta\)</span> = 0.48.</p>
 <p>O poder geralmente é definido em 0,80 (ou 0,90). Isto significa que se existirem efeitos verdadeiros a serem encontrados em 100 estudos diferentes com 80% de poder, apenas 80 em 100 testes estatísticos irão realmente detectá-los. Se não for garantido poder suficiente, é possível que nenhum efeito seja detectado, por isso, deve-se calcular o tamanho amostral necessário, antes de iniciar qualquer estudo, para garantir o poder pretendido.</p>
 
 
@@ -1108,8 +1120,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./summary.html" class="pagination-link" aria-label="Summary">
-        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./12-teste-t.html" class="pagination-link" aria-label="Comparação entre duas médias">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comparação entre duas médias</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

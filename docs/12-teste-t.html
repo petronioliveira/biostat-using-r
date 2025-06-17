@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>12&nbsp; Comparação entre duas médias – Bioestatística Usando o R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./13-anova.html" rel="next">
+<link href="./11-testeHipoteses.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-8da5b4427184b79ecddefad3d342027e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./12-teste-t.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comparação entre duas médias</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Bioestatística Usando o R</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefácio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-dados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Natureza dos Dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-producaoDados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Produção dos Dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-ambienteR.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Ambiente do <em>R</em></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-manipulandoDados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Manipulando os dados no <em>RStudio</em></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-descrevendoDados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Descrevendo os dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-probabilidades.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introdução à Teoria das Probabilidades</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-assimetria_curtose.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Assimetria e Curtose</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-distAmostrais.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Distribuições Amostrais</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-estimacao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Estimação</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-testeHipoteses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Teste de Hipóteses</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-teste-t.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comparação entre duas médias</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Análise de Variância</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Índice</h2>
+   
+  <ul>
+  <li><a href="#pacotes-necessários-para-este-capítulo" id="toc-pacotes-necessários-para-este-capítulo" class="nav-link active" data-scroll-target="#pacotes-necessários-para-este-capítulo"><span class="header-section-number">12.1</span> Pacotes necessários para este capítulo</a></li>
+  <li><a href="#teste-t-para-amostras-independentes" id="toc-teste-t-para-amostras-independentes" class="nav-link" data-scroll-target="#teste-t-para-amostras-independentes"><span class="header-section-number">12.2</span> Teste <em>t</em> para amostras independentes</a>
+  <ul class="collapse">
+  <li><a href="#dados-usados-nesta-seção" id="toc-dados-usados-nesta-seção" class="nav-link" data-scroll-target="#dados-usados-nesta-seção"><span class="header-section-number">12.2.1</span> Dados usados nesta seção</a></li>
+  <li><a href="#definição-das-hipóteses-estatísticas" id="toc-definição-das-hipóteses-estatísticas" class="nav-link" data-scroll-target="#definição-das-hipóteses-estatísticas"><span class="header-section-number">12.2.2</span> Definição das hipóteses estatísticas</a></li>
+  <li><a href="#definição-da-regra-de-decisão" id="toc-definição-da-regra-de-decisão" class="nav-link" data-scroll-target="#definição-da-regra-de-decisão"><span class="header-section-number">12.2.3</span> Definição da regra de decisão</a></li>
+  <li><a href="#teste-estatístico" id="toc-teste-estatístico" class="nav-link" data-scroll-target="#teste-estatístico"><span class="header-section-number">12.2.4</span> Teste estatístico</a></li>
+  <li><a href="#conclusão" id="toc-conclusão" class="nav-link" data-scroll-target="#conclusão"><span class="header-section-number">12.2.5</span> Conclusão</a></li>
+  <li><a href="#tamanho-do-efeito" id="toc-tamanho-do-efeito" class="nav-link" data-scroll-target="#tamanho-do-efeito"><span class="header-section-number">12.2.6</span> Tamanho do Efeito</a></li>
+  </ul></li>
+  <li><a href="#teste-t-para-grupos-pareados" id="toc-teste-t-para-grupos-pareados" class="nav-link" data-scroll-target="#teste-t-para-grupos-pareados"><span class="header-section-number">12.3</span> Teste <em>t</em> para grupos pareados</a>
+  <ul class="collapse">
+  <li><a href="#dados-usados-nesta-seção-1" id="toc-dados-usados-nesta-seção-1" class="nav-link" data-scroll-target="#dados-usados-nesta-seção-1"><span class="header-section-number">12.3.1</span> Dados usados nesta seção</a></li>
+  <li><a href="#definição-das-hipóteses-estatísticas-1" id="toc-definição-das-hipóteses-estatísticas-1" class="nav-link" data-scroll-target="#definição-das-hipóteses-estatísticas-1"><span class="header-section-number">12.3.2</span> Definição das hipóteses estatísticas</a></li>
+  <li><a href="#regra-de-decisão" id="toc-regra-de-decisão" class="nav-link" data-scroll-target="#regra-de-decisão"><span class="header-section-number">12.3.3</span> Regra de decisão</a></li>
+  <li><a href="#teste-estatístico-1" id="toc-teste-estatístico-1" class="nav-link" data-scroll-target="#teste-estatístico-1"><span class="header-section-number">12.3.4</span> Teste estatístico</a></li>
+  <li><a href="#conclusão-1" id="toc-conclusão-1" class="nav-link" data-scroll-target="#conclusão-1"><span class="header-section-number">12.3.5</span> Conclusão</a></li>
+  <li><a href="#tamanho-do-efeito-1" id="toc-tamanho-do-efeito-1" class="nav-link" data-scroll-target="#tamanho-do-efeito-1"><span class="header-section-number">12.3.6</span> Tamanho do Efeito</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-testet" class="quarto-section-identifier"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comparação entre duas médias</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="pacotes-necessários-para-este-capítulo" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="pacotes-necessários-para-este-capítulo"><span class="header-section-number">12.1</span> Pacotes necessários para este capítulo</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(car, </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               effectsize, </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>               ggpubr, </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>               ggsci, </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>               kableExtra,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>               knitr,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>               readxl, </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>               rstatix, </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>               tidyverse)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="teste-t-para-amostras-independentes" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="teste-t-para-amostras-independentes"><span class="header-section-number">12.2</span> Teste <em>t</em> para amostras independentes</h2>
+<p>O teste <em>t</em> de amostras independentes é usado para comparar duas médias de amostras de grupos não relacionados. Isso significa que há pessoas diferentes fornecendo escores para cada grupo. O objetivo desse teste é determinar se as amostras são diferentes uma da outra</p>
+<section id="dados-usados-nesta-seção" class="level3" data-number="12.2.1">
+<h3 data-number="12.2.1" class="anchored" data-anchor-id="dados-usados-nesta-seção"><span class="header-section-number">12.2.1</span> Dados usados nesta seção</h3>
+<p>Suponha que. em uma determinada Universidade, tenham sido coletadas as notas de Bioestatística de uma turma de 40 alunos. Estes dados estão <a href="https://github.com/petronioliveira/Arquivos/blob/main/dadosNotas.xlsx"><strong>aqui</strong></a>. Salve o mesmo no seu diretório de trabalho para a leitura dos dados.</p>
+<section id="leitura-dos-dados" class="level4" data-number="12.2.1.1">
+<h4 data-number="12.2.1.1" class="anchored" data-anchor-id="leitura-dos-dados"><span class="header-section-number">12.2.1.1</span> Leitura dos dados</h4>
+<p>Para a leitura dos dados, será usada a função <code>read_excel()</code> incluída no pacote <code>readxl</code>, que precisa ser instalado e carregado. Os dados serão recebidos por um objeto que será denominado de <code>dados</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="st">"dados/dadosNotas.xlsx"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Para visualizar os dados, pode-se usar a função <code>str()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dados)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [40 × 2] (S3: tbl_df/tbl/data.frame)
+ $ notas: num [1:40] 63.1 76.3 57.7 66.9 73.1 70.3 63.6 75.7 73.5 83 ...
+ $ sexo : chr [1:40] "F" "F" "F" "F" ...</code></pre>
+</div>
+</div>
+<p>Observa-se que existem 40 alunos, sendo 20 mulheres e 20 homens. A variável <code>altura</code> é uma variável numérica que corresponde a a nota centesimal e <code>sexo</code> é uma variável categórica, onde <code>F</code> são as mulheres e <code>M</code> os homens.</p>
+</section>
+<section id="exploração-e-resumo-dos-dados" class="level4" data-number="12.2.1.2">
+<h4 data-number="12.2.1.2" class="anchored" data-anchor-id="exploração-e-resumo-dos-dados"><span class="header-section-number">12.2.1.2</span> Exploração e resumo dos dados</h4>
+<p>Inicialmente, a variável <code>sexo</code> será transformada em fator:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dados<span class="sc">$</span>sexo <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(dados<span class="sc">$</span>sexo)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A seguir, calcular a média e o desvio padrão da variável <code>notas</code> de acordo com <code>sexo</code>, usando a função <code>group_by ()</code> e <code>summarise</code> do pacote <code>dplyr</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>resumo <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(sexo) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span> <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">media =</span> <span class="fu">mean</span>(notas, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">dp =</span> <span class="fu">sd</span>(notas, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">mediana =</span> <span class="fu">median</span>(notas, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Q1 =</span> <span class="fu">quantile</span>(notas,<span class="fl">0.25</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),    </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Q3 =</span> <span class="fu">quantile</span>(notas, <span class="fl">0.75</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">me =</span> <span class="fl">1.96</span> <span class="sc">*</span> dp<span class="sc">/</span><span class="fu">sqrt</span>(n)) </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>resumo</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 8
+  sexo      n media    dp mediana    Q1    Q3    me
+  &lt;fct&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 F        20  68.4  7.79    68.6  63.2  73.8  3.41
+2 M        20  59.9  7.34    59.2  54.3  63.5  3.22</code></pre>
+</div>
+</div>
+<p>A saída informa que a média das notas das mulheres é 68.4, bem acima da notas dos homens, mostrando uma diferença de 8.5. Parece que o desempenho das mulheres em Bioestatística é melhor do que o dos homens!</p>
+<p>Além do resumo numérico, é interessante construir um gráfico do tipo boxplot (<a href="#fig-bxpnotas" class="quarto-xref">Figura&nbsp;<span>12.1</span></a>), usando o pacote <code>ggplot2</code> (veja <a href="06-descrevendoDados.html#sec-ggplot2" class="quarto-xref"><span>Seção 6.6</span></a>) para observar a distribuição dos dados:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> dados, <span class="fu">aes</span>(<span class="at">x =</span> sexo, </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">y =</span> notas, </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">fill =</span> sexo)) <span class="sc">+</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">stat =</span> <span class="st">"boxplot"</span>, <span class="at">width =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.05</span>) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span> (<span class="at">x =</span> <span class="st">"Sexo"</span>, </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">"Notas"</span>) <span class="sc">+</span> </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-bxpnotas" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bxpnotas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="12-teste-t_files/figure-html/fig-bxpnotas-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bxpnotas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;12.1: Boxplot dos dados
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Os boxplot sugerem que as notas dos alunos diferem, de acordo o sexo.</p>
+</section>
+</section>
+<section id="definição-das-hipóteses-estatísticas" class="level3" data-number="12.2.2">
+<h3 data-number="12.2.2" class="anchored" data-anchor-id="definição-das-hipóteses-estatísticas"><span class="header-section-number">12.2.2</span> Definição das hipóteses estatísticas</h3>
+<p>As hipóteses comparam as médias dos dois grupos. Para um teste bicaudal, as hipóteses são escritas como:</p>
+<p><span class="math display">\[
+H_{0}: \mu_{F} = \mu_{M}
+\]</span></p>
+<p><span class="math display">\[
+H_{1}: \mu_{F} \neq \mu_{M}
+\]</span></p>
+</section>
+<section id="definição-da-regra-de-decisão" class="level3" data-number="12.2.3">
+<h3 data-number="12.2.3" class="anchored" data-anchor-id="definição-da-regra-de-decisão"><span class="header-section-number">12.2.3</span> Definição da regra de decisão</h3>
+<p>O nível significância, <span class="math inline">\(\alpha\)</span>, escolhido é igual a <code>0.05</code>. A distribuição <em>t</em> é dependente dos graus de liberdade, dados por:</p>
+<p>No exemplo,</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>n1 <span class="ot">&lt;-</span> resumo<span class="sc">$</span>n[<span class="dv">1</span>]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>n2 <span class="ot">&lt;-</span> resumo<span class="sc">$</span>n[<span class="dv">2</span>]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>gl <span class="ot">&lt;-</span> n1 <span class="sc">+</span> n2 <span class="sc">-</span> <span class="dv">2</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>gl</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 38</code></pre>
+</div>
+</div>
+<p>Para um <span class="math inline">\(\alpha = 0,05\)</span>, o valor crítico de <em>t</em> para gl =38 para uma hipótese alternativa bicaudal é obtido com a função <code>qt (p, df)</code>, onde <span class="math inline">\(df = gl\)</span> e <span class="math inline">\(p = 1 - \alpha/2\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> alpha<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>tc <span class="ot">&lt;-</span> <span class="fu">round</span> (<span class="fu">qt</span>((<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>), gl), <span class="dv">3</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>tc</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.024</code></pre>
+</div>
+</div>
+<p>Portanto, se</p>
+<p><span class="math display">\[
+|t_{calculado}| &lt; |t_{crítico}|  \to não \quad se \quad rejeita \quad H_{0}
+\]</span></p>
+<p><span class="math display">\[
+t_{calculado}| \ge t_{crítico}| \to rejeita-se \quad H_{0}
+\]</span></p>
+</section>
+<section id="teste-estatístico" class="level3" data-number="12.2.4">
+<h3 data-number="12.2.4" class="anchored" data-anchor-id="teste-estatístico"><span class="header-section-number">12.2.4</span> Teste estatístico</h3>
+<p>Para determinar se existe uma diferença estatisticamente significativa entre as médias das notas de dois grupos independentes, será usado o teste <em>t</em> para duas amostras independentes, também conhecido como teste <em>t</em> de Student, baseado na distribuição de mesmo nome.</p>
+<section id="lógica-do-teste-t" class="level4" data-number="12.2.4.1">
+<h4 data-number="12.2.4.1" class="anchored" data-anchor-id="lógica-do-teste-t"><span class="header-section-number">12.2.4.1</span> Lógica do teste <em>t</em></h4>
+<p>O teste <em>t</em> compara as médias de duas amostras independentes, usando o erro padrão como métrica da diferença entre essas médias. Quanto maior o valor de <em>t</em> , maior a probabilidade de que as amostras pertençam a grupos diferentes, ocorrendo nessas circunstâncias a rejeição da hipótese nula <span class="citation" data-cites="pagano2000t_test">(<a href="references.html#ref-pagano2000t_test" role="doc-biblioref">1</a>)</span>.</p>
+<p>Calcula-se o teste <em>t</em> com a seguinte equação:</p>
+<p><span class="math display">\[
+t = \frac{(\bar{x}_1 - \bar{x}_2) - (\mu_1 - \mu_2)}{EP_{d}}
+\]</span></p>
+<p>Onde <span class="math inline">\(EP_d\)</span> é o erro padrão da diferença entre a médias <span class="math inline">\(\bar{x}_1 - \bar{x}_2\)</span>. Se a hipótese nula for verdadeira, as amostras foram retiradas da mesma população e, portanto, <span class="math inline">\(\mu_1 - \mu_2 = 0\)</span>. Assim, a equação fica:</p>
+<p><span class="math display">\[
+t = \frac{(\bar{x}_1 - \bar{x}_2)}{EP_d}
+\]</span></p>
+<p>O erro padrão da diferença <span class="math inline">\(\bar{x}_1 - \bar{x}_2\)</span> é calculado de maneiras diferentes:</p>
+<ol type="1">
+<li>Se a variâncias nos dois grupos forem iguais, usa-se:</li>
+</ol>
+<p><span class="math display">\[
+EP_d = \sqrt{s_o^2(\frac{1}{n_1}+\frac{1}{n_2})}
+\]</span></p>
+<p>Onde <span class="math inline">\(s_o^2\)</span> é a variância combinada ou conjugada que é, simplesmente, a média ponderada das variância dos grupos:</p>
+<p><span class="math display">\[
+s_0^2 = \frac{(n_1 - 1)s_1^2 + (n_2 -1)s_2^2}{(n_1 -1)+ (n_2-1)}
+\]</span> Quando os grupos têm o mesmo tamanho (<span class="math inline">\(n_1 = n_2\)</span>), <span class="math inline">\(s_o^2\)</span> é simplesmente a média aritmética da variância dos grupos:</p>
+<p><span class="math display">\[
+s_0^2 = \frac {s_1^2 + s_2^2}{2}
+\]</span></p>
+<p><span class="math display">\[
+EP_d = \sqrt{\frac{2 s_o^2}{n}}
+\]</span></p>
+<ol start="2" type="1">
+<li>Se as variâncias dos dois grupos forem diferentes:</li>
+</ol>
+<p><span class="math display">\[
+EP_d = \sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2}}
+\]</span></p>
+<p>Esta explicação da lógica e dedução da estatística de teste serve para uma melhor compreensão de como o teste funciona, mas para executar um teste <em>t</em> não há necessidade disso, basta saber como encaminhar ao <em>R</em> e como interpretar o resultado fornecido por ele.</p>
+</section>
+<section id="sec-homovar" class="level4" data-number="12.2.4.2">
+<h4 data-number="12.2.4.2" class="anchored" data-anchor-id="sec-homovar"><span class="header-section-number">12.2.4.2</span> Pressupostos do teste <em>t</em></h4>
+<p>O teste <em>t</em> assume que:</p>
+<ol type="1">
+<li>As amostras são independentes;</li>
+<li>Deve haver distribuição normal. Entretanto, quando as amostras são grandes (teorema do limite central), isso não é muito importante;</li>
+<li>Exista homocedasticidade, ou seja, as variâncias dos grupos devem ser iguais.</li>
+</ol>
+<p>Violar o pressuposto de número 3 tem importância se os tamanhos dos grupos forem diferentes. Se os grupos tiverem o mesmo tamanho e a amostra for grande, este pressuposto torna-se menos importante, não preocupando muito se essa hipótese foi violada <span class="citation" data-cites="zimmerman2004note">(<a href="references.html#ref-zimmerman2004note" role="doc-biblioref">2</a>)</span>. O pressuposto tem mais importância em grupos pequenos e desiguais. Existe um teste, denominado <em>teste t de Welch</em> que corrige essa violação. É possível portanto, esquecer esse pressuposto e fazer o teste de Welch sempre.</p>
+<p><u>Avaliação da normalidade</u></p>
+<p>Uma boa parte dos procedimentos estatísticos são testes paramétricos <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> com base na distribuição normal. Ou seja, se assume que a distribuição dos dados segue o modelo da distribuição normal. Se essa suposição não for atendida, a lógica por trás do teste de hipóteses pode ser violada.</p>
+<p>Pode-se verificar a normalidade de maneira visual, observando o comportamento dos dados através de gráficos como o <em>histograma</em> (<a href="#fig-histnotas" class="quarto-xref">Figura&nbsp;<span>12.2</span></a>) e o <em>gráfico Q-Q</em> (<a href="#fig-qqnotas" class="quarto-xref">Figura&nbsp;<span>12.3</span></a>). É útil também sobrepor uma distribuição normal no histograma, para fins de comparação com a distribuição normal. Além disso, nos histogramas, pode-se observar como as duas populações se sobrepõem.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mu1 <span class="ot">&lt;-</span> resumo<span class="sc">$</span>media[<span class="dv">1</span>]</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>dp1 <span class="ot">&lt;-</span> resumo<span class="sc">$</span>dp[<span class="dv">1</span>]</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>mu2 <span class="ot">&lt;-</span> resumo<span class="sc">$</span>media[<span class="dv">2</span>]</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>dp2 <span class="ot">&lt;-</span> resumo<span class="sc">$</span>dp[<span class="dv">2</span>]</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>masc <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> <span class="fu">filter</span> (sexo <span class="sc">==</span> <span class="st">"M"</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>fem <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> <span class="fu">filter</span> (sexo <span class="sc">==</span> <span class="st">"F"</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dados) <span class="sc">+</span>                       </span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> notas, <span class="at">fill =</span> sexo,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>                     <span class="at">y =</span> <span class="fu">after_stat</span>(density)), </span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>                 <span class="at">col=</span> <span class="st">"white"</span>, </span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bins =</span> <span class="dv">15</span>) <span class="sc">+</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">data =</span> masc,</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>                <span class="at">fun =</span> dnorm,</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">"red"</span>,</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">lty =</span> <span class="st">"dashed"</span>,</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>                <span class="at">lwd =</span> <span class="dv">1</span>,</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> mu1,</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>                            <span class="at">sd =</span> dp1)) <span class="sc">+</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">data =</span> fem,</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>                <span class="at">fun =</span> dnorm,</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">"darkred"</span>,</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>                <span class="at">lty =</span> <span class="st">"dashed"</span>,</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>                <span class="at">lwd =</span> <span class="dv">1</span>,</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> mu2,</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>                            <span class="at">sd =</span> dp2)) <span class="sc">+</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Notas"</span>, <span class="at">y=</span><span class="st">"Densidade"</span>) <span class="sc">+</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"pink3"</span>, <span class="st">"lightblue"</span>)) <span class="sc">+</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-histnotas" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-histnotas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="12-teste-t_files/figure-html/fig-histnotas-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-histnotas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;12.2: Histogramas das notas dos alunos de acordo com o sexo
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>O <em>gráfico QQ</em> (ou gráfico quantil-quantil) desenha a correlação entre uma determinada amostra e a distribuição normal. Uma linha de referência de 45 graus também é plotada. Um gráfico Q-Q é um gráfico de dispersão criado plotando dois conjuntos de quantis um contra o outro. Se ambos os conjuntos de quantis vierem da mesma distribuição, observa-se os pontos formando uma linha aproximadamente reta.</p>
+<p>Se os valores caírem na diagonal do gráfico, a variável é normalmente distribuída. Os desvios da diagonal mostram desvios da normalidade. Para desenhar um gráfico Q-Q pode ser usado a função <code>ggqqplot ()</code><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> do pacote <code>ggpubr</code> que produz um gráfico QQ normal com uma linha de referência, acompanhada de area sombreada, correspondente ao IC95%.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggqqplot</span>(dados, <span class="at">x =</span> <span class="st">"notas"</span>, <span class="at">color =</span> <span class="st">"sexo"</span>) <span class="sc">+</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Notas"</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Quantis teóricos"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-qqnotas" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-qqnotas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="12-teste-t_files/figure-html/fig-qqnotas-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-qqnotas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;12.3: Gráficos Q-Q
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Observando os gráficos, verifica-se que a variável <code>notas</code> tem uma distribuição visualmente normal aceitável em ambas populações, pois o histograma se ajusta à curva normal e os gráficos Q-Q mostram que os dados seguem aproximadamente a linha diagonal.</p>
+<p>Outra maneira de analisar a normalidade é verificar se a distribuição como um todo se desvia de uma distribuição normal comparável. Para isso, usam-se <em>testes estatísticos de normalidade</em>. Os dois principais são o <em>teste de Shapiro-Wilk</em> e o <em>teste de Kolmogorov-Smirnov (K-S)</em>.</p>
+<p>Esses testes comparam os dados da amostra com um conjunto de valores normalmente distribuídos com a mesma média e desvio padrão. Se o teste não for significativo (<em>P</em> &gt; 0,05), informa-se que a distribuição da amostra não é significativamente diferente de uma distribuição normal. Se, no entanto, o teste for significativo (<em>P</em> <span class="math inline">\(\le\)</span> 0,05), a distribuição em questão será significativamente diferente de uma distribuição normal.</p>
+<p>O método de Shapiro-Wilk é amplamente recomendado para teste de normalidade <span class="citation" data-cites="razali2011power">(<a href="references.html#ref-razali2011power" role="doc-biblioref">3</a>)</span>, <span class="citation" data-cites="ghasemi2012normality">(<a href="references.html#ref-ghasemi2012normality" role="doc-biblioref">4</a>)</span>, <span class="citation" data-cites="yap2011comparisons">(<a href="references.html#ref-yap2011comparisons" role="doc-biblioref">5</a>)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(sexo) <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  rstatix<span class="sc">::</span><span class="fu">shapiro_test</span>(notas)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>sw</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 4
+  sexo  variable statistic     p
+  &lt;fct&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt;
+1 F     notas        0.973 0.812
+2 M     notas        0.972 0.802</code></pre>
+</div>
+</div>
+<p>A saída mostra que ambos valores <em>P</em> do teste, 0.812 e 0.802, estão acima de 0,05, corroborando com a não rejeição da normalidade dos dados.</p>
+<p><u>Homogeneidade da Variância</u></p>
+<p>Na visualização da <a href="#fig-bxpnotas" class="quarto-xref">Figura&nbsp;<span>12.1</span></a>, nos dois grupos de alunos, observa-se que há, entre os limites inferior e superior, uma dispersão das notas em torno da região central. Esta dispersão parece ser semelhante nos grupos. Isto sugere que haja <em>homogeneidade das variâncias</em>.</p>
+<p>Portanto, homogeneidade da variância é o pressuposto de que a dispersão das medidas é aproximadamente igual em diferentes grupos de casos, ou que a dispersão dos valores são aproximadamente iguais em pontos diferentes da variável preditora.</p>
+<p>Além do aspecto visual, a homogeneidade da variância pode ser testada com o <em>teste de Levene</em>. Neste teste, a <span class="math inline">\(H_{0}\)</span> é todas as variâncias são iguais. No <em>R</em>, a função que calcula o teste é <code>leveneTest()</code> do pacote <code>car</code> <span class="citation" data-cites="fox2018car">(<a href="references.html#ref-fox2018car" role="doc-biblioref">6</a>)</span>. Os argumentos são:</p>
+<ul>
+<li><strong>y</strong> <span class="math inline">\(\to\)</span> variável de resposta para o método padrão ou um objeto <code>lm</code> ou <code>fórmula</code>. Se <code>y</code> for um objeto de modelo linear ou uma fórmula, as variáveis do lado direito do modelo devem ser todas fatores e devem ser completamente cruzadas;</li>
+<li><strong>group</strong> <span class="math inline">\(\to\)</span> fator que define os grupos;</li>
+<li><strong>center</strong> <span class="math inline">\(\to\)</span> O nome de uma função para calcular o centro de cada grupo; <code>mean</code> fornece o teste de Levene original; o padrão, <code>median</code>, fornece um teste mais robusto;</li>
+<li><strong>data</strong> <span class="math inline">\(\to\)</span> conjunto de dados para avaliar a <code>formula</code>.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>levene <span class="ot">&lt;-</span> car<span class="sc">::</span><span class="fu">leveneTest</span>(notas<span class="sc">~</span>sexo, </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">center =</span> mean, </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">data =</span> dados)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>levene</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Levene's Test for Homogeneity of Variance (center = mean)
+      Df F value Pr(&gt;F)
+group  1  0.4575 0.5029
+      38               </code></pre>
+</div>
+</div>
+<p>A saída do teste de Levene retorna um valor <em>P</em> &gt; 0,05, confirma a impressão visual dos boxplots de que os grupos têm homogeneidade das variâncias, portanto a hipótese nula de igualdade das variâncias não pode ser rejeitada.</p>
+<p>Um outro teste que compara duas variância poderia ser usado. É o teste F que pode ser calculado com a função <code>var.test()</code> do pacote <code>stats</code>, incluído no <em>R</em> base. Seus argumentos pode ser consultados na ajuda do R.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>teste.Var <span class="ot">&lt;-</span> <span class="fu">var.test</span>(notas<span class="sc">~</span>sexo, <span class="at">alternative =</span> <span class="st">"two.sided"</span> , <span class="at">data =</span> dados)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>teste.Var</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    F test to compare two variances
+
+data:  notas by sexo
+F = 1.1274, num df = 19, denom df = 19, p-value = 0.7966
+alternative hypothesis: true ratio of variances is not equal to 1
+95 percent confidence interval:
+ 0.4462295 2.8482624
+sample estimates:
+ratio of variances 
+          1.127377 </code></pre>
+</div>
+</div>
+<p>A saída do teste permite uma conclusão igual ao teste de Levene, pois o valor <em>P</em> = 0.7966.</p>
+</section>
+<section id="execução-do-teste-t-de-student" class="level4" data-number="12.2.4.3">
+<h4 data-number="12.2.4.3" class="anchored" data-anchor-id="execução-do-teste-t-de-student"><span class="header-section-number">12.2.4.3</span> Execução do teste <em>t</em> de Student</h4>
+<p>Os pressupostos do teste não foram violados, portanto ele pode ser realizado com confiança. Será utilizado a função <code>t_test()</code> do pacote <code>rstatix</code> <span class="citation" data-cites="kassambara2022rstatix">(<a href="references.html#ref-kassambara2022rstatix" role="doc-biblioref">7</a>)</span> para calcular o teste <em>t</em> para amostras independentes. Ele fornece uma estrutura compatível com operador pipe %&gt;% (<em>pipe-friendly</em>) para executar testes <em>t</em> de uma e duas amostras. Para consultar os argumentos, consulte a <a href="11-testeHipoteses.html#sec-exeth1" class="quarto-xref"><span>Seção 11.5.3</span></a> ou a ajuda do <em>RStudio</em>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a> teste <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> rstatix<span class="sc">::</span><span class="fu">t_test</span>(<span class="at">formula =</span> notas <span class="sc">~</span> sexo,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">detailed =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a> teste</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 15
+  estimate estimate1 estimate2 .y.   group1 group2    n1    n2 statistic       p
+*    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1     8.51      68.4      59.9 notas F      M         20    20      3.56 0.00102
+# ℹ 5 more variables: df &lt;dbl&gt;, conf.low &lt;dbl&gt;, conf.high &lt;dbl&gt;, method &lt;chr&gt;,
+#   alternative &lt;chr&gt;</code></pre>
+</div>
+</div>
+<p>A saída retorna a estimativa da diferença média (8.515), as estimativas das médias dos grupos (arredondadas), a estatística do teste (3.5586328) o valor P (0.00102), graus de liberdade (38)<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> e outras métricas.</p>
+<p>Também é possível ver os resultados do teste <em>t</em> , usando o objeto <code>teste</code> que os recebeu. Por exemplo, os limites inferior (<code>conf.low</code>) e superior (<code>conf.high</code>) do intervalo de confiança de 95% da estimativa da diferença entre as médias.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>IC95 <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">c</span>(teste<span class="sc">$</span>conf.low, teste<span class="sc">$</span>conf.high),<span class="dv">3</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>IC95</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  3.671 13.359</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="conclusão" class="level3" data-number="12.2.5">
+<h3 data-number="12.2.5" class="anchored" data-anchor-id="conclusão"><span class="header-section-number">12.2.5</span> Conclusão</h3>
+<p>Como <span class="math inline">\(|t_{calculado}|\)</span> = 3.559 &gt; <span class="math inline">\(|t_{0,05;58}|\)</span> = 2.024, rejeita-se <span class="math inline">\(H_{0}\)</span>. Observa-se que o valor <em>P</em> é muito pequeno (0.00102) e, portanto, a diferença observada nas médias dos dois grupos deve ser assumida como significativa.</p>
+<p>Assim, pode-se admitir que as médias das notas são diferentes, com probabilidade de erro extremamente pequena. A estimativa da diferença média (<span class="math inline">\(\mu_1 - \mu_2\)</span>) é fornecida pelo intervalo de confiança de 95% (3.671, 13.359). Observe que o valor zero não está contido no intervalo e isto confirma a não significância estatística da diferença.</p>
+<p>Concluindo, as notas de Bioestatística das mulheres e as notas dos homens são diferentes, a diferença (<span class="math inline">\(\mu_1 - \mu_2\)</span>) encontrada é estatisticamente significativa (<em>t</em> = 3.559, gl = 38, <em>P</em> = 0.00102), com uma confiança de 95%.</p>
+<p>Esta conclusão pode ser visualizada em um gráfico (<a href="#fig-bxpt" class="quarto-xref">Figura&nbsp;<span>12.4</span></a>) que exibirá a saída do teste <em>t</em>:</p>
+<ol type="1">
+<li>Construir dois boxplots, usando o <code>ggplot2</code> com cores do New England Journal of Medicine (NEJM), do pacote <code>ggsci</code> . Atribuir a um objeto <code>bp</code>:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>bp <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dados, <span class="fu">aes</span>(<span class="at">x=</span>sexo, <span class="at">y=</span>notas)) <span class="sc">+</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_errorbar</span>(<span class="at">stat =</span> <span class="st">"boxplot"</span>, <span class="at">width =</span> <span class="fl">0.1</span>)<span class="sc">+</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">fill =</span> sexo),</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"black"</span>)<span class="sc">+</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_nejm</span>() <span class="sc">+</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="2" type="1">
+<li>Adicionar ao boxplot novos rótulos e os testes realizados:</li>
+</ol>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a> bp <span class="sc">+</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Sexo"</span>, </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">"Notas"</span>, </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="st">"Notas de Bioestatística"</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">subtitle =</span> rstatix<span class="sc">::</span><span class="fu">get_test_label</span>(<span class="at">stat.test =</span> teste,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">correction =</span> <span class="st">"none"</span>,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">detailed =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">type =</span> <span class="st">"expression"</span>,</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">p.col =</span> <span class="st">"p"</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-bxpt" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bxpt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="12-teste-t_files/figure-html/fig-bxpt-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bxpt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;12.4: Boxplots comparando os dois grupos
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="tamanho-do-efeito" class="level3" data-number="12.2.6">
+<h3 data-number="12.2.6" class="anchored" data-anchor-id="tamanho-do-efeito"><span class="header-section-number">12.2.6</span> Tamanho do Efeito</h3>
+<p>A significância estatística deve ter uma atenção relativa do pesquisador, pois ela apenas mede a probabilidade de rejeitar uma hipótese nula, uma vez que ela seja verdadeira. Ajudam a determinar, em uma pesquisa, a significância dos resultados encontrados em relação à hipótese nula, mas não informam nada em relação a magnitude do efeito. Por exemplo, mostra se determinado tratamento afeta as pessoas, mas não dizem quanto isso as afeta.</p>
+<p>O tamanho do efeito (<em>effect size</em>) é uma medida quantitativa da magnitude do efeito. Quanto maior o tamanho do efeito, mais forte é a relação entre duas variáveis. É possível observar o tamanho do efeito ao comparar dois grupos quaisquer para ver quão substancialmente diferentes eles são.</p>
+<p>Normalmente, em ensaios clínicos tem-se um grupo de tratamento e um grupo de controle. O grupo de tratamento é uma intervenção que se espera efetue um resultado específico. O valor do tamanho do efeito mostrará se a terapia teve um efeito pequeno, médio ou grande. Isso tem mais relevância do que simplesmente informar o tamanho do valor <em>P</em>.</p>
+<section id="sec-cohen" class="level4" data-number="12.2.6.1">
+<h4 data-number="12.2.6.1" class="anchored" data-anchor-id="sec-cohen"><span class="header-section-number">12.2.6.1</span> <em>d</em> de Cohen</h4>
+<p>Também conhecida como <em>diferença média padronizada</em>, o <em>d</em> de Cohen <span class="citation" data-cites="cohen1988power">(<a href="references.html#ref-cohen1988power" role="doc-biblioref">8</a>)</span> <span class="citation" data-cites="lindenau2012effect">(<a href="references.html#ref-lindenau2012effect" role="doc-biblioref">9</a>)</span> é uma medida adequada e bastante popular para encontrar a magnitude do efeito na comparação entre duas médias.</p>
+<p>Para calcular a diferença média padronizada se verifica a diferença entre as médias dos dois grupos e se divide pelo desvio padrão conjugado:</p>
+<p><span class="math display">\[
+d = \frac{(\bar{x}_1 - \bar{x}_2)}{s_{o}}
+\]</span></p>
+<p>Onde,</p>
+<p><span class="math display">\[
+s_o =\sqrt \frac{(n_1 - 1)s_1^2 + (n_2 -1)s_2^2}{n_1 + n_2 - 2}
+\]</span></p>
+<p>Voltando ao exemplo das notas dos alunos de Bioestatística, o <em>d</em> de Cohen é calculado, usando a função <code>cohensD()</code> do pacote <code>lsr</code> que usa os seguintes argumentos:</p>
+<ul>
+<li><strong>x</strong> <span class="math inline">\(\to\)</span> um vetor numérico de valores de dados, variável preditora;</li>
+<li><strong>y</strong> <span class="math inline">\(\to\)</span> um vetor numérico de valores de dados, variável resposta;</li>
+<li><strong>formula</strong> <span class="math inline">\(\to\)</span> Fórmula na forma variável <em>resposta ~ grupo</em>;</li>
+<li><strong>data</strong> <span class="math inline">\(\to\)</span> dataframe ou matriz;</li>
+<li><strong>method</strong> <span class="math inline">\(\to\)</span> Qual versão da estatística d devemos calcular? Os valores possíveis são <em>pooled</em>(padrão), <em>x.sd</em>, <em>y.sd</em>, <em>corrected</em>, <em>raw</em>, <em>paired</em> e <em>unequal</em>.;</li>
+<li><strong>mu</strong> <span class="math inline">\(\to\)</span> O valor “nulo” contra o qual o tamanho do efeito deve ser medido. Quase sempre é 0 (padrão); raramente especificado.</li>
+</ul>
+<p>Assim, o <em>d</em> de Cohen pode ser obtido da seguinte forma:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> lsr<span class="sc">::</span><span class="fu">cohensD</span> (notas <span class="sc">~</span> sexo, <span class="at">data =</span> dados)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>d</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.125339</code></pre>
+</div>
+</div>
+<p>Bastante simples! Agora, como interpretar este resultado de d = 1,3 (arredondado)? Sua interpretação não é intuitiva, recomenda-se usar a <a href="#tbl-effect" class="quarto-xref">Tabela&nbsp;<span>12.1</span></a> para interpretar <span class="citation" data-cites="cohen1988power">(<a href="references.html#ref-cohen1988power" role="doc-biblioref">8</a>)</span>.</p>
+<div class="cell">
+<div id="tbl-effect" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-effect-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;12.1: Tamanho do Efeito
+</figcaption>
+<div aria-describedby="tbl-effect-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:300px; ">
+<table class="table table-striped table-hover table-condensed do-not-create-environment cell caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">d Cohen</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">Interpretação</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">&lt; 0,2</td>
+<td style="text-align: left;">insignificante</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0,2 &lt; 0.5</td>
+<td style="text-align: left;">pequeno</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">0.5 &lt; 0.8</td>
+<td style="text-align: left;">médio</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">&gt;= 0,8</td>
+<td style="text-align: left;">grande</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Assim, as notas dos alunos diferem significativamente (<em>P</em> &lt; 0,0001) de acordo com a sexo, sendo que as mulheres têm notas mais altas do que os homens e a magnitude dessa diferença é grande (d = 1.13).</p>
+</section>
+</section>
+</section>
+<section id="teste-t-para-grupos-pareados" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="teste-t-para-grupos-pareados"><span class="header-section-number">12.3</span> Teste <em>t</em> para grupos pareados</h2>
+<p>Um <em>teste t pareado</em> é usado para estimar se as médias de duas medidas relacionadas são significativamente diferentes uma da outra. Esse teste é usado quando duas variáveis contínuas são relacionadas porque são coletadas do mesmo participante em momentos diferentes (antes e depois), de locais diferentes na mesma pessoa ao mesmo tempo ou de casos e seus controles correspondentes.</p>
+<section id="dados-usados-nesta-seção-1" class="level3" data-number="12.3.1">
+<h3 data-number="12.3.1" class="anchored" data-anchor-id="dados-usados-nesta-seção-1"><span class="header-section-number">12.3.1</span> Dados usados nesta seção</h3>
+<p>O banco de dados é constituído por uma amostra de 15 escolares portadores de asma não controlada. Fizeram avaliação da sua função pulmonar no início do uso de um novo corticoide inalatório. Após 60 dias, repetiram a avaliação da função pulmonar. Para baixar o banco de dados, clique <a href="https://github.com/petronioliveira/Arquivos/blob/main/dadosPar.xlsx"><strong>aqui</strong></a>. Faça o downloado para o seu diretório de trabalho.</p>
+<section id="sec-pivot" class="level4" data-number="12.3.1.1">
+<h4 data-number="12.3.1.1" class="anchored" data-anchor-id="sec-pivot"><span class="header-section-number">12.3.1.1</span> Leitura e transformação dos dados</h4>
+<p>Leia o arquivo <code>dadosPar.xlsx</code> a partir do diretório de trabalho, usando a função <code>read_excel()</code> do pacote <code>readxl</code>. Atribuir os dados a um objeto com o nome <code>dados</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="st">"dados/dadosPar.xlsx"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A estrutura dos dados podem ser visualizada, usando a função <code>str()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dados)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [15 × 3] (S3: tbl_df/tbl/data.frame)
+ $ id   : num [1:15] 1 2 3 4 5 6 7 8 9 10 ...
+ $ basal: num [1:15] 1.3 1.47 2.06 1.95 1.47 1.13 1.48 0.94 1.05 0.87 ...
+ $ final: num [1:15] 1.53 1.63 2.35 2.7 2.01 1.53 1.66 1.59 1.5 1.61 ...</code></pre>
+</div>
+</div>
+<p>O dataframe <code>dados</code> encontra-se no formato amplo (<em>wide</em>), ou seja, com as colunas basal e final colocadas lado a lado como se fossem duas variáveis distintas, quando, na realidade, constituem-se em apenas uma variável contendo as medidas de VEF1 (Volume Expiratório Forçado no primeiro segundo).</p>
+<p>A função <code>pivot_longer()</code> do pacote <code>tidyr</code> fará a transformação do formato amplo para o longo (<em>long</em>). Este processo não é obrigatório, mas será realizado para fins de treinamento. O novo banco de dados será atribuído ao objeto dadosL. A função <code>pivot_longer()</code> necessita dos seguintes argumentos:</p>
+<ul>
+<li><strong>dados</strong> <span class="math inline">\(\to\)</span> dataframe a ser pivotado, tranformado;</li>
+<li><strong>cols</strong> <span class="math inline">\(\to\)</span> colunas a serem transformadas no formato longo;</li>
+<li><strong>names_to</strong> <span class="math inline">\(\to\)</span> Especifica o nome da coluna a ser criada a partir dos dados armazenados nos nomes das colunas de dados;</li>
+<li><strong>values_to</strong> <span class="math inline">\(\to\)</span> Especifica o nome da coluna a ser criada a partir dos dados armazenados nos valores das células;</li>
+<li><strong>…</strong> <span class="math inline">\(\to\)</span> possui outros argumento. Ver ajuda.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>dadosL <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="fu">c</span>(basal, final), </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">names_to =</span> <span class="st">"momento"</span>,</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">values_to =</span> <span class="st">"medidas"</span>)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dadosL)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [30 × 3] (S3: tbl_df/tbl/data.frame)
+ $ id     : num [1:30] 1 1 2 2 3 3 4 4 5 5 ...
+ $ momento: chr [1:30] "basal" "final" "basal" "final" ...
+ $ medidas: num [1:30] 1.3 1.53 1.47 1.63 2.06 2.35 1.95 2.7 1.47 2.01 ...</code></pre>
+</div>
+</div>
+</section>
+<section id="medidas-resumidoras" class="level4" data-number="12.3.1.2">
+<h4 data-number="12.3.1.2" class="anchored" data-anchor-id="medidas-resumidoras"><span class="header-section-number">12.3.1.2</span> Medidas Resumidoras</h4>
+<p>Para resumir as variáveis, serão usadas as funções <code>group_by()</code> e <code>summarise()</code> do pacote <code>dplyr</code>, aplicadas ao formato longo <code>dadosL</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>resumo <span class="ot">&lt;-</span> dadosL <span class="sc">%&gt;%</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(momento) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span> (),</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">media =</span> <span class="fu">mean</span>(medidas, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">dp =</span> <span class="fu">sd</span> (medidas, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">mediana =</span> <span class="fu">median</span> (medidas, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">IIQ =</span> <span class="fu">IQR</span> (medidas, <span class="at">na.rm =</span><span class="cn">TRUE</span>),</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">ep =</span> dp<span class="sc">/</span><span class="fu">sqrt</span>(n),</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">me =</span> ep <span class="sc">*</span> <span class="fu">qt</span>(<span class="dv">1</span> <span class="sc">-</span> (<span class="fl">0.05</span><span class="sc">/</span><span class="dv">2</span>), n <span class="sc">-</span> <span class="dv">1</span>)) </span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>resumo</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 8
+  momento     n media    dp mediana   IIQ    ep    me
+  &lt;chr&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 basal      15  1.31 0.427    1.26  0.48 0.110 0.236
+2 final      15  1.69 0.471    1.59  0.38 0.122 0.261</code></pre>
+</div>
+</div>
+</section>
+<section id="visualização-dos-dados" class="level4" data-number="12.3.1.3">
+<h4 data-number="12.3.1.3" class="anchored" data-anchor-id="visualização-dos-dados"><span class="header-section-number">12.3.1.3</span> Visualização dos dados</h4>
+<ol type="1">
+<li><em>Tabela</em></li>
+</ol>
+<p>É possível exibir os dados, tanto o banco de dados <code>dados</code> como o <code>dadosL</code>, de uma maneira mais elegante (<a href="#tbl-tpar" class="quarto-xref">Tabela&nbsp;<span>12.2</span></a>), usando a função <code>kable()</code> do pacote <code>knitr</code> <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> e a função <code>kable_styling()</code> do pacote <code>kableExtra</code>. A função <code>kable ()</code> usa a função <code>head()</code> embutida. Ao executar os códigos, se não for especificado, é mostrado apenas 6 linhas. Será mostrado o formato amplo e todas as suas 15 linhas:</p>
+<div class="cell">
+<div id="tbl-tpar" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tpar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;12.2: Função pulmonar de 15 escolares asmáticos antes-e-depois \ do uso de um corticoide inalatório
+</figcaption>
+<div aria-describedby="tbl-tpar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:300px; ">
+<table class="table table-striped table-hover table-condensed do-not-create-environment cell caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">Id</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">Basal</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">Final</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1.30</td>
+<td style="text-align: right;">1.53</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.47</td>
+<td style="text-align: right;">1.63</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2.06</td>
+<td style="text-align: right;">2.35</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1.95</td>
+<td style="text-align: right;">2.70</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.47</td>
+<td style="text-align: right;">2.01</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.13</td>
+<td style="text-align: right;">1.53</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">1.48</td>
+<td style="text-align: right;">1.66</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.94</td>
+<td style="text-align: right;">1.59</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1.05</td>
+<td style="text-align: right;">1.50</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0.87</td>
+<td style="text-align: right;">1.61</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">0.75</td>
+<td style="text-align: right;">1.17</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">1.26</td>
+<td style="text-align: right;">1.30</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">1.21</td>
+<td style="text-align: right;">1.41</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">0.78</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">1.99</td>
+<td style="text-align: right;">2.37</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<ol start="2" type="1">
+<li><em>Gráficos</em></li>
+</ol>
+<p>Apenas, por uma questão didática, serão apresentadas várias maneiras de mostrar os dados visualmente. Podem ser usados qualquer um dos tipos a seguir, pois todos dão, praticamente, a mesma informação.</p>
+<p><strong>Gráfico de barra de erro</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>resumo <span class="sc">%&gt;%</span> </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>momento, <span class="at">y=</span>media, <span class="at">fill=</span>momento)) <span class="sc">+</span> </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>, <span class="at">width =</span> <span class="fl">0.4</span>, <span class="at">color=</span><span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>media, <span class="at">ymax=</span>media<span class="sc">+</span>me), <span class="at">width=</span><span class="fl">0.1</span>,</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">position=</span><span class="fu">position_dodge</span>(.<span class="dv">9</span>)) <span class="sc">+</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Avaliação de um corticoide inalatório"</span>, </span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x=</span><span class="st">"Momento"</span>, <span class="at">y =</span> <span class="st">"Volume Forçado em 1 seg (L)"</span>)<span class="sc">+</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"cyan4"</span>,<span class="st">"cyan3"</span>)) <span class="sc">+</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span> (<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.05</span>))) <span class="sc">+</span>                    </span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>) </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-be" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-be-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="12-teste-t_files/figure-html/fig-be-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-be-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;12.5: Gráfico de barra de erro comparando o grupo antes-e-depois
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Nesse gráfico (<a href="#fig-be" class="quarto-xref">Figura&nbsp;<span>12.5</span></a>), a altura da barra representa a média do <em>Volume Forçado em 1 seg</em> (VEF1) nos diferentes momentos (basal e final). O erro corresponde a margem de erro (me) a partir do ponto (média), ou seja, é o intervalo de confiança de 95%. O limite inferior do IC95% foi suprimido.</p>
+<p><strong>Boxplot</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>dadosL <span class="sc">%&gt;%</span> </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> momento, <span class="at">y =</span> medidas, <span class="at">fill =</span> momento)) <span class="sc">+</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">stat =</span> <span class="st">"boxplot"</span>, <span class="at">width =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span> (<span class="at">outlier.color =</span> <span class="st">"red"</span>, </span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">outlier.shape =</span> <span class="dv">1</span>,</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">outlier.size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"cyan4"</span>,<span class="st">"cyan3"</span>)) <span class="sc">+</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Volume Forçado em 1 seg (L)"</span>) <span class="sc">+</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Momento"</span>) <span class="sc">+</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, </span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">geom =</span> <span class="st">"point"</span>, </span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>               <span class="at">shape =</span> <span class="dv">19</span>, <span class="at">size =</span> <span class="dv">2</span>,  <span class="at">color=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>)) <span class="sc">+</span></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-bp" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="12-teste-t_files/figure-html/fig-bp-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;12.6: Boxplots comparando o grupo antes-e-depois
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>A altura da caixa dos boxplots (<a href="#fig-bp" class="quarto-xref">Figura&nbsp;<span>12.6</span></a>)) é o intervalo interquartil (IIQ) e corresponde a 50% dos dados. A linha que corta horizontalmente a caixa é a mediana. Os bigodes da caixa (<em>whiskers</em>) em suas extremidades são os limites inferior e superior dos dados, excluindo os valores atípicos (<em>outliers</em>), representado no boxplot final por um ponto vermelho, acima do limite superior. Os pontos em vermelho (dentro das caixas) representam as médias.</p>
+<p><strong>Gráfico de linha</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>resumo <span class="sc">%&gt;%</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>momento, <span class="at">y=</span>media, <span class="at">group=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linetype =</span><span class="st">'dashed'</span>) <span class="sc">+</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>media <span class="sc">-</span> me,</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ymax=</span>media <span class="sc">+</span> me),</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">width=</span><span class="fl">0.1</span>,</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">linewidth =</span> <span class="dv">1</span>,</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"cyan4"</span>,<span class="st">"cyan3"</span>)) <span class="sc">+</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="fu">c</span>(<span class="st">"cyan4"</span>, <span class="st">"cyan3"</span>)) <span class="sc">+</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()<span class="sc">+</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">'Momento'</span>,</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">'Volume Forçado em 1 seg (L)'</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-lin" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-lin-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="12-teste-t_files/figure-html/fig-lin-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lin-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;12.7: Gráfico de linha comparando o grupo antes-e-depois
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Este gráfico de linha (<a href="#fig-lin" class="quarto-xref">Figura&nbsp;<span>12.7</span></a>) com representação da margem de erro tem a mesma interpretação do gráfico de barra de erro. A escolha do tipo de gráfico depende da ênfase do autor sobre os dados.</p>
+</section>
+<section id="criação-de-uma-variável-que-represente-a-diferença-entre-as-médias" class="level4" data-number="12.3.1.4">
+<h4 data-number="12.3.1.4" class="anchored" data-anchor-id="criação-de-uma-variável-que-represente-a-diferença-entre-as-médias"><span class="header-section-number">12.3.1.4</span> Criação de uma variável que represente a diferença entre as médias</h4>
+<p>A diferença entre as média basal e final será atribuída ao nome <code>D</code>. Esta ação será realizada, utilizando o banco de dados amplo (<code>dados</code>):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>dados<span class="sc">$</span>D <span class="ot">&lt;-</span> dados<span class="sc">$</span>basal <span class="sc">-</span> dados<span class="sc">$</span>final</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> (dados)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+     id basal final     D
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     1  1.3   1.53 -0.23
+2     2  1.47  1.63 -0.16
+3     3  2.06  2.35 -0.29
+4     4  1.95  2.7  -0.75
+5     5  1.47  2.01 -0.54
+6     6  1.13  1.53 -0.4 </code></pre>
+</div>
+</div>
+<p>Atenção, agora, o banco de dados apresenta uma nova variável <code>D</code>, pois o foco do teste <em>t</em> pareado é essa diferença entre as médias, basal e final, a média das diferenças.</p>
+<p><strong>Resumo da variável <code>D</code></strong></p>
+<p>Ao resumo será atribuído ao nome <code>sumario</code> (sem acento):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>resumoD <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> </span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">media =</span> <span class="fu">mean</span> (D),</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">dp =</span> <span class="fu">sd</span> (D),</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">mediana =</span> <span class="fu">median</span> (D),</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">IIQ =</span> <span class="fu">IQR</span> (D),</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">min =</span> <span class="fu">min</span> (D),</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">max =</span> <span class="fu">max</span> (D))</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>resumoD</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 6
+   media    dp mediana   IIQ   min     max
+   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+1 -0.377 0.218   -0.38 0.285 -0.75 -0.0400</code></pre>
+</div>
+</div>
+<p>Existe uma diferença de 0.38L entre o VEF1 basal e o final. A pergunta que se faz é: Esta diferença tem significância estatística? Os gráficos sugerem que sim!</p>
+</section>
+</section>
+<section id="definição-das-hipóteses-estatísticas-1" class="level3" data-number="12.3.2">
+<h3 data-number="12.3.2" class="anchored" data-anchor-id="definição-das-hipóteses-estatísticas-1"><span class="header-section-number">12.3.2</span> Definição das hipóteses estatísticas</h3>
+<p>Será usado um teste bicaudal. Se a intervenção não produz efeito, então:</p>
+<p><span class="math display">\[
+H_0: \mu_D = 0  
+\]</span> Se a intervenção produz efeito, então:</p>
+<p><span class="math display">\[
+H_1: \mu_D \neq 0
+\]</span></p>
+</section>
+<section id="regra-de-decisão" class="level3" data-number="12.3.3">
+<h3 data-number="12.3.3" class="anchored" data-anchor-id="regra-de-decisão"><span class="header-section-number">12.3.3</span> Regra de decisão</h3>
+<p>O nível significância, <span class="math inline">\(\alpha\)</span>, escolhido é igual a 0,05. A distribuição da estatística do teste, sob a <span class="math inline">\(H_{0}\)</span>, é a distribuição <em>t</em> que é dependente dos graus de liberdade. O número de graus de liberdade á igual ao número de observações menos 1, neste caso são o número de pares menos 1.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(dados<span class="sc">$</span>D)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>gl <span class="ot">&lt;-</span> n <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>gl</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 14</code></pre>
+</div>
+</div>
+<p>Para um <span class="math inline">\(\alpha = 0,05\)</span>, o valor crítico de <em>t</em> para gl = 14 para uma hipótese alternativa bicaudal:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> alpha<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">qt</span>(p, <span class="dv">14</span>), <span class="dv">3</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.145</code></pre>
+</div>
+</div>
+<p>Portanto, se</p>
+<p><span class="math display">\[
+\mid t_{calculado}\mid &lt; \mid t_{crítico}\mid -&gt; não \quad rejeitar \quad H_{0} \\ \mid t_{calculado}\mid &gt; \mid t_{crítico}\mid -&gt; rejeitar \quad H_{0}
+\]</span></p>
+</section>
+<section id="teste-estatístico-1" class="level3" data-number="12.3.4">
+<h3 data-number="12.3.4" class="anchored" data-anchor-id="teste-estatístico-1"><span class="header-section-number">12.3.4</span> Teste estatístico</h3>
+<section id="lógica-do-teste" class="level4" data-number="12.3.4.1">
+<h4 data-number="12.3.4.1" class="anchored" data-anchor-id="lógica-do-teste"><span class="header-section-number">12.3.4.1</span> Lógica do teste</h4>
+<p>A estatística do teste <em>t</em> dependente é a mesma do teste <em>t</em> independente r dada por:</p>
+<p><span class="math display">\[
+T = \frac{\bar{D} - \mu_{D}}{EP_{D}}
+\]</span></p>
+<p>Como na equação do teste <em>t</em> para amostras independentes, sob a hipótese nula igual a zero, <span class="math inline">\(\mu_{D} = 0\)</span>, assim, a equação fica:</p>
+<p><span class="math display">\[
+T = \frac{\bar{D}}{EP_{D}}
+\]</span></p>
+<p>A estimativa do erro padrão das diferenças é dada por:</p>
+<p><span class="math display">\[
+EP_{D}=\frac{s_{D}}{\sqrt{n}}
+\]</span></p>
+<p>O desvio padrão das diferenças, <span class="math inline">\(s_{D}\)</span> , é dado por:</p>
+<p><span class="math display">\[
+s_{D}=\sqrt\frac{\Sigma(D_{i} - \bar{D})^2}{n - 1}
+\]</span></p>
+<p>Onde <span class="math inline">\(D_{i}\)</span> são as diferença individuais (<span class="math inline">\(x_1 - y_1, x_2 - y_2, ..., x_n - y_n\)</span>).</p>
+<p>Da mesma maneira que no teste <em>t</em> para grupos independentes, essa demonstração serve para uma melhor compreensão de como o teste funciona, mas para executar este teste <em>t</em> não há necessidade disso, basta saber como encaminhar ao R, como será visto adiante.</p>
+</section>
+<section id="pressupostos-do-teste" class="level4" data-number="12.3.4.2">
+<h4 data-number="12.3.4.2" class="anchored" data-anchor-id="pressupostos-do-teste"><span class="header-section-number">12.3.4.2</span> Pressupostos do teste</h4>
+<p>O teste <em>t</em> pareado assume que os seguintes pressupostos devem ser atendidos:</p>
+<ol type="1">
+<li>Os dados devem ser dependentes;</li>
+<li>A variável desfecho deve estar em uma escala contínua;</li>
+<li>As diferenças entre os pares devem ter distribuição normal.</li>
+</ol>
+<p>Ao usar um teste <em>t</em> pareado, a variação entre os pares de medidas é a estatística mais importante e a variação entre os participantes, como no teste t de duas amostras independentes, é de pouco interesse, não havendo necessidade de se verificar se as variâncias dos grupos são iguais.</p>
+<p>Para testar o pressuposto de <em>normalidade</em> das diferenças, usa-se a variável criada da diferença entre os pares, <em>D</em>. Verifica-se a normalidade dessa variável com o teste Shapiro-Wilk, usando a função <code>shapiro_test()</code> do pacote <code>rstatix</code>, já usada no teste <em>t</em> de amostras independentes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>shapiro <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> </span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>   rstatix<span class="sc">::</span><span class="fu">shapiro_test</span>(D)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a> shapiro</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  variable statistic     p
+  &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt;
+1 D            0.942 0.410</code></pre>
+</div>
+</div>
+<p>O teste de Shapiro-Wilk retorna um valor P &gt; 0,05, mostrando que a variável D que não se pode rejeitar a hipóteses nula de sua normalidade.</p>
+<p>Além disso, um gráfico Q-Q (<a href="#fig-qq" class="quarto-xref">Figura&nbsp;<span>12.8</span></a>) pode ser usado para avaliar a normalidade, com a função <code>ggqqplot()</code> do pacote <code>ggpubr</code> que produz um gráfico QQ normal com uma linha de referência, acompanhada de area sombreada, correspondente ao IC95%</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>ggpubr<span class="sc">::</span><span class="fu">ggqqplot</span> (dados<span class="sc">$</span>D, <span class="at">color =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Diferença Basal-Inicial"</span>, </span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Quantis teóricos"</span>) <span class="sc">+</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-qq" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-qq-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="12-teste-t_files/figure-html/fig-qq-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-qq-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;12.8: Gráfico Q-Q para avaliar a normalidade
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Os resultados do teste de Shapiro-Wilk e ográfico QQ, mostram que a <span class="math inline">\(H_{0}\)</span> de normalidade da variável <em>D</em> não é rejeitada, apesar de haver uma pequena assimetria à esquerda que não impede o prosseguimento da análise.</p>
+</section>
+<section id="execução-do-teste-estatístico" class="level4" data-number="12.3.4.3">
+<h4 data-number="12.3.4.3" class="anchored" data-anchor-id="execução-do-teste-estatístico"><span class="header-section-number">12.3.4.3</span> Execução do teste estatístico</h4>
+<p>O cálculo do teste <em>t</em> pareado pode usar a mesma função do teste <em>t</em> para amostras independentes, <code>t_test()</code>, do pacote <code>rstatix</code>, mudando o argumento <code>paired =FALSE</code>(padrão) por <code>paired =TRUE</code>. Assim:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>teste_par <span class="ot">&lt;-</span> dadosL <span class="sc">%&gt;%</span> </span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  rstatix<span class="sc">::</span> <span class="fu">t_test</span>(<span class="at">formula =</span> medidas <span class="sc">~</span> momento,</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">paired =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">detailed =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>teste_par</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 13
+  estimate .y.     group1 group2    n1    n2 statistic         p    df conf.low
+*    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+1   -0.377 medidas basal  final     15    15     -6.70 0.0000102    14   -0.497
+# ℹ 3 more variables: conf.high &lt;dbl&gt;, method &lt;chr&gt;, alternative &lt;chr&gt;</code></pre>
+</div>
+</div>
+<p>Observe que foi usado o conjunto de dados de formato longo (<code>dadosL</code>) para usar a fórmula (<code>x ~ grupo</code>). Da mesma maneira do que o teste <em>t</em> para amostras independentes, é possível ver os resultados do teste <em>t</em> , usando o objeto <code>teste_par</code> que os recebeu.</p>
+<p>Por exemplo, os limites inferior (<code>conf.low</code>) e superior (<code>conf.high</code>) do intervalo de confiança de 95% da estimativa de diferença (<em>D</em>) entre as médias</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>IC95 <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">c</span>(teste_par<span class="sc">$</span>conf.low, teste_par<span class="sc">$</span>conf.high),<span class="dv">3</span>)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>IC95</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.497 -0.256</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="conclusão-1" class="level3" data-number="12.3.5">
+<h3 data-number="12.3.5" class="anchored" data-anchor-id="conclusão-1"><span class="header-section-number">12.3.5</span> Conclusão</h3>
+<p>Conclui-se que o VEF1 dos escolares asmáticos se modificou significativamente entre o início e após 60 dias do uso de um novo medicamento com uma confiança de 95%. A diferença (<span class="math inline">\(\mu_{basal} - \mu_{final}\)</span>) encontrada é estatisticamente significativa (t = -6.6969, gl = 14, <em>P</em> = 1.02^{-5}), com uma confiança de 95%.</p>
+<p>Observe que o intervalo de confiança de 95% da diferença de -0.38 está todo abaixo de zero (-0.497, -0.256), confirmando a significância.</p>
+</section>
+<section id="tamanho-do-efeito-1" class="level3" data-number="12.3.6">
+<h3 data-number="12.3.6" class="anchored" data-anchor-id="tamanho-do-efeito-1"><span class="header-section-number">12.3.6</span> Tamanho do Efeito</h3>
+<p>O tamanho do efeito pode ser determinado, também, com o teste <em>d</em> de Cohen, usando a função <code>cohensD()</code> do pacote <code>lsr</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>d_par <span class="ot">&lt;-</span> lsr<span class="sc">::</span><span class="fu">cohensD</span> (dados<span class="sc">$</span>basal, dados<span class="sc">$</span>final)</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>d_par</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8379499</code></pre>
+</div>
+</div>
+<p>Dessa forma, o uso do novo corticoide inalatório modificou significativamente o VEF1 dos escolares asmáticos com o uso de um novo corticoide inalatório (<em>P</em> = 1.02^{-5}), mostrando um aumento deste e que a magnitude dessa diferença é grande (<em>d</em> = 0.84).</p>
+<p>Os resultados podem ser apresentados usando um gráfico de linha (<a href="#fig-fim" class="quarto-xref">Figura&nbsp;<span>12.9</span></a>)), aproveitando o resultado da função <code>t_test()</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>resumo <span class="sc">%&gt;%</span> </span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>momento, <span class="at">y=</span>media, <span class="at">group=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">linetype =</span><span class="st">'dashed'</span>) <span class="sc">+</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>media <span class="sc">-</span> me, </span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">ymax=</span>media <span class="sc">+</span> me), </span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">width=</span><span class="fl">0.1</span>,</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">size =</span> <span class="dv">1</span>,</span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"cyan4"</span>,<span class="st">"cyan3"</span>)) <span class="sc">+</span></span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>   <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Avaliação do Uso de Corticosteroide Inalatório"</span>,</span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> rstatix<span class="sc">::</span><span class="fu">get_test_label</span>(<span class="at">stat.test =</span> teste_par,</span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">correction =</span> <span class="st">"none"</span>,</span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">detailed =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">type =</span> <span class="st">"expression"</span>),</span>
+<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">x=</span><span class="st">"Momento"</span>, </span>
+<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Volume Expiratório Forçado em 1 seg (L)"</span>,</span>
+<span id="cb56-17"><a href="#cb56-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"d Cohen = 0,84"</span>)<span class="sc">+</span></span>
+<span id="cb56-18"><a href="#cb56-18" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb56-19"><a href="#cb56-19" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-fim" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fim-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="12-teste-t_files/figure-html/fig-fim-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fim-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;12.9: Gráfico de linha comparando um grupo de escolares asmáticos antes e depois do uso de um corticosteroide inalatório
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body" role="list" style="display: none">
+<div id="ref-pagano2000t_test" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Pagano M, Kimberly G. Comparison of Two Means. Em: Principles of Biostatistics. Second Edition. CRC Press; 2000. p. 262–72. </div>
+</div>
+<div id="ref-zimmerman2004note" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Zimmerman DW. A note on preliminary tests of equality of variances. Br J Math Stat Psychol. 2004;57(1):173–81. </div>
+</div>
+<div id="ref-razali2011power" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Razali NM, Wah YB, et al. Power comparisons of shapiro-wilk, kolmogorov-smirnov, lilliefors and anderson-darling tests. Journal of statistical modeling and analytics. 2011;2(1):21–33. </div>
+</div>
+<div id="ref-ghasemi2012normality" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Ghasemi A, Zahediasl S. Normality tests for statistical analysis: a guide for non-statisticians. International journal of endocrinology and metabolism. 2012;10(2):486. </div>
+</div>
+<div id="ref-yap2011comparisons" class="csl-entry" role="listitem">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Yap BW, Sim CH. Comparisons of various types of normality tests. Journal of Statistical Computation and Simulation. 2011;81(12):2141–55. </div>
+</div>
+<div id="ref-fox2018car" class="csl-entry" role="listitem">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Fox J, Weisberg S. An R Companion to Applied Regression [Internet]. Third. Thousand Oaks <span>CA</span>: Sage; 2019. Disponível em: <a href="https://socialsciences.mcmaster.ca/jfox/Books/Companion/">https://socialsciences.mcmaster.ca/jfox/Books/Companion/</a></div>
+</div>
+<div id="ref-kassambara2022rstatix" class="csl-entry" role="listitem">
+<div class="csl-left-margin">7. </div><div class="csl-right-inline">Kassambara A. rstatix: Pipe-Friendly Framework for Basic Statistical Tests [Internet]. 2022. Disponível em: <a href="https://CRAN.R-project.org/package=rstatix">https://CRAN.R-project.org/package=rstatix</a></div>
+</div>
+<div id="ref-cohen1988power" class="csl-entry" role="listitem">
+<div class="csl-left-margin">8. </div><div class="csl-right-inline">Cohen J. Statistical power analysis for the behavioral sciences. 2nd Edition. Routledge; 1988. </div>
+</div>
+<div id="ref-lindenau2012effect" class="csl-entry" role="listitem">
+<div class="csl-left-margin">9. </div><div class="csl-right-inline">Lindenau JD, Guimaraes LSP. Calculating the Effect Size in SPSS. Revista HCPA [Internet]. 2012;32(3):363–81. Disponível em: <a href="https://seer.ufrgs.br/hcpa">https://seer.ufrgs.br/hcpa</a></div>
+</div>
+</div>
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Teste paramétricos são testes estatísticos que se baseiam nos padrões da distribuição populacional da variável em estudo, por exemplo, a distribuição normal é descrita por dois parâmetros – média e desvio padrão – que são suficientes para se conhecer as probabilidades. Os testes que não requerem a especificação da forma de distribuição da população, ou seja, têm distribuição livre, são denominados de não paramétricos.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Veja também a <a href="08-assimetria_curtose.html#sec-qqplot" class="quarto-xref"><span>Seção 8.3.1.2</span></a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Se as variâncias forem diferentes (<code>var.equal = FALSE</code>), o teste calcula os graus de liberdade pela fórmula de Welch, bem mais complicada.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Veja também a <a href="06-descrevendoDados.html#sec-tabfreq" class="quarto-xref"><span>Seção 6.4.2.2</span></a>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiada");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiada");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./11-testeHipoteses.html" class="pagination-link" aria-label="Teste de Hipóteses">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Teste de Hipóteses</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./13-anova.html" class="pagination-link" aria-label="Análise de Variância">
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Análise de Variância</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

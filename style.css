@@ -18,3 +18,45 @@ pre code {
     display: block !important;
     width: 600px !important; /* Ou max-width, dependendo da sua preferência de comportamento */
 }
+
+#tbl-var {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block !important;
+    width: 600px !important; /* Ou max-width, dependendo da sua preferência de comportamento */
+}
+
+#tbl-assimetria {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block !important;
+    width: 300px !important; /* Ou max-width, dependendo da sua preferência de comportamento */
+}
+
+#tbl-effect {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block !important;
+    width: 300px !important; /* Ou max-width, dependendo da sua preferência de comportamento */
+}
+
+#tbl-tpar {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block !important;
+    width: 300px !important; /* Ou max-width, dependendo da sua preferência de comportamento */
+}
+
+#tbl-effectsize {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block !important;
+    width: 350px !important; /* Ou max-width, dependendo da sua preferência de comportamento */
+}
+
+#tbl-tab2x3 {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block !important;
+    width: 350px !important; /* Ou max-width, dependendo da sua preferência de comportamento */
+}

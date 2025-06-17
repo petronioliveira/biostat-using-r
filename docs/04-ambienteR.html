@@ -263,8 +263,20 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./12-teste-t.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comparação entre duas médias</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Análise de Variância</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -938,7 +950,7 @@ Ao executar essa função, é possível usá-la para calcular a área de um cír
 <span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_compare_means</span>(<span class="at">method =</span> <span class="st">"t.test"</span>, <span class="at">label.x =</span> <span class="fl">0.5</span>)</span>
 <span id="cb77-10"><a href="#cb77-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Neste momento, não serão discutidos os códigos da função. Ela será utilizada como uma função qualquer com os dados do arquivo <code>dadosPop.xlsx</code>^[Para maiores detalhes, consulte a o <span class="quarto-unresolved-ref">?sec-testet</span>. Os argumentos da função são o dataframe (df = dados), a variável x (var.x = pop) e a variável y (var.y = altura). Dessa forma, está se comparando a altura de mulheres de duas populações de duas regiões diferentes :</p>
+<p>Neste momento, não serão discutidos os códigos da função. Ela será utilizada como uma função qualquer com os dados do arquivo <code>dadosPop.xlsx</code>^[Para maiores detalhes, consulte a o <a href="12-teste-t.html" class="quarto-xref"><span>Capítulo 12</span></a>. Os argumentos da função são o dataframe (df = dados), a variável x (var.x = pop) e a variável y (var.y = altura). Dessa forma, está se comparando a altura de mulheres de duas populações de duas regiões diferentes :</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="st">"dados/dadosPop.xlsx"</span>)</span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>dados<span class="sc">$</span>pop <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(dados<span class="sc">$</span>pop)</span>
