@@ -11,21 +11,31 @@ A @tbl-var mostra um conjunto de variáveis e suas medidas (dados) de um grupo d
 tabela <- read.csv('dados/tabela.csv', sep = ";",  fileEncoding = "latin1")
 ```
 
-```{r #tbl-var, echo=FALSE, message=FALSE, warning=FALSE}
-library(dplyr)  
-knitr::kable(tabela, 
-             booktabs = TRUE,
-             format = "html",             
-             col.names = c('Id', 'Nome','Idade', 'Sexo', 'PAS', 'PAD', 'Estado Geral'),              
-             align = "lcccccc",              
-             caption = "Variáveis e dados") %>%    
-  kableExtra::kable_styling(
-    full_width = FALSE, 
-    position = "center",
-    html_font = "Cambria",
-    bootstrap_options = c("striped", "hover", "condensed")) %>%
-  kableExtra::scroll_box(width = "600px") %>%
-  kableExtra::row_spec(0, bold = TRUE)
+```{r}
+#| label: tbl-var
+#| echo: FALSE
+#| message: FALSE
+#| warning: FALSE
+#| tbl-cap: "Variáveis e dados"
+
+library(dplyr)
+library(flextable)
+
+minha_tab <- flextable(tabela) %>%
+  set_header_labels(
+  id = "Id",
+  nome = "Nome",
+  idade = "Idade",
+  sexo = "Sexo",
+  p_sist = "PAS",
+  p_diast = "PAD",
+  e_geral = "Estado Geral") %>%
+  autofit() %>%
+  theme_booktabs() %>%
+  align(align = "center", part = "header") %>% 
+  align(align = "center", part = "body") %>%   
+  bold(part = "header") 
+minha_tab
 ```
 
 ## População e Amostra

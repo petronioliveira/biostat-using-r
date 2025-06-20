@@ -1,0 +1,1838 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>16&nbsp; Análise de Dados Categóricos – Bioestatística Usando o R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./17-testes-naoParametricos.html" rel="next">
+<link href="./15-correlacao-regressao.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-8da5b4427184b79ecddefad3d342027e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<link href="site_libs/tabwid-1.1.3/tabwid.css" rel="stylesheet">
+
+<script src="site_libs/tabwid-1.1.3/tabwid.js"></script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./16-dadosCategoricos.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Análise de Dados Categóricos</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Bioestatística Usando o R</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefácio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-dados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Natureza dos Dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-producaoDados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Produção dos Dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-ambienteR.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Ambiente do <em>R</em></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-manipulandoDados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Manipulando os dados no <em>RStudio</em></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-descrevendoDados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Descrevendo os dados</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-probabilidades.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introdução à Teoria das Probabilidades</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-assimetria_curtose.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Assimetria e Curtose</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-distAmostrais.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Distribuições Amostrais</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-estimacao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Estimação</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-testeHipoteses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Teste de Hipóteses</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-teste-t.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Comparação entre duas médias</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Análise de Variância</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-anovaRep.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">ANOVA de medidas repetidas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-correlacao-regressao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Correlação e Regressão</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-dadosCategoricos.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Análise de Dados Categóricos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17-testes-naoParametricos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Métodos não paramétricos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18-epidemiologia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Estatística em Epidemiologia</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Índice</h2>
+   
+  <ul>
+  <li><a href="#pacotes-necessários" id="toc-pacotes-necessários" class="nav-link active" data-scroll-target="#pacotes-necessários"><span class="header-section-number">16.1</span> Pacotes necessários</a></li>
+  <li><a href="#sec-qui" id="toc-sec-qui" class="nav-link" data-scroll-target="#sec-qui"><span class="header-section-number">16.2</span> Qui-Quadrado</a>
+  <ul class="collapse">
+  <li><a href="#distribuição-qui-quadrado" id="toc-distribuição-qui-quadrado" class="nav-link" data-scroll-target="#distribuição-qui-quadrado"><span class="header-section-number">16.2.1</span> Distribuição qui-quadrado</a></li>
+  <li><a href="#estatística-do-qui-quadrado" id="toc-estatística-do-qui-quadrado" class="nav-link" data-scroll-target="#estatística-do-qui-quadrado"><span class="header-section-number">16.2.2</span> Estatística do qui-quadrado</a></li>
+  <li><a href="#qui-quadrado-de-independência-ou-associação" id="toc-qui-quadrado-de-independência-ou-associação" class="nav-link" data-scroll-target="#qui-quadrado-de-independência-ou-associação"><span class="header-section-number">16.2.3</span> Qui-quadrado de independência ou associação</a></li>
+  <li><a href="#teste-aderência-ou-do-melhor-ajuste" id="toc-teste-aderência-ou-do-melhor-ajuste" class="nav-link" data-scroll-target="#teste-aderência-ou-do-melhor-ajuste"><span class="header-section-number">16.2.4</span> Teste Aderência ou do Melhor Ajuste</a></li>
+  <li><a href="#sec-tabextensas" id="toc-sec-tabextensas" class="nav-link" data-scroll-target="#sec-tabextensas"><span class="header-section-number">16.2.5</span> Qui-quadrado de Pearson para tabelas extensas</a></li>
+  </ul></li>
+  <li><a href="#teste-exato-de-fisher" id="toc-teste-exato-de-fisher" class="nav-link" data-scroll-target="#teste-exato-de-fisher"><span class="header-section-number">16.3</span> Teste exato de Fisher</a>
+  <ul class="collapse">
+  <li><a href="#dados-usados-nesta-seção-2" id="toc-dados-usados-nesta-seção-2" class="nav-link" data-scroll-target="#dados-usados-nesta-seção-2"><span class="header-section-number">16.3.1</span> Dados usados nesta seção</a></li>
+  <li><a href="#hipóteses-estatísticas-3" id="toc-hipóteses-estatísticas-3" class="nav-link" data-scroll-target="#hipóteses-estatísticas-3"><span class="header-section-number">16.3.2</span> Hipóteses estatísticas</a></li>
+  <li><a href="#cálculo-da-estatística-do-teste-2" id="toc-cálculo-da-estatística-do-teste-2" class="nav-link" data-scroll-target="#cálculo-da-estatística-do-teste-2"><span class="header-section-number">16.3.3</span> Cálculo da estatística do teste</a></li>
+  <li><a href="#conclusão-2" id="toc-conclusão-2" class="nav-link" data-scroll-target="#conclusão-2"><span class="header-section-number">16.3.4</span> Conclusão</a></li>
+  </ul></li>
+  <li><a href="#teste-de-macnemar" id="toc-teste-de-macnemar" class="nav-link" data-scroll-target="#teste-de-macnemar"><span class="header-section-number">16.4</span> Teste de Macnemar</a>
+  <ul class="collapse">
+  <li><a href="#pressupostos-do-teste-de-mcnemar" id="toc-pressupostos-do-teste-de-mcnemar" class="nav-link" data-scroll-target="#pressupostos-do-teste-de-mcnemar"><span class="header-section-number">16.4.1</span> Pressupostos do teste de McNemar</a></li>
+  <li><a href="#dados-usados-nesta-seção-3" id="toc-dados-usados-nesta-seção-3" class="nav-link" data-scroll-target="#dados-usados-nesta-seção-3"><span class="header-section-number">16.4.2</span> Dados usados nesta seção</a></li>
+  <li><a href="#hipóteses-estatísticas-4" id="toc-hipóteses-estatísticas-4" class="nav-link" data-scroll-target="#hipóteses-estatísticas-4"><span class="header-section-number">16.4.3</span> Hipóteses estatísticas</a></li>
+  <li><a href="#lógica-do-teste" id="toc-lógica-do-teste" class="nav-link" data-scroll-target="#lógica-do-teste"><span class="header-section-number">16.4.4</span> Lógica do teste</a></li>
+  <li><a href="#cálculo-do-teste-de-mcnemar-no-r" id="toc-cálculo-do-teste-de-mcnemar-no-r" class="nav-link" data-scroll-target="#cálculo-do-teste-de-mcnemar-no-r"><span class="header-section-number">16.4.5</span> Cálculo do teste de McNemar no R</a></li>
+  <li><a href="#conclusão-3" id="toc-conclusão-3" class="nav-link" data-scroll-target="#conclusão-3"><span class="header-section-number">16.4.6</span> Conclusão</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Análise de Dados Categóricos</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="pacotes-necessários" class="level2" data-number="16.1">
+<h2 data-number="16.1" class="anchored" data-anchor-id="pacotes-necessários"><span class="header-section-number">16.1</span> Pacotes necessários</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(coin,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                DescTools,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                dplyr,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                expss,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                flextable,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                ggplot2, </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                gmodels,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                kableExtra,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                nhstplot,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                readxl,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                rstatix,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                summarytools)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="sec-qui" class="level2" data-number="16.2">
+<h2 data-number="16.2" class="anchored" data-anchor-id="sec-qui"><span class="header-section-number">16.2</span> Qui-Quadrado</h2>
+<p>Dois testes de hipótese são proeminentes na pesquisa na área da saúde. Um é o teste <em>t</em> de duas amostras, que é usado para testar a igualdade de duas médias populacionais independentes. O segundo é o teste qui-quadrado (denotado por <span class="math inline">\(\chi^{2}\)</span>). O teste é denominado teste qui-quadrado porque usa a distribuição qui-quadrado ou <span class="math inline">\(\chi^{2}\)</span>.</p>
+<section id="distribuição-qui-quadrado" class="level3" data-number="16.2.1">
+<h3 data-number="16.2.1" class="anchored" data-anchor-id="distribuição-qui-quadrado"><span class="header-section-number">16.2.1</span> Distribuição qui-quadrado</h3>
+<p>Se uma variável <em>X</em> é normalmente distribuída, então a variável <span class="math inline">\(X^{2}\)</span> tem uma distribuição qui-quadrado <span class="citation" data-cites="altman1991chisquared">(<a href="references.html#ref-altman1991chisquared" role="doc-biblioref">1</a>)</span>. A distribuição qui-quadrado com <em>k</em> categorias é a distribuição de uma soma dos quadrados de <em>k</em> variáveis aleatórias independentes com distribuição normal. O número de categorias determina o número de graus de liberdade. O formato da distribuição qui-quadrado depende desses graus de liberdade. Em geral, ela é assimétrica com apenas valores positivos, iniciando em zero. A assimetria diminui à medida que aumentam os graus de liberdade. Para cada grau de liberdade tem-se curvas de distribuição diferentes.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-chi" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="16-dadosCategoricos_files/figure-html/fig-chi-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;16.1: Distribuição do qui-quadrado.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>A distribuição <span class="math inline">\(\chi^{2}\)</span> converge para a distribuição normal à medida que os graus de liberdade aumentam, de acordo com o teorema do limite central, entretanto esta convergência é lenta (<a href="#fig-chi" class="quarto-xref">Figura&nbsp;<span>16.1</span></a>).</p>
+<p>A distribuição qui-quadrado tem duas aplicações comuns: primeiro, como um teste para saber se duas variáveis categóricas são independentes ou não (<strong>Teste de independência ou associação</strong>); segundo, o teste de qualidade do ajuste do qui-quadrado (<strong>Teste de aderência ou ajuste</strong>) que é usado para comparar uma determinada distribuição com uma distribuição conhecida.</p>
+</section>
+<section id="estatística-do-qui-quadrado" class="level3" data-number="16.2.2">
+<h3 data-number="16.2.2" class="anchored" data-anchor-id="estatística-do-qui-quadrado"><span class="header-section-number">16.2.2</span> Estatística do qui-quadrado</h3>
+<p>O cálculo da estatística <span class="math inline">\(\chi^{2}\)</span> é baseado nas frequências existentes nas células da tabela de contingência. Em primeiro lugar, calcula-se as frequências que se espera em cada célula caso a hipótese nula seja verdadeira (<strong>frequências esperadas</strong>). Em segundo lugar, usando a equação geral, o teste mede o grau de discrepância entre o conjunto de <strong>frequências observadas</strong> (O) e o conjunto de <strong>frequências esperadas</strong> (E).</p>
+<p><span class="math display">\[
+\chi^{2}= \sum \left [\frac{\left (O_{i} - E_{i} \right )^2}{E_{i}} \right]
+\]</span></p>
+<p>Se <span class="math inline">\(O_{i}\)</span> é muito semelhante ao <span class="math inline">\(E_{i}\)</span>, então o <span class="math inline">\(\chi^{2}\)</span> é baixo; se <span class="math inline">\(O_{i}\)</span> é muito diferente em relação ao <span class="math inline">\(E_{i}\)</span>, então o <span class="math inline">\(\chi^{2}\)</span> é alto.</p>
+<p>As <em>frequências observadas</em> são o número de sujeitos ou objetos na amostra que se enquadram nas várias categorias da variável de interesse. As <em>frequências esperadas</em> são o número de sujeitos ou objetos na amostra que seria esperado observar se hipótese nula fosse verdadeira.</p>
+<p><span class="math display">\[
+E = \frac{total\ coluna\ \times total\ linha }{total\ geral}
+\]</span></p>
+<p>Por exemplo, suponha a <a href="#tbl-tab2x2" class="quarto-xref">Tabela&nbsp;<span>16.1</span></a>:</p>
+<div class="cell">
+<div id="tbl-tab2x2" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tab2x2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;16.1: Distribuição de Acidentes Automobilísticos por Gênero
+</figcaption>
+<div aria-describedby="tbl-tab2x2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div class="tabwid"><style>.cl-2c8e4c98{}.cl-2c818b5c{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-2c818b7a{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-2c874e52{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-2c8776fc{width:0.914in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2c877706{width:1.321in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2c877710{width:1.313in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2c877711{width:1.466in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2c87771a{width:0.914in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2c87771b{width:1.321in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2c877724{width:1.313in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2c877725{width:1.466in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2c87772e{width:0.914in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2c877738{width:1.321in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2c877742{width:1.313in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2c877743{width:1.466in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2c87774c{width:0.914in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2c87774d{width:1.321in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2c877756{width:1.313in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2c877760{width:1.466in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-2c8e4c98"><thead><tr style="overflow-wrap:break-word;"><th class="cl-2c8776fc"><p class="cl-2c874e52"><span class="cl-2c818b5c">Sexo</span></p></th><th class="cl-2c877706"><p class="cl-2c874e52"><span class="cl-2c818b5c">Com Acidentes</span></p></th><th class="cl-2c877710"><p class="cl-2c874e52"><span class="cl-2c818b5c">Sem Acidentes</span></p></th><th class="cl-2c877711"><p class="cl-2c874e52"><span class="cl-2c818b5c">Total de Pessoas</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-2c87771a"><p class="cl-2c874e52"><span class="cl-2c818b7a">Homens</span></p></td><td class="cl-2c87771b"><p class="cl-2c874e52"><span class="cl-2c818b7a">16</span></p></td><td class="cl-2c877724"><p class="cl-2c874e52"><span class="cl-2c818b7a">44</span></p></td><td class="cl-2c877725"><p class="cl-2c874e52"><span class="cl-2c818b7a">60</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2c87772e"><p class="cl-2c874e52"><span class="cl-2c818b7a">Mulheres</span></p></td><td class="cl-2c877738"><p class="cl-2c874e52"><span class="cl-2c818b7a">4</span></p></td><td class="cl-2c877742"><p class="cl-2c874e52"><span class="cl-2c818b7a">36</span></p></td><td class="cl-2c877743"><p class="cl-2c874e52"><span class="cl-2c818b7a">40</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2c87774c"><p class="cl-2c874e52"><span class="cl-2c818b5c">Total</span></p></td><td class="cl-2c87774d"><p class="cl-2c874e52"><span class="cl-2c818b5c">20</span></p></td><td class="cl-2c877756"><p class="cl-2c874e52"><span class="cl-2c818b5c">80</span></p></td><td class="cl-2c877760"><p class="cl-2c874e52"><span class="cl-2c818b5c">100</span></p></td></tr></tbody></table></div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Usando esses dados (<a href="#tbl-tab2x2" class="quarto-xref">Tabela&nbsp;<span>16.1</span></a>), o número de acidentes esperados para os homens é igual a:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>total_c <span class="ot">&lt;-</span> df<span class="sc">$</span>Acidentes[<span class="dv">3</span>]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>total_l <span class="ot">&lt;-</span> df<span class="sc">$</span>Total[<span class="dv">1</span>]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>total_geral <span class="ot">&lt;-</span> df<span class="sc">$</span>Total[<span class="dv">3</span>]</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>esperado <span class="ot">&lt;-</span> (total_c<span class="sc">*</span>total_l)<span class="sc">/</span>total_geral</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>esperado </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 12</code></pre>
+</div>
+</div>
+<p>O número de acidentes esperado para os homens é igual a 12, entretanto ocorreram 16. Houve uma diferença. Esta diferença é calculada para todas as células e será o importante no cálculo do qui-quadrado. Após o cálculo, acrescentando os valores esperados à <a href="#tbl-tab2x2" class="quarto-xref">Tabela&nbsp;<span>16.1</span></a>, tem-se a <a href="#tbl-ntab2x2" class="quarto-xref">Tabela&nbsp;<span>16.2</span></a> que será usada no cálculo do qui-quadrado.</p>
+<div class="cell">
+<div id="tbl-ntab2x2" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ntab2x2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;16.2: Distribuição de Acidentes Automobilísticos por Gênero
+</figcaption>
+<div aria-describedby="tbl-ntab2x2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div class="tabwid"><style>.cl-2cd80d06{}.cl-2ccc27de{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-2ccc27f2{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-2cd0c366{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-2cd0ff70{width:0.914in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2cd0ff7a{width:1.321in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2cd0ff8e{width:1.313in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2cd0ff8f{width:1.466in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2cd0ff98{width:0.914in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2cd0ff99{width:1.321in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2cd0ffc0{width:1.313in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2cd0ffc1{width:1.466in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2cd0ffca{width:0.914in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2cd0ffcb{width:1.321in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2cd0ffd4{width:1.313in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2cd0ffd5{width:1.466in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2cd0ffde{width:0.914in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2cd0ffdf{width:1.321in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2cd0ffe8{width:1.313in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2cd0ffe9{width:1.466in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-2cd80d06"><thead><tr style="overflow-wrap:break-word;"><th class="cl-2cd0ff70"><p class="cl-2cd0c366"><span class="cl-2ccc27de">Sexo</span></p></th><th class="cl-2cd0ff7a"><p class="cl-2cd0c366"><span class="cl-2ccc27de">Com Acidentes</span></p></th><th class="cl-2cd0ff8e"><p class="cl-2cd0c366"><span class="cl-2ccc27de">Sem Acidentes</span></p></th><th class="cl-2cd0ff8f"><p class="cl-2cd0c366"><span class="cl-2ccc27de">Total de Pessoas</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-2cd0ff98"><p class="cl-2cd0c366"><span class="cl-2ccc27f2">Homens</span></p></td><td class="cl-2cd0ff99"><p class="cl-2cd0c366"><span class="cl-2ccc27f2">12</span></p></td><td class="cl-2cd0ffc0"><p class="cl-2cd0c366"><span class="cl-2ccc27f2">48</span></p></td><td class="cl-2cd0ffc1"><p class="cl-2cd0c366"><span class="cl-2ccc27f2">60</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2cd0ffca"><p class="cl-2cd0c366"><span class="cl-2ccc27f2">Mulheres</span></p></td><td class="cl-2cd0ffcb"><p class="cl-2cd0c366"><span class="cl-2ccc27f2">8</span></p></td><td class="cl-2cd0ffd4"><p class="cl-2cd0c366"><span class="cl-2ccc27f2">32</span></p></td><td class="cl-2cd0ffd5"><p class="cl-2cd0c366"><span class="cl-2ccc27f2">40</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2cd0ffde"><p class="cl-2cd0c366"><span class="cl-2ccc27de">Total</span></p></td><td class="cl-2cd0ffdf"><p class="cl-2cd0c366"><span class="cl-2ccc27de">20</span></p></td><td class="cl-2cd0ffe8"><p class="cl-2cd0c366"><span class="cl-2ccc27de">80</span></p></td><td class="cl-2cd0ffe9"><p class="cl-2cd0c366"><span class="cl-2ccc27de">100</span></p></td></tr></tbody></table></div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Para o cálculo do <span class="math inline">\(\chi^2\)</span>, como se está comparando proporções em uma tabela contingência <span class="math inline">\(2\times2\)</span> (ou seja, duas linhas e duas colunas), deve-se aplicar uma correção na fórmula, mostrada acima, para ajustar o viés de continuidade. Esta correção, denominada de <em>correção de Yates</em>, consiste em subtrair 0,5 do valor absoluto da diferença entre a frequência observada e a esperada em cada célula da tabela, antes de elevar ao quadrado e dividir pela frequência esperada.</p>
+<p><span class="math display">\[
+\chi^{2}= \sum \left [\frac{\left |(O_{i} - E_{i}|-0,5 \right )^2}{E_{i}} \right]
+\]</span></p>
+<p>Substituindo os dados na fórmula do qui-quadrado, tem-se:</p>
+<p><span class="math display">\[
+\chi^{2}= \left [\frac{\left (|16 - 12 \right |-0.5)^2}{12} \right]+ \left [\frac{\left (|44 - 48 \right |-0.5)^2}{48} \right]+\left [\frac{\left (|4 - 8 \right |-0.5)^2}{8} \right]+\left [\frac{\left (|36 - 32 \right|-0.5)^2}{32} \right]
+\]</span></p>
+<p><span class="math display">\[
+\chi^{2}=1,021 + 0,255 + 1,531  +0,383 = 3,19
+\]</span></p>
+<p>A correção de Yates reduz o valor do qui-quadrado <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> e torna o teste mais conservador, reduzindo a probabilidade de rejeitar a hipótese nula quando ela é verdadeira. A correção é recomendada em tabelas de contingência <span class="math inline">\(2\times2\)</span> ou quando o tamanho da amostra é pequeno (menor que 40) ou quando há pelo menos uma célula com frequência esperada menor que 5.</p>
+<section id="restrições-ao-qui-quadrado" class="level4" data-number="16.2.2.1">
+<h4 data-number="16.2.2.1" class="anchored" data-anchor-id="restrições-ao-qui-quadrado"><span class="header-section-number">16.2.2.1</span> Restrições ao qui-quadrado</h4>
+<ol type="1">
+<li><u>Regra Geral</u></li>
+</ol>
+<p>O teste pode ser usado, se a frequência observada em cada célula for maior ou igual a 5 e a frequência esperada for maior ou igual a 5.</p>
+<ol start="2" type="1">
+<li><u>Tabela 2 <span class="math inline">\(\times\)</span> 2 (gl = 1)</u></li>
+</ol>
+<p>Como mostrado no exemplo acima, neste caso, é recomendada a <em>Correção de Continuidade de Yates</em>, mesmo quando o n for grande.</p>
+<ol start="3" type="1">
+<li><u>Tabela l <span class="math inline">\(\times\)</span> c</u></li>
+</ol>
+<p>O teste pode ser usado se o número de células com frequência esperada inferior a 5 for menor do que 20% do total das células e nenhuma frequência esperada é igual a zero.</p>
+<ol start="4" type="1">
+<li><u>n pequeno</u></li>
+</ol>
+<p>Neste caso, é preconizado o <em>Teste Exato de Fisher</em>.</p>
+</section>
+<section id="valor-crítico-do-qui-quadrado" class="level4" data-number="16.2.2.2">
+<h4 data-number="16.2.2.2" class="anchored" data-anchor-id="valor-crítico-do-qui-quadrado"><span class="header-section-number">16.2.2.2</span> Valor crítico do qui-quadrado</h4>
+<p>A estatística de teste (que em certo sentido é a diferença entre as frequências observadas e esperadas) deve ser comparada a um valor crítico para determinar se a diferença é grande ou pequena. Não se pode dizer se uma estatística de teste é grande ou pequena sem colocá-la em perspectiva com o valor crítico. Se a estatística de teste estiver acima do valor crítico, significa que a probabilidade de observar tal diferença entre as frequências observadas e esperadas é improvável.</p>
+<p>O valor crítico pode ser encontrado na tabela estatística da distribuição Qui-quadrado e depende do nível de significância, denotado <span class="math inline">\(\alpha\)</span>, e dos graus de liberdade, denotado <span class="math inline">\(gl\)</span>. O nível de significância geralmente é igual a 5%. Os graus de liberdade para um teste de Qui-quadrado de independência são encontrados da seguinte forma:</p>
+<p><span class="math display">\[
+gl = (numero \ de \ linhas - 1) \ \times \ (numero \ de \ colunas - 1)
+\]</span></p>
+<p>Em uma tabela de contingência 2 <span class="math inline">\(\times\)</span> 2, como a <a href="#tbl-tab2x2" class="quarto-xref">Tabela&nbsp;<span>16.1</span></a>, tem <span class="math inline">\(gl = (2 - 1) \times (2 - 1) = 1\)</span>. Basta agora obter o valor crítico com a função <code>qchisq()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span>  <span class="fl">0.05</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>gl <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qchisq</span> (<span class="dv">1</span><span class="sc">-</span>alpha, gl)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.841459</code></pre>
+</div>
+</div>
+<p>Este valor é comparado com o <span class="math inline">\(\chi^{2}_{calculado}\)</span> para um nível de significância de 5%. Se ele é maior, rejeita-se se a <span class="math inline">\(H_{0}\)</span>; caso contrário, não se rejeita. Para obter o valor <em>P</em>, pode-se usar a função <code>pchisq()</code>, onde, como argumento, coloca-se o valor do <span class="math inline">\(\chi^{2}_{calculado}\)</span>, os graus de liberdade e acrescenta-se <code>lower.tail = FALSE</code> para obter a probabilidade da cauda superior, uma vez que a distribuição do qui-quadrado é positiva.</p>
+<p>O valor crítico é igual a 3,84 e, no exemplo, o <span class="math inline">\(\chi^{2}_{calculado}\)</span> é igual a 3,19, logo a valor <em>P</em> é igual a:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pchisq</span> (<span class="fl">3.19</span>, <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.07409001</code></pre>
+</div>
+</div>
+<p>Dessa forma, conclui-se ,com uma confiança de 95%, que não se rejeita <span class="math inline">\(H_{0}\)</span>, ou seja, a proporção acidentes nos homens é igual a proporção de acidentes nas mulheres (<span class="math inline">\(\chi^{2} (1) = 3,19;P=0,074\)</span>). Observe na <a href="#fig-chi384" class="quarto-xref">Figura&nbsp;<span>16.2</span></a> que o <span class="math inline">\(\chi^{2}_{calculado}\)</span> localiza-se a esquerda da linha vertical, da área vermelha de rejeição da <span class="math inline">\(H_{0}\)</span>. Atente, que se não fosse feita a correção de Yates, a conclusão seria diferente, pois o <span class="math inline">\(\chi^{2}_{calculado}\)</span> seria igual a 4,17 e estaria um pouco cima do <span class="math inline">\(\chi^{2}_{crítico}\)</span>, na área de rejeição da <span class="math inline">\(H_{0}\)</span>. Com a correção de Yates o valor <em>P</em> é igual a 0,074, sem a correção de continuidade igual a 0,041, isto configura o que se chama de <em>valor P marginal</em> e, nesses casos, deve-se ter muito cuidado na conclusão, pois existe risco de erro tipo II, não rejeitar uma <span class="math inline">\(H_{0}\)</span> quando ela é falsa.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotchisqtest</span>(<span class="at">chisq =</span> <span class="fl">3.84</span>, </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">df =</span> <span class="dv">1</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">colorleft =</span> <span class="st">"aliceblue"</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">colorright =</span> <span class="st">"red"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">ylabel =</span> <span class="st">"Densidade de probabilidade sob a hipótese nula"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-chi384" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chi384-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="16-dadosCategoricos_files/figure-html/fig-chi384-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chi384-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;16.2: Distribuição do qui-quadrado, gl = 1, alpha = 0,05.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>O gráfico foi criado com a função <code>plotchisqteste()</code> do pacote <code>nhstplot</code>, pacote simples e conveniente para representar graficamente os testes de significância de hipótese nula mais comuns, como testes <em>F</em>, testes <em>t</em> e testes <em>z</em> <span class="citation" data-cites="myszkowski2020nhstplot">(<a href="references.html#ref-myszkowski2020nhstplot" role="doc-biblioref">2</a>)</span>.</p>
+</section>
+</section>
+<section id="qui-quadrado-de-independência-ou-associação" class="level3" data-number="16.2.3">
+<h3 data-number="16.2.3" class="anchored" data-anchor-id="qui-quadrado-de-independência-ou-associação"><span class="header-section-number">16.2.3</span> Qui-quadrado de independência ou associação</h3>
+<section id="dados-usados-nesta-seção" class="level4" data-number="16.2.3.1">
+<h4 data-number="16.2.3.1" class="anchored" data-anchor-id="dados-usados-nesta-seção"><span class="header-section-number">16.2.3.1</span> Dados usados nesta seção</h4>
+<p>O exemplo da <a href="#tbl-tab2x2" class="quarto-xref">Tabela&nbsp;<span>16.1</span></a>, usado para mostrar a lógica do qui-quadrado, é um teste de independência ou associação. Ali, foi mostrado que não existe uma associação estatisticamente significativa (P &gt; 0,05) entre acidentes automobilísticos e o sexo. Como exercício, serão usados outros dados que necessitam mais manipulação como treinamento do qui-quadrado de associação e do próprio <em>R</em>. Estes dados servirão para testar a hipótese de associação entre tabagismo e baixo peso ao nascer (&lt; 2500g).</p>
+<p><u>Leitura e transformação dos dados</u></p>
+<p>Os dados serão provenientes do banco de dados <code>dadosMater.xlsx</code>. bastante usado neste livro <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> . A partir do diretório, será feita a leitura da seguinte maneira:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> <span class="fu">read_excel</span> (<span class="st">"dados/dadosMater.xlsx"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Adicione a este arquivo uma variável denominada <code>baixoPeso</code>, usando a função <code>mutate()</code> do pacote <code>dplyr</code> e a função <code>ifelse ()</code>, da base do R:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">baixoPeso =</span> <span class="fu">ifelse</span>(pesoRN <span class="sc">&lt;</span> <span class="dv">2500</span>, <span class="st">"1"</span>, <span class="st">"2"</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Onde <code>1 = sim</code> e <code>2 = não</code>, ou seja, com peso de nascimento &lt; 2500g e <span class="math inline">\(\ge\)</span> 2500g.</p>
+<p>O próximo passo é selecionar, deste arquivo, apenas esta variável criada e a variável <code>fumo</code>, porque o objetivo da análise será verificar se existe associação entre tabagismo na gestação e baixo peso ao nascer (&lt; 2500g). Para isso, usa-se a função <code>select()</code> do pacote <code>dplyr</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> <span class="fu">select</span> (fumo, baixoPeso)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A seguir, será extraída uma amostra deste banco de dados com n = 300, usando a função <code>slice_sample()</code> do pacote <code>dplyr</code>. A função <code>set.seed()</code> apenas garante que os dados selecionados aleatoriamente se mantenham os mesmos em outros sorteios (veja <a href="07-probabilidades.html#sec-dnp" class="quarto-xref"><span>Seção 7.7.2</span></a>):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> <span class="fu">slice_sample</span>(dados, <span class="at">n=</span><span class="dv">300</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dados)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [300 × 2] (S3: tbl_df/tbl/data.frame)
+ $ fumo     : num [1:300] 2 2 1 2 2 2 1 2 2 2 ...
+ $ baixoPeso: chr [1:300] "2" "2" "1" "2" ...</code></pre>
+</div>
+</div>
+<p>Todos esses passos poderiam ser feitos em um só comando, precedido pela semente (<code>set.seed(123)</code>), usando o operador pipe %&gt;%:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> <span class="fu">read_excel</span> (<span class="st">"dados/dadosMater.xlsx"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">baixoPeso =</span> <span class="fu">ifelse</span>(pesoRN <span class="sc">&lt;</span> <span class="dv">2500</span>, <span class="st">"1"</span>, <span class="st">"2"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span> (fumo, baixoPeso) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n=</span><span class="dv">300</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Tem-se, agora, um conjunto de dados com duas colunas: <code>fumo</code>, como uma variável numérica e <code>baixoPeso</code>, como caractere. Ambas devem ser transformadas em fator e, onde os rótulos são 1 e 2, passam para “sim” e “não” e mantendo a ordem “sim” e “não”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>dados<span class="sc">$</span>fumo <span class="ot">&lt;-</span> <span class="fu">factor</span>(dados<span class="sc">$</span>fumo,</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"sim"</span>, <span class="st">"não"</span>))</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>dados<span class="sc">$</span>baixoPeso <span class="ot">&lt;-</span> <span class="fu">factor</span>(dados<span class="sc">$</span>baixoPeso,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>                          <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"sim"</span>, <span class="st">"não"</span>))</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span> (dados)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [300 × 2] (S3: tbl_df/tbl/data.frame)
+ $ fumo     : Factor w/ 2 levels "sim","não": 2 2 1 2 2 2 1 2 2 2 ...
+ $ baixoPeso: Factor w/ 2 levels "sim","não": 2 2 1 2 1 2 2 2 2 2 ...</code></pre>
+</div>
+</div>
+<p><u>Tabelas</u></p>
+<p>Para construir a <a href="#tbl-tab2x2fumo" class="quarto-xref">Tabela&nbsp;<span>16.3</span></a>, antes será verificado como está distribuição baixo peso de acordo com o tabagismo materno, usando a função <code>with()</code> e, dentro dela, a função <code>table()</code>, seguida da função <code>addmargins()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">with</span>(<span class="at">data =</span> dados, <span class="fu">table</span>(fumo, baixoPeso))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">addmargins</span>(tab)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     baixoPeso
+fumo  sim não Sum
+  sim  18  51  69
+  não  22 209 231
+  Sum  40 260 300</code></pre>
+</div>
+</div>
+<p>Assim, tem-se</p>
+<div class="cell">
+<div id="tbl-tab2x2fumo" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tab2x2fumo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;16.3: Baixo peso ao nascer e tabagismo
+</figcaption>
+<div aria-describedby="tbl-tab2x2fumo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div class="tabwid"><style>.cl-2df50e14{}.cl-2de5b9fa{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-2de5ba0e{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-2de5ba0f{font-family:'Arial';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-2debac34{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-2debac48{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-2debac52{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-2dec018e{width:1.041in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2dec01a2{width:1.058in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2dec01a3{width:1.415in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2dec01b6{width:0.625in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2dec01b7{width:1.041in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2dec01c0{width:1.058in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2dec01ca{width:1.415in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2dec01cb{width:0.625in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2dec01d4{width:1.041in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2dec01de{width:1.058in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2dec01df{width:1.415in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2dec01e8{width:0.625in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2dec01e9{width:1.041in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2dec01ea{width:1.058in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2dec01f2{width:1.415in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2dec01f3{width:0.625in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2dec01fc{width:1.041in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2dec0210{width:1.058in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2dec0211{width:1.415in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2dec021a{width:0.625in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-2df50e14"><thead><tr style="overflow-wrap:break-word;"><th class="cl-2dec018e"><p class="cl-2debac34"><span class="cl-2de5b9fa">Tabagismo</span></p></th><th class="cl-2dec01a2"><p class="cl-2debac34"><span class="cl-2de5b9fa">Baixo Peso</span></p></th><th class="cl-2dec01a3"><p class="cl-2debac34"><span class="cl-2de5b9fa">Sem Baixo Peso</span></p></th><th class="cl-2dec01b6"><p class="cl-2debac34"><span class="cl-2de5b9fa">Total</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-2dec01b7"><p class="cl-2debac34"><span class="cl-2de5ba0e">Sim</span></p></td><td class="cl-2dec01c0"><p class="cl-2debac34"><span class="cl-2de5ba0e">18</span></p></td><td class="cl-2dec01ca"><p class="cl-2debac34"><span class="cl-2de5ba0e">51</span></p></td><td class="cl-2dec01cb"><p class="cl-2debac34"><span class="cl-2de5ba0e">69</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2dec01d4"><p class="cl-2debac34"><span class="cl-2de5ba0e">Não</span></p></td><td class="cl-2dec01de"><p class="cl-2debac34"><span class="cl-2de5ba0e">22</span></p></td><td class="cl-2dec01df"><p class="cl-2debac34"><span class="cl-2de5ba0e">209</span></p></td><td class="cl-2dec01e8"><p class="cl-2debac34"><span class="cl-2de5ba0e">260</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2dec01e9"><p class="cl-2debac34"><span class="cl-2de5b9fa">Total</span></p></td><td class="cl-2dec01ea"><p class="cl-2debac34"><span class="cl-2de5b9fa">40</span></p></td><td class="cl-2dec01f2"><p class="cl-2debac34"><span class="cl-2de5b9fa">260</span></p></td><td class="cl-2dec01f3"><p class="cl-2debac34"><span class="cl-2de5b9fa">300</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td colspan="4" class="cl-2dec01fc"><p class="cl-2debac48"><span class="cl-2de5ba0f">Nota: Baixo Peso = peso ao nascer &lt; 2500g</span></p></td></tr></tfoot></table></div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>OBSERVAÇÃO: Uma tabela é constituída por linhas e colunas. Para se extrair valores da tabela, usa-se os colchetes, após o nome da tabela. O primeiro valor dentro dos colchetes é referente ao número da linha; o segundo, separado pela virgula, é referente ao número da coluna. Então, <code>tab[1,1]</code> se refere ao valor que está na primeira linha e primeira coluna:</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tab[<span class="dv">1</span>,<span class="dv">1</span>]</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 18</code></pre>
+</div>
+</div>
+<p>A proporção de baixo peso por categoria de tabagismo (nº de casos/total da linha):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>fumantes <span class="ot">&lt;-</span>  tab[<span class="dv">1</span>,<span class="dv">1</span>]<span class="sc">/</span>(tab[<span class="dv">1</span>,<span class="dv">1</span>] <span class="sc">+</span> tab[<span class="dv">1</span>,<span class="dv">2</span>])</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>fumantes</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2608696</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>não.fumantes <span class="ot">&lt;-</span> tab[<span class="dv">2</span>,<span class="dv">1</span>]<span class="sc">/</span>(tab[<span class="dv">2</span>,<span class="dv">1</span>]<span class="sc">+</span> tab[<span class="dv">2</span>,<span class="dv">2</span>])</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>não.fumantes</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0952381</code></pre>
+</div>
+</div>
+<p><u>Visualização gráfica</u></p>
+<p>Será construído um gráfico de barras empilhadas com o <code>ggplot()</code> do pacote <code>ggplot2</code> (ver <a href="06-descrevendoDados.html#sec-ggplot2" class="quarto-xref"><span>Seção 6.6</span></a>):</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dados) <span class="sc">+</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span> (<span class="at">x =</span> fumo, <span class="at">fill =</span> baixoPeso) <span class="sc">+</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span> (<span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"gray"</span>, <span class="st">"aliceblue"</span>)) <span class="sc">+</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span> (<span class="at">title =</span> <span class="cn">NULL</span>,  </span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> <span class="st">"Tabagismo"</span>,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">"Frequência"</span>) <span class="sc">+</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x=</span><span class="st">"sim"</span>, <span class="at">y=</span><span class="dv">62</span>, <span class="at">label=</span> <span class="st">"26,1%"</span>) <span class="sc">+</span> </span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="st">"não"</span>, <span class="at">y=</span><span class="dv">223</span>, <span class="at">label =</span> <span class="st">"9,5%"</span>) <span class="sc">+</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span> () <span class="sc">+</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span> (<span class="at">text =</span> <span class="fu">element_text</span> (<span class="at">size =</span> <span class="dv">12</span>)) <span class="sc">+</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill =</span> <span class="st">"Peso ao nascer &lt; 2500g"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-fumobp" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fumobp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="16-dadosCategoricos_files/figure-html/fig-fumobp-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fumobp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;16.3: Gráfico de barras empilhadas: tabagismo vs baixo peso ao nascer.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Observa-se, <a href="#fig-fumobp" class="quarto-xref">Figura&nbsp;<span>16.3</span></a>, que 24,6% das gestantes fumantes geram bebês com baixo peso, enquanto que entre as não fumantes este percentual cai três vezes, indo para 9,5%. É uma diferença grande! Aqui, quase se tem certeza que ela é significativa, mesmo sem cálculos!</p>
+</section>
+<section id="hipóteses-estatísticas" class="level4" data-number="16.2.3.2">
+<h4 data-number="16.2.3.2" class="anchored" data-anchor-id="hipóteses-estatísticas"><span class="header-section-number">16.2.3.2</span> Hipóteses estatísticas</h4>
+<blockquote class="blockquote">
+<p><span class="math inline">\(H_{0}\)</span>: a proporção de baixo peso é igual nos dois grupo (fumantes e não fumantes); não há associação entre as variáveis.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><span class="math inline">\(H_{1}\)</span>: a proporção de baixo peso é diferente nos dois grupo (fumantes e não fumantes); existe associação entre as variáveis.</p>
+</blockquote>
+</section>
+<section id="cálculo-do-qui-quadrado-de-pearson-no-r" class="level4" data-number="16.2.3.3">
+<h4 data-number="16.2.3.3" class="anchored" data-anchor-id="cálculo-do-qui-quadrado-de-pearson-no-r"><span class="header-section-number">16.2.3.3</span> Cálculo do Qui-quadrado de Pearson no R</h4>
+<p>Para este exemplo, o <span class="math inline">\(\chi^{2}\)</span> irá verificar se existe uma associação entre as variáveis <code>fumo</code> e <code>baixoPeso</code>, assumindo um <span class="math inline">\(\alpha = 0,05\)</span> que equivale a um valor crítico de 3,84 com um grau de liberdade, em uma tabela <span class="math inline">\(2 \times 2\)</span>. A função <code>chisq_test()</code> do pacote <code>rstatix</code> libera o qui-quadrado, usando os seguintes argumentos:</p>
+<ul>
+<li><strong>x</strong> <span class="math inline">\(\to\)</span> vetor numérico ou matriz. Tanto x como y podem ser fatores;</li>
+<li><strong>y</strong> <span class="math inline">\(\to\)</span> vetor numérico. Ignorado quando se x é uma matriz;</li>
+<li>correct <span class="math inline">\(\to\)</span> TRUE é o padrão. Indica se deve ser aplicada a correção de continuidade ao calcular a estatística de teste para tabelas 2 por 2 <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>;</li>
+<li><strong>…</strong> <span class="math inline">\(\to\)</span> para outros argumentos consulte a ajuda do <em>RStudio</em>.</li>
+</ul>
+<p>Para executar a função <code>chisq_test()</code>, basta colocar como argumento as variáveis <code>fumo</code> e <code>baixoPeso</code> ou construir antes uma tabela de contingência com a função <code>table()</code> e depois colocá-la como argumento. Como tabela <code>tab</code> já existe:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>teste <span class="ot">&lt;-</span> rstatix<span class="sc">::</span><span class="fu">chisq_test</span>(tab)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>teste</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 6
+      n statistic        p    df method          p.signif
+* &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;   
+1   300      11.2 0.000809     1 Chi-square test ***     </code></pre>
+</div>
+</div>
+<p>A saída do teste exibe tudo que é necessário. O <span class="math inline">\(\chi^{2}\)</span> = 11.2 com um valor muito maior que o valor crítico de 3,84, mostrando que a diferença é estatisticamente significativa (<em>P</em> = 8.09^{-4}). Essas e outras estatísticas podem ser obtidas, usando o objeto <code>teste</code> seguido do sinal <code>$</code>. Por exemplo, para o valor P:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>teste<span class="sc">$</span>p</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.000809</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>NOTA: Se um aviso como <span style="color:red">Chi-squared approximation may be incorrect</span> (<em>Aproximação qui-quadrado pode estar incorreta</em>) aparecer, significa que as menores frequências esperadas são inferiores a 5. Para evitar esse problema, é possível usar uma das seguintes opções:</p>
+</blockquote>
+<ul>
+<li>reunir alguns níveis (especialmente aqueles com um pequeno número de observações) para aumentar o número de observações nos subgrupos, ou</li>
+<li>usar o teste exato de Fisher.</li>
+</ul>
+<p><u>Outras maneiras de calcular o qui-quadrado no R</u></p>
+<p>No pacote <code>gmodels</code> <span class="citation" data-cites="warnes2022gmodels">(<a href="references.html#ref-warnes2022gmodels" role="doc-biblioref">3</a>)</span>, existe uma função muito interessante, a função <code>CrossTable()</code> que que imprime, além de uma tabela de frequência com as proporções, exibe vários testes, como o teste <span class="math inline">\(\chi^2\)</span>, o teste exato de Fisher e o teste de McNemar com e sem correção de continuidade. Consulte a ajuda para melhor estudar esta elegante função! Neste momento, será explorado apenas o qui-quadrado e os valores esperados com três dígitos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">CrossTable</span> (tab,</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">digits =</span> <span class="dv">3</span>,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">prop.chisq =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">prop.t =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">chisq =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">expected =</span> <span class="cn">TRUE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ 
+   Cell Contents
+|-------------------------|
+|                       N |
+|              Expected N |
+|           N / Row Total |
+|           N / Col Total |
+|-------------------------|
+
+ 
+Total Observations in Table:  300 
+
+ 
+             | baixoPeso 
+        fumo |       sim |       não | Row Total | 
+-------------|-----------|-----------|-----------|
+         sim |        18 |        51 |        69 | 
+             |     9.200 |    59.800 |           | 
+             |     0.261 |     0.739 |     0.230 | 
+             |     0.450 |     0.196 |           | 
+-------------|-----------|-----------|-----------|
+         não |        22 |       209 |       231 | 
+             |    30.800 |   200.200 |           | 
+             |     0.095 |     0.905 |     0.770 | 
+             |     0.550 |     0.804 |           | 
+-------------|-----------|-----------|-----------|
+Column Total |        40 |       260 |       300 | 
+             |     0.133 |     0.867 |           | 
+-------------|-----------|-----------|-----------|
+
+ 
+Statistics for All Table Factors
+
+
+Pearson's Chi-squared test 
+------------------------------------------------------------
+Chi^2 =  12.61347     d.f. =  1     p =  0.0003829762 
+
+Pearson's Chi-squared test with Yates' continuity correction 
+------------------------------------------------------------
+Chi^2 =  11.22084     d.f. =  1     p =  0.0008088369 
+
+ </code></pre>
+</div>
+</div>
+<p>Observe que a saída mostra em cada célula da tabela, o número de casos, o número esperado, a percentagem por linha (nº de casos/total da linha) e a percentagem por coluna (nº de casos/total da coluna). Por último, exibe o qui-quadrado de Pearson com e sem coreção de continuidade de Yates.</p>
+</section>
+<section id="conclusão-e-relato-dos-resultados" class="level4" data-number="16.2.3.4">
+<h4 data-number="16.2.3.4" class="anchored" data-anchor-id="conclusão-e-relato-dos-resultados"><span class="header-section-number">16.2.3.4</span> Conclusão e relato dos resultados</h4>
+<p>Usando a correção de continuidade de Yates, pois é uma tabela <span class="math inline">\(2\times2\)</span>, vê-se que o valor <em>P</em> é menor que o nível de significância de 5% e, consequentemente, rejeita-se a hipótese nula e conclui-se que existe uma associação significativa entre tabagismo na gestação e o baixo peso ao nascimento (<span class="math inline">\(\chi^{2}_{com \ correção \ de \ Yates} (1)\)</span> = 11.2; <em>P</em> = 0,00081).</p>
+<p>Além disso, no relato dos resultados pode-se apresentar uma tabela ou em um gráfico.</p>
+<p><u>Tabela</u></p>
+<p>Para a construção da tabela, pode-se usar a função <code>ctable()</code> do pacote <code>summarytools</code><span class="citation" data-cites="comtois2022summarytools">(<a href="references.html#ref-comtois2022summarytools" role="doc-biblioref">4</a>)</span> para obter uma tabela com todos os dados a serem exibidos. O argumento <code>prop = "r"</code> exibe os percentuais das linhas (“c”, nas colunas). Na realidade, são maneiras diferente de se obter o mesmo resultado.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ctable</span>(dados<span class="sc">$</span>fumo, dados<span class="sc">$</span>baixoPeso,</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">prop =</span> <span class="st">"r"</span>, </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">chisq =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">headings =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">OR =</span> <span class="cn">TRUE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+------- ----------- ------------ ------------- --------------
+          baixoPeso          sim           não          Total
+   fumo                                                      
+    sim               18 (26.1%)    51 (73.9%)    69 (100.0%)
+    não               22 ( 9.5%)   209 (90.5%)   231 (100.0%)
+  Total               40 (13.3%)   260 (86.7%)   300 (100.0%)
+------- ----------- ------------ ------------- --------------
+
+----------------------------
+ Chi.squared   df   p.value 
+------------- ---- ---------
+   11.2208     1     8e-04  
+----------------------------
+
+----------------------------------
+ Odds Ratio   Lo - 95%   Hi - 95% 
+------------ ---------- ----------
+    3.35        1.67       6.71   
+----------------------------------</code></pre>
+</div>
+</div>
+<p>Ou seja, os bebês que se expuseram ao fator de risco (fumo) têm uma chance 3,35 (IC95% : 1,67-6,71) vezes maior de apresentar peso &lt; 2500g ao nascer, nessa amostra.</p>
+<p>Além desses resultados, a tabela final pode conter (e isto é recomendado!) os intervalos de confiança para cada uma das proporções de fumantes e não fumantes. Para isso a função <code>BinomCI()</code> cumpre um papel suficiente (veja <a href="10-estimacao.html#sec-ICproporcao" class="quarto-xref"><span>Seção 10.7.3</span></a>).</p>
+<p>Então, a proporção de baixo peso entre as fumantes é:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BinomCI</span>(<span class="dv">18</span>, <span class="dv">69</span>,</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">conf.level =</span> <span class="fl">0.95</span>,</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">method =</span> <span class="st">"clopper-pearson"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           est    lwr.ci    upr.ci
+[1,] 0.2608696 0.1625161 0.3805962</code></pre>
+</div>
+</div>
+<p>E, entre as não fumantes é:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BinomCI</span>(<span class="dv">22</span>, <span class="dv">231</span>,</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">conf.level =</span> <span class="fl">0.95</span>,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">method =</span> <span class="st">"clopper-pearson"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           est     lwr.ci    upr.ci
+[1,] 0.0952381 0.06065157 0.1406387</code></pre>
+</div>
+</div>
+<p>Finalmente, esses dados podem ser colocados em uma tabela, como a <a href="#tbl-tabres" class="quarto-xref">Tabela&nbsp;<span>16.4</span></a>:</p>
+<div class="cell">
+<div id="tbl-tabres" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tabres-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;16.4: Efeito do tabagismo materno no peso ao nascer
+</figcaption>
+<div aria-describedby="tbl-tabres-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div class="tabwid"><style>.cl-2ead8192{}.cl-2ea38a70{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-2ea38a84{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-2ea38a85{font-family:'Arial';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-2ea7dd3c{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-2ea7dd50{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-2ea7faec{width:1.347in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2ea7fb00{width:0.964in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2ea7fb01{width:1.236in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2ea7fb0a{width:0.846in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2ea7fb0b{width:1.347in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2ea7fb14{width:0.964in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2ea7fb1e{width:1.236in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2ea7fb1f{width:0.846in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2ea7fb28{width:1.347in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2ea7fb29{width:0.964in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2ea7fb32{width:1.236in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2ea7fb33{width:0.846in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2ea7fb3c{width:1.347in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2ea7fb3d{width:0.964in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2ea7fb46{width:1.236in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2ea7fb47{width:0.846in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-2ead8192"><thead><tr style="overflow-wrap:break-word;"><th class="cl-2ea7faec"><p class="cl-2ea7dd3c"><span class="cl-2ea38a70">Peso ao nascer</span></p></th><th class="cl-2ea7fb00"><p class="cl-2ea7dd3c"><span class="cl-2ea38a70">Fumantes</span></p></th><th class="cl-2ea7fb01"><p class="cl-2ea7dd3c"><span class="cl-2ea38a70">Não fumantes</span></p></th><th class="cl-2ea7fb0a"><p class="cl-2ea7dd3c"><span class="cl-2ea38a70">Valor P*</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-2ea7fb0b"><p class="cl-2ea7dd3c"><span class="cl-2ea38a84">Baixo Peso</span></p></td><td class="cl-2ea7fb14"><p class="cl-2ea7dd3c"><span class="cl-2ea38a84">18/69</span></p></td><td class="cl-2ea7fb1e"><p class="cl-2ea7dd3c"><span class="cl-2ea38a84">22/231</span></p></td><td class="cl-2ea7fb1f"><p class="cl-2ea7dd3c"><span class="cl-2ea38a84">0.00081</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2ea7fb28"><p class="cl-2ea7dd3c"><span class="cl-2ea38a84">IC95%</span></p></td><td class="cl-2ea7fb29"><p class="cl-2ea7dd3c"><span class="cl-2ea38a84">16,3-38,1</span></p></td><td class="cl-2ea7fb32"><p class="cl-2ea7dd3c"><span class="cl-2ea38a84">6,1-14,1</span></p></td><td class="cl-2ea7fb33"><p class="cl-2ea7dd3c"><span class="cl-2ea38a84"></span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td colspan="4" class="cl-2ea7fb3c"><p class="cl-2ea7dd50"><span class="cl-2ea38a85">* Qui-quadrado de Pearson com correção</span></p></td></tr></tfoot></table></div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p><u>Gráfico</u></p>
+<p>Uma boa apresentação gráfica complementa o relatório dos resultados. Pode-se fazer isso com gráfico de barras empilhadas (), acompanhado dos percentuais e do tipo de teste realizado, usando a função <code>get_test_label()</code> que necessita do teste calculado com a função <code>chisq_test()</code> do pacote <code>rstatix</code>, apresentado antes. O gráfico assume o aspecto da <a href="#fig-fumobp1" class="quarto-xref">Figura&nbsp;<span>16.4</span></a>):</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">ggplot</span>(dados) <span class="sc">+</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span> (<span class="at">x =</span> fumo, <span class="at">fill =</span> baixoPeso) <span class="sc">+</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span> (<span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"gray"</span>, <span class="st">"gray95"</span>)) <span class="sc">+</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span> (<span class="at">title =</span> <span class="cn">NULL</span>,</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">subtitle =</span> <span class="fu">get_test_label</span> (teste, <span class="at">detailed =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">x =</span> <span class="st">"Tabagismo"</span>,</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">y =</span> <span class="st">"Frequência"</span>) <span class="sc">+</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x=</span><span class="st">"sim"</span>, <span class="at">y=</span><span class="dv">62</span>, <span class="at">label=</span> <span class="st">"24,6% (15,0-36,5)"</span>) <span class="sc">+</span> </span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="st">"não"</span>, <span class="at">y=</span><span class="dv">223</span>, <span class="at">label =</span> <span class="st">"8,2% (5,0-12,5)"</span>) <span class="sc">+</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span> () <span class="sc">+</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span> (<span class="at">text =</span> <span class="fu">element_text</span> (<span class="at">size =</span> <span class="dv">12</span>)) <span class="sc">+</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">fill =</span> <span class="st">"Peso ao nascer &lt; 2500g"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-fumobp1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fumobp1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="16-dadosCategoricos_files/figure-html/fig-fumobp1-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fumobp1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;16.4: Gráfico de barras empilhadas: tabagismo vs baixo peso ao nascer.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="teste-aderência-ou-do-melhor-ajuste" class="level3" data-number="16.2.4">
+<h3 data-number="16.2.4" class="anchored" data-anchor-id="teste-aderência-ou-do-melhor-ajuste"><span class="header-section-number">16.2.4</span> Teste Aderência ou do Melhor Ajuste</h3>
+<p>O teste de qualidade de ajuste do qui-quadrado (<em>chi-square goodness of fit</em>) é usado para comparar a distribuição observada com uma distribuição esperada, em uma situação em que se tem duas ou mais categorias em dados discretos. Em outras palavras, ele compara várias proporções observadas com as probabilidades esperadas <span class="citation" data-cites="daniel2013chisquare">(<a href="references.html#ref-daniel2013chisquare" role="doc-biblioref">5</a>)</span>.</p>
+<section id="dados-usados-nesta-seção-1" class="level4" data-number="16.2.4.1">
+<h4 data-number="16.2.4.1" class="anchored" data-anchor-id="dados-usados-nesta-seção-1"><span class="header-section-number">16.2.4.1</span> Dados usados nesta seção</h4>
+<p>Há uma dúvida se o número de pacientes que procura uma determinada Unidade de Pronto Atendimento (UPA) é aproximadamente o mesmo em todos os dias da semana. Esta é uma informação importante sob o ponto de vista administrativo. Para se atingir este objetivo registrou-se o número de pacientes que procurou a UPA por dia da semana.</p>
+<p>O número de atendimentos nos sete dias (de segunda-feira à domingo) da semana está representada pela <em>frequência observada</em>, <code>freq_obs</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>freq_obs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">17</span>, <span class="dv">22</span>, <span class="dv">21</span>, <span class="dv">26</span>, <span class="dv">33</span>, <span class="dv">36</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>freq_obs</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20 17 22 21 26 33 36</code></pre>
+</div>
+</div>
+<p>O total de atendimentos durante uma semana é igual a:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>soma <span class="ot">&lt;-</span> <span class="fu">sum</span>(freq_obs)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>soma</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 175</code></pre>
+</div>
+</div>
+<p>Assim, a frequência esperada diária é igual a soma total dos atendimentos dividido pelo número observações (no caso, dias da semana), representada por <code>k</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>k <span class="ot">=</span> <span class="dv">7</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>freq_esp <span class="ot">&lt;-</span> soma<span class="sc">/</span>k</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>freq_esp</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 25</code></pre>
+</div>
+</div>
+<p>Com estes valores , pode-se criar um vetor, <code>p</code>, com as proporçõess dos atendimentos diários esperados:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">rep</span>(freq_esp<span class="sc">/</span>soma, <span class="dv">7</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1428571 0.1428571 0.1428571 0.1428571 0.1428571 0.1428571 0.1428571</code></pre>
+</div>
+</div>
+</section>
+<section id="hipóteses-estatísticas-1" class="level4" data-number="16.2.4.2">
+<h4 data-number="16.2.4.2" class="anchored" data-anchor-id="hipóteses-estatísticas-1"><span class="header-section-number">16.2.4.2</span> Hipóteses estatísticas</h4>
+<blockquote class="blockquote">
+<p><span class="math inline">\(H_{0}\)</span>: a distribuição das frequências observadas (O) é igual a distribuição de frequências esperadas (E).</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><span class="math inline">\(H_{1}\)</span>: a distribuição das frequências observadas (O) não é igual a distribuição de frequências esperadas (E)</p>
+</blockquote>
+</section>
+<section id="cálculo-da-estatística-do-teste" class="level4" data-number="16.2.4.3">
+<h4 data-number="16.2.4.3" class="anchored" data-anchor-id="cálculo-da-estatística-do-teste"><span class="header-section-number">16.2.4.3</span> Cálculo da estatística do teste</h4>
+<p>Assumindo um <span class="math inline">\(\alpha = 0,05\)</span>. Os graus de liberdade são calculados como o número de células (<em>k</em>) menos 1: <span class="math inline">\(gl = (k - 1)\)</span>. O <span class="math inline">\(\chi^{2}_{crítico}\)</span> pode ser encontrado usando:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fl">0.05</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>k <span class="ot">=</span> <span class="dv">7</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>gl <span class="ot">=</span> k <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="fu">qchisq</span> (<span class="dv">1</span> <span class="sc">-</span> alpha, gl)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 12.59159</code></pre>
+</div>
+</div>
+<p>Em outras palavras, se o <span class="math inline">\(\chi^{2}_{calculado}\)</span> &gt; <span class="math inline">\(\chi^{2}_{crítico}\)</span>, rejeita-se a <span class="math inline">\(H_{0}\)</span>. Na <a href="#fig-chi126" class="quarto-xref">Figura&nbsp;<span>16.5</span></a>), o resultado tem que ficar à direita da linha vertical vermelha para que a hipótese nula seja rejeitada. Se cair fora da área de rejeição, à esquerda da linha vertical vermelha, aceita-se a hipóteses nula.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotchisqtest</span>(<span class="at">chisq =</span> <span class="fl">12.6</span>, </span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">df =</span> <span class="dv">6</span>,</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">colorleft =</span> <span class="st">"aliceblue"</span>,</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">colorright =</span> <span class="st">"red"</span>,</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">ylabel =</span> <span class="st">"Densidade de probabilidade"</span>,</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">colorcut =</span> <span class="st">"red"</span>,)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-chi126" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chi126-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="16-dadosCategoricos_files/figure-html/fig-chi126-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chi126-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;16.5: Distribuição do qui-quadrado, gl = 6, alpha = 0,05.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>A estatística do teste pode ser encontrada, usando a função <code>chisq.test()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>teste1 <span class="ot">&lt;-</span> <span class="fu">chisq.test</span> (<span class="at">x =</span> freq_obs, <span class="at">p =</span> p)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>teste1</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Chi-squared test for given probabilities
+
+data:  freq_obs
+X-squared = 12, df = 6, p-value = 0.06197</code></pre>
+</div>
+</div>
+</section>
+<section id="conclusão" class="level4" data-number="16.2.4.4">
+<h4 data-number="16.2.4.4" class="anchored" data-anchor-id="conclusão"><span class="header-section-number">16.2.4.4</span> Conclusão</h4>
+<p>Observando-se a saída do teste do qui-quadrado, verifica-se que o <span class="math inline">\(\chi^{2}_{calculado}\)</span> &lt; <span class="math inline">\(\chi^{2}_{crítico}\)</span>, portanto, não se rejeita a <span class="math inline">\(H_{0}\)</span> e conclui-se que, nesta amostra, com uma confiança de 95%, que a frequência observada de pacientes à UPA é igual a esperada (<em>P</em> = 0.0619688). Lembrando que, neste caso, como se tem um valor <em>P</em> limitrofe, marginal, existe a possibilidade de se estar aceitando uma <span class="math inline">\(H_{0}\)</span> falsa e cometendo um erro tipo II. Seria recomendado, aumentar o tamanho amostral em uma nova coleta, usando estes dados como um piloto para o cálculo amostral.</p>
+</section>
+</section>
+<section id="sec-tabextensas" class="level3" data-number="16.2.5">
+<h3 data-number="16.2.5" class="anchored" data-anchor-id="sec-tabextensas"><span class="header-section-number">16.2.5</span> Qui-quadrado de Pearson para tabelas extensas</h3>
+<p>Este teste é utilizado quando o número de grupos, k, é superior a 2.</p>
+<section id="sec-dadosCirurgia" class="level4" data-number="16.2.5.1">
+<h4 data-number="16.2.5.1" class="anchored" data-anchor-id="sec-dadosCirurgia"><span class="header-section-number">16.2.5.1</span> Dados usados nesta seção</h4>
+<p>Como exemplo, será verificado se existe uma tendência de maior taxa de infecção nos neonatos que permanecem mais tempo hospitalizados. O banco de dados <code>dadosCirurgia.xlsx</code> que pode ser encontrado <a href="https://github.com/petronioliveira/Arquivos/blob/main/dadosCirurgia.xlsx"><strong>aqui</strong></a>. Salve o mesmo no seu diretório de trabalho.</p>
+<p>Esse banco de dados contém 144 recém-nascidos submetidos a diferentes procedimentos cirúrgicos. As variáveis disponíveis são:</p>
+<ul>
+<li><strong>id</strong> <span class="math inline">\(\to\)</span> identificação do neonato;</li>
+<li><strong>sexo</strong> <span class="math inline">\(\to\)</span> sexo do recém-nascido, <code>fem</code> e <code>masc</code>;</li>
+<li><strong>peso</strong> <span class="math inline">\(\to\)</span> peso do neonato em gramas;</li>
+<li><strong>tempohosp</strong> <span class="math inline">\(\to\)</span> tempo de hospitalização em dias;</li>
+<li><strong>infec</strong> <span class="math inline">\(\to\)</span> presença de infecção secundária: sim e não;</li>
+<li><strong>cirurgia</strong> <span class="math inline">\(\to\)</span> tipo de cirurgia: abdominal, cardíaca, outra.</li>
+</ul>
+<p>A variável tempo de hospitalização (<code>tempohosp</code>) é contínua e assimétrica. Para ser usada aqui, será categorizada por quartis. A variável <code>infec</code> (presença de infecção) é uma variável dicotômica (<code>sim</code>, <code>não</code>).</p>
+<p><u>Leitura e transformação dos dados</u></p>
+<p>A leitura dos dados é feita com:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>cirurgia <span class="ot">&lt;-</span> <span class="fu">read_excel</span> (<span class="st">"dados/dadosCirurgia.xlsx"</span>)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(cirurgia)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [144 × 7] (S3: tbl_df/tbl/data.frame)
+ $ id       : num [1:144] 1 2 3 4 5 6 7 8 9 10 ...
+ $ sexo     : chr [1:144] "masc" "masc" "masc" "masc" ...
+ $ peso     : num [1:144] 2020 1850 2540 1150 2900 ...
+ $ ig       : num [1:144] 36 30 38 31 36 37 38 39 38 39 ...
+ $ tempohosp: num [1:144] 37 37 37 46 37 36 30 18 25 14 ...
+ $ infec    : chr [1:144] "não" "não" "sim" "sim" ...
+ $ cirurgia : chr [1:144] "abdominal" "abdominal" "abdominal" "outra" ...</code></pre>
+</div>
+</div>
+<p>Característicamente, a variável <code>tempohosp</code> (tempo de hospitalização) é, quase sempre, assimétrica:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>cirurgia <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> tempohosp,</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> <span class="fu">after_stat</span>(density)), </span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fill =</span> <span class="st">"tomato"</span>,</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">bins =</span> <span class="dv">20</span>,</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">col=</span><span class="fu">alpha</span>(<span class="st">"gray40"</span>,<span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_function</span>(<span class="at">fun=</span>dnorm,</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">args=</span><span class="fu">list</span>(<span class="at">mean=</span><span class="fu">mean</span>(cirurgia<span class="sc">$</span>tempohosp, <span class="at">na.rm =</span> T),</span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>                          <span class="at">sd=</span> <span class="fu">sd</span>(cirurgia<span class="sc">$</span>tempohosp, <span class="at">na.rm =</span> T)), </span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">col=</span><span class="st">'dodgerblue4'</span>,</span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">lwd=</span><span class="dv">1</span>,</span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">lty=</span><span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">'Tempo de hospitalização (dias)'</span>,    </span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">'Densidade de probabilidade'</span>) <span class="sc">+</span></span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="16-dadosCategoricos_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A variável <code>tempohosp</code> será categorizada em quartis. O resumo da mesma, usando a função <code>summary()</code>, fornece orientação para esse procedimento:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span> (cirurgia<span class="sc">$</span>tempohosp)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   1.00   20.75   27.50   37.42   42.00  245.00 </code></pre>
+</div>
+</div>
+<p>O sumário da variável fornece orientação para a categorização, que será realizada, usando a função <code>cut()</code>, consulte a <a href="06-descrevendoDados.html#sec-freq" class="quarto-xref"><span>Seção 6.4.2</span></a> para detalhes de construção de uma tabela de frequência:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>cirurgia<span class="sc">$</span>tempo <span class="ot">&lt;-</span> <span class="fu">cut</span>(cirurgia<span class="sc">$</span>tempohosp, </span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">20.75</span>, <span class="fl">27.50</span>, <span class="fl">42.00</span>, <span class="dv">245</span>),</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"&lt;= 21"</span>,<span class="st">"22-28"</span>, <span class="st">"29-42"</span>,<span class="st">"&gt;42"</span>),</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">right =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>tab1 <span class="ot">&lt;-</span> <span class="fu">table</span> (cirurgia<span class="sc">$</span>tempo)</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>tab1</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+&lt;= 21 22-28 29-42   &gt;42 
+   36    36    35    37 </code></pre>
+</div>
+</div>
+<p>Por exemplo, 36 recém-nascidos premaneceram 21 dias ou menos no pós-operatório e 37 recém-nascidos ficarm internados mais do que 42 dias.</p>
+<p>Agora, a variável <code>cirurgia$infec</code> será colocada como um fator:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>cirurgia<span class="sc">$</span>infec <span class="ot">&lt;-</span> <span class="fu">factor</span>(cirurgia<span class="sc">$</span>infec, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"sim"</span>, <span class="st">"não"</span>))</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(cirurgia<span class="sc">$</span>infec)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+sim não 
+ 56  88 </code></pre>
+</div>
+</div>
+<p>A nova variável <code>tempo</code> será cruzada com a variável <code>infec</code> em uma tabela:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>tab2 <span class="ot">&lt;-</span> <span class="fu">with</span>(<span class="at">data =</span> cirurgia, <span class="fu">table</span>(tempo, infec))</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">addmargins</span>(tab2)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       infec
+tempo   sim não Sum
+  &lt;= 21   9  27  36
+  22-28  11  25  36
+  29-42  14  21  35
+  &gt;42    22  15  37
+  Sum    56  88 144</code></pre>
+</div>
+</div>
+<p>Ou seja, a proporção de recém-nascidos que se infectaram no pós-operatório foi 56/144 = 0,39 ou 39%. Se for calculada a proporção para cada um dos quartis do tempo de hospitalização, através da função <code>ctable()</code> do pacote <code>summarytools</code>, observa-se que a proporção de neonatos infectados no pós-operatório aumenta com o tempo de hospitalização:</p>
+</section>
+<section id="hipóteses-estatísticas-2" class="level4" data-number="16.2.5.2">
+<h4 data-number="16.2.5.2" class="anchored" data-anchor-id="hipóteses-estatísticas-2"><span class="header-section-number">16.2.5.2</span> Hipóteses estatísticas</h4>
+<blockquote class="blockquote">
+<p><strong><span class="math inline">\(H_{0}\)</span></strong>: A presença de infecção não altera o tempo de hospitalização.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong><span class="math inline">\(H_{1}\)</span></strong>: A presença de infecção altera o tempo de hospitalização.</p>
+</blockquote>
+</section>
+<section id="cálculo-da-estatística-do-teste-1" class="level4" data-number="16.2.5.3">
+<h4 data-number="16.2.5.3" class="anchored" data-anchor-id="cálculo-da-estatística-do-teste-1"><span class="header-section-number">16.2.5.3</span> Cálculo da estatística do teste</h4>
+<p>O teste estatístico pode ser calculado, usando o argumento <code>chisq = TRUE</code> na função <code>ctable()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>summarytools<span class="sc">::</span><span class="fu">ctable</span>(cirurgia<span class="sc">$</span>tempo, cirurgia<span class="sc">$</span>infec,</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">prop =</span> <span class="st">"r"</span>,</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">chisq =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">headings =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+------- ------- ------------ ------------ --------------
+          infec          sim          não          Total
+  tempo                                                 
+  &lt;= 21            9 (25.0%)   27 (75.0%)    36 (100.0%)
+  22-28           11 (30.6%)   25 (69.4%)    36 (100.0%)
+  29-42           14 (40.0%)   21 (60.0%)    35 (100.0%)
+    &gt;42           22 (59.5%)   15 (40.5%)    37 (100.0%)
+  Total           56 (38.9%)   88 (61.1%)   144 (100.0%)
+------- ------- ------------ ------------ --------------
+
+----------------------------
+ Chi.squared   df   p.value 
+------------- ---- ---------
+   10.5801     3    0.0142  
+----------------------------</code></pre>
+</div>
+</div>
+</section>
+<section id="conclusão-1" class="level4" data-number="16.2.5.4">
+<h4 data-number="16.2.5.4" class="anchored" data-anchor-id="conclusão-1"><span class="header-section-number">16.2.5.4</span> Conclusão</h4>
+<p>A partir desses resultados, pode-se inferir que a menor taxa de infecção ocorre no grupo do primeiro quartil e é significativamente diferente em relação a taxa de infecção do maior quartil, mas sem indicação para os grupos intermediários. É útil fazer o teste de tendência linear (<em>Linear-by-linear Association</em>). Para isso, pode-se usar a função <code>lbl_test ()</code> do pacote <code>coin</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>coin<span class="sc">::</span><span class="fu">lbl_test</span> (cirurgia<span class="sc">$</span>tempo <span class="sc">~</span> cirurgia<span class="sc">$</span>infec)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Asymptotic Linear-by-Linear Association Test
+
+data:  cirurgia$tempo (ordered) by cirurgia$infec (sim, não)
+Z = 3.1231, p-value = 0.001789
+alternative hypothesis: two.sided</code></pre>
+</div>
+</div>
+<p>Este teste indica uma tendência significativa para a presença de infecção à medida que aumenta o tempo de hospitalização (<em>P</em> = 0,0018).</p>
+</section>
+</section>
+</section>
+<section id="teste-exato-de-fisher" class="level2" data-number="16.3">
+<h2 data-number="16.3" class="anchored" data-anchor-id="teste-exato-de-fisher"><span class="header-section-number">16.3</span> Teste exato de Fisher</h2>
+<p>O teste do qui-quadrado não é um método apropriado de análise se a amostra é pequena. Por exemplo, se <em>n</em> for menor que 20 ou se <em>n</em> estiver entre 20 e 40 e uma das frequências esperadas for menor que 5, o teste do qui-quadrado deve ser evitado. Nesta situação, é recomendado o <strong>teste exato de Fisher</strong>.</p>
+<section id="dados-usados-nesta-seção-2" class="level3" data-number="16.3.1">
+<h3 data-number="16.3.1" class="anchored" data-anchor-id="dados-usados-nesta-seção-2"><span class="header-section-number">16.3.1</span> Dados usados nesta seção</h3>
+<p>Um estudo estabeleceu como objetivo verificar se a asma não controlada é um fator de risco para a procura da emergência. Foram acompanhados 16 escolares asmáticos durante um ano com relação ao número de visitas à emergência de acordo com o controle da sua asma.</p>
+<section id="entrando-com-os-dados" class="level4" data-number="16.3.1.1">
+<h4 data-number="16.3.1.1" class="anchored" data-anchor-id="entrando-com-os-dados"><span class="header-section-number">16.3.1.1</span> Entrando com os dados</h4>
+<p>Em primeiro lugar, serão criadas duas variáveis:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>emerg <span class="ot">&lt;-</span> <span class="fu">c</span> (<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>)</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>controle <span class="ot">&lt;-</span> <span class="fu">c</span> (<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A seguir, usando essas variáveis, será construído um dataframe que será atribuído ao objeto <code>dadosControle</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>dadosAsma <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(emerg, controle)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="transformação-dos-dados" class="level4" data-number="16.3.1.2">
+<h4 data-number="16.3.1.2" class="anchored" data-anchor-id="transformação-dos-dados"><span class="header-section-number">16.3.1.2</span> Transformação dos dados</h4>
+<p>Ambas as variáveis são numéricas e serão transformadas em fatores, considerando 1 = sim e 2 = não e mantendo essa ordem:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>dadosAsma<span class="sc">$</span>emerg <span class="ot">&lt;-</span> <span class="fu">factor</span> (dadosAsma<span class="sc">$</span>emerg,</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">levels =</span> <span class="fu">c</span> (<span class="dv">1</span>,<span class="dv">2</span>),</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">labels =</span> <span class="fu">c</span> (<span class="st">'consultou'</span>, <span class="st">'não consultou'</span>))</span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>dadosAsma<span class="sc">$</span>controle <span class="ot">&lt;-</span> <span class="fu">factor</span> (dadosAsma<span class="sc">$</span>controle, </span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">levels =</span> <span class="fu">c</span> (<span class="dv">1</span>,<span class="dv">2</span>),</span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">labels =</span> <span class="fu">c</span> (<span class="st">'asma controlada'</span>, <span class="st">'não controlada'</span>))</span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dadosAsma)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   16 obs. of  2 variables:
+ $ emerg   : Factor w/ 2 levels "consultou","não consultou": 1 1 2 2 2 2 2 1 1 1 ...
+ $ controle: Factor w/ 2 levels "asma controlada",..: 1 1 1 1 1 1 1 2 2 2 ...</code></pre>
+</div>
+</div>
+</section>
+<section id="construção-da-tabela" class="level4" data-number="16.3.1.3">
+<h4 data-number="16.3.1.3" class="anchored" data-anchor-id="construção-da-tabela"><span class="header-section-number">16.3.1.3</span> Construção da tabela</h4>
+<p>Para o cálculo da estatística do teste, é necessário uma tabela <span class="math inline">\(2\times2\)</span> (<a href="#tbl-rafisher" class="quarto-xref">Tabela&nbsp;<span>16.5</span></a>), obtida com os dados acima:</p>
+<div class="cell">
+<div id="tbl-rafisher" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-rafisher-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;16.5: Consulta à emergência e controle da asma (tab3)
+</figcaption>
+<div aria-describedby="tbl-rafisher-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div class="tabwid"><style>.cl-302869d8{}.cl-301d5458{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-301d5462{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-302145d6{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-302145ea{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-30216908{width:1.432in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30216909{width:1.448in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30216912{width:1.466in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30216913{width:0.625in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3021691c{width:1.432in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30216926{width:1.448in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30216927{width:1.466in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30216930{width:0.625in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30216931{width:1.432in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3021693a{width:1.448in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3021693b{width:1.466in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3021693c{width:0.625in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30216944{width:1.432in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30216945{width:1.448in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3021694e{width:1.466in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3021694f{width:0.625in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-302869d8"><thead><tr style="overflow-wrap:break-word;"><th class="cl-30216908"><p class="cl-302145d6"><span class="cl-301d5458">Controle</span></p></th><th class="cl-30216909"><p class="cl-302145ea"><span class="cl-301d5458">Emergência_Sim</span></p></th><th class="cl-30216912"><p class="cl-302145ea"><span class="cl-301d5458">Emergência_Não</span></p></th><th class="cl-30216913"><p class="cl-302145ea"><span class="cl-301d5458">Total</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-3021691c"><p class="cl-302145d6"><span class="cl-301d5458">Asma controlada</span></p></td><td class="cl-30216926"><p class="cl-302145ea"><span class="cl-301d5462">2</span></p></td><td class="cl-30216927"><p class="cl-302145ea"><span class="cl-301d5462">5</span></p></td><td class="cl-30216930"><p class="cl-302145ea"><span class="cl-301d5462">7</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-30216931"><p class="cl-302145d6"><span class="cl-301d5458">Não controlada</span></p></td><td class="cl-3021693a"><p class="cl-302145ea"><span class="cl-301d5462">8</span></p></td><td class="cl-3021693b"><p class="cl-302145ea"><span class="cl-301d5462">1</span></p></td><td class="cl-3021693c"><p class="cl-302145ea"><span class="cl-301d5462">9</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-30216944"><p class="cl-302145d6"><span class="cl-301d5458">Total</span></p></td><td class="cl-30216945"><p class="cl-302145ea"><span class="cl-301d5462">10</span></p></td><td class="cl-3021694e"><p class="cl-302145ea"><span class="cl-301d5462">6</span></p></td><td class="cl-3021694f"><p class="cl-302145ea"><span class="cl-301d5462">16</span></p></td></tr></tbody></table></div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="hipóteses-estatísticas-3" class="level3" data-number="16.3.2">
+<h3 data-number="16.3.2" class="anchored" data-anchor-id="hipóteses-estatísticas-3"><span class="header-section-number">16.3.2</span> Hipóteses estatísticas</h3>
+<blockquote class="blockquote">
+<p><strong><span class="math inline">\(H_0\)</span></strong>: as variáveis são independentes, não há relação entre as duas variáveis categóricas.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong><span class="math inline">\(H_1\)</span></strong>: as variáveis são dependentes, existe uma relação entre as duas variáveis categóricas. </p>
+</blockquote>
+</section>
+<section id="cálculo-da-estatística-do-teste-2" class="level3" data-number="16.3.3">
+<h3 data-number="16.3.3" class="anchored" data-anchor-id="cálculo-da-estatística-do-teste-2"><span class="header-section-number">16.3.3</span> Cálculo da estatística do teste</h3>
+<p>O teste exato de Fisher é usado quando há pelo menos uma célula na tabela de contingência das frequências esperadas abaixo de 5. Para recuperar as frequências esperadas, use a função <code>chisq.test()</code>, do <em>R</em> base, junto com <code>$expected</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span> (dadosAsma<span class="sc">$</span>controle, dadosAsma<span class="sc">$</span>emerg)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in chisq.test(dadosAsma$controle, dadosAsma$emerg): Aproximação do
+qui-quadrado pode estar incorreta</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  dadosAsma$controle and dadosAsma$emerg
+X-squared = 3.8095, df = 1, p-value = 0.05096</code></pre>
+</div>
+</div>
+<p>A saída do teste imprime um aviso de que o qui-quadrado pode estar incorreto. Há necessidade, devido a presença de três células com valores abaixo de 5, de se usar o teste de Fisher. este pode ser obtido através da função <code>fisher_test()</code>, do pacote <code>rstatix</code>, colocando como argumento uma tabela de contingência <span class="math inline">\(2\times2\)</span>, como a tab3:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>rstatix<span class="sc">::</span><span class="fu">fisher_test</span> (tab3, <span class="at">detailed =</span> <span class="cn">TRUE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 8
+      n estimate     p conf.low conf.high method            alternative p.signif
+* &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;             &lt;chr&gt;       &lt;chr&gt;   
+1    16   0.0646 0.035 0.000953     0.991 Fisher's Exact t… two.sided   *       </code></pre>
+</div>
+</div>
+</section>
+<section id="conclusão-2" class="level3" data-number="16.3.4">
+<h3 data-number="16.3.4" class="anchored" data-anchor-id="conclusão-2"><span class="header-section-number">16.3.4</span> Conclusão</h3>
+<p>O valor <span class="math inline">\(P=0,035\)</span> é menor que o nível de significância de 5%, previamente estabelecido, e, portanto, deve-se rejeitar a hipótese nula. No contexto, rejeitar a hipótese nula para o teste exato de independência de Fisher significa que há uma associação significativa entre as duas variáveis categóricas (controle da asma e visitas à emergência).</p>
+</section>
+</section>
+<section id="teste-de-macnemar" class="level2" data-number="16.4">
+<h2 data-number="16.4" class="anchored" data-anchor-id="teste-de-macnemar"><span class="header-section-number">16.4</span> Teste de Macnemar</h2>
+<p>É um teste estatístico não paramétrico aplicável nos estudos tipo “antes-e-depois” em que cada indivíduo é utilizado como seu próprio controle e a medida é efetuada em escala nominal. O <em>teste de McNemar</em> é usado para determinar se há uma diferença estatisticamente significativa nas proporções entre os dados emparelhados.</p>
+<p>As medidas coletadas nesses tipos de projetos de estudo não são independentes e, portanto, os testes do Qui-quadrado não podem ser usados porque os pressupostos serão violados.</p>
+<p>O teste de McNemar é usado para avaliar se há uma mudança significativa nas proporções ao longo do tempo para dados emparelhados ou se há uma diferença significativa nas proporções entre casos e controles. O resultado de interesse é a mudança dentro da pessoa (ou diferenças dentro do par) e não há variáveis explicativas.</p>
+<p>O teste é calculado examinando o número de respostas que são <em>concordantes</em> para positivo (sim em ambas as ocasiões) e negativo (não em ambas as ocasiões) e o número de pares <em>disconcordantes</em> (sim e não, ou não e sim). Os pares concordantes não fornecem informações sobre as diferenças e não são usados na avaliação. Em vez disso, deve-se concentrar nos pares discordantes, que podem ser divididos em dois tipos: um par discordante do tipo <em>sim – não</em> e um par discordante tipo <em>não – sim</em> <span class="citation" data-cites="eliasziw1991application">(<a href="references.html#ref-eliasziw1991application" role="doc-biblioref">6</a>)</span>.</p>
+<section id="pressupostos-do-teste-de-mcnemar" class="level3" data-number="16.4.1">
+<h3 data-number="16.4.1" class="anchored" data-anchor-id="pressupostos-do-teste-de-mcnemar"><span class="header-section-number">16.4.1</span> Pressupostos do teste de McNemar</h3>
+<p>Os pressupostos para o teste de McNemar são:</p>
+<ol type="1">
+<li>A variável desfecho é binária, dicotômica;</li>
+<li>Cada participante é representado na tabela apenas uma vez;</li>
+<li>A diferença entre as proporções emparelhadas é o resultado de interesse;</li>
+<li>O teste de McNemar pode não ser confiável se houver contagens baixas nas células “discordantes”. Existe recomendação de que a soma dessas células seja <span class="math inline">\(\ge 20\)</span> <span class="citation" data-cites="rosner2011mcnemar">(<a href="references.html#ref-rosner2011mcnemar" role="doc-biblioref">7</a>)</span>.</li>
+</ol>
+</section>
+<section id="dados-usados-nesta-seção-3" class="level3" data-number="16.4.2">
+<h3 data-number="16.4.2" class="anchored" data-anchor-id="dados-usados-nesta-seção-3"><span class="header-section-number">16.4.2</span> Dados usados nesta seção</h3>
+<p>Em uma universidade, um professor de bioestatística comparou as atitudes de 200 estudantes de Medicina em relação à confiança que eles depositam na análise estatística antes e depois da conclusão da disciplina. A pergunta feita foi: Confiam na análise estatística utilizada nos periódicos médicos? As respostas podem ser resumidas na <a href="#tbl-tabmcnemar" class="quarto-xref">Tabela&nbsp;<span>16.6</span></a>:</p>
+<div class="cell">
+<div id="tbl-tabmcnemar" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tabmcnemar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;16.6: Consulta à emergência e controle da asma (tab3)
+</figcaption>
+<div aria-describedby="tbl-tabmcnemar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div class="tabwid"><style>.cl-30728d6a{}.cl-306077a6{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-306077ba{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-306ccef2{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-306cecfc{width:0.939in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-306ced06{width:1.313in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-306ced10{width:1.33in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-306ced1a{width:0.625in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-306ced1b{width:0.939in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-306ced24{width:1.313in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-306ced25{width:1.33in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-306ced2e{width:0.625in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-306ced2f{width:0.939in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-306ced38{width:1.313in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-306ced39{width:1.33in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-306ced3a{width:0.625in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-30728d6a"><thead><tr style="overflow-wrap:break-word;"><th class="cl-306cecfc"><p class="cl-306ccef2"><span class="cl-306077a6">Pré_teste</span></p></th><th class="cl-306ced06"><p class="cl-306ccef2"><span class="cl-306077a6">Pós_teste_Sim</span></p></th><th class="cl-306ced10"><p class="cl-306ccef2"><span class="cl-306077a6">Pós_teste_Não</span></p></th><th class="cl-306ced1a"><p class="cl-306ccef2"><span class="cl-306077a6">Total</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-306ced1b"><p class="cl-306ccef2"><span class="cl-306077a6">Sim</span></p></td><td class="cl-306ced24"><p class="cl-306ccef2"><span class="cl-306077ba">20 (a)</span></p></td><td class="cl-306ced25"><p class="cl-306ccef2"><span class="cl-306077ba">8 (b)</span></p></td><td class="cl-306ced2e"><p class="cl-306ccef2"><span class="cl-306077ba">28</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-306ced1b"><p class="cl-306ccef2"><span class="cl-306077a6">Não</span></p></td><td class="cl-306ced24"><p class="cl-306ccef2"><span class="cl-306077ba">22 (c)</span></p></td><td class="cl-306ced25"><p class="cl-306ccef2"><span class="cl-306077ba">150 (d)</span></p></td><td class="cl-306ced2e"><p class="cl-306ccef2"><span class="cl-306077ba">172</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-306ced2f"><p class="cl-306ccef2"><span class="cl-306077a6">Total</span></p></td><td class="cl-306ced38"><p class="cl-306ccef2"><span class="cl-306077ba">42</span></p></td><td class="cl-306ced39"><p class="cl-306ccef2"><span class="cl-306077ba">158</span></p></td><td class="cl-306ced3a"><p class="cl-306ccef2"><span class="cl-306077ba">200</span></p></td></tr></tbody></table></div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+<section id="hipóteses-estatísticas-4" class="level3" data-number="16.4.3">
+<h3 data-number="16.4.3" class="anchored" data-anchor-id="hipóteses-estatísticas-4"><span class="header-section-number">16.4.3</span> Hipóteses estatísticas</h3>
+<p>Considerando as caselas <em>a</em>, <em>b</em>, <em>c</em> e <em>d</em> da <a href="#tbl-tabmcnemar" class="quarto-xref">Tabela&nbsp;<span>16.6</span></a>, a hipótese nula de homogeneidade marginal indica que as duas probabilidades marginais para cada resultado são as mesmas, isto é,</p>
+<p><span class="math display">\[
+p_{a} + p_{b} = p_{a} + p_{c}
+\]</span> e</p>
+<p><span class="math display">\[
+p_{c} + p_{d} = p_{b} + p_{d}
+\]</span></p>
+<p>Assim, a hipótese nula e a hipótese alternativa são:</p>
+<blockquote class="blockquote">
+<p><strong><span class="math inline">\(H_{0}\)</span></strong>: a proporção de alunos que respondem <code>sim</code> no pré-teste e no pós-teste é a mesma.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong><span class="math inline">\(H_{1}\)</span></strong>: a proporção de alunos que respondem <code>sim</code> no pré-teste e no pós-teste não é a mesma. </p>
+</blockquote>
+</section>
+<section id="lógica-do-teste" class="level3" data-number="16.4.4">
+<h3 data-number="16.4.4" class="anchored" data-anchor-id="lógica-do-teste"><span class="header-section-number">16.4.4</span> Lógica do teste</h3>
+<p>O teste estatístico de McNemar, com correção de continuidade, é obtido utilizando a equação:</p>
+<p><span class="math display">\[
+\chi^{2} = \frac {\left (\left |b - c  \right |- 1  \right )^{2}}{b + c}
+\]</span></p>
+<p>Sob a hipótese nula, com um número suficientemente grande de discordantes (células <em>b</em> e <em>c</em>), o <span class="math inline">\(\chi^{2}\)</span> tem uma distribuição qui-quadrado com um grau de liberdade. Se o resultado é significativo, isto é, fornece evidências suficientes para rejeitar a hipótese nula, significa que as proporções marginais são significativamente diferentes umas das outras.</p>
+<p>Substituindo os dados da Tabela na Equação, tem-se:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">8</span></span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="dv">22</span></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="dv">150</span></span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>chi <span class="ot">&lt;-</span> ((<span class="fu">abs</span>(b <span class="sc">-</span> c) <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>(b <span class="sc">+</span> c)</span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>chi</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5.633333</code></pre>
+</div>
+</div>
+<p>Assumindo um <span class="math inline">\(\alpha = 0,05\)</span>, pode-se obter valor crítico para o <span class="math inline">\(\chi^{2}\)</span> para gl = 1, usando a função <code>qchisq()</code>, do pacote <code>stats</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fl">0.05</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qchisq</span>(<span class="dv">1</span> <span class="sc">-</span> alpha, <span class="dv">1</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.841459</code></pre>
+</div>
+</div>
+<p>Desta maneira, rejeita-se a <span class="math inline">\(H_{0}\)</span>, pois o <span class="math inline">\(\chi_{calculado}^{2} &gt; \chi_{crítico}^{2}\)</span>. O valor <em>P</em> pode ser conseguido com a função <code>pchisq()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pchisq</span> (<span class="fl">5.633</span>, <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.01762544</code></pre>
+</div>
+</div>
+</section>
+<section id="cálculo-do-teste-de-mcnemar-no-r" class="level3" data-number="16.4.5">
+<h3 data-number="16.4.5" class="anchored" data-anchor-id="cálculo-do-teste-de-mcnemar-no-r"><span class="header-section-number">16.4.5</span> Cálculo do teste de McNemar no R</h3>
+<p>Carregar o arquivo <code>dadosBioestatistica.xlsx</code>, que pode ser encontrado <a href="https://github.com/petronioliveira/Arquivos/blob/main/dadosBioestatistica.xlsx"><strong>aqui</strong></a>. Este conjunto de dados contem os dados da tabela acima.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="st">"dados/dadosBioestatistica.xlsx"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Construir uma tabela de contingência</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>dados<span class="sc">$</span>preteste <span class="ot">&lt;-</span> <span class="fu">factor</span>(dados<span class="sc">$</span>preteste, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"sim"</span>, <span class="st">"não"</span>))</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>dados<span class="sc">$</span>posteste <span class="ot">&lt;-</span> <span class="fu">factor</span>(dados<span class="sc">$</span>posteste, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"sim"</span>, <span class="st">"não"</span>))</span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>tab4 <span class="ot">&lt;-</span> <span class="fu">table</span>(dados<span class="sc">$</span>preteste, dados<span class="sc">$</span>posteste, </span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">"Pré-teste"</span>, <span class="st">"Pós-teste"</span>))</span>
+<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a>tab4</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Pós-teste
+Pré-teste sim não
+      sim  20   8
+      não  22 150</code></pre>
+</div>
+</div>
+<p>Agora, pode-se calcular o teste de McNemar<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> com a função <code>mcnemar_test()</code> do pacote <code>rstatix</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>rstatix<span class="sc">::</span><span class="fu">mcnemar_test</span> (tab4, </span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">correct =</span> <span class="cn">TRUE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 6
+      n statistic    df      p p.signif method      
+* &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;       
+1   200      5.63     1 0.0176 *        McNemar test</code></pre>
+</div>
+</div>
+<p>O resultado do teste de McNemar com correção de continuidade é exatamente igual ao calculado manualmente.</p>
+</section>
+<section id="conclusão-3" class="level3" data-number="16.4.6">
+<h3 data-number="16.4.6" class="anchored" data-anchor-id="conclusão-3"><span class="header-section-number">16.4.6</span> Conclusão</h3>
+<p>Houve uma modificação estatisticamente significativa na opinião dos alunos após o curso de Bioestatística em relação à confiança nas análises estatísticas (86% no pré-teste de respostas <code>não</code> x 79% no pós-teste, <span class="math inline">\(\chi^{2} = 5,63, gl = 1, P = 0,018\)</span>). Alguns alunos (14) mudaram de opinião em relação a sua confiança nas análises estatísticas dos periódicos médicos.</p>
+
+
+<div id="refs" class="references csl-bib-body" role="list" style="display: none">
+<div id="ref-altman1991chisquared" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Altman DG. Comparing groups: categorical data. Em: Practical Statistics for Medical Research. London: Chapman &amp; Hall/CRC; 1991. p. 244–7. </div>
+</div>
+<div id="ref-myszkowski2020nhstplot" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Myszkowski N. nhstplot package [Internet]. RDocumentation. 2020. Disponível em: <a href="https://rdocumentation.org/packages/nhstplot/versions/1.1.0">https://rdocumentation.org/packages/nhstplot/versions/1.1.0</a></div>
+</div>
+<div id="ref-warnes2022gmodels" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Warnes GR, Bolker B, et al. Gmodels: Various R programming tools for model fitting [Internet]. CRAN R Project. 2022. Disponível em: <a href="https://rdrr.io/cran/gmodels/">https://rdrr.io/cran/gmodels/</a></div>
+</div>
+<div id="ref-comtois2022summarytools" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Comtois D. summarytools: Tools to Quickly and Neatly Summarize Data [Internet]. CRAN R Project. 2022. Disponível em:<a href="	https://github.com/dcomtois/summarytools"> https://github.com/dcomtois/summarytools</a></div>
+</div>
+<div id="ref-daniel2013chisquare" class="csl-entry" role="listitem">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Daniel WW, Cross CL. The chi-square distribution and analysis of frequencies. Em: Practical Statistics for Medical Research. Hoboken, NJ: John Wiley &amp; Sons, Inc; 2013. p. 604–19. </div>
+</div>
+<div id="ref-eliasziw1991application" class="csl-entry" role="listitem">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Eliasziw M, Donner A. Application of the McNemar test to non-independent matched pair data. Statistics in medicine. 1991;10(12):1981–91. </div>
+</div>
+<div id="ref-rosner2011mcnemar" class="csl-entry" role="listitem">
+<div class="csl-left-margin">7. </div><div class="csl-right-inline">Rosner B. Hypothesis Testing: Categorical Data. Em: Fundamentals of Biostatistics. Seventh Edition. Boston: Cengage; 2011. p. 377. </div>
+</div>
+</div>
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Se o cálculo fosse feito com a fórmula geral, o valor do qui-quadrado seria 4,17. Teste!<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Ver <a href="05-manipulandoDados.html#sec-mater" class="quarto-xref"><span>Seção 5.3</span></a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Quando não se está trabalhando com uma tabela <span class="math inline">\(2 \times 2\)</span> e a regra geral for obedecida e o n for grande, pode-se usar o qui-quadrado de Pearson sem correção.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>É possível também obter o teste de McNemar de outras formas, como, por exemplo, usando a função <code>CrossTable()</code> do pacote <code>gmodels</code>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiada");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiada");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./15-correlacao-regressao.html" class="pagination-link" aria-label="Correlação e Regressão">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Correlação e Regressão</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./17-testes-naoParametricos.html" class="pagination-link" aria-label="Métodos não paramétricos">
+        <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Métodos não paramétricos</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

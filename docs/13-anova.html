@@ -83,7 +83,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./summary.html" rel="next">
+<link href="./14-anovaRep.html" rel="next">
 <link href="./12-teste-t.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -279,8 +279,32 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  <a href="./14-anovaRep.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">ANOVA de medidas repetidas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-correlacao-regressao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Correlação e Regressão</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-dadosCategoricos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Análise de Dados Categóricos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17-testes-naoParametricos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Métodos não paramétricos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18-epidemiologia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Estatística em Epidemiologia</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -376,7 +400,7 @@ window.Quarto = {
 <section id="lógica-do-modelo-da-anova" class="level3" data-number="13.2.1">
 <h3 data-number="13.2.1" class="anchored" data-anchor-id="lógica-do-modelo-da-anova"><span class="header-section-number">13.2.1</span> Lógica do Modelo da ANOVA</h3>
 <p>O procedimento de ANOVA é utilizado para testar a hipótese nula de que as médias de três <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> ou mais populações são as mesmas contra hipótese alternativa de que nem todas as médias são iguais.</p>
-<p>Na <a href="12-teste-t.html#sec-homovar" class="quarto-xref"><span>Seção 12.2.4.2</span></a>, foram comparadas duas variâncias, usando um teste, denominado de <em>teste F</em>. Este teste, é uma razão entre duas variâncias e recebeu este nome em homenagem a Sir Ronald Aylmer <em>Fisher</em> (veja a <a href="intro.html#sec-historia" class="quarto-xref"><span>Seção 1.2</span></a>. A variância é uma medida de dispersão que mensura como os dados estão espalhados em torno da média (veja <a href="06-descrevendoDados.html#sec-variancia" class="quarto-xref"><span>Seção 6.3.4.3</span></a>). Quanto maior o seu valor, maior a dispersão.</p>
+<p>Na <a href="12-teste-t.html#sec-homovar" class="quarto-xref"><span>Seção 12.2.4.2</span></a>, foram comparadas duas variâncias, usando um teste, denominado de <em>teste F</em>. Este teste, é uma razão entre duas variâncias e recebeu este nome em homenagem a Sir Ronald Aylmer <em>Fisher</em> (veja a <a href="intro.html#sec-historia" class="quarto-xref"><span>Seção 1.2</span></a>. A variância é uma medida de dispersão que mensura como os dados estão espalhados em torno da média (veja <a href="06-descrevendoDados.html#sec-variancia" class="quarto-xref"><span>Seção 6.3.4.3</span></a> ) . Quanto maior o seu valor, maior a dispersão.</p>
 <p>Considere a <a href="#fig-logica" class="quarto-xref">Figura&nbsp;<span>13.1</span></a>, onde está representada a distribuição de uma variável <em>X</em> em três grupos independentes. Pode-se, claramente, distinguir observações provenientes dessas distribuições, pois a sobreposição delas é pequena. Cada uma dela se dispersa pouco em torno da média.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -408,7 +432,7 @@ Figura&nbsp;13.2: Distribuições com mesmas médias da figura anterior, mas var
 </div>
 </div>
 <p>Se a variação entre os grupos for grande quando comparada à variação dentro de cada grupo, aumenta a probabilidade de reconhecer a proveniência das observações (<a href="#fig-logica" class="quarto-xref">Figura&nbsp;<span>13.1</span></a>). Entretanto, se a variação entre os grupos for pequena comparada à variação dentro do grupo, torna difícil a distinção de observações provenientes dos grupos (<a href="#fig-logicb" class="quarto-xref">Figura&nbsp;<span>13.2</span></a>).</p>
-<p>Portanto, usar o teste <em>F</em> para determinar se as médias de grupo são iguais é apenas uma questão de incluir as variâncias corretas na razão. Na ANOVA com um fator, a estatística <em>F</em> é a razão dos estimadores das <strong>variância entre e dentro dos grupos</strong>.</p>
+<p>Portanto, usar o teste <em>F</em> para determinar se as médias de grupo são iguais é apenas uma questão de incluir as variâncias corretas na razão. Na ANOVA com um fator, a estatística <em>F</em> é a razão dos estimadores das <strong>variâncias entre e dentro dos grupos</strong>.</p>
 <p><span class="math display">\[
 F = \frac{variância \quad ENTRE \quad os \quad grupos}{variância \quad DENTRO \quad dos \quad grupos}
 \]</span></p>
@@ -419,7 +443,7 @@ F = \frac{variância \quad ENTRE \quad os \quad grupos}{variância \quad DENTRO 
 <h3 data-number="13.2.2" class="anchored" data-anchor-id="distribuição-f"><span class="header-section-number">13.2.2</span> Distribuição <em>F</em></h3>
 <p>A razão entre a variabilidade entre os grupos e a variabilidade dentro do grupo segue uma distribuição <em>F</em> quando a hipótese nula é verdadeira. Quando se realiza uma ANOVA com um fator obtém-se um valor <em>F</em>. No entanto, se forem extraídas várias amostras aleatórias do mesmo tamanho da mesma população e fosse repetida a mesma análise, o resultado seriam muitos valores <em>F</em> diferentes, constituindo uma distribuição amostral, denominada de <em>distribuição F</em>.</p>
 <p>Dessa forma, como a distribuição <em>F</em> assume que a hipótese nula é verdadeira, é possível colocar o resultado de qualquer valor <em>F</em>, resultante do teste de ANOVA, e determinar quão consistente ele é com a hipótese nula e calcular a probabilidade. A probabilidade que se quer calcular é a probabilidade de observar uma estatística <em>F</em> que é pelo menos tão alta quanto o valor que o estudo obteve. Essa probabilidade permite determinar quão comum ou raro é o valor <em>F</em>, sob a suposição de que a hipótese nula é verdadeira. Se a probabilidade for pequena o suficiente, pode-se concluir que dados são inconsistentes com a hipótese nula. Como já foi mostrado em outros momentos, essa probabilidade é o valor <em>P</em> (<a href="11-testeHipoteses.html#sec-valorp" class="quarto-xref"><span>Seção 11.6</span></a>).</p>
-<p>O formato de uma curva de distribuição <em>F</em> depende do número de graus de liberdade. No entanto, a distribuição <em>F</em> tem dois números de graus de liberdade: <em>graus de liberdade para o numerador</em> (variância entre) e <em>graus de liberdade para o denominador</em> (variância dentro). Esses dois graus de liberdade são os parâmetros da distribuição <em>F</em>. Cada combinação de graus de liberdade fornece uma curva de distribuição <em>F</em> diferente. As unidades de uma distribuição <em>F</em> são denotadas por <em>F</em>, que assume apenas valores positivos. Como as distribuições normal, <em>t</em> e qui-quadrado (veja <span class="quarto-unresolved-ref">?sec-qui</span>), a distribuição <em>F</em> é uma distribuição contínua. A forma de uma curva de distribuição <em>F</em> é inclinada para à direita, mas a assimetria diminui à medida que o número de graus de liberdade aumenta, conforme observado na <a href="#fig-distf" class="quarto-xref">Figura&nbsp;<span>13.3</span></a>.</p>
+<p>O formato de uma curva de distribuição <em>F</em> depende do número de graus de liberdade. No entanto, a distribuição <em>F</em> tem dois números de graus de liberdade: <em>graus de liberdade para o numerador</em> (variância entre) e <em>graus de liberdade para o denominador</em> (variância dentro). Esses dois graus de liberdade são os parâmetros da distribuição <em>F</em>. Cada combinação de graus de liberdade fornece uma curva de distribuição <em>F</em> diferente. As unidades de uma distribuição <em>F</em> são denotadas por <em>F</em>, que assume apenas valores positivos. Como as distribuições normal, <em>t</em> e qui-quadrado (veja <a href="16-dadosCategoricos.html#sec-qui" class="quarto-xref"><span>Seção 16.2</span></a>), a distribuição <em>F</em> é uma distribuição contínua. A forma de uma curva de distribuição <em>F</em> é inclinada para à direita, mas a assimetria diminui à medida que o número de graus de liberdade aumenta, conforme observado na <a href="#fig-distf" class="quarto-xref">Figura&nbsp;<span>13.3</span></a>.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-distf" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -755,7 +779,7 @@ group   3  0.6306 0.5961
 <p>Como mostrado nos boxplots, existe um valor atípico, ou seja, está abaixo de 1,5 IIQ. Entretanto, ele não é extremo (&gt; 3 IIQ).</p>
 <p>Da mesma maneira que no teste <em>t</em>, os pressupostos têm mais importância em grupos pequenos e desiguais. Para o exemplo em análise, os pressupostos foram verificados e pode-se assumir que os grupos são independentes e as médias têm distribuição normal e existe homocedasticidade, além disso, os grupos têm o mesmo tamanho (n = 50). Portanto, a análise pode ser continuada.</p>
 <p><u>O que fazer se os pressupostos são violados?</u></p>
-<p>Se a homogeneidade da variância é o problema, um teste possível de ser implementado no <em>R</em> é o <em>F de Welch</em>, aplicando a função<code>welch.test()</code>, incluída no pacote <code>onewaytests</code> <span class="citation" data-cites="dag2018onewaytests">(<a href="references.html#ref-dag2018onewaytests" role="doc-biblioref">5</a>)</span>. Existem também testes não paramétricos, como o <em>Teste de Kruskal-Wallis</em>, que será visto mais adiante (<span class="quarto-unresolved-ref">?sec-kuskalwallis</span>).</p>
+<p>Se a homogeneidade da variância é o problema, um teste possível de ser implementado no <em>R</em> é o <em>F de Welch</em>, aplicando a função<code>welch.test()</code>, incluída no pacote <code>onewaytests</code> <span class="citation" data-cites="dag2018onewaytests">(<a href="references.html#ref-dag2018onewaytests" role="doc-biblioref">5</a>)</span>. Existem também testes não paramétricos, como o <em>Teste de Kruskal-Wallis</em>, que será visto mais adiante (<a href="17-testes-naoParametricos.html#sec-kuskalwallis" class="quarto-xref"><span>Seção 17.6</span></a>).</p>
 </section>
 <section id="execução-do-teste-estatístico" class="level4" data-number="13.3.4.2">
 <h4 data-number="13.3.4.2" class="anchored" data-anchor-id="execução-do-teste-estatístico"><span class="header-section-number">13.3.4.2</span> Execução do teste estatístico</h4>
@@ -1372,7 +1396,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a> mod.aov2 <span class="ot">&lt;-</span> <span class="fu">aov</span>(<span class="at">formula =</span> escore <span class="sc">~</span> alcool <span class="sc">*</span> sexo, </span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> dados)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Na <a href="#sec-preresiduos" class="quarto-xref"><span>Seção 13.4.5</span></a>, foi construído um modelo para analisar os resíduos. Este modelo está baseado na semelhança dos modelos de regressão linear (veja <span class="quarto-unresolved-ref">?sec-rls</span>) com o modelo da ANOVA. Observa-se que o código é bem semelhante, usando a fórmula <code>variável dependente ~ variável independentes</code>, o sinal <code>+</code> é usado para incluir variáveis independentes sem interação e o sinal <code>*</code> quando há interação. Ou seja, a ANOVA, como todas as ANOVAs, é na verdade um modelo linear. Observe que o código a seguir, usando a função <code>lm()</code> e após <code>Anova()</code> do pacote <code>car</code>, também funciona e retorna os mesmos resultados <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> :</p>
+<p>Na <a href="#sec-preresiduos" class="quarto-xref"><span>Seção 13.4.5</span></a>, foi construído um modelo para analisar os resíduos. Este modelo está baseado na semelhança dos modelos de regressão linear (veja <a href="15-correlacao-regressao.html#sec-rls" class="quarto-xref"><span>Seção 15.3</span></a>) com o modelo da ANOVA. Observa-se que o código é bem semelhante, usando a fórmula <code>variável dependente ~ variável independentes</code>, o sinal <code>+</code> é usado para incluir variáveis independentes sem interação e o sinal <code>*</code> quando há interação. Ou seja, a ANOVA, como todas as ANOVAs, é na verdade um modelo linear. Observe que o código a seguir, usando a função <code>lm()</code> e após <code>Anova()</code> do pacote <code>car</code>, também funciona e retorna os mesmos resultados <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a> mod.int.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> escore <span class="sc">~</span> sexo <span class="sc">*</span> alcool,</span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> dados)</span>
@@ -2114,8 +2138,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./summary.html" class="pagination-link" aria-label="Summary">
-        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./14-anovaRep.html" class="pagination-link" aria-label="ANOVA de medidas repetidas">
+        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">ANOVA de medidas repetidas</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

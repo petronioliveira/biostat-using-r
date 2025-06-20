@@ -279,8 +279,32 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  <a href="./14-anovaRep.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">ANOVA de medidas repetidas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-correlacao-regressao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Correlação e Regressão</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-dadosCategoricos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Análise de Dados Categóricos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17-testes-naoParametricos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Métodos não paramétricos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18-epidemiologia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Estatística em Epidemiologia</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -1235,7 +1259,7 @@ fumo   sim  não  sum
   sum  275 1093 1368</code></pre>
 </div>
 </div>
-<p>Observando a tabela de contingência, verifica-se que a proporção entre as gestantes fumantes de internação na UTI neonatal foi 71/301 = 0,236 e entre as não fumantes foi de 204/1067 = 0,191. Para verificar se esta diferença ocorreu por acaso ou ela é significativa, há necessidade de se realizar um teste de hipótese, o qui-quadrado, que será visto na <span class="quarto-unresolved-ref">?sec-qui</span>.</p>
+<p>Observando a tabela de contingência, verifica-se que a proporção entre as gestantes fumantes de internação na UTI neonatal foi 71/301 = 0,236 e entre as não fumantes foi de 204/1067 = 0,191. Para verificar se esta diferença ocorreu por acaso ou ela é significativa, há necessidade de se realizar um teste de hipótese, o qui-quadrado, que será visto na <a href="16-dadosCategoricos.html#sec-qui" class="quarto-xref"><span>Seção 16.2</span></a>.</p>
 </section>
 </section>
 <section id="gráficos" class="level2" data-number="6.5">
@@ -2295,7 +2319,7 @@ Figura&nbsp;6.31: Mapeamento dos pontos de acordo com uma variável categórica
 </section>
 <section id="adição-da-reta-de-ajuste" class="level4" data-number="6.5.6.2">
 <h4 data-number="6.5.6.2" class="anchored" data-anchor-id="adição-da-reta-de-ajuste"><span class="header-section-number">6.5.6.2</span> Adição da reta de ajuste</h4>
-<p>Uma linha reta de ajuste dos dados (<a href="#fig-reta" class="quarto-xref">Figura&nbsp;<span>6.32</span></a>) pode ser acrescentada usando a função <code>abline ()</code>, associada a função <code>lm ()</code>. Um modelo típico lm (<em>linear model</em>) tem o formato <em>resposta (</em>y<em>) ~ preditor (</em>x<em>)</em>. Mais detalhes sobre o modelo de ajuste linear na <span class="quarto-unresolved-ref">?sec-rls</span> (regressão linear).</p>
+<p>Uma linha reta de ajuste dos dados (<a href="#fig-reta" class="quarto-xref">Figura&nbsp;<span>6.32</span></a>) pode ser acrescentada usando a função <code>abline ()</code>, associada a função <code>lm ()</code>. Um modelo típico lm (<em>linear model</em>) tem o formato <em>resposta (</em>y<em>) ~ preditor (</em>x<em>)</em>. Mais detalhes sobre o modelo de ajuste linear na <a href="15-correlacao-regressao.html#sec-rls" class="quarto-xref"><span>Seção 15.3</span></a> (regressão linear).</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Construção do gráfico de dispersão</span></span>
 <span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span> (<span class="fu">jitter</span>(rnt<span class="sc">$</span>compRN,<span class="dv">10</span>),</span>
@@ -2455,7 +2479,7 @@ Figura&nbsp;6.35: Gráfico de dispersão com reta de regressão
 </div>
 </div>
 </div>
-<p>O gráfico da <a href="#fig-scatter4" class="quarto-xref">Figura&nbsp;<span>6.35</span></a>, mostra um ajuste dos pontos a uma reta, representando a correlação perfeita entre <em>x ~ y</em>. A distância dos pontos à reta é o erro (resíduo). A melhor reta ajustada é aquela em que a soma dos quadrados da distância de cada ponto (soma dos quadrados residual) em relação à reta é minimizada (veja também <span class="quarto-unresolved-ref">?sec-rls</span>. O gráfico mostra uma forte correlação: à medida que o idade aumenta, aumenta o comprimento da criança</p>
+<p>O gráfico da <a href="#fig-scatter4" class="quarto-xref">Figura&nbsp;<span>6.35</span></a>, mostra um ajuste dos pontos a uma reta, representando a correlação perfeita entre <em>x ~ y</em>. A distância dos pontos à reta é o erro (resíduo). A melhor reta ajustada é aquela em que a soma dos quadrados da distância de cada ponto (soma dos quadrados residual) em relação à reta é minimizada (veja também <a href="15-correlacao-regressao.html#sec-rls" class="quarto-xref"><span>Seção 15.3</span></a>. O gráfico mostra uma forte correlação: à medida que o idade aumenta, aumenta o comprimento da criança</p>
 <p><u>Outros atributos estéticos</u></p>
 <p>O estabelecimento das cores, formato e tamanho dos pontos pode ser realizado adicionando o argumento <code>color =</code> dentro da função <code>aes()</code>. Por exemplo:</p>
 <div class="cell" data-layout-align="center">

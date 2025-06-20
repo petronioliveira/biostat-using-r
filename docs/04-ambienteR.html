@@ -275,8 +275,32 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  <a href="./14-anovaRep.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">ANOVA de medidas repetidas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-correlacao-regressao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Correlação e Regressão</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-dadosCategoricos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Análise de Dados Categóricos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17-testes-naoParametricos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Métodos não paramétricos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18-epidemiologia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Estatística em Epidemiologia</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -386,7 +410,7 @@ O <em>RStudio</em> é escrito em linguagem C++ e foi inicialmente focado apenas 
 <p>Para iniciar o <em>RStudio</em> basta clicar no ícone indicativo (<a href="#fig-icone" class="quarto-xref">Figura&nbsp;<span>4.1</span></a>) que se encontra no menu <em>Iniciar</em> do Windows.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-icone" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="ht" data-fig-align="center">
+<div id="fig-icone" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="ht">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-icone-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/vpHesDH.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:15.0%" data-fig-pos="ht">
@@ -401,7 +425,7 @@ Figura&nbsp;4.1: Ícone do RStudio
 <p>O <em>RStudio</em> abre como mostrado na <a href="#fig-inicial" class="quarto-xref">Figura&nbsp;<span>4.2</span></a>. O <em>RStudio</em> é uma interface mais funcional e amigável para o <em>R</em>. Contém um conjunto de ferramentas integradas projetadas para ajudá-lo a ser mais produtivo com o R.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-inicial" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="ht" data-fig-align="center">
+<div id="fig-inicial" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="ht">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-inicial-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/oG2o4cl.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" data-fig-pos="ht">
@@ -424,7 +448,7 @@ Figura&nbsp;4.2: Tela inicial do RStudio
 <p>O <em>Console</em> é a principal parte do <em>R</em>. Aqui é onde o <em>R</em> realmente executa o comando. No início do <em>Console</em>, existe um caractere (&gt;). Este é um <em>prompt</em> que informa que o <em>R</em> está pronto para receber um novo código. Pode-se digitar o código diretamente no <em>Console</em> após o <em>prompt</em> e obter uma resposta imediata. Por exemplo, se for digitado 1 + 1 e pressionado <em>Enter</em>, o <em>R</em> imediatamente gera uma saída de 2 (<a href="#fig-console" class="quarto-xref">Figura&nbsp;<span>4.3</span></a>).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-console" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="ht" data-fig-align="center">
+<div id="fig-console" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="ht">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-console-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/3Fu5drg.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%" data-fig-pos="ht">
@@ -440,7 +464,7 @@ Figura&nbsp;4.3: Console
 <p>O <em>R Script</em> é o quarto painel do <em>RStudio</em> e seu bloco de notas. Ele é criado através do menu <em>File</em> &gt; <em>New File</em> &gt; <em>R Script</em> ou clicando no botão verde com o sinal (+), na barra de ferramentas de acesso rápido, na parte superior à esquerda. Ao criar um novo <em>R Script</em> será aberto o painel do bloco de notas (<a href="#fig-script" class="quarto-xref">Figura&nbsp;<span>4.4</span></a>), em verde).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-script" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="ht" data-fig-align="center">
+<div id="fig-script" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="ht">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-script-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/0URmX6w.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" data-fig-pos="ht">
@@ -455,7 +479,7 @@ Figura&nbsp;4.4: R Script
 <p>Um diferencial do <em>RStudio</em> é que os comandos são autocompletáveis. Basta começar a escrever o comando, inserindo 3 ou mais caracteres, por exemplo, <code>summ</code> referente a função <code>summary ()</code>, usada para sumarizar um conjunto de dados, e surge um menu de opções, facilitando a digitação (<a href="#fig-auto" class="quarto-xref">Figura&nbsp;<span>4.5</span></a>).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-auto" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="ht" data-fig-align="center">
+<div id="fig-auto" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="ht">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-auto-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/qNS4uYP.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" data-fig-pos="ht">
@@ -481,7 +505,7 @@ Figura&nbsp;4.5: Menu autocompletável
 </ol>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-tutorial" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="ht" data-fig-align="center">
+<div id="fig-tutorial" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="ht">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-tutorial-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/wSgusUJ.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%" data-fig-pos="ht">
@@ -504,7 +528,7 @@ Figura&nbsp;4.6: Tutoriais do RStudio
 </ol>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-ajuda" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="ht" data-fig-align="center">
+<div id="fig-ajuda" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="ht">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ajuda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/XlGJgCt.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%" data-fig-pos="ht">
@@ -539,7 +563,7 @@ Um pacote é um conjunto de funções, dados e documentação que expande os rec
 <p>Uma outra maneira de instalar pacotes no <em>R</em>, é usar o botão <strong>Install</strong>, localizado na aba <em>Packages</em>, no painel inferior, à direita. Clicando em <strong>Install</strong>, abre-se a caixa de diálogo da <a href="#fig-install" class="quarto-xref">Figura&nbsp;<span>4.8</span></a>. Digitar em <em>Packages</em> o nome do pacote (<code>ggplot2</code>) e o <em>RStudio</em> completará com opções para achar o pacote. Clicar em <code>ggplot2</code> e verifique se <em>Install dependencies</em> foi selecionado. A seguir clicar em <em>Install</em> e aguardar aparecer no <em>Console</em> a mensagem que o pacote foi instalado com sucesso.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-install" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="ht" data-fig-align="center">
+<div id="fig-install" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="ht">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-install-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/HBlM3FL.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" data-fig-pos="ht">
@@ -644,7 +668,7 @@ Uma entrada BibTeX para usuários(as) de LaTeX é
 <p>Ao finalizar, aparecerá no <em>Console</em> (<a href="#fig-wd" class="quarto-xref">Figura&nbsp;<span>4.9</span></a>):</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-wd" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="ht" data-fig-align="center">
+<div id="fig-wd" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="ht">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-wd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/o27RYRI.png.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%" data-fig-pos="ht">
@@ -666,7 +690,7 @@ Figura&nbsp;4.9: Diretório de trabalho
 <p>Ao se começar uma nova análise, é interessante criar um Novo Projeto. Para isso, clicar <em>File</em> &gt; <em>New Project</em> ou clicar no menu que está na parte superior, à direita, <em>Project (none)</em> &gt; <em>New Project…</em>. Abrirá a janela da <a href="#fig-projeto" class="quarto-xref">Figura&nbsp;<span>4.10</span></a>).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-projeto" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="ht" data-fig-align="center">
+<div id="fig-projeto" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="ht">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-projeto-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/6N4p3VY.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%" data-fig-pos="ht">
@@ -862,7 +886,7 @@ Figura&nbsp;4.10: Assistente de novo projeto.
 <p>O resultado deste comando aparecerá na aba <em>Help</em>, na parte inferior, à direita (<a href="#fig-help" class="quarto-xref">Figura&nbsp;<span>4.11</span></a>):</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-help" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="ht" data-fig-align="center">
+<div id="fig-help" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="ht">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-help-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/Dy3gA7R.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%" data-fig-pos="ht">

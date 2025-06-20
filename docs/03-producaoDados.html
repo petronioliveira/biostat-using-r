@@ -241,8 +241,32 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  <a href="./14-anovaRep.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">ANOVA de medidas repetidas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-correlacao-regressao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Correlação e Regressão</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-dadosCategoricos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Análise de Dados Categóricos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17-testes-naoParametricos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Métodos não paramétricos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18-epidemiologia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Estatística em Epidemiologia</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -479,7 +503,7 @@ window.Quarto = {
 <p>É útil também para investigar surtos agudos (infecção alimentar) para identificar se existe ou não associação entre a exposição e o desfecho investigado. Com frequência, os estudos caso-controle são o primeiro passo na busca de uma etiologia quando há suspeita de que alguma de várias exposições esteja associada a uma determinada doença.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-cc" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
+<div id="fig-cc" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/LX0yUuP.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%" data-fig-pos="H">
@@ -519,7 +543,7 @@ Figura&nbsp;3.1: Desenho de um estudo caso controle.
 <p>A principal razão para usar delineamentos caso-controle aninhado é reduzir o trabalho e o custo na coleta de dados. A principal desvantagem desse projeto é que muitas questões e circunstâncias da pesquisa não são passíveis de armazenamento para posterior análise.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-aninhado" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
+<div id="fig-aninhado" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-aninhado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/YvOf6Kb.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%" data-fig-pos="H">
@@ -551,7 +575,7 @@ Figura&nbsp;3.2: Desenho de um estudo caso-controle aninhado.
 <section id="análise-dos-estudos-caso-controle" class="level4" data-number="3.4.3.6">
 <h4 data-number="3.4.3.6" class="anchored" data-anchor-id="análise-dos-estudos-caso-controle"><span class="header-section-number">3.4.3.6</span> Análise dos Estudos Caso-controle</h4>
 <p>A principal estratégia de análise é o cálculo da <em>odds ratio</em> (Razão de Chances), que pode ser interpretado como uma estimativa do Risco Relativo.</p>
-<p>O Risco Relativo somente pode ser calculado quando é possível o cálculo da incidência (ver <span class="quarto-unresolved-ref">?sec-rr</span>). Nos estudos caso-controle, isso não é possível, pois aqui o estudo começa com casos e controles em vez de indivíduos expostos e não expostos ao fator de risco. Desta maneira, se comparam as <em>odds</em> (chance) de uma exposição passada a um fator de risco suspeitado em indivíduos doentes e em controles não doentes. Esta relação é denominada de <em>odds ratio</em> (ver <span class="quarto-unresolved-ref">?sec-or</span>).</p>
+<p>O Risco Relativo somente pode ser calculado quando é possível o cálculo da incidência (ver <a href="18-epidemiologia.html#sec-rr" class="quarto-xref"><span>Seção 18.5.2</span></a>). Nos estudos caso-controle, isso não é possível, pois aqui o estudo começa com casos e controles em vez de indivíduos expostos e não expostos ao fator de risco. Desta maneira, se comparam as <em>odds</em> (chance) de uma exposição passada a um fator de risco suspeitado em indivíduos doentes e em controles não doentes. Esta relação é denominada de <em>odds ratio</em> (ver <a href="18-epidemiologia.html#sec-or" class="quarto-xref"><span>Seção 18.5.1</span></a>).</p>
 </section>
 </section>
 <section id="estudos-de-coorte" class="level3" data-number="3.4.4">
@@ -562,7 +586,7 @@ Figura&nbsp;3.2: Desenho de um estudo caso-controle aninhado.
 <p>Um esquema simplificado de um estudo de coorte é mostrado na <a href="#fig-coorte" class="quarto-xref">Figura&nbsp;<span>3.3</span></a> <span class="citation" data-cites="fletcher2014coorte">(<a href="references.html#ref-fletcher2014coorte" role="doc-biblioref">15</a>)</span>.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-coorte" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
+<div id="fig-coorte" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-coorte-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/SF9kiX7.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%" data-fig-pos="H">
@@ -583,7 +607,7 @@ Figura&nbsp;3.3: Desenho de um estudo de coorte sobre risco.
 </ol>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-coorte2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="h">
+<div id="fig-coorte2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="h" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-coorte2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/1UgEuXR.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%" data-fig-pos="h">
@@ -617,7 +641,7 @@ Figura&nbsp;3.4: Desenho de uma coorte com grupos expostos e não expostos. <spa
 </section>
 <section id="análise-dos-estudos-de-coorte" class="level4" data-number="3.4.4.3">
 <h4 data-number="3.4.4.3" class="anchored" data-anchor-id="análise-dos-estudos-de-coorte"><span class="header-section-number">3.4.4.3</span> Análise dos estudos de coorte</h4>
-<p>Para verificar se existe associação entre certo desfecho (doença) e uma determinada exposição calcula-se o <strong>Risco Relativo</strong> (RR). Este é definido como a razão entre a incidência (risco) em expostos e a incidência (risco) em não expostos (ver <span class="quarto-unresolved-ref">?sec-rr</span>).</p>
+<p>Para verificar se existe associação entre certo desfecho (doença) e uma determinada exposição calcula-se o <strong>Risco Relativo</strong> (RR). Este é definido como a razão entre a incidência (risco) em expostos e a incidência (risco) em não expostos (ver <a href="18-epidemiologia.html#sec-rr" class="quarto-xref"><span>Seção 18.5.2</span></a>).</p>
 </section>
 <section id="vantagens-e-desvantagens-dos-estudos-de-coorte" class="level4" data-number="3.4.4.4">
 <h4 data-number="3.4.4.4" class="anchored" data-anchor-id="vantagens-e-desvantagens-dos-estudos-de-coorte"><span class="header-section-number">3.4.4.4</span> Vantagens e desvantagens dos estudos de coorte</h4>
@@ -664,7 +688,7 @@ Figura&nbsp;3.4: Desenho de uma coorte com grupos expostos e não expostos. <spa
 </ol>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-trial" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
+<div id="fig-trial" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-trial-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/kv9IYVe.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%" data-fig-pos="H">
@@ -745,7 +769,7 @@ Figura&nbsp;3.5: Estrutura de um ensaio clínico randomizado.
 <p>A maior desvantagem é o efeito residual (<em>carryover</em>), por isso os estudos cruzados devem ter um período de <em>washout</em>, período sem nenhum tratamento. Este período de tempo deve ser suficiente para a eliminação da droga para se ter certeza de que nenhum efeito da terapia permaneceu. Também pode haver um viés de acordo com a ordem de administração das terapias, pois os pacientes podem reagir de modo diferente como resultado do entusiasmo no início do tratamento que pode diminuir com o tempo.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-cruzado" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
+<div id="fig-cruzado" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cruzado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/DDKu8iT.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:45.0%" data-fig-pos="H">

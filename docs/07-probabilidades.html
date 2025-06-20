@@ -275,8 +275,32 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  <a href="./14-anovaRep.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">ANOVA de medidas repetidas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-correlacao-regressao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Correlação e Regressão</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-dadosCategoricos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Análise de Dados Categóricos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17-testes-naoParametricos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Métodos não paramétricos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18-epidemiologia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Estatística em Epidemiologia</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -352,7 +376,7 @@ window.Quarto = {
 <h2 data-number="7.2" class="anchored" data-anchor-id="introdução"><span class="header-section-number">7.2</span> Introdução</h2>
 <p>A teoria das probabilidades é a base sobre a qual a estatística é desenvolvida. Os jogos de azar deram um grande impulso ao conhecimento da moderna teoria das probabilidades, principalmente, pelo trabalho de Blaise Pascal (1623-1662), em parceria com Pierre de Fermat (1601-1665). Eles foram estimulados por um escritor francês e matemático amador, Antoine Gombaud (1607-1684), conhecido como Chevalier de Méré, que era muito interessado em jogos de azar <span class="citation" data-cites="debnath2015short">(<a href="references.html#ref-debnath2015short" role="doc-biblioref">1</a>)</span>.</p>
 <p>A Teoria das probabilidades permite que seja possível modelar populações, experimentos ou qualquer situação que possa ser considerada aleatória. Estes modelos possibilitam fazer inferência sobre populações a partir da observação de uma amostra dessa população. Ao usar apenas uma parte da população, inevitavelmente, é cometido um erro, o <strong>erro amostral</strong>. Este erro amostral pode ser dimensionado pela teoria das probabilidades.</p>
-<p>Existem duas interpretações alternativas de probabilidades: a <strong>frequentista</strong> e a <strong>bayesiana</strong> <span class="citation" data-cites="menezes2004probabilidade">(<a href="references.html#ref-menezes2004probabilidade" role="doc-biblioref">2</a>)</span>. Neste livro, será discutida, basicamente, a definição de probabilidade frequentista. O processo bayesiano de formulação de um modelo probabilístico faz uso do conhecimento subjetivo, estabelecendo uma especificação <strong>a priori</strong>, combinado com a informação objetiva ou empírica. A teoria bayesiana é a estrutura integradora dessas duas fontes de informação, derivando como resultado a distribuição <strong>a posteriori</strong> dos parâmetros de interesse. Na <span class="quarto-unresolved-ref">?sec-diagbayes</span>, sobre análise de testes diagnósticos, serão abordados alguns aspectos relacionados à teoria bayesiana em medicina.</p>
+<p>Existem duas interpretações alternativas de probabilidades: a <strong>frequentista</strong> e a <strong>bayesiana</strong> <span class="citation" data-cites="menezes2004probabilidade">(<a href="references.html#ref-menezes2004probabilidade" role="doc-biblioref">2</a>)</span>. Neste livro, será discutida, basicamente, a definição de probabilidade frequentista. O processo bayesiano de formulação de um modelo probabilístico faz uso do conhecimento subjetivo, estabelecendo uma especificação <strong>a priori</strong>, combinado com a informação objetiva ou empírica. A teoria bayesiana é a estrutura integradora dessas duas fontes de informação, derivando como resultado a distribuição <strong>a posteriori</strong> dos parâmetros de interesse. Na <a href="18-epidemiologia.html#sec-diagbayes" class="quarto-xref"><span>Seção 18.2</span></a>, sobre análise de testes diagnósticos, serão abordados alguns aspectos relacionados à teoria bayesiana em medicina.</p>
 </section>
 <section id="processo-aleatório" class="level2" data-number="7.3">
 <h2 data-number="7.3" class="anchored" data-anchor-id="processo-aleatório"><span class="header-section-number">7.3</span> Processo aleatório</h2>
@@ -737,16 +761,16 @@ Figura&nbsp;7.6: Função densidade de probabilidade.
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">10</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] -1.29768591 -2.39036387  0.03470234 -0.42183934  0.43562959  2.31995999
- [7] -0.77847225  0.62877376  0.91265429  0.90807352</code></pre>
+<pre><code> [1] -0.8884656 -0.3531513  0.5472680 -0.5537403  1.5021740 -0.4530330
+ [7] -0.6143111  1.1390597 -0.4800608  0.3886176</code></pre>
 </div>
 </div>
 <p>No entanto, deve-se notar que, se uma “semente” (<code>seed</code>) não for especificada, a saída não será reproduzível, ou seja, cada vez que o comando for executado, retornará um novo conjunto de observações:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">10</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  0.5912671  0.3262756  0.1554009  2.1154360  0.7452745 -1.8290293
- [7]  1.1480081 -0.9114279 -0.7808653 -0.6445455</code></pre>
+<pre><code> [1]  0.4070054 -0.5838468 -1.0208331 -0.8434145  0.5529947  0.5340993
+ [7] -1.6410755  1.6059186 -0.1063725  0.6669190</code></pre>
 </div>
 </div>
 <p>Cada vez que este comando for reproduzido, retornará uma nova série de 10 números diferentes do anterior. Para tornar o código reproduzível, retornando o mesmo conjunto de valores, deve-se usar uma “semente” (<em>seed</em>), usando a função <em>set.seed()</em>, cujo argumento é um número que identificará a série gerada, no exemplo, pela função <code>rnorm()</code>. O valor do número (“semente”) não é importante, é apenas um identificador. Para ilustrar, será construído dois conjuntos de 10 números que serão recebidos pelos objetos <em>x</em> e <em>y</em>. Para gerar o conjunto de números <em>x</em>, será usado o número <code>123</code> como “semente”. A “semente” funciona como uma espécie de marca. Para o <em>y</em> não será usado a função <code>set.seed()</code>:</p>

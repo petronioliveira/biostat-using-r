@@ -12,14 +12,11 @@ pre {
 pre code {
   white-space: inherit;
 }
-#tbl-tabtz {
-    margin-left: auto !important;
-    margin-right: auto !important;
-    display: block !important;
-    width: 600px !important; /* Ou max-width, dependendo da sua preferência de comportamento */
+p {
+  text-align: justify;
 }
 
-#tbl-var {
+#tbl-tabtz {
     margin-left: auto !important;
     margin-right: auto !important;
     display: block !important;
@@ -59,4 +56,25 @@ pre code {
     margin-right: auto !important;
     display: block !important;
     width: 350px !important; /* Ou max-width, dependendo da sua preferência de comportamento */
+}
+
+#tbl-tabanova2 {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block !important;
+    width: 650px !important; /* Ou max-width, dependendo da sua preferência de comportamento */
+}
+
+#tbl-coefr {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block !important;
+    width: 600px !important; /* Ou max-width, dependendo da sua preferência de comportamento */
+}
+
+#tbl-samplesize {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block !important;
+    width: 600px !important; /* Ou max-width, dependendo da sua preferência de comportamento */
 }
