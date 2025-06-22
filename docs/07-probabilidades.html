@@ -761,16 +761,16 @@ Figura&nbsp;7.6: Função densidade de probabilidade.
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">10</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] -0.8884656 -0.3531513  0.5472680 -0.5537403  1.5021740 -0.4530330
- [7] -0.6143111  1.1390597 -0.4800608  0.3886176</code></pre>
+<pre><code> [1]  1.04799258  0.26005291 -0.48737566  0.89902656  1.09604145 -0.23007241
+ [7]  0.41746484 -0.67704354 -0.64862717 -0.01283553</code></pre>
 </div>
 </div>
 <p>No entanto, deve-se notar que, se uma “semente” (<code>seed</code>) não for especificada, a saída não será reproduzível, ou seja, cada vez que o comando for executado, retornará um novo conjunto de observações:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">10</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  0.4070054 -0.5838468 -1.0208331 -0.8434145  0.5529947  0.5340993
- [7] -1.6410755  1.6059186 -0.1063725  0.6669190</code></pre>
+<pre><code> [1] -0.90766866  0.61247960 -0.26114451  0.62023715  0.62275968  0.73178017
+ [7] -0.33884301 -0.04844878 -0.92625678  0.05941792</code></pre>
 </div>
 </div>
 <p>Cada vez que este comando for reproduzido, retornará uma nova série de 10 números diferentes do anterior. Para tornar o código reproduzível, retornando o mesmo conjunto de valores, deve-se usar uma “semente” (<em>seed</em>), usando a função <em>set.seed()</em>, cujo argumento é um número que identificará a série gerada, no exemplo, pela função <code>rnorm()</code>. O valor do número (“semente”) não é importante, é apenas um identificador. Para ilustrar, será construído dois conjuntos de 10 números que serão recebidos pelos objetos <em>x</em> e <em>y</em>. Para gerar o conjunto de números <em>x</em>, será usado o número <code>123</code> como “semente”. A “semente” funciona como uma espécie de marca. Para o <em>y</em> não será usado a função <code>set.seed()</code>:</p>

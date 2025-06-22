@@ -121,9 +121,9 @@ div.csl-indent {
     "search-label": "Procurar"
   }
 }</script>
-<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/tabwid-1.1.3/tabwid.css" rel="stylesheet">
 
-<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script src="site_libs/tabwid-1.1.3/tabwid.js"></script>
 
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
@@ -375,7 +375,7 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(DescTools, </span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               dplyr,</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>               ggplot2, </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>               kableExtra,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>               flextable,</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>               knitr,</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>               readxl, </span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>               Rmisc, </span>
@@ -436,10 +436,10 @@ window.Quarto = {
 <p>Este procedimento é conhecido como <em>estimação por intervalo</em> e o intervalo construído, estabelecendo um limite inferior e um limite superior em torno da estimativa amostral, é denominado de <strong>intervalo de confiança</strong>. Desta forma, é possível afirmar que o intervalo de confiança, provavelmente, contém o parâmetro populacional correspondente (<a href="#fig-intconf" class="quarto-xref">Figura&nbsp;<span>10.1</span></a>).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-intconf" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-intconf" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-intconf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="https://i.imgur.com/oAGF5Xs.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" data-fig-pos="H">
+<img src="https://i.imgur.com/oAGF5Xs.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%" data-fig-pos="H">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-intconf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;10.1: Intervalo de Confiança.
@@ -477,7 +477,7 @@ IC_{(1-\alpha)}(\mu) \rightarrow  \bar{x} \pm  z_{(0,975)} \times me
 <p>Onde <em>Z</em> é o valor crítico para o nível de confiança escolhido, obtido da tabela de distribuição normal padrão, e <em>me</em> é a margem de erro (<span class="math inline">\(z_{0,975} \times erro \quad padrao\)</span>). Um intervalo de confiança de 95% significa que a área total sob a curva normal entre dois pontos em torno da média populacional, <span class="math inline">\(\mu\)</span>, é igual a 95%, ou 0,95. A área das caudas é <span class="math inline">\(\alpha\)</span>, ou seja, cada cauda á igual a <span class="math inline">\(\frac{\alpha}{2}\)</span> (<a href="#fig-twotailed" class="quarto-xref">Figura&nbsp;<span>10.2</span></a>)).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-twotailed" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-twotailed" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-twotailed-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/q6Duexo.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" data-fig-pos="H">
@@ -604,10 +604,10 @@ IC_{95\%}(\mu) \rightarrow  \bar{x} \pm  (1.96 \times \frac{\sigma}{\sqrt{n}})
 <p>Observando o IC95% e o IC99%, verifica-se que a amplitude do intervalo aumentou com o crescimento da confiança de 95% para 99%, porque houve um aumento na margem de erro (<a href="#fig-IC9599" class="quarto-xref">Figura&nbsp;<span>10.3</span></a>).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-IC9599" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-IC9599" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-IC9599-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="https://i.imgur.com/vaPrkze.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" data-fig-pos="H">
+<img src="https://i.imgur.com/vaPrkze.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%" data-fig-pos="H">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-IC9599-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;10.3: Comparação do IC95% e IC99%.
@@ -622,7 +622,7 @@ Figura&nbsp;10.3: Comparação do IC95% e IC99%.
 <p>Se fossem extraídas todas as possíveis amostras de <em>n</em> = 30 da população de recém-nascidos a termo e construído para cada uma delas um intervalo de confiança de 95% em torno de cada média amostral, espera-se que 95% desses intervalos incluirão a média populacional e 5% não incluirão.<br>
 O IC95% informa sobre a <em>precisão</em> com que a média amostral estima a média populacional desconhecida <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
 <p>Na <a href="#fig-vinte" class="quarto-xref">Figura&nbsp;<span>10.4</span></a>, são mostradas 20 amostras diferentes de tamanho <em>n</em> = 30, dessa população. Junto aparecem os intervalos de confiança de 95% construídos em torno dessas amostras. Observa-se que apenas uma amostra (em vermelho) não inclui a média populacional (linha tracejada vertical em azul). Pode-se afirmar com 95% de confiança que se forem extraídas muitas amostras do mesmo tamanho de uma população e construído intervalos de confiança de 95% em torno das médias dessas amostras, 95% desses intervalos de confiança incluirão a média populacional.</p>
-<div class="cell" data-fig.out="75%">
+<div class="cell" data-fig.out="60%">
 <div class="cell-output-display">
 <div id="fig-vinte" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -648,7 +648,7 @@ Figura&nbsp;10.4: Intervalos de confiança de 95% que mostra 20 replicações si
 <p>O número de graus de liberdade é o único parâmetro da distribuição <em>t</em>. Há uma diferente distribuição <em>t</em> para cada número de graus de liberdade, portanto, a distribuição <em>t</em> se constitui em uma família de distribuições (<a href="#fig-familia" class="quarto-xref">Figura&nbsp;<span>10.5</span></a>).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-familia" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-familia" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-familia-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="10-estimacao_files/figure-html/fig-familia-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -684,7 +684,7 @@ p(-2,23\le t\le 2,23)=0,95
 \]</span></p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-bilateral" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-bilateral" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bilateral-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="10-estimacao_files/figure-html/fig-bilateral-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%" data-fig-pos="H">
@@ -710,7 +710,7 @@ p(t\le 1,81)=0,95
 \]</span></p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-unilateral" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-unilateral" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-unilateral-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="10-estimacao_files/figure-html/fig-unilateral-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%" data-fig-pos="H">
@@ -754,73 +754,11 @@ IC_{NC}(\mu)\rightarrow x\pm (t_{({1-\frac{alpha}{2})} } \times \frac {s}{\sqrt{
 <div id="tbl-tabtz" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tabtz-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;10.1: Comparação dos valores z e t(gl).
+Tabela&nbsp;10.1: Comparação dos valores z e t(gl)
 </figcaption>
 <div aria-describedby="tbl-tabtz-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:600px; ">
-<table class="table table-striped table-hover table-condensed do-not-create-environment cell caption-top table-sm small" data-quarto-postprocess="true">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">z</th>
-<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">n</th>
-<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">gl</th>
-<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">t</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left; width: 2.5cm;">1,96</td>
-<td style="text-align: right; width: 2cm;">5</td>
-<td style="text-align: right; width: 2cm;">4</td>
-<td style="text-align: right; width: 2cm;">2,57</td>
-</tr>
-<tr class="even">
-<td style="text-align: left; width: 2.5cm;">1,96</td>
-<td style="text-align: right; width: 2cm;">10</td>
-<td style="text-align: right; width: 2cm;">9</td>
-<td style="text-align: right; width: 2cm;">2,23</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left; width: 2.5cm;">1,96</td>
-<td style="text-align: right; width: 2cm;">30</td>
-<td style="text-align: right; width: 2cm;">29</td>
-<td style="text-align: right; width: 2cm;">2,04</td>
-</tr>
-<tr class="even">
-<td style="text-align: left; width: 2.5cm;">1,96</td>
-<td style="text-align: right; width: 2cm;">50</td>
-<td style="text-align: right; width: 2cm;">49</td>
-<td style="text-align: right; width: 2cm;">2,01</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left; width: 2.5cm;">1,96</td>
-<td style="text-align: right; width: 2cm;">100</td>
-<td style="text-align: right; width: 2cm;">99</td>
-<td style="text-align: right; width: 2cm;">1,98</td>
-</tr>
-<tr class="even">
-<td style="text-align: left; width: 2.5cm;">1,96</td>
-<td style="text-align: right; width: 2cm;">200</td>
-<td style="text-align: right; width: 2cm;">199</td>
-<td style="text-align: right; width: 2cm;">1,97</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left; width: 2.5cm;">1,96</td>
-<td style="text-align: right; width: 2cm;">500</td>
-<td style="text-align: right; width: 2cm;">499</td>
-<td style="text-align: right; width: 2cm;">1,96</td>
-</tr>
-<tr class="even">
-<td style="text-align: left; width: 2.5cm;">1,96</td>
-<td style="text-align: right; width: 2cm;">1000</td>
-<td style="text-align: right; width: 2cm;">999</td>
-<td style="text-align: right; width: 2cm;">1,96</td>
-</tr>
-</tbody>
-</table>
-</div>
-
+<div class="tabwid"><style>.cl-badec5c6{}.cl-bad0f824{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-bad0f84c{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-bad6549a{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-bad67fce{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-bad67fe2{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-bad67fe3{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-bad67fec{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-badec5c6"><thead><tr style="overflow-wrap:break-word;"><th class="cl-bad67fce"><p class="cl-bad6549a"><span class="cl-bad0f824">n</span></p></th><th class="cl-bad67fce"><p class="cl-bad6549a"><span class="cl-bad0f824">gl</span></p></th><th class="cl-bad67fce"><p class="cl-bad6549a"><span class="cl-bad0f824">z</span></p></th><th class="cl-bad67fce"><p class="cl-bad6549a"><span class="cl-bad0f824">t</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-bad67fe2"><p class="cl-bad6549a"><span class="cl-bad0f84c">5</span></p></td><td class="cl-bad67fe2"><p class="cl-bad6549a"><span class="cl-bad0f84c">4</span></p></td><td class="cl-bad67fe2"><p class="cl-bad6549a"><span class="cl-bad0f84c">1.96</span></p></td><td class="cl-bad67fe2"><p class="cl-bad6549a"><span class="cl-bad0f84c">2.57</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-bad67fe3"><p class="cl-bad6549a"><span class="cl-bad0f84c">10</span></p></td><td class="cl-bad67fe3"><p class="cl-bad6549a"><span class="cl-bad0f84c">9</span></p></td><td class="cl-bad67fe3"><p class="cl-bad6549a"><span class="cl-bad0f84c">1.96</span></p></td><td class="cl-bad67fe3"><p class="cl-bad6549a"><span class="cl-bad0f84c">2.23</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-bad67fe3"><p class="cl-bad6549a"><span class="cl-bad0f84c">30</span></p></td><td class="cl-bad67fe3"><p class="cl-bad6549a"><span class="cl-bad0f84c">29</span></p></td><td class="cl-bad67fe3"><p class="cl-bad6549a"><span class="cl-bad0f84c">1.96</span></p></td><td class="cl-bad67fe3"><p class="cl-bad6549a"><span class="cl-bad0f84c">2.04</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-bad67fe2"><p class="cl-bad6549a"><span class="cl-bad0f84c">50</span></p></td><td class="cl-bad67fe2"><p class="cl-bad6549a"><span class="cl-bad0f84c">49</span></p></td><td class="cl-bad67fe2"><p class="cl-bad6549a"><span class="cl-bad0f84c">1.96</span></p></td><td class="cl-bad67fe2"><p class="cl-bad6549a"><span class="cl-bad0f84c">2.01</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-bad67fe2"><p class="cl-bad6549a"><span class="cl-bad0f84c">100</span></p></td><td class="cl-bad67fe2"><p class="cl-bad6549a"><span class="cl-bad0f84c">99</span></p></td><td class="cl-bad67fe2"><p class="cl-bad6549a"><span class="cl-bad0f84c">1.96</span></p></td><td class="cl-bad67fe2"><p class="cl-bad6549a"><span class="cl-bad0f84c">1.98</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-bad67fe2"><p class="cl-bad6549a"><span class="cl-bad0f84c">200</span></p></td><td class="cl-bad67fe2"><p class="cl-bad6549a"><span class="cl-bad0f84c">199</span></p></td><td class="cl-bad67fe2"><p class="cl-bad6549a"><span class="cl-bad0f84c">1.96</span></p></td><td class="cl-bad67fe2"><p class="cl-bad6549a"><span class="cl-bad0f84c">1.97</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-bad67fe2"><p class="cl-bad6549a"><span class="cl-bad0f84c">500</span></p></td><td class="cl-bad67fe2"><p class="cl-bad6549a"><span class="cl-bad0f84c">499</span></p></td><td class="cl-bad67fe2"><p class="cl-bad6549a"><span class="cl-bad0f84c">1.96</span></p></td><td class="cl-bad67fe2"><p class="cl-bad6549a"><span class="cl-bad0f84c">1.96</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-bad67fec"><p class="cl-bad6549a"><span class="cl-bad0f84c">1,000</span></p></td><td class="cl-bad67fec"><p class="cl-bad6549a"><span class="cl-bad0f84c">999</span></p></td><td class="cl-bad67fec"><p class="cl-bad6549a"><span class="cl-bad0f84c">1.96</span></p></td><td class="cl-bad67fec"><p class="cl-bad6549a"><span class="cl-bad0f84c">1.96</span></p></td></tr></tbody></table></div>
 </div>
 </div>
 </figure>

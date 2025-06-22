@@ -43,7 +43,8 @@ Esta incerteza, na utilização de testes diagnósticos, gera a necessidade de o
 ```{r}
 #| label: tbl-fpfn
 #| echo: FALSE
-#| out.width: '70%'
+#| fig.align: "center"
+#| out.width: "70%"
 #| message: FALSE
 #| warning: FALSE
 #| tbl-cap: "Falsos positivos e falsos negativos"
@@ -166,6 +167,7 @@ Levando-se em consideração que a prevalência de apendicite aguda na populaç�
 ```{r}
 #| label: tbl-vpp
 #| echo: FALSE
+#| fig.align: "center"
 #| out.width: '70%'
 #| message: FALSE
 #| warning: FALSE
@@ -835,6 +837,7 @@ A *odds ratio* (OR) expressa a *odds* de exposição entre os que têm o desfech
 ```{r}
 #| label: tbl-2por2
 #| echo: FALSE
+#| fig.align: "center"
 #| out.width: "70%"
 #| message: FALSE
 #| warning: FALSE
@@ -1124,6 +1127,7 @@ No exemplo do Risco Relativo, o RA pode ser calculado usando a mesma tabela de c
 ```{r}
 #| label: tbl-vanilla
 #| echo: FALSE
+#| fig.align: "center"
 #| out.width: "70%"
 #| message: FALSE
 #| warning: FALSE
@@ -1210,6 +1214,7 @@ O estudo do componente aspirina mostrou os seguintes resultados (@tbl-aspirina):
 ```{r}
 #| label: tbl-aspirina
 #| echo: FALSE
+#| fig.align: "center"
 #| out.width: "70%"
 #| message: FALSE
 #| warning: FALSE
@@ -1381,6 +1386,7 @@ No *Physicians' Health Study* @steering1989final sobre o uso de aspirina na prev
 ```{r}
 #| label: tbl-avc
 #| echo: FALSE
+#| fig.align: "center"
 #| out.width: "70%"
 #| message: FALSE
 #| warning: FALSE
@@ -1974,7 +1980,7 @@ A interação entre variáveis pode ser crucial em modelos de regressão logíst
 
 Será construído um gráfico (@fig-interacao)), usando o pacote `ggeffects` e sua função `ggpredict()` @ludecke2018ggeffects. Este calcula os efeitos marginais a partir de modelos estatísticos e retorna o resultado como estruturas de dados organizadas. Essas estruturas de dados estão prontas para serem usadas com o pacote `ggplot2`. Os efeitos marginais podem ser calculados para muitos modelos diferentes, incluindo termos de interação. Junto será criado o modelo de interação (`modelo3`)
 
-```{r #fig-interacao, message=FALSE, warning=FALSE, out.width="90%", out.height="90%", fig.align="center", fig.cap="Gráfico de linha da interação sexo:classe", fig.pos="H"}
+```{r #fig-interacao, message=FALSE, warning=FALSE, out.width="80%", out.height="80%", fig.align="center", fig.cap="Gráfico de linha da interação sexo:classe", fig.pos="H"}
 titanic_df <- dadosTreino %>%
   dplyr::select(- pafi) %>%
   mutate(classe = factor(classe, levels = c(1, 2, 3), 

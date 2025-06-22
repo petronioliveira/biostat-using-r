@@ -7,7 +7,6 @@ pacman::p_load(dplyr,
                e1071, 
                ggplot2, 
                ggpubr, 
-               kableExtra, 
                knitr, 
                readxl)
 ```
@@ -93,7 +92,6 @@ sigma <- round (sd (amostras5000), digits = 3)
 print(c(mu, sigma))
 ```
 
-
 ```{r #fig-dam, echo=FALSE, warning=FALSE, out.width="70%", out.height="70%", fig.align="center", fig.cap="Distribuição amostral das médias de 5000 amostras de n = 30", fig.pos="H"}
 amostras5000 <- as.data.frame(amostras5000)
 
@@ -158,7 +156,7 @@ Na maioria das vezes, a população da qual as amostras são extraídas não é 
 
 -   a média da distribuição amostral, $\mu_{\bar{x}}$, é igual a média populacional, $\mu$;
 -   desvio padrão da distribuição amostral, $\sigma_{\bar{x}}$, é igual a $\frac {\sigma}{\sqrt{n}}$;
--   o erro padrão da média, $\sigma_{\bar{x}}$, é sempre menor que o desvio padrão populacional, $\sigma$ (@fig-standard).
+-   o erro padrão da média, $\sigma_{\bar{x}}$, é sempre menor (@fig-standard) que o desvio padrão populacional, $\sigma$.
 
 ```{r #fig-standard, echo = FALSE, out.width = '70%', fig.align = 'center', fig.cap="Erro padrão versus desvio padrão.", fig.pos="H"}
  knitr::include_graphics("https://i.imgur.com/I2CxksB.png")
@@ -286,7 +284,7 @@ Dessa forma, a distribuição amostral de $\hat{p}$ será:
 
 $$
 \hat{p} \sim N(\hat{p}, \frac{\hat{p}(1-\hat{p})}{n})
-$$ 
+$$
 
 Quando não conhecemos a proporção populacional *p*, pode-se usar $\hat{p}$ como estimativa dessa proporção, desde que as seguintes condições sejam satisfeitas:
 
@@ -338,7 +336,7 @@ Uma amostra é grande se o intervalo
 
 $$
 [\hat{p}-3 \times \sigma_\hat{p} , \quad \hat{p}-3 \times \sigma_\hat{p}]
-$$ 
+$$
 
 estiver totalmente dentro do intervalo \[0,1\].
 
@@ -346,7 +344,7 @@ Na prática, *p* não é conhecido, portanto, $\sigma_\hat{p}$ também não é. 
 
 $$
 \hat{p}-3\times\sqrt{\frac{\hat{p}(1-\hat{p})}{n}},\quad \hat{p}+3\times\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}
-$$ 
+$$
 
 encontra-se totalmente dentro do intervalo \[0,1\].
 

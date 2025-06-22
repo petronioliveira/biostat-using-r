@@ -5,9 +5,9 @@
 ```{r}
 pacman::p_load(car, 
                effectsize, 
+               flextable,
                ggpubr, 
                ggsci, 
-               kableExtra,
                knitr,
                readxl, 
                rstatix, 
@@ -86,8 +86,7 @@ As hipóteses comparam as médias dos dois grupos. Para um teste bicaudal, as hi
 
 $$
 H_{0}: \mu_{F} = \mu_{M}
-$$ 
-
+$$
 
 $$
 H_{1}: \mu_{F} \neq \mu_{M}
@@ -120,7 +119,6 @@ Portanto, se
 $$
 |t_{calculado}| < |t_{crítico}|  \to não \quad se \quad rejeita \quad H_{0}
 $$
-
 
 $$
 t_{calculado}| \ge t_{crítico}| \to rejeita-se \quad H_{0}
@@ -389,25 +387,30 @@ d
 
 Bastante simples! Agora, como interpretar este resultado de d = 1,3 (arredondado)? Sua interpretação não é intuitiva, recomenda-se usar a @tbl-effect para interpretar @cohen1988power.
 
-```{r #tbl-effect, echo=FALSE, warning=FALSE, message=FALSE}
-data_table <- data.frame(d = c("< 0,2", "0,2 < 0.5", 
-                               "0.5 < 0.8", ">= 0,8 "),
-                         sig = c("insignificante", "pequeno", 
-                                 "médio", "grande"))
+```{r}
+#| label: tbl-effect
+#| tbl-cap: "Tamanho do Efeito"
+#| echo: FALSE
+#| message: FALSE
+#| warning: FALSE
 
-knitr::kable(data_table,
-             booktabs = TRUE,
-             col.names = c("d Cohen", "Interpretação"),
-             format = "html",
-             caption = "Tamanho do Efeito") %>% 
-   kableExtra::kable_styling(full_width = FALSE, 
-                             position = "center",
-                             html_font = "Cambria",
-                             bootstrap_options = c("striped", 
-                                                   "hover", 
-                                                   "condensed")) %>% 
-  kableExtra::scroll_box(width = "300px") %>%
-  row_spec(0, bold = TRUE)
+df <- data.frame(d = c("< 0,2", "0,2 < 0.5", 
+                       "0.5 < 0.8", ">= 0,8 "),
+                 sig = c("insignificante", "pequeno", 
+                         "médio", "grande"))
+
+minha_tab <- flextable(df) %>%
+  set_header_labels(
+    d = "d de Cohen",
+    sig = "Interpretação") %>%
+  autofit() %>%
+  theme_booktabs() %>%
+  width(j = 1:2, width = 1.5) %>%
+  align(align = "left", part = "header") %>%
+  align(align = "left", part = "body") %>%
+  bold(part = "header") 
+
+minha_tab
 ```
 
 Assim, as notas dos alunos diferem significativamente (*P* \< 0,0001) de acordo com a sexo, sendo que as mulheres têm notas mais altas do que os homens e a magnitude dessa diferença é grande (d = `r round(d,2)`).
@@ -471,32 +474,11 @@ resumo
 
 #### Visualização dos dados
 
-1)  *Tabela*
+1)  **Gráficos**
 
-É possível exibir os dados, tanto o banco de dados `dados` como o `dadosL`, de uma maneira mais elegante (@tbl-tpar), usando a função `kable()` do pacote `knitr` [^12-teste-t-4] e a função `kable_styling()` do pacote `kableExtra`. A função `kable ()` usa a função `head()` embutida. Ao executar os códigos, se não for especificado, é mostrado apenas 6 linhas. Será mostrado o formato amplo e todas as suas 15 linhas:
+Apenas, por uma questão didática, serão apresentadas três maneiras de mostrar os dados visualmente. Podem ser usados qualquer um dos tipos a seguir, pois todos dão, praticamente, a mesma informação.
 
-[^12-teste-t-4]: Veja também a @sec-tabfreq.
-
-```{r #tbl-tpar, echo=FALSE, warning=FALSE, message=FALSE}
-knitr::kable(head(dados, 15), 
-             format= "html",
-             col.names = c("Id", "Basal", "Final"),
-             caption = "Função pulmonar de 15 escolares asmáticos antes-e-depois \\ do uso de um corticoide inalatório") %>% 
-  kableExtra::kable_styling(full_width = FALSE, 
-                             position = "center",
-                             html_font = "Cambria",
-                             bootstrap_options = c("striped", 
-                                                   "hover", 
-                                                   "condensed")) %>% 
-  kableExtra::scroll_box(width = "300px") %>%
-  row_spec(0, bold = TRUE)
-```
-
-2)  *Gráficos*
-
-Apenas, por uma questão didática, serão apresentadas várias maneiras de mostrar os dados visualmente. Podem ser usados qualquer um dos tipos a seguir, pois todos dão, praticamente, a mesma informação.
-
-**Gráfico de barra de erro**
+[Gráfico de barra de erro]{.underline}
 
 ```{r #fig-be, fig.align='center',warning=FALSE,out.height="70%",out.width="70%", fig.cap="Gráfico de barra de erro comparando o grupo antes-e-depois"}
 resumo %>% 
@@ -515,7 +497,7 @@ resumo %>%
 
 Nesse gráfico (@fig-be), a altura da barra representa a média do *Volume Forçado em 1 seg* (VEF1) nos diferentes momentos (basal e final). O erro corresponde a margem de erro (me) a partir do ponto (média), ou seja, é o intervalo de confiança de 95%. O limite inferior do IC95% foi suprimido.
 
-**Boxplot**
+[Boxplot]{.underline}
 
 ```{r #fig-bp,fig.align='center',warning=FALSE,out.height="70%",out.width="70%", fig.cap="Boxplots comparando o grupo antes-e-depois"}
 dadosL %>% 
@@ -537,7 +519,7 @@ dadosL %>%
 
 A altura da caixa dos boxplots (@fig-bp)) é o intervalo interquartil (IIQ) e corresponde a 50% dos dados. A linha que corta horizontalmente a caixa é a mediana. Os bigodes da caixa (*whiskers*) em suas extremidades são os limites inferior e superior dos dados, excluindo os valores atípicos (*outliers*), representado no boxplot final por um ponto vermelho, acima do limite superior. Os pontos em vermelho (dentro das caixas) representam as médias.
 
-**Gráfico de linha**
+[Gráfico de linha]{.underline}
 
 ```{r #fig-lin, fig.align='center', warning=FALSE,out.height="70%",out.width="70%", fig.cap="Gráfico de linha comparando o grupo antes-e-depois"}
 resumo %>%

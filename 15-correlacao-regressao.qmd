@@ -4,11 +4,11 @@
 
 ```{r message=FALSE, warning=FALSE}
 pacman::p_load(car,
-               dplyr, 
+               dplyr,
+               flextable,
                ggplot2,
                ggpubr,
                ggsci,
-               kableExtra,
                knitr,
                lmtest,
                readxl,
@@ -173,9 +173,9 @@ Uma correlação linear pode ser descrita por uma reta. Em uma correlação line
 mod_reg <- lm(comp ~ idade, dados)
 ```
 
--   *Análise gráfica da homoscedasticidade*: Pode ser feita através dos gráficos diagnósticos para a regressão linear, utilizados para verificar se o modelo funciona bem para representar os dados. Uma forma de avaliar é verificar como as variâncias se comportam. Os gráficos diagnósticos são apresentados de quatro maneiras diferentes.[^1] Neste estágio, serão avaliados o primeiro e o terceiro tipo (@fig-homo1).
+-   *Análise gráfica da homoscedasticidade*: Pode ser feita através dos gráficos diagnósticos para a regressão linear, utilizados para verificar se o modelo funciona bem para representar os dados. Uma forma de avaliar é verificar como as variâncias se comportam. Os gráficos diagnósticos são apresentados de quatro maneiras diferentes.[^15-correlacao-regressao-1] Neste estágio, serão avaliados o primeiro e o terceiro tipo (@fig-homo1).
 
-[^1]: Maiores detalhes sobre os testes diagnósticos podem ser encontrados em: https://data.library.virginia.edu/diagnostic-plots/
+[^15-correlacao-regressao-1]: Maiores detalhes sobre os testes diagnósticos podem ser encontrados em: https://data.library.virginia.edu/diagnostic-plots/
 
 ```{r #fig-homo1, message = FALSE, warning=FALSE, fig.align='center', out.height="70%", out.width="70%", fig.cap="Gráficos diagnósticos 1 e 3"}
 par(mfrow=c(1,2))  # muda o layout do painel para 1 linha e 2 colunas
@@ -208,12 +208,12 @@ Como o *r* usa os valores padronizados das observações, não muda nada se as u
 
 O cálculo pode ser realizado com a função `cor_test()` do pacote `rstatix` que usa os seguintes argumentos:
 
-- **data** $\to$ dataframe contendo as variáveis;
-- **...** $\to$ Uma ou mais expressões (ou nomes de variáveis) sem aspas separadas por vírgulas. Usado para selecionar uma variável de interesse. Alternativa ao argumento `vars`. Ignorado quando `vars` é especificado;
-- **vars2** $\to$ • vetor de caracteres opcional. Se especificado, cada elemento em vars será testado em relação a todos os elementos em vars2. Aceita nomes de variáveis sem aspas: c(var1, var2);
-- **alternative** $\to$ hipótese alternativa “two.sided” (bilateral) ou “greater” ou “less” (unilateral a direita ou a esquerda, respectivamente);
-- **method** $\to$ ⟶ qual coeficiente de correlação deve ser usado para o teste. Um dos termos "pearson", "kendall" ou "spearman" pode ser abreviado;
-- **conf.level** $\to$ nivel de confiança. Padrão 0.95.
+-   **data** $\to$ dataframe contendo as variáveis;
+-   **...** $\to$ Uma ou mais expressões (ou nomes de variáveis) sem aspas separadas por vírgulas. Usado para selecionar uma variável de interesse. Alternativa ao argumento `vars`. Ignorado quando `vars` é especificado;
+-   **vars2** $\to$ • vetor de caracteres opcional. Se especificado, cada elemento em vars será testado em relação a todos os elementos em vars2. Aceita nomes de variáveis sem aspas: c(var1, var2);
+-   **alternative** $\to$ hipótese alternativa “two.sided” (bilateral) ou “greater” ou “less” (unilateral a direita ou a esquerda, respectivamente);
+-   **method** $\to$ ⟶ qual coeficiente de correlação deve ser usado para o teste. Um dos termos "pearson", "kendall" ou "spearman" pode ser abreviado;
+-   **conf.level** $\to$ nivel de confiança. Padrão 0.95.
 
 ```{r}
 r <- dados %>% cor_test(idade, 
@@ -229,32 +229,37 @@ O coeficiente refere a existência de correlação linear, mas não especifica s
 O importante é a magnitude do *r*, entretanto, o coeficiente *r* e o valor *P* devem ser interpretados em conjunto. Se o valor *P* \> 0,05, mesmo que *r* seja diferente de zero, a correlação não deveria ser interpretada.
 
 ```{r #tbl-coefr, echo=FALSE, message=FALSE, warning=FALSE}
-inter <-c("desprezável", "fraca", "moderada", "forte", "muito forte", "perfeita")
-coef <- c("0,0 < 0,3", "0,3 < 0,5", "0,5 < 0,7", "0,7 < 0,9", "0,9 < 1,0", "1,0")
+#| label: tbl-coefr
+#| tbl-cap: "Interpretação do Coeficiente de Correlação"
+#| echo: FALSE
+#| message: FALSE
+#| warning: FALSE
 
-df <- data.frame(coef, inter)
+res = c("0,0<0,3", "0,3<0,5", "0,5,0,7", "0,7<0,9", "0,9<1,0", "1,0")
+int = c("desprezável","fraca","moderada", "forte", "muito forte", "perfeita")
 
-knitr::kable(df,
-             col.names = c('Coeficiente de Correlação', 'Interpretação'),
-             align = c('l', 'l'),
-             format = "html",
-             caption = "Interpretação do Coeficiente de Correlação") %>% 
-  kableExtra::kable_styling(
-    full_width = FALSE, 
-    position = "center",
-    html_font = "Cambria",
-    bootstrap_options = c("striped", 
-                          "hover", 
-                          "condensed")) %>%
-  kableExtra::scroll_box(width = "600px") %>%
-  kableExtra::row_spec(0, bold = TRUE)
+df <- data.frame(res, int)
+
+minha_tab <- flextable(df) %>%
+  set_header_labels(
+    res = "Coeficiente de Correlação (r)",
+    int = "Interpretação") %>%
+  autofit() %>%
+  theme_booktabs() %>%
+  width(j = 1, width = 1.5) %>%
+  width(j = 2, width = 1.5) %>%
+  align(align = "left", part = "header") %>%
+  align(align = "left", part = "body") %>%
+  bold(part = "header") 
+
+minha_tab
 ```
 
 Talvez a melhor maneira de interpretar a correlação linear é elevar o valor do *r* ao quadrado para obter o *Coeficiente de Determinação* ($R^{2}$). No exemplo usado, tem-se que o $R^{2}$ é igual a $0,96^{2} = 0,922$, então, 92,2% da variação do comprimento da criança (*y*) podem ser explicados, nesses dados, pela variação da sua idade (*x*), fato mais ou menos óbvio!.
 
 #### Coeficiente de correlação de Spearman ($\rho$)
 
-Se os pressupostos são violados é recomendado o uso de correlação não paramétrica (veja a @sec-distlivre), incluindo testes de correlação baseados em postos (veja a @sec-postos) de Spearman e Kendall @de2016comparing.  
+Se os pressupostos são violados é recomendado o uso de correlação não paramétrica (veja a @sec-distlivre), incluindo testes de correlação baseados em postos (veja a @sec-postos) de Spearman e Kendall @de2016comparing.\
 Para calcular o coeficente, Usar a mesma função da correlação de Pearson, mudando o argumento `method`:
 
 ```{r message=FALSE, warning=FALSE}
@@ -435,7 +440,7 @@ summary(residuos_p)
 
 Em uma amostra normalmente distribuída, ao redor de 95% dos valores estão entre –1,96 e +1,96, 99% deve estar entre –2,58 e +2,58 e quase todos (99,9%) deve se situar entre –3,09 e +3,09.
 
-Portanto, resíduos padronizados com um valor absoluto maior que 3 são motivo de preocupação porque em uma amostra média é improvável que aconteça um valor tão alto por acaso @field2012regression.  
+Portanto, resíduos padronizados com um valor absoluto maior que 3 são motivo de preocupação porque em uma amostra média é improvável que aconteça um valor tão alto por acaso @field2012regression.
 
 Se a saída da função `rstandard()` for comparada com o eixo *y* do gráfico `Residuals vs Leverage`, dos gráficos diagnósticos, verifica-se valores semelhantes que variam abaixo de 3 e acima de -3, indicando que não há `outliers` influenciando e a mediana está próxima de zero.
 
@@ -461,29 +466,39 @@ O tamanho da amostra deve ser suficiente para suportar o modelo de regressão. �
 
 A @tbl-samplesize @peat2014regression mostra o número de participantes necessários em modelos com 1 a 4 preditores independentes. Como se observa, o requisito de tamanho da amostra aumenta com o número de variáveis preditoras.
 
-```{r #tbl-samplesize, echo=FALSE, message=FALSE, warning=FALSE}
-Valor_r <-c(0.2, 0.3,0.4)
-Var.Pred_1 <- c(190, 80, 45)
-Var.Pred_2 <- c(230, 100, 55)
-Var.Pred_3 <- c(265, 115, 65)
-Var.Pred_4 <- c(290, 125, 70)
-df <- data.frame(Valor_r, Var.Pred_1, Var.Pred_2, Var.Pred_3, Var.Pred_4)
+```{r}
+#| label: tbl-samplesize
+#| tbl-cap: "Tamanho amostral para regressão de acordo com o r de Pearson e o número de preditores"
+#| echo: FALSE
+#| message: FALSE
+#| warning: FALSE
 
-knitr::kable(df,
-             col.names = c('Valor r', '1 variável preditora','2 variáveis preditoras',
-             '3 variáveis preditoras', '4 variáveis preditoras'),
-             align = c('c', 'c', 'c', 'c', 'c'),
-             "html",
-             caption = "Tamanho amostral para regressão") %>% 
- kableExtra::kable_styling(
-    full_width = FALSE, 
-    position = "center",
-    html_font = "Cambria",
-    bootstrap_options = c("striped", 
-                          "hover", 
-                          "condensed")) %>%
-  kableExtra::scroll_box(width = "600px") %>%
-  kableExtra::row_spec(0, bold = TRUE)
+r_pearson <-c(0.2, 0.3,0.4)
+uma <- c(190, 80, 45)
+duas <- c(230, 100, 55)
+tres <- c(265, 115, 65)
+quatro <- c(290, 125, 70)
+
+df <- data.frame(r_pearson, uma, duas, tres, quatro)
+
+minha_tab <- flextable(df) %>%
+  set_header_labels(
+    r_pearson = "r de Pearson",
+    uma = "Uma",
+    duas = "Duas",
+    tres = "Três",
+    quatro = "Quatro") %>%
+  autofit() %>%
+  add_header_row(values = c("", "Número de Variáveis Preditoras"),
+                 colwidths = c(1, 4)) %>% 
+  theme_booktabs() %>%
+  width(j = 1, width = 1.5) %>%
+  width(j = 2:4, width = 1.5) %>%
+  align(align = "center", part = "header") %>%
+  align(align = "center", part = "body") %>%
+  bold(part = "header") 
+
+minha_tab
 ```
 
 Existem muitas regras práticas, sugerindo o tamanho da amostra. Uma delas, diz que se deve ter 10 a 15 casos por variável preditora no modelo. Entretanto, essas regras podem ser duvidosas e o melhor é calcular o tamanho amostral baseado no tamanho do efeito, usando, por exemplo o site [*StatToDo*](https://www.statstodo.com/SSizMulReg.php)
@@ -507,7 +522,7 @@ A saída da função `summary()` primeiro apresenta como o modelo foi obtido e, 
 4.  O valor *P* (Pr (\>\| t \|)), também conhecido como a probabilidade de encontrar a estatística *t* fornecida se a hipótese nula de nenhuma correlação for verdadeira.\
 5.  As três linhas finais são os diagnósticos do modelo - o mais importante a observar é o valor *P* ($2,2\times 10^{-16}$), que indica se o modelo se ajusta bem aos dados.
 
-A partir desses resultados, pode-se dizer que existe uma correlação positiva significativa entre idade e comprimento (valor P < 0,001), com um aumento de 1,1 cm no comprimento para cada aumento de 1 mês no na idade , possibilitando a previsão comprimento da criança pela idade.
+A partir desses resultados, pode-se dizer que existe uma correlação positiva significativa entre idade e comprimento (valor P \< 0,001), com um aumento de 1,1 cm no comprimento para cada aumento de 1 mês no na idade , possibilitando a previsão comprimento da criança pela idade.
 
 Estes dados são empregados para formular a equação do modelo de regressão da seguinte maneira:
 

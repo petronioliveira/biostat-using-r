@@ -430,17 +430,17 @@ window.Quarto = {
 <p>A abordagem bayesiana denomina de <strong>probabilidade a priori</strong> a probabilidade estabelecida inicialmente, baseada apenas na experiência do médico, em seu conhecimento em relação a doença suspeitada. Diante de uma evidência de doença, pode ser solictado um teste diagnóstico. Quando ele recebe um teste positivo para uma doença, a probabilidade muda, passa a ser uma probabilidade condicional, probabilidade da doença dado que o teste é positivo, denominada <strong>probabilidade a posteriori</strong>.</p>
 <p>Um teste que define corretamente quem é doente e quem não é doente é denominado de <strong>padrão-ouro</strong> ou <strong>padrão de referência</strong>. Algumas vezes, o teste padrão de referência é simples e barato. Outras vezes, é caro, difícil de obter, tecnicamente complexo, arriscado ou pouco prático. Inclusive, pode não hver padrão-ouro. Em função dessas limitações, outros testes são usados e, como consequência, podem ocorrer erros. Em outras palavras, no processo diagnóstico podem ocorrer <strong>falsos positivos</strong> e <strong>falsos negativos</strong>.<br>
 Esta incerteza, na utilização de testes diagnósticos, gera a necessidade de o médico conferir a probabilidade de falsos positivos e falsos negativos na elaboração de um diagnóstico ao receber o resultado positivo ou negativo de um exame. Uma maneira simples de mostrar as relações de um teste diagnóstico e o verdadeiro diagnóstico, é mostrada na tabela de contingência <span class="math inline">\(2\times2\)</span> (<a href="#tbl-fpfn" class="quarto-xref">Tabela&nbsp;<span>18.1</span></a>).</p>
-<div class="cell">
-<div id="tbl-fpfn" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<div class="cell" data-layout-align="center">
+<div id="tbl-fpfn" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-fpfn-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabela&nbsp;18.1: Falsos positivos e falsos negativos
 </figcaption>
 <div aria-describedby="tbl-fpfn-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://i.imgur.com/udFZ2ek.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p><img src="https://i.imgur.com/udFZ2ek.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
 </figure>
 </div>
 </div>
@@ -571,17 +571,17 @@ VPP = \frac {a}{\left (a + b\right )} \quad \quad VPN = \frac {d}{\left (c + d\r
 \frac {total\ de\ casos\ de \ apendicite \ aguda}{total\ de\ casos\ no\ estudo} = \frac {131}{156} = 0,84\ ou\ 84\% \left(IC_{95\%}:77\ a\ 89\%\right)
 \]</span></p>
 <p>Levando-se em consideração que a prevalência de apendicite aguda na população é de 7% <span class="citation" data-cites="lima2016perfil">(<a href="references.html#ref-lima2016perfil" role="doc-biblioref">6</a>)</span>, mantendo a sensibilidade (64%) e a especificidade (72%) da ultrassonografia, entre 156 pacientes, selecionados aleatoriamente, se esperaria encontrar aproximadamente 11 casos (7% de 156) de apendicite aguda. Para facilitar a compreensão, observe a a tabela <span class="math inline">\(2\times2\)</span> (<a href="#tbl-vpp" class="quarto-xref">Tabela&nbsp;<span>18.2</span></a>):</p>
-<div class="cell">
-<div id="tbl-vpp" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<div class="cell" data-layout-align="center">
+<div id="tbl-vpp" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-vpp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabela&nbsp;18.2: Prevalencia e valor preditivo
 </figcaption>
 <div aria-describedby="tbl-vpp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://i.imgur.com/s0tdwod.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p><img src="https://i.imgur.com/s0tdwod.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
 </figure>
 </div>
 </div>
@@ -716,7 +716,7 @@ p_{pos} = \frac{odds_{pos}}{1-odds_{pos}}
 <p>Estes cálculos podem ser simplificados, utilizando o nomograma de Fagan <span class="citation" data-cites="fagan1975nomogram">(<a href="references.html#ref-fagan1975nomogram" role="doc-biblioref">11</a>)</span>, extremamente fácil de se usar <span class="citation" data-cites="caraguel2013fagan">(<a href="references.html#ref-caraguel2013fagan" role="doc-biblioref">12</a>)</span>, pois basta unir a probabilidade pré-teste ao LR que a reta apontará para a probabilidade pós-teste (<a href="#fig-fagan" class="quarto-xref">Figura&nbsp;<span>18.1</span></a>)).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-fagan" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="ht" data-fig-align="center">
+<div id="fig-fagan" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="ht">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fagan-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/Qyvlj5q.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%" data-fig-pos="ht">
@@ -737,7 +737,7 @@ Figura&nbsp;18.1: Nomograma de Fagan
 <p>A distribuição dos níveis glicêmicos em diabéticos e não diabéticos não tem um ponto de corte bem nítido. As duas populações se sobrepõem (<a href="#fig-diabetes" class="quarto-xref">Figura&nbsp;<span>18.2</span></a>)), gerando falso positivos ou falso negativos, dependendo do ponto de corte escolhido <span class="citation" data-cites="oliveira2022diagnostico">(<a href="references.html#ref-oliveira2022diagnostico" role="doc-biblioref">10</a>)</span>.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-diabetes" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="ht" data-fig-align="center">
+<div id="fig-diabetes" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="ht">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-diabetes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="18-epidemiologia_files/figure-html/fig-diabetes-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%" data-fig-pos="ht">
@@ -778,7 +778,7 @@ Figura&nbsp;18.2: Populações de indivíduos normais (curva em azul) e diabéti
 <p>A <a href="#fig-status123" class="quarto-xref">Figura&nbsp;<span>18.3</span></a> mostra a quantidade de sobreposição na distribuição da medição dos testes bioquímicos contínuos em ambos os grupos doença positiva e doença negativa. No Teste 1, a sobreposição é completa e não haverá um ponto de corte que separe efetivamente os dois grupos. Nos Testes 2 e 3, há uma maior separação das medidas de teste entre os grupos, particularmente para Teste 3.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-status123" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="ht" data-fig-align="center">
+<div id="fig-status123" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="ht">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-status123-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/bTZ7RuY.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%" data-fig-pos="ht">
@@ -857,7 +857,7 @@ Figura&nbsp;18.3: Resultado do teste vs doença.
 <span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span> (<span class="fl">0.53</span>,<span class="fl">0.73</span>,<span class="st">"Teste 2"</span>, <span class="at">col=</span><span class="st">"chartreuse4"</span>, <span class="at">cex =</span> <span class="dv">1</span>)</span>
 <span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span> (<span class="fl">0.35</span>,<span class="fl">0.65</span>,<span class="st">"Teste 1"</span>, <span class="at">col=</span><span class="st">"tomato"</span>, <span class="at">cex =</span> <span class="dv">1</span>) </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-roc" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="ht" data-fig-align="center">
+<div id="fig-roc" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="ht">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-roc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="18-epidemiologia_files/figure-html/fig-roc-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="ht">
@@ -881,7 +881,7 @@ Figura&nbsp;18.4: Curvas ROC para os Testes 1, 2 e 3.
 </div>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ci.auc</span> (roc1)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>95% CI: 0.4889-0.6863 (2000 stratified bootstrap replicates)</code></pre>
+<pre><code>95% CI: 0.4861-0.6814 (2000 stratified bootstrap replicates)</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">auc</span>(roc2) </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -889,7 +889,7 @@ Figura&nbsp;18.4: Curvas ROC para os Testes 1, 2 e 3.
 </div>
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ci.auc</span>(roc2)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>95% CI: 0.6783-0.8396 (2000 stratified bootstrap replicates)</code></pre>
+<pre><code>95% CI: 0.6761-0.8398 (2000 stratified bootstrap replicates)</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">auc</span> (roc3) </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -897,7 +897,7 @@ Figura&nbsp;18.4: Curvas ROC para os Testes 1, 2 e 3.
 </div>
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ci.auc</span>(roc3)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>95% CI: 0.8353-0.941 (2000 stratified bootstrap replicates)</code></pre>
+<pre><code>95% CI: 0.8358-0.939 (2000 stratified bootstrap replicates)</code></pre>
 </div>
 </div>
 <p>A acurácia geral de um teste pode ser descrita como a área sob a curva; quanto maior for a área, melhor será o teste. Na <a href="#fig-roc" class="quarto-xref">Figura&nbsp;<span>18.4</span></a>, o Teste 3 tem uma AUC maior que os outros dois testes.<br>
@@ -910,7 +910,7 @@ Tabela&nbsp;18.3: Acurácia do teste diagnóstico
 </figcaption>
 <div aria-describedby="tbl-roc1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div class="tabwid"><style>.cl-5b0f1156{}.cl-5b01929c{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-5b0192ce{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-5b07a02e{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-5b07d3b4{width:1.05in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5b07d3c8{width:1.619in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5b07d3c9{width:1.05in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5b07d3d2{width:1.619in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5b07d3d3{width:1.05in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5b07d3dc{width:1.619in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-5b0f1156"><thead><tr style="overflow-wrap:break-word;"><th class="cl-5b07d3b4"><p class="cl-5b07a02e"><span class="cl-5b01929c">AUC</span></p></th><th class="cl-5b07d3c8"><p class="cl-5b07a02e"><span class="cl-5b01929c">Qualidade do Teste</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-5b07d3c9"><p class="cl-5b07a02e"><span class="cl-5b0192ce">&gt;0,90</span></p></td><td class="cl-5b07d3d2"><p class="cl-5b07a02e"><span class="cl-5b0192ce">excelente</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5b07d3c9"><p class="cl-5b07a02e"><span class="cl-5b0192ce">0,80 a 0,90</span></p></td><td class="cl-5b07d3d2"><p class="cl-5b07a02e"><span class="cl-5b0192ce">muito bom</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5b07d3c9"><p class="cl-5b07a02e"><span class="cl-5b0192ce">0,70 a 0,80</span></p></td><td class="cl-5b07d3d2"><p class="cl-5b07a02e"><span class="cl-5b0192ce">bom</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5b07d3c9"><p class="cl-5b07a02e"><span class="cl-5b0192ce">0,60 a 0,70</span></p></td><td class="cl-5b07d3d2"><p class="cl-5b07a02e"><span class="cl-5b0192ce">suficiente</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5b07d3c9"><p class="cl-5b07a02e"><span class="cl-5b0192ce">0,50 a 0,60</span></p></td><td class="cl-5b07d3d2"><p class="cl-5b07a02e"><span class="cl-5b0192ce">ruim</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-5b07d3d3"><p class="cl-5b07a02e"><span class="cl-5b0192ce">&lt;0,50</span></p></td><td class="cl-5b07d3dc"><p class="cl-5b07a02e"><span class="cl-5b0192ce">ignorar teste</span></p></td></tr></tbody></table></div>
+<div class="tabwid"><style>.cl-256b3064{}.cl-255d3130{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-255d314e{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-25641478{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-25643c00{width:1.05in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25643c0a{width:1.619in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25643c14{width:1.05in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25643c1e{width:1.619in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25643c1f{width:1.05in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-25643c28{width:1.619in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-256b3064"><thead><tr style="overflow-wrap:break-word;"><th class="cl-25643c00"><p class="cl-25641478"><span class="cl-255d3130">AUC</span></p></th><th class="cl-25643c0a"><p class="cl-25641478"><span class="cl-255d3130">Qualidade do Teste</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-25643c14"><p class="cl-25641478"><span class="cl-255d314e">&gt;0,90</span></p></td><td class="cl-25643c1e"><p class="cl-25641478"><span class="cl-255d314e">excelente</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-25643c14"><p class="cl-25641478"><span class="cl-255d314e">0,80 a 0,90</span></p></td><td class="cl-25643c1e"><p class="cl-25641478"><span class="cl-255d314e">muito bom</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-25643c14"><p class="cl-25641478"><span class="cl-255d314e">0,70 a 0,80</span></p></td><td class="cl-25643c1e"><p class="cl-25641478"><span class="cl-255d314e">bom</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-25643c14"><p class="cl-25641478"><span class="cl-255d314e">0,60 a 0,70</span></p></td><td class="cl-25643c1e"><p class="cl-25641478"><span class="cl-255d314e">suficiente</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-25643c14"><p class="cl-25641478"><span class="cl-255d314e">0,50 a 0,60</span></p></td><td class="cl-25643c1e"><p class="cl-25641478"><span class="cl-255d314e">ruim</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-25643c1f"><p class="cl-25641478"><span class="cl-255d314e">&lt;0,50</span></p></td><td class="cl-25643c28"><p class="cl-25641478"><span class="cl-255d314e">ignorar teste</span></p></td></tr></tbody></table></div>
 </div>
 </div>
 </figure>
@@ -926,7 +926,7 @@ Tabela&nbsp;18.3: Acurácia do teste diagnóstico
     Bootstrap test for two correlated ROC curves
 
 data:  roc3 and roc2
-D = 4.7402, boot.n = 2000, boot.stratified = 1, p-value = 2.135e-06
+D = 4.6305, boot.n = 2000, boot.stratified = 1, p-value = 3.648e-06
 alternative hypothesis: true difference in AUC is not equal to 0
 sample estimates:
 Smoothed AUC of roc1 Smoothed AUC of roc2 
@@ -962,7 +962,7 @@ Area under the curve: 0.8973
 95% CI: 0.8444-0.9502 (DeLong)</code></pre>
 </div>
 <div class="cell-output-display">
-<div id="fig-roc3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="ht" data-fig-align="center">
+<div id="fig-roc3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="ht">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-roc3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="18-epidemiologia_files/figure-html/fig-roc3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" data-fig-pos="ht">
@@ -1037,7 +1037,7 @@ Tabela&nbsp;18.4: Valor Kappa e nível de concordância
 </figcaption>
 <div aria-describedby="tbl-kappa-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div class="tabwid"><style>.cl-63a3a02a{}.cl-6397ec8a{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-6397ec9e{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-639d407c{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-639d4090{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-639d619c{width:1.101in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-639d61b0{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-639d61b1{width:1.101in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-639d61ba{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-639d61c4{width:1.101in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-639d61c5{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-639d61ce{width:1.101in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-639d61cf{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-63a3a02a"><thead><tr style="overflow-wrap:break-word;"><th class="cl-639d619c"><p class="cl-639d407c"><span class="cl-6397ec8a">Valor kappa</span></p></th><th class="cl-639d61b0"><p class="cl-639d407c"><span class="cl-6397ec8a">Concordância</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-639d61b1"><p class="cl-639d4090"><span class="cl-6397ec9e">&lt;0,00</span></p></td><td class="cl-639d61ba"><p class="cl-639d407c"><span class="cl-6397ec9e">pobre</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-639d61c4"><p class="cl-639d4090"><span class="cl-6397ec9e">0,00 - 0,20</span></p></td><td class="cl-639d61c5"><p class="cl-639d407c"><span class="cl-6397ec9e">leve</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-639d61c4"><p class="cl-639d4090"><span class="cl-6397ec9e">0,21 - 0,40</span></p></td><td class="cl-639d61c5"><p class="cl-639d407c"><span class="cl-6397ec9e">razoável</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-639d61c4"><p class="cl-639d4090"><span class="cl-6397ec9e">0,41 - 0,60</span></p></td><td class="cl-639d61c5"><p class="cl-639d407c"><span class="cl-6397ec9e">moderada</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-639d61c4"><p class="cl-639d4090"><span class="cl-6397ec9e">0,61 - 0,80</span></p></td><td class="cl-639d61c5"><p class="cl-639d407c"><span class="cl-6397ec9e">substancial</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-639d61ce"><p class="cl-639d4090"><span class="cl-6397ec9e">0,81 - 1,00</span></p></td><td class="cl-639d61cf"><p class="cl-639d407c"><span class="cl-6397ec9e">quase perfeita</span></p></td></tr></tbody></table></div>
+<div class="tabwid"><style>.cl-2f656620{}.cl-2f593ef4{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-2f593f08{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-2f5ddcac{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-2f5ddce8{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-2f5e051a{width:1.101in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2f5e052e{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2f5e052f{width:1.101in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2f5e0538{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2f5e0539{width:1.101in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2f5e053a{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2f5e0542{width:1.101in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2f5e0543{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-2f656620"><thead><tr style="overflow-wrap:break-word;"><th class="cl-2f5e051a"><p class="cl-2f5ddcac"><span class="cl-2f593ef4">Valor kappa</span></p></th><th class="cl-2f5e052e"><p class="cl-2f5ddcac"><span class="cl-2f593ef4">Concordância</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-2f5e052f"><p class="cl-2f5ddce8"><span class="cl-2f593f08">&lt;0,00</span></p></td><td class="cl-2f5e0538"><p class="cl-2f5ddcac"><span class="cl-2f593f08">pobre</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2f5e0539"><p class="cl-2f5ddce8"><span class="cl-2f593f08">0,00 - 0,20</span></p></td><td class="cl-2f5e053a"><p class="cl-2f5ddcac"><span class="cl-2f593f08">leve</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2f5e0539"><p class="cl-2f5ddce8"><span class="cl-2f593f08">0,21 - 0,40</span></p></td><td class="cl-2f5e053a"><p class="cl-2f5ddcac"><span class="cl-2f593f08">razoável</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2f5e0539"><p class="cl-2f5ddce8"><span class="cl-2f593f08">0,41 - 0,60</span></p></td><td class="cl-2f5e053a"><p class="cl-2f5ddcac"><span class="cl-2f593f08">moderada</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2f5e0539"><p class="cl-2f5ddce8"><span class="cl-2f593f08">0,61 - 0,80</span></p></td><td class="cl-2f5e053a"><p class="cl-2f5ddcac"><span class="cl-2f593f08">substancial</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2f5e0542"><p class="cl-2f5ddce8"><span class="cl-2f593f08">0,81 - 1,00</span></p></td><td class="cl-2f5e0543"><p class="cl-2f5ddcac"><span class="cl-2f593f08">quase perfeita</span></p></td></tr></tbody></table></div>
 </div>
 </div>
 </figure>
@@ -1183,7 +1183,7 @@ Um caso incidente ocorre quando um indivíduo deixa de ser suscetível e passa a
 <p>Para calcular a incidência cumulativa, é necessário primeiro identificar os doentes e após acompanhar por um determinado tempo os não doentes (<a href="#fig-incidencia" class="quarto-xref">Figura&nbsp;<span>18.6</span></a>).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-incidencia" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="ht" data-fig-align="center">
+<div id="fig-incidencia" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="ht">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-incidencia-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/TqBeiuV.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" data-fig-pos="ht">
@@ -1199,7 +1199,7 @@ Figura&nbsp;18.6: Incidência
 <p>O conceito de pessoas-tempo pode ser ilustrado com o seguinte exemplo: a <a href="#fig-incidencia1" class="quarto-xref">Figura&nbsp;<span>18.7</span></a> representa um estudo epidemiológico hipotético com duração de cinco anos, onde D é o desfecho e C representa os sujeitos que deixaram o estudo por migração ou morte (censurados) por causa não relacionada ao desfecho</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-incidencia1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="ht" data-fig-align="center">
+<div id="fig-incidencia1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="ht">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-incidencia1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/drqeIs8.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%" data-fig-pos="ht">
@@ -1285,17 +1285,17 @@ prevalência \ pontual = incidência \times duração \ da \ doença \ (t)
 <h3 data-number="18.5.1" class="anchored" data-anchor-id="sec-or"><span class="header-section-number">18.5.1</span> <em>Odds Ratio</em></h3>
 <p><strong>Odds Ratio</strong> (OR) é a razão entre dois <em>odds</em>. A <em>Odds Ratio</em>, traduzida como <em>Razão de Chances</em>, está associada, usualmente, com estudos retrospectivos tipo caso-controle com desfechos dicotômicos.</p>
 <p>A <em>odds ratio</em> (OR) expressa a <em>odds</em> de exposição entre os que têm o desfecho (casos) pela <em>odds</em> de exposição nos livres de desfecho (controles).</p>
-<div class="cell">
-<div id="tbl-2por2" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<div class="cell" data-layout-align="center">
+<div id="tbl-2por2" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-2por2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabela&nbsp;18.5: Tabela de contingência 2 x 2
 </figcaption>
 <div aria-describedby="tbl-2por2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://i.imgur.com/KAWIH8W.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p><img src="https://i.imgur.com/KAWIH8W.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
 </figure>
 </div>
 </div>
@@ -1498,7 +1498,7 @@ Tabela&nbsp;18.6: Força de associação do RR comparado com a OR.
 </figcaption>
 <div aria-describedby="tbl-magnitude-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div class="tabwid"><style>.cl-648e6ae2{}.cl-6482be90{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-6482be9a{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-6486ca6c{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-6486efce{width:0.727in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6486efd8{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6486efe2{width:0.727in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6486efec{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6486efed{width:0.727in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6486efee{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6486eff6{width:0.727in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6486eff7{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6486f000{width:0.727in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6486f001{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6486f00a{width:0.727in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6486f00b{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-648e6ae2"><thead><tr style="overflow-wrap:break-word;"><th class="cl-6486efce"><p class="cl-6486ca6c"><span class="cl-6482be90">OR</span></p></th><th class="cl-6486efce"><p class="cl-6486ca6c"><span class="cl-6482be90">RR</span></p></th><th class="cl-6486efd8"><p class="cl-6486ca6c"><span class="cl-6482be90">Magnitude</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-6486efe2"><p class="cl-6486ca6c"><span class="cl-6482be9a">1,0</span></p></td><td class="cl-6486efe2"><p class="cl-6486ca6c"><span class="cl-6482be9a">1,0</span></p></td><td class="cl-6486efec"><p class="cl-6486ca6c"><span class="cl-6482be9a">insignificante</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-6486efed"><p class="cl-6486ca6c"><span class="cl-6482be9a">1,5</span></p></td><td class="cl-6486efed"><p class="cl-6486ca6c"><span class="cl-6482be9a">1,2</span></p></td><td class="cl-6486efee"><p class="cl-6486ca6c"><span class="cl-6482be9a">pequena</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-6486efed"><p class="cl-6486ca6c"><span class="cl-6482be9a">3,5</span></p></td><td class="cl-6486efed"><p class="cl-6486ca6c"><span class="cl-6482be9a">1,9</span></p></td><td class="cl-6486efee"><p class="cl-6486ca6c"><span class="cl-6482be9a">moderada</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-6486eff6"><p class="cl-6486ca6c"><span class="cl-6482be9a">9,0</span></p></td><td class="cl-6486eff6"><p class="cl-6486ca6c"><span class="cl-6482be9a">3,0</span></p></td><td class="cl-6486eff7"><p class="cl-6486ca6c"><span class="cl-6482be9a">grande</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-6486eff6"><p class="cl-6486ca6c"><span class="cl-6482be9a">32</span></p></td><td class="cl-6486eff6"><p class="cl-6486ca6c"><span class="cl-6482be9a">5,7</span></p></td><td class="cl-6486eff7"><p class="cl-6486ca6c"><span class="cl-6482be9a">muito grande</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-6486f000"><p class="cl-6486ca6c"><span class="cl-6482be9a">360</span></p></td><td class="cl-6486f000"><p class="cl-6486ca6c"><span class="cl-6482be9a">19</span></p></td><td class="cl-6486f001"><p class="cl-6486ca6c"><span class="cl-6482be9a">quase perfeita</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-6486f00a"><p class="cl-6486ca6c"><span class="cl-6482be9a">infinito</span></p></td><td class="cl-6486f00a"><p class="cl-6486ca6c"><span class="cl-6482be9a">infinito</span></p></td><td class="cl-6486f00b"><p class="cl-6486ca6c"><span class="cl-6482be9a">perfeita</span></p></td></tr></tbody></table></div>
+<div class="tabwid"><style>.cl-3080dd00{}.cl-307487e4{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-307487f8{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-3079bf16{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-307a0a34{width:0.727in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-307a0a48{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-307a0a49{width:0.727in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-307a0a52{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-307a0a53{width:0.727in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-307a0a5c{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-307a0a5d{width:0.727in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-307a0a66{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-307a0a67{width:0.727in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-307a0a70{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-307a0a7a{width:0.727in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-307a0a7b{width:1.253in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-3080dd00"><thead><tr style="overflow-wrap:break-word;"><th class="cl-307a0a34"><p class="cl-3079bf16"><span class="cl-307487e4">OR</span></p></th><th class="cl-307a0a34"><p class="cl-3079bf16"><span class="cl-307487e4">RR</span></p></th><th class="cl-307a0a48"><p class="cl-3079bf16"><span class="cl-307487e4">Magnitude</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-307a0a49"><p class="cl-3079bf16"><span class="cl-307487f8">1,0</span></p></td><td class="cl-307a0a49"><p class="cl-3079bf16"><span class="cl-307487f8">1,0</span></p></td><td class="cl-307a0a52"><p class="cl-3079bf16"><span class="cl-307487f8">insignificante</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-307a0a53"><p class="cl-3079bf16"><span class="cl-307487f8">1,5</span></p></td><td class="cl-307a0a53"><p class="cl-3079bf16"><span class="cl-307487f8">1,2</span></p></td><td class="cl-307a0a5c"><p class="cl-3079bf16"><span class="cl-307487f8">pequena</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-307a0a53"><p class="cl-3079bf16"><span class="cl-307487f8">3,5</span></p></td><td class="cl-307a0a53"><p class="cl-3079bf16"><span class="cl-307487f8">1,9</span></p></td><td class="cl-307a0a5c"><p class="cl-3079bf16"><span class="cl-307487f8">moderada</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-307a0a5d"><p class="cl-3079bf16"><span class="cl-307487f8">9,0</span></p></td><td class="cl-307a0a5d"><p class="cl-3079bf16"><span class="cl-307487f8">3,0</span></p></td><td class="cl-307a0a66"><p class="cl-3079bf16"><span class="cl-307487f8">grande</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-307a0a5d"><p class="cl-3079bf16"><span class="cl-307487f8">32</span></p></td><td class="cl-307a0a5d"><p class="cl-3079bf16"><span class="cl-307487f8">5,7</span></p></td><td class="cl-307a0a66"><p class="cl-3079bf16"><span class="cl-307487f8">muito grande</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-307a0a67"><p class="cl-3079bf16"><span class="cl-307487f8">360</span></p></td><td class="cl-307a0a67"><p class="cl-3079bf16"><span class="cl-307487f8">19</span></p></td><td class="cl-307a0a70"><p class="cl-3079bf16"><span class="cl-307487f8">quase perfeita</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-307a0a7a"><p class="cl-3079bf16"><span class="cl-307487f8">infinito</span></p></td><td class="cl-307a0a7a"><p class="cl-3079bf16"><span class="cl-307487f8">infinito</span></p></td><td class="cl-307a0a7b"><p class="cl-3079bf16"><span class="cl-307487f8">perfeita</span></p></td></tr></tbody></table></div>
 </div>
 </div>
 </figure>
@@ -1605,17 +1605,17 @@ RA = \left|I_{expostos} - I_{não \ expostos}\right|
 RA = \left|\frac{a}{a + b} -\frac{c}{c + d}\right|
 \]</span></p>
 <p>No exemplo do Risco Relativo, o RA pode ser calculado usando a mesma tabela de contingência, repetida aqui para facilitar a leitura (<a href="#tbl-vanilla" class="quarto-xref">Tabela&nbsp;<span>18.7</span></a>):</p>
-<div class="cell">
-<div id="tbl-vanilla" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<div class="cell" data-layout-align="center">
+<div id="tbl-vanilla" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-vanilla-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabela&nbsp;18.7: Taxa de ataque de gastrenterite com sorvete de baunilha - Oswego
 </figcaption>
 <div aria-describedby="tbl-vanilla-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://i.imgur.com/mT8id4Q.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p><img src="https://i.imgur.com/mT8id4Q.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
 </figure>
 </div>
 </div>
@@ -1674,17 +1674,17 @@ RRR = \left(1 - RR\right) \times 100
 \]</span></p>
 <p>O <em>Physicians’ Health Study</em> <span class="citation" data-cites="steering1989final">(<a href="references.html#ref-steering1989final" role="doc-biblioref">31</a>)</span> é um ensaio clinico randomizado controlado, duplo cego, desenhado com o objetivo de determinar se uma dose baixa de aspirina (325 mg a cada 48 horas) diminui a mortalidade cardiovascular e se o betacaroteno reduz a incidência de câncer. Participaram deste estudo 22071 indivíduos por uma média de 60,2 meses.</p>
 <p>O estudo do componente aspirina mostrou os seguintes resultados (<a href="#tbl-aspirina" class="quarto-xref">Tabela&nbsp;<span>18.8</span></a>):</p>
-<div class="cell">
-<div id="tbl-aspirina" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<div class="cell" data-layout-align="center">
+<div id="tbl-aspirina" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-aspirina-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabela&nbsp;18.8: Physicians’ Health Study, componente aspirina e IAM
 </figcaption>
 <div aria-describedby="tbl-aspirina-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://i.imgur.com/9VbWEsX.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p><img src="https://i.imgur.com/9VbWEsX.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
 </figure>
 </div>
 </div>
@@ -1853,17 +1853,17 @@ NND = \frac{1}{ARA} = \frac{1}{I_{expostos} - I_{não \ expostos}}
 <section id="exemplo-5" class="level4" data-number="18.6.4.1">
 <h4 data-number="18.6.4.1" class="anchored" data-anchor-id="exemplo-5"><span class="header-section-number">18.6.4.1</span> Exemplo</h4>
 <p>No <em>Physicians’ Health Study</em> <span class="citation" data-cites="steering1989final">(<a href="references.html#ref-steering1989final" role="doc-biblioref">31</a>)</span> sobre o uso de aspirina na prevenção de IAM, foi verificado também os efeitos colaterais da aspirina, como acidentes vasculares cerebrais (AVC), <a href="#tbl-avc" class="quarto-xref">Tabela&nbsp;<span>18.9</span></a>.</p>
-<div class="cell">
-<div id="tbl-avc" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<div class="cell" data-layout-align="center">
+<div id="tbl-avc" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-avc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabela&nbsp;18.9: Physicians’ Health Study, componente aspirina e AVC.
 </figcaption>
 <div aria-describedby="tbl-avc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://i.imgur.com/MC9RL3J.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p><img src="https://i.imgur.com/MC9RL3J.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
 </figure>
 </div>
 </div>
@@ -2035,7 +2035,7 @@ grupo=padrão      NA</code></pre>
 <span id="cb131-6"><a href="#cb131-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="fl">0.3</span>,</span>
 <span id="cb131-7"><a href="#cb131-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> <span class="dv">5</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-survival" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="ht" data-fig-align="center">
+<div id="fig-survival" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="ht">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-survival-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="18-epidemiologia_files/figure-html/fig-survival-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" data-fig-pos="ht">
@@ -2070,7 +2070,7 @@ Figura&nbsp;18.8: Curva de sobrevida comparando dois grupos de tratamento.
 <span id="cb132-9"><a href="#cb132-9" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Tratamento padrão"</span>),</span>
 <span id="cb132-10"><a href="#cb132-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">palette =</span> <span class="fu">c</span> (<span class="st">"steelblue"</span>, <span class="st">"tomato"</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-survival1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="ht" data-fig-align="center">
+<div id="fig-survival1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="ht">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-survival1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="18-epidemiologia_files/figure-html/fig-survival1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" data-fig-pos="ht">
@@ -2199,7 +2199,7 @@ logit_{i} = ln(\frac{p}{1-p})=e^{b_{0} + b_{1}x_{1} +...+ b_{n}x_{n}}
 <p>A regressão logística frequentemente utiliza a curva logística (<a href="#fig-curvalog" class="quarto-xref">Figura&nbsp;<span>18.10</span></a>) para assim representar a relação entre a variável dependente e as independentes. Os valores previstos, portanto permanecem entre 0 e 1, sendo definidos pelos coeficientes estimados.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-curvalog" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-curvalog" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-curvalog-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://imgur.com/mBRglgO.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%" data-fig-pos="H">
@@ -2230,7 +2230,7 @@ Figura&nbsp;18.10: Curva logística geral
 <p>O RMS Titanic (<a href="#fig-titanic" class="quarto-xref">Figura&nbsp;<span>18.11</span></a>), considerado o navio inafundável de sua época, sofreu um trágico destino em sua viagem inaugural com destino a Nova Iorque. Construído com o intuito de ser o maior e mais luxuoso transatlântico, o Titanic colidiu com um iceberg na noite de 14 de abril de 1912, no Oceano Atlântico Norte, afundando rapidamente e causando a morte de inúmeras pessoas.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-titanic" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-titanic" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-titanic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://imgur.com/54il14d.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%" data-fig-pos="H">
@@ -2381,7 +2381,7 @@ Figura&nbsp;18.11: Titanic parado em Queenstown, 11 de abril.de 1912
  $ sobreviveu: num  0 1 1 1 0 0 0 0 1 1 ...
  $ classe    : num  3 1 3 1 3 3 1 3 3 2 ...
  $ sexo      : chr  "masc" "fem" "fem" "fem" ...
- $ idade     : num  22 38 26 35 35 24 54 2 27 14 ...
+ $ idade     : num  22 38 26 35 35 48 54 2 27 14 ...
  $ irco      : num  1 1 0 1 0 0 0 3 0 1 ...
  $ pafi      : num  0 0 0 0 0 0 0 1 2 0 ...</code></pre>
 </div>
@@ -2403,7 +2403,7 @@ Figura&nbsp;18.11: Titanic parado em Queenstown, 11 de abril.de 1912
  $ sobreviveu: Factor w/ 2 levels "0","1": 1 2 2 2 1 1 1 1 2 2 ...
  $ classe    : Factor w/ 3 levels "1","2","3": 3 1 3 1 3 3 1 3 3 2 ...
  $ sexo      : Factor w/ 2 levels "fem","masc": 2 1 1 1 2 2 2 2 1 1 ...
- $ idade     : num  22 38 26 35 35 24 54 2 27 14 ...
+ $ idade     : num  22 38 26 35 35 48 54 2 27 14 ...
  $ irco      : num  1 1 0 1 0 0 0 3 0 1 ...
  $ pafi      : num  0 0 0 0 0 0 0 1 2 0 ...</code></pre>
 </div>
@@ -2446,7 +2446,7 @@ Figura&nbsp;18.11: Titanic parado em Queenstown, 11 de abril.de 1912
  $ sobreviveu: Factor w/ 2 levels "0","1": 2 1 1 1 2 1 2 2 2 1 ...
  $ classe    : Factor w/ 3 levels "1","2","3": 3 1 2 3 1 1 2 2 3 1 ...
  $ sexo      : Factor w/ 2 levels "fem","masc": 2 2 2 2 1 2 1 1 1 2 ...
- $ idade     : num  44 47 30 40.5 44 45 0.92 24 22 65 ...
+ $ idade     : num  44 47 30 40.5 44 45 0.92 24 22 36 ...
  $ irco      : num  0 0 0 0 0 0 1 1 2 0 ...
  $ pafi      : num  0 0 0 0 0 0 2 1 0 0 ...</code></pre>
 </div>
@@ -2456,7 +2456,7 @@ Figura&nbsp;18.11: Titanic parado em Queenstown, 11 de abril.de 1912
  $ sobreviveu: Factor w/ 2 levels "0","1": 1 2 1 2 2 1 1 2 1 1 ...
  $ classe    : Factor w/ 3 levels "1","2","3": 1 3 3 3 1 2 3 1 3 3 ...
  $ sexo      : Factor w/ 2 levels "fem","masc": 2 1 2 2 1 2 1 1 2 1 ...
- $ idade     : num  30 18 7 25 60 30 6 22 51 28 ...
+ $ idade     : num  30 18 7 25 60 30 8 22 51 28 ...
  $ irco      : num  1 0 4 0 1 1 3 0 0 0 ...
  $ pafi      : num  2 0 1 0 0 1 1 2 0 0 ...</code></pre>
 </div>
@@ -2490,21 +2490,21 @@ glm(formula = sobreviveu ~ ., family = binomial(link = "logit"),
 
 Coefficients:
              Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)  4.466364   0.435902  10.246  &lt; 2e-16 ***
-classe2     -1.234903   0.280428  -4.404 1.06e-05 ***
-classe3     -2.256899   0.264252  -8.541  &lt; 2e-16 ***
-sexomasc    -3.624082   0.224354 -16.153  &lt; 2e-16 ***
-idade       -0.038729   0.007697  -5.032 4.87e-07 ***
-irco        -0.471626   0.117224  -4.023 5.74e-05 ***
-pafi        -0.101001   0.117903  -0.857    0.392    
+(Intercept)  3.705414   0.386251   9.593  &lt; 2e-16 ***
+classe2     -1.040567   0.272522  -3.818 0.000134 ***
+classe3     -2.035809   0.256852  -7.926 2.26e-15 ***
+sexomasc    -3.567786   0.219514 -16.253  &lt; 2e-16 ***
+idade       -0.022291   0.006916  -3.223 0.001268 ** 
+irco        -0.385627   0.112853  -3.417 0.000633 ***
+pafi        -0.074808   0.116112  -0.644 0.519396    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 1210.44  on 915  degrees of freedom
-Residual deviance:  705.92  on 909  degrees of freedom
-AIC: 719.92
+    Null deviance: 1210.4  on 915  degrees of freedom
+Residual deviance:  722.4  on 909  degrees of freedom
+AIC: 736.4
 
 Number of Fisher Scoring iterations: 5</code></pre>
 </div>
@@ -2514,7 +2514,7 @@ Number of Fisher Scoring iterations: 5</code></pre>
 <h4 data-number="18.8.4.3" class="anchored" data-anchor-id="interpretação-dos-coeficientes"><span class="header-section-number">18.8.4.3</span> Interpretação dos Coeficientes</h4>
 <p>Em uma regressão logística, a resposta que está sendo modelada é o <code>log(odds)</code> ou <code>logit</code> de que o desfecho é igual a 1. Os coeficientes de regressão fornecem a mudança no <code>log(odds)</code> no desfecho para a mudança de uma unidade na variável preditora, mantendo todas as outras variáveis preditivas constantes <span class="citation" data-cites="hosmer2013applied">(<a href="references.html#ref-hosmer2013applied" role="doc-biblioref">51</a>)</span>.</p>
 <p>Na saída da função <code>summary()</code>, são produzidos os coeficientes da regressão na coluna <code>Estimate</code>, associados ao respectivos desvio padrão dos resíduos (<code>Std. Error</code>), o valor <code>z</code> (estatística de Wald) e os valores do <em>P</em> (<code>Pr(&gt;|t|</code>). Importante destacar que a hipótese nula dos coeficientes da regressão é de que “os coeficientes são nulos/zeros”. Então, os valores <em>P</em> devem ser interpretados como a probabilidade de se observar valores de coeficientes tão extremos dado que a hipótese nula é verdadeira. Estes coeficientes estão modelando a probabilidade do evento desfecho (<code>sobreviveu</code>) ocorrer com base nas variáveis explicativas (<code>sexo</code>, <code>idade</code>, <code>classe</code> do passageiro, número de irmãos/conjuges [<code>irco</code>] a bordo e número de pais/filhos [<code>pafi</code>] a bordo). Os coeficientes da regressão representam o impacto de cada variável explicativa na probabilidade de sobrevivência.</p>
-<p>Nas <em>variáveis contínuas</em> , para cada aumento de uma unidade na <code>idade</code>, por exemplo, o <span class="math inline">\(log(odds)\)</span> de sobreviver <code>1 = sim</code> (versus <code>0 = não</code>) diminui, pois o coeficiente é negativo, em -0.0387294.</p>
+<p>Nas <em>variáveis contínuas</em> , para cada aumento de uma unidade na <code>idade</code>, por exemplo, o <span class="math inline">\(log(odds)\)</span> de sobreviver <code>1 = sim</code> (versus <code>0 = não</code>) diminui, pois o coeficiente é negativo, em -0.0222909.</p>
 <p>Para <em>variáveis categóricas</em>, o desempenho de cada categoria é avaliado em relação a uma categoria de base. A categoria de base para a variável <code>sexo</code> é o sexo feminino (primeira categoria que aparece quando se observa os níveis) e para a classe do passageiro é a 1ª classe.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb164"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a href="#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(dadosTreino<span class="sc">$</span>sexo)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2567,9 +2567,9 @@ Terms added sequentially (first to last)
 NULL                     915    1210.44              
 classe  2    63.38       913    1147.06 1.728e-14 ***
 sexo    1   401.14       912     745.92 &lt; 2.2e-16 ***
-idade   1    15.48       911     730.44 8.325e-05 ***
-irco    1    23.78       910     706.66 1.081e-06 ***
-pafi    1     0.74       909     705.92    0.3901    
+idade   1     6.25       911     739.66   0.01239 *  
+irco    1    16.85       910     722.82 4.049e-05 ***
+pafi    1     0.42       909     722.40   0.51835    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -2601,19 +2601,19 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb172"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb172-1"><a href="#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(odds_ratio1)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                OR  2.5 %  97.5 %
-(Intercept) 87.040 37.916 209.771
-classe2      0.291  0.167   0.501
-classe3      0.105  0.062   0.174
-sexomasc     0.027  0.017   0.041
-idade        0.962  0.947   0.976
-irco         0.624  0.489   0.776
-pafi         0.904  0.715   1.137</code></pre>
+<pre><code>                OR  2.5 % 97.5 %
+(Intercept) 40.667 19.427 88.459
+classe2      0.353  0.206  0.599
+classe3      0.131  0.078  0.214
+sexomasc     0.028  0.018  0.043
+idade        0.978  0.965  0.991
+irco         0.680  0.538  0.839
+pafi         0.928  0.737  1.163</code></pre>
 </div>
 </div>
-<p>Observando, novamente, a variável <code>idade</code>, vê-se que à medida que ela aumenta, reduz a chance de sobrevivência no naufrágio do Titanic. A <em>OR</em> nos informa que a cada aumento de uma unidade na <code>idade</code>, há uma diminuição na chance de sobrevivência (<code>sobreviveu = 1</code>) de <span class="math inline">\(1 – OR \times 100\)</span>%, ou seja, uma diminuição de 3.8%.<br>
-Para o sexo masculino, há uma diminuição (coeficiente negativo) na chance de sobrevivência. O fato de ser homem reduz em 97.3% a chance de sobreviver.<br>
-Para a 3ª classe, comparada à 1ª classe, há uma diminuição de 89.5% na chance de sobrevivência. Da mesma forma a 2ª classe, comparada à 1ª classe, tem uma diminuição de 70.9%% na chance de sobrevivência <a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a>.</p>
+<p>Observando, novamente, a variável <code>idade</code>, vê-se que à medida que ela aumenta, reduz a chance de sobrevivência no naufrágio do Titanic. A <em>OR</em> nos informa que a cada aumento de uma unidade na <code>idade</code>, há uma diminuição na chance de sobrevivência (<code>sobreviveu = 1</code>) de <span class="math inline">\(1 – OR \times 100\)</span>%, ou seja, uma diminuição de 2.2%.<br>
+Para o sexo masculino, há uma diminuição (coeficiente negativo) na chance de sobrevivência. O fato de ser homem reduz em 97.2% a chance de sobreviver.<br>
+Para a 3ª classe, comparada à 1ª classe, há uma diminuição de 86.9% na chance de sobrevivência. Da mesma forma a 2ª classe, comparada à 1ª classe, tem uma diminuição de 64.7%% na chance de sobrevivência <a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a>.</p>
 </section>
 <section id="visualização-da-regressão-logística" class="level4" data-number="18.8.4.6">
 <h4 data-number="18.8.4.6" class="anchored" data-anchor-id="visualização-da-regressão-logística"><span class="header-section-number">18.8.4.6</span> Visualização da regressão logística</h4>
@@ -2626,7 +2626,7 @@ Para a 3ª classe, comparada à 1ª classe, há uma diminuição de 89.5% na cha
 <span id="cb174-5"><a href="#cb174-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
 <span id="cb174-6"><a href="#cb174-6" aria-hidden="true" tabindex="-1"></a><span class="fu">wrap_plots</span>(forest_raw, forest_std, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-forest" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-forest" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-forest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="18-epidemiologia_files/figure-html/fig-forest-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -2653,20 +2653,20 @@ glm(formula = sobreviveu ~ classe + sexo + idade + irco, family = binomial(link 
 
 Coefficients:
              Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)  4.384697   0.423919  10.343  &lt; 2e-16 ***
-classe2     -1.227845   0.280385  -4.379 1.19e-05 ***
-classe3     -2.244985   0.263743  -8.512  &lt; 2e-16 ***
-sexomasc    -3.582916   0.217996 -16.436  &lt; 2e-16 ***
-idade       -0.038101   0.007647  -4.982 6.28e-07 ***
-irco        -0.497888   0.113919  -4.371 1.24e-05 ***
+(Intercept)  3.650122   0.375713   9.715  &lt; 2e-16 ***
+classe2     -1.036232   0.272403  -3.804 0.000142 ***
+classe3     -2.027471   0.256308  -7.910 2.57e-15 ***
+sexomasc    -3.537566   0.213552 -16.565  &lt; 2e-16 ***
+idade       -0.021943   0.006888  -3.186 0.001445 ** 
+irco        -0.405917   0.108946  -3.726 0.000195 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
     Null deviance: 1210.44  on 915  degrees of freedom
-Residual deviance:  706.66  on 910  degrees of freedom
-AIC: 718.66
+Residual deviance:  722.82  on 910  degrees of freedom
+AIC: 734.82
 
 Number of Fisher Scoring iterations: 5</code></pre>
 </div>
@@ -2679,13 +2679,13 @@ Number of Fisher Scoring iterations: 5</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb179"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb179-1"><a href="#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(odds.ratio2)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>              OddsRatio       2.5 %       97.5 %
-(Intercept) 80.21390819 35.76039889 188.78112663
-classe2      0.29292327  0.16776431   0.50427823
-classe3      0.10592917  0.06247135   0.17594787
-sexomasc     0.02779454  0.01788993   0.04209856
-idade        0.96261613  0.94804719   0.97693560
-irco         0.60781272  0.47989768   0.75090462</code></pre>
+<pre><code>              OddsRatio       2.5 %      97.5 %
+(Intercept) 38.47934893 18.75841672 81.95938113
+classe2      0.35478917  0.20659099  0.60186653
+classe3      0.13166810  0.07888462  0.21578590
+sexomasc     0.02908405  0.01889416  0.04369283
+idade        0.97829590  0.96503498  0.99148346
+irco         0.66636523  0.53152001  0.81573981</code></pre>
 </div>
 </div>
 <p>Quando se compara os dois modelos para ver se houve uma melhora no ajuste, é interessante observar os AICs.</p>
@@ -2694,11 +2694,11 @@ irco         0.60781272  0.47989768   0.75090462</code></pre>
 <span id="cb181-2"><a href="#cb181-2" aria-hidden="true" tabindex="-1"></a>aic</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        df      AIC
-modelo1  7 719.9192
-modelo2  6 718.6579</code></pre>
+modelo1  7 736.3994
+modelo2  6 734.8166</code></pre>
 </div>
 </div>
-<p>O <code>modelo1</code> tem uma AIC (719.92) discretamente maior que a do <code>modelo2</code> (718.66). Isto indica que o ajuste do <code>modelo2</code> é um pouco melhor (teve menos informação perdida no ajuste), entretanto, esta ligeira melhora não modifica a interpretação.A função <code>anova()</code>, que a diferença entre os modelos não é significativa (<em>P</em> &gt; 0.05):</p>
+<p>O <code>modelo1</code> tem uma AIC (736.4) discretamente maior que a do <code>modelo2</code> (734.82). Isto indica que o ajuste do <code>modelo2</code> é um pouco melhor (teve menos informação perdida no ajuste), entretanto, esta ligeira melhora não modifica a interpretação.A função <code>anova()</code>, que a diferença entre os modelos não é significativa (<em>P</em> &gt; 0.05):</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb183"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb183-1"><a href="#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modelo1, modelo2, <span class="at">test =</span> <span class="st">"Chisq"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2707,8 +2707,8 @@ modelo2  6 718.6579</code></pre>
 Model 1: sobreviveu ~ classe + sexo + idade + irco + pafi
 Model 2: sobreviveu ~ classe + sexo + idade + irco
   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
-1       909     705.92                     
-2       910     706.66 -1 -0.73872   0.3901</code></pre>
+1       909     722.40                     
+2       910     722.82 -1 -0.41717   0.5184</code></pre>
 </div>
 </div>
 <p>Os dois modelo têm a mesma interpretação, mas o <code>modelo2</code> ajusta melhor os dados.</p>
@@ -2736,23 +2736,23 @@ glm(formula = sobreviveu ~ sexo * classe + idade + irco, family = "binomial",
     data = titanic_df)
 
 Coefficients:
-                         Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)               5.42514    0.71924   7.543 4.60e-14 ***
-sexomasc                 -4.61357    0.63576  -7.257 3.96e-13 ***
-classe2ª Classe          -0.90950    0.79433  -1.145  0.25222    
-classe3ª Classe          -3.55037    0.64109  -5.538 3.06e-08 ***
-idade                    -0.04236    0.00819  -5.172 2.32e-07 ***
-irco                     -0.48916    0.11680  -4.188 2.82e-05 ***
-sexomasc:classe2ª Classe -0.81182    0.87026  -0.933  0.35090    
-sexomasc:classe3ª Classe  1.83548    0.67924   2.702  0.00689 ** 
+                          Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)               4.466967   0.661859   6.749 1.49e-11 ***
+sexomasc                 -4.463273   0.623370  -7.160 8.07e-13 ***
+classe2ª Classe          -0.671057   0.785028  -0.855 0.392651    
+classe3ª Classe          -3.186429   0.624252  -5.104 3.32e-07 ***
+idade                    -0.022705   0.007084  -3.205 0.001351 ** 
+irco                     -0.379739   0.110176  -3.447 0.000568 ***
+sexomasc:classe2ª Classe -0.803877   0.862622  -0.932 0.351389    
+sexomasc:classe3ª Classe  1.691644   0.669402   2.527 0.011501 *  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
     Null deviance: 1210.44  on 915  degrees of freedom
-Residual deviance:  681.34  on 908  degrees of freedom
-AIC: 697.34
+Residual deviance:  700.01  on 908  degrees of freedom
+AIC: 716.01
 
 Number of Fisher Scoring iterations: 6</code></pre>
 </div>
@@ -2771,10 +2771,10 @@ Number of Fisher Scoring iterations: 6</code></pre>
 <span id="cb187-13"><a href="#cb187-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.1</span>),</span>
 <span id="cb187-14"><a href="#cb187-14" aria-hidden="true" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.05</span>)))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-interacao" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-interacao" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-interacao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="18-epidemiologia_files/figure-html/fig-interacao-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:90.0%;height:90.0%" data-fig-pos="H">
+<img src="18-epidemiologia_files/figure-html/fig-interacao-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-interacao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;18.13: Gráfico de linha da interação sexo:classe
@@ -2798,12 +2798,12 @@ Figura&nbsp;18.13: Gráfico de linha da interação sexo:classe
 <span id="cb190-2"><a href="#cb190-2" aria-hidden="true" tabindex="-1"></a>aic</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        df      AIC
-modelo2  6 718.6579
-modelo3  8 697.3392</code></pre>
+modelo2  6 734.8166
+modelo3  8 716.0065</code></pre>
 </div>
 </div>
-<p>A saída mostra que existe uma diferença de 21.32 pontos. Isso é uma forte evidência que o modelo com a interação melhora o ajuste.<br>
-O coeficiente de interação positivo como 1.8354823 não significa que homens da 3ª classe têm alta probabilidade de sobreviver. Significa que o efeito negativo de ser homem na 3ª classe é menos grave (ou a relação da classe com a sobrevivência é diferente para homens) do que seria previsto apenas pelos efeitos principais <code>sexomasc</code> e 3ª Classe somados linearmente. É uma correção para a relação aditiva simples.<br>
+<p>A saída mostra que existe uma diferença de 18.81 pontos. Isso é uma forte evidência que o modelo com a interação melhora o ajuste.<br>
+O coeficiente de interação positivo como 1.6916435 não significa que homens da 3ª classe têm alta probabilidade de sobreviver. Significa que o efeito negativo de ser homem na 3ª classe é menos grave (ou a relação da classe com a sobrevivência é diferente para homens) do que seria previsto apenas pelos efeitos principais <code>sexomasc</code> e 3ª Classe somados linearmente. É uma correção para a relação aditiva simples.<br>
 O gráfico mostra claramente que homens da 3ª classe têm uma probabilidade predita de sobrevivência bem baixa, que é a mais baixa de todas as categorias.</p>
 <p>Desta forma, a interpretação é semelhante a que foi mostrada com o modelo sem interação:</p>
 <ul>
@@ -2830,7 +2830,7 @@ O gráfico mostra claramente que homens da 3ª classe têm uma probabilidade pre
 <span id="cb192-10"><a href="#cb192-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Sobrevivência"</span>) <span class="sc">+</span></span>
 <span id="cb192-11"><a href="#cb192-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-taxas" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-taxas" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-taxas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="18-epidemiologia_files/figure-html/fig-taxas-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2852,8 +2852,8 @@ Figura&nbsp;18.14: Proporção de sobrevivência por sexo e classe
 Model 1: sobreviveu ~ classe + sexo + idade + irco
 Model 2: sobreviveu ~ sexo * classe + idade + irco
   Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
-1       910     706.66                          
-2       908     681.34  2   25.319 3.178e-06 ***
+1       910     722.82                          
+2       908     700.01  2    22.81 1.114e-05 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -2900,7 +2900,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span id="cb197-14"><a href="#cb197-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">print.auc.y =</span> <span class="fl">0.1</span>,</span>
 <span id="cb197-15"><a href="#cb197-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">add =</span><span class="cn">TRUE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-comparemod" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-comparemod" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-comparemod-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="18-epidemiologia_files/figure-html/fig-comparemod-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -3043,7 +3043,7 @@ inicialmente, serão criados dataframes com os dados para serem usados na funç�
 <span id="cb205-15"><a href="#cb205-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb205-16"><a href="#cb205-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-compareroc" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-compareroc" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-compareroc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="18-epidemiologia_files/figure-html/fig-compareroc-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -3057,7 +3057,7 @@ Figura&nbsp;18.16: Desempenho do modelo treino e do modelo teste)
 </div>
 <p>A <strong>Curva ROC</strong> mostra o quão bem seu modelo distingue entre as classes positiva e negativa em diferentes limites de classificação. Uma curva que se aproxima do canto superior esquerdo indica um modelo com bom poder de discriminação.</p>
 <p>A <strong>AUC (Area Under the Curve)</strong> é um resumo numérico desse desempenho. Um valor de AUC de 1 significa um modelo perfeito, enquanto 0.5 indica um modelo que se comporta aleatoriamente (como jogar uma moeda para classificar). Quanto maior a AUC, melhor o desempenho geral do seu modelo em separar as classes. Em geral, uma AUC acima de 0.7 é considerada razoável, acima de 0.8 é boa e acima de 0.9 é excelente.</p>
-<p>A AUC Teste = 0.91 é considerada <strong>excelente</strong>. Isso significa que o modelo tem uma capacidade muito alta de distinguir entre as classes positiva e negativa no conjunto de dados não visto (teste). Uma AUC Treino = 0.9 também é um desempenho muito forte. A diferença entre as duas é mínima (0.01). Isso é um sinal extremamente positivo. Significa que o modelo não está sofrendo de:</p>
+<p>A AUC Teste = 0.91 é considerada <strong>excelente</strong>. Isso significa que o modelo tem uma capacidade muito alta de distinguir entre as classes positiva e negativa no conjunto de dados não visto (teste). Uma AUC Treino = 0.89 também é um desempenho muito forte. A diferença entre as duas é mínima (0.02). Isso é um sinal extremamente positivo. Significa que o modelo não está sofrendo de:</p>
 <ul>
 <li><strong>Overfitting</strong> (sobreajuste): Se houvesse <em>overfitting</em>, a AUC de treino seria significativamente mais alta que a AUC de teste, indicando que o modelo “memorizou” os dados de treino e não generaliza bem para dados novos.<br>
 </li>
@@ -3075,7 +3075,7 @@ Figura&nbsp;18.16: Desempenho do modelo treino e do modelo teste)
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-linearidade" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-linearidade" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-linearidade-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://imgur.com/t4WqHJA.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" data-fig-pos="H">
@@ -3094,7 +3094,7 @@ Figura&nbsp;18.17: Avaliação do modelo com foco na linearidade
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-linearidade2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-linearidade2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-linearidade2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/hH8aPw7.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" data-fig-pos="H">
@@ -3118,10 +3118,10 @@ Figura&nbsp;18.18: Avaliação do modelo com interação com foco na linearidade
 <span id="cb208-2"><a href="#cb208-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(vif_valores)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           GVIF Df GVIF^(1/(2*Df))
-classe 1.379932  2        1.083838
-sexo   1.255963  1        1.120698
-idade  1.311697  1        1.145294
-irco   1.188075  1        1.089989</code></pre>
+classe 1.336849  2        1.075278
+sexo   1.232028  1        1.109967
+idade  1.221055  1        1.105013
+irco   1.128565  1        1.062340</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb210"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb210-1"><a href="#cb210-1" aria-hidden="true" tabindex="-1"></a>vif_valores2 <span class="ot">&lt;-</span> car<span class="sc">::</span><span class="fu">vif</span>(modelo3)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -3131,11 +3131,11 @@ consider setting type = 'predictor'; see ?vif</code></pre>
 <div class="sourceCode cell-code" id="cb212"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb212-1"><a href="#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(vif_valores2)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                 GVIF Df GVIF^(1/(2*Df))
-sexo         9.931533  1        3.151434
-classe      28.892947  2        2.318451
-idade        1.336421  1        1.156037
-irco         1.191368  1        1.091498
-sexo:classe 38.086666  2        2.484238</code></pre>
+sexo         9.826704  1        3.134757
+classe      28.580915  2        2.312166
+idade        1.222732  1        1.105772
+irco         1.120413  1        1.058496
+sexo:classe 37.637060  2        2.476874</code></pre>
 </div>
 </div>
 <ul>
@@ -3167,7 +3167,7 @@ O -2LL do modelo nulo (<code>Null deviance</code>) e do modelo proposto (<code>R
 </div>
 <div class="sourceCode cell-code" id="cb216"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb216-1"><a href="#cb216-1" aria-hidden="true" tabindex="-1"></a>modelo2<span class="sc">$</span>deviance</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 706.6579</code></pre>
+<pre><code>[1] 722.8166</code></pre>
 </div>
 </div>
 <p>O cálculo da estatística G (Teste da Razão de Verossimilhança) pode ser obtido, como visto pela diferença entre deviance do modelo nulo e do modelo ajustado:</p>
@@ -3175,7 +3175,7 @@ O -2LL do modelo nulo (<code>Null deviance</code>) e do modelo proposto (<code>R
 <div class="sourceCode cell-code" id="cb218"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb218-1"><a href="#cb218-1" aria-hidden="true" tabindex="-1"></a>estatistica_G <span class="ot">&lt;-</span> modelo2<span class="sc">$</span>null.deviance <span class="sc">-</span> modelo2<span class="sc">$</span>deviance </span>
 <span id="cb218-2"><a href="#cb218-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(estatistica_G)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 503.783</code></pre>
+<pre><code>[1] 487.6243</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb220"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb220-1"><a href="#cb220-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Graus de liberdade para o teste G</span></span>
 <span id="cb220-2"><a href="#cb220-2" aria-hidden="true" tabindex="-1"></a>df_G <span class="ot">&lt;-</span> modelo2<span class="sc">$</span>df.null <span class="sc">-</span> modelo2<span class="sc">$</span>df.residual</span>
@@ -3205,7 +3205,7 @@ Pode-se obter os vários valores de <span class="math inline">\(R^2\)</span>, us
 <span id="cb224-2"><a href="#cb224-2" aria-hidden="true" tabindex="-1"></a><span class="fu">PseudoR2</span>(modelo2, <span class="at">which =</span><span class="fu">c</span>(<span class="st">"Nagelkerke"</span>, <span class="st">"McFadden"</span>, <span class="st">"CoxSnell"</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Nagelkerke   McFadden   CoxSnell 
- 0.5769378  0.4161979  0.4230395 </code></pre>
+ 0.5629342  0.4028485  0.4127713 </code></pre>
 </div>
 </div>
 <p>Como se verifica, na Saída do código, todos os valores de <span class="math inline">\(R^2\)</span> diferem ligeiramente, mas podem ser usados como medidas de tamanho de efeito para o modelo. Então, basicamente, o pseudo R quadrado pode ser interpretado como <span class="math inline">\(R^2\)</span>, mas não se espera que seja tão grande. Uma regra prática, bastante útil é que o pseudo R quadrado de McFadden variando de 0,2 a 0,4 indica um ajuste muito bom do modelo <span class="citation" data-cites="mcfadden2021quantitative">(<a href="references.html#ref-mcfadden2021quantitative" role="doc-biblioref">57</a>)</span>.</p>
@@ -3217,8 +3217,8 @@ Uma observação influente é uma observação que tem um impacto desproporciona
 <div class="sourceCode cell-code" id="cb226"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb226-1"><a href="#cb226-1" aria-hidden="true" tabindex="-1"></a>residuos_p <span class="ot">&lt;-</span> <span class="fu">rstandard</span>(modelo2)</span>
 <span id="cb226-2"><a href="#cb226-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(residuos_p)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
--2.77278 -0.51681 -0.34153 -0.05303  0.50944  2.68209 </code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+-2.5513 -0.5440 -0.3651 -0.0538  0.5175  2.7016 </code></pre>
 </div>
 </div>
 <p>Em uma amostra normalmente distribuída, ao redor de 95% dos valores estão entre –1,96 e +1,96, 99% deve estar entre –2,58 e +2,58 e quase todos (99,9%) devem situar-se entre –3,09 e +3,09. Portanto, resíduos padronizados com um valor absoluto maior que 3 são motivo de preocupação porque em uma amostra média é improvável que aconteça um valor tão alto por acaso <span class="citation" data-cites="field2012outliers">(<a href="references.html#ref-field2012outliers" role="doc-biblioref">59</a>)</span>. Na Saída da função <code>rstandard()</code>, observa-se que os valores estão dentro de –3 e +3.</p>
@@ -3226,7 +3226,7 @@ Uma observação influente é uma observação que tem um impacto desproporciona
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb228"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb228-1"><a href="#cb228-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span> (modelo2, <span class="at">which =</span> <span class="dv">5</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-graph5" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-graph5" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-graph5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="18-epidemiologia_files/figure-html/fig-graph5-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -3245,16 +3245,16 @@ Figura&nbsp;18.19: Gráfico diagnóstico dos resíduos e pontos de alavancagem.
 <span id="cb229-2"><a href="#cb229-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span> (hat)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-0.000904 0.002795 0.005994 0.006550 0.007717 0.070097 </code></pre>
+0.002009 0.002894 0.006226 0.006550 0.007706 0.078849 </code></pre>
 </div>
 </div>
-<p>Os valores de alavancagem podem estar entre 0 (indicando que o caso não tem qualquer influência) e 1 (indicando que o caso tem grande influência). Se nenhum caso exercer influência indevida sobre o modelo, se espera que todos os valores de alavancagem estivessem próximos do valor médio. Alguns autores <span class="citation" data-cites="hoaglin1978hat">(<a href="references.html#ref-hoaglin1978hat" role="doc-biblioref">60</a>)</span>, recomendam investigar casos com valores superiores a duas vezes a média (0.0131004) como ponto de corte para identificar casos com influência indevida. Alguns valores (<span class="math inline">\(\sim\)</span> 5%) estão acima de duas vezes a média, o que se pode considerar pouco. Principalmente, porque o maior valor está bem longe do valor igual a 1 (0.0700975). É interessante fazer a análise, observando junto a <em>distância de Cook</em> para ver se um ponto é um <em>outlier</em> significativo.</p>
+<p>Os valores de alavancagem podem estar entre 0 (indicando que o caso não tem qualquer influência) e 1 (indicando que o caso tem grande influência). Se nenhum caso exercer influência indevida sobre o modelo, se espera que todos os valores de alavancagem estivessem próximos do valor médio. Alguns autores <span class="citation" data-cites="hoaglin1978hat">(<a href="references.html#ref-hoaglin1978hat" role="doc-biblioref">60</a>)</span>, recomendam investigar casos com valores superiores a duas vezes a média (0.0131004) como ponto de corte para identificar casos com influência indevida. Alguns valores (<span class="math inline">\(\sim\)</span> 5%) estão acima de duas vezes a média, o que se pode considerar pouco. Principalmente, porque o maior valor está bem longe do valor igual a 1 (0.0788494). É interessante fazer a análise, observando junto a <em>distância de Cook</em> para ver se um ponto é um <em>outlier</em> significativo.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb231"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb231-1"><a href="#cb231-1" aria-hidden="true" tabindex="-1"></a>cook <span class="ot">&lt;-</span> <span class="fu">cooks.distance</span>(modelo2)</span>
 <span id="cb231-2"><a href="#cb231-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span> (cook)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
-1.560e-07 4.066e-05 1.612e-04 1.065e-03 6.341e-04 3.161e-02 </code></pre>
+2.089e-06 3.885e-05 1.684e-04 1.043e-03 5.462e-04 3.074e-02 </code></pre>
 </div>
 </div>
 <p>Se a distância de Cook é <span class="math inline">\(\lt\)</span> 1, não há necessidade real de excluir esses valores, uma vez que não tem um grande efeito na análise de regressão <span class="citation" data-cites="stevens1984outliers">(<a href="references.html#ref-stevens1984outliers" role="doc-biblioref">61</a>)</span>. Na <a href="#fig-graph5" class="quarto-xref">Figura&nbsp;<span>18.19</span></a>), verifica-se que os casos mais distantes não alcançam a distância de Cook.</p>

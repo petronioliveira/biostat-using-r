@@ -447,7 +447,7 @@ dbl (4): id, pesoRN, compRN, idadeMae
 <p>O pacote <code>readxl</code>, pertencente ao conjunto de pacotes do <code>tidyverse</code>, facilita a obtenção de dados do Excel para o R, através da função <code>read_excel()</code>. esta função tem o argumento <code>sheet =</code> , que deve ser usado indicando o número ou o nome da planilha, colocado entre aspas. Este argumento é importante se houver mais de uma planilha, caso contrário, ele é opcional. Para saber os outros argumentos da função, colque o cursor dentro da função e aperte a tecla <code>Tab</code> (<a href="#fig-sheet" class="quarto-xref">Figura&nbsp;<span>5.1</span></a>). Isto abrirá um menu com os argumentos:</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-sheet" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-sheet" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sheet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/5qY7z0C.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%" data-fig-pos="H">
@@ -484,7 +484,7 @@ Figura&nbsp;5.1: Argumentos da função para importar arquivos xlsx
 <p>Por exemplo, para importar o arquivo <code>dadosNeonatos.xlsx</code>, clicar em <code>From Excel...</code> Abre uma janela com uma caixa de diálogo. Clicar no botão <code>Browse...</code>, localizado em cima à direita, para buscar o arquivo <code>dadosNeonatos.xlsx</code>. Assim que o arquivo for aberto, ele mostra uma <em>preview</em> do arquivo e, em baixo, à direita mostra uma <em>preview</em> do código (<a href="#fig-import" class="quarto-xref">Figura&nbsp;<span>5.2</span></a>)), igual ao digitado anteriormente, que cria um objeto denominado <code>dadosNeonatos</code>, nome do objeto escolhido pelo R, mas pode ser modificado na janela, à esquerda, <code>Import Option</code> em <code>Name</code>, onde pode-se digitar qualquer nome. Após encerrar as escolhas, clicar em <code>Import</code>. É um caminho diferente para fazer o mesmo. Este é um dos fascínios do R!</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-import" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-import" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-import-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/xjEpK6A.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" data-fig-pos="H">
@@ -844,7 +844,7 @@ Anexando pacote: 'dplyr'</code></pre>
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(meninos1<span class="sc">$</span>pesoRN)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-   2700    3142    3355    3403    3681    4150 </code></pre>
+   2590    3139    3368    3343    3458    4400 </code></pre>
 </div>
 </div>
 <p>É importante mencionar que toda vez que a função <code>sample_n()</code> for executada, ela irá gerar uma amostra aleatória diferente. Em consequência não se deve esperar, por exemplo, que a média dos pesos dos recém-nascidos de amostras diferentes sejam iguais.</p>
@@ -853,7 +853,7 @@ Anexando pacote: 'dplyr'</code></pre>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(meninos2<span class="sc">$</span>pesoRN)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-   2410    2885    3185    3120    3375    3710 </code></pre>
+   2285    2881    3148    3171    3375    4050 </code></pre>
 </div>
 </div>
 <p>Na <a href="09-distAmostrais.html#sec-dam" class="quarto-xref"><span>Seção 9.2.2</span></a> (Distribuições Amostrais), este assunto voltará à cena.</p>
@@ -930,15 +930,15 @@ Anexando pacote: 'dplyr'</code></pre>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">str</span> (meninos3)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>tibble [20 × 10] (S3: tbl_df/tbl/data.frame)
- $ idadeMae : num [1:20] 30 21 18 32 32 39 25 35 19 17 ...
- $ altura   : num [1:20] 1.65 1.64 1.52 1.58 1.64 1.6 1.62 1.6 1.53 1.53 ...
- $ peso     : num [1:20] 70 52 54 86 52.5 70 54 61.4 53 59 ...
- $ anosEst  : num [1:20] 11 9 9 4 4 13 8 16 11 17 ...
- $ renda    : num [1:20] 9.64 1.93 3.61 2.41 2.41 ...
- $ ig       : num [1:20] 37 37 38 39 38 38 40 39 40 40 ...
- $ tipoParto: Factor w/ 2 levels "normal","cesareo": 1 1 1 2 2 2 2 1 1 2 ...
- $ fumo     : Factor w/ 2 levels "sim","não": 2 2 2 2 2 2 2 1 2 2 ...
- $ pesoRN   : num [1:20] 2775 2680 3100 3740 3175 ...
+ $ idadeMae : num [1:20] 20 31 19 19 34 27 18 26 25 39 ...
+ $ altura   : num [1:20] 1.68 1.55 1.67 1.68 1.67 1.65 1.58 1.63 1.54 1.61 ...
+ $ peso     : num [1:20] 59 53 45 75 73 60 70 61 54 70 ...
+ $ anosEst  : num [1:20] 14 3 8 11 4 7 11 7 3 8 ...
+ $ renda    : num [1:20] 2.41 1.92 0.92 1.69 1.92 1.45 1.2 3.86 1.45 1.92 ...
+ $ ig       : num [1:20] 39 40 37 40 40 39 39 39 37 37 ...
+ $ tipoParto: Factor w/ 2 levels "normal","cesareo": 1 1 1 1 1 1 1 1 2 1 ...
+ $ fumo     : Factor w/ 2 levels "sim","não": 2 2 2 2 2 1 2 2 2 2 ...
+ $ pesoRN   : num [1:20] 3075 3135 2745 4080 3847 ...
  $ sexo     : Factor w/ 2 levels "masc","fem": 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
 </div>
 </div>
@@ -948,15 +948,15 @@ Anexando pacote: 'dplyr'</code></pre>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span> (meninos4)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>tibble [59 × 10] (S3: tbl_df/tbl/data.frame)
- $ idadeMae : num [1:59] 16 30 21 24 24 28 29 30 22 18 ...
- $ altura   : num [1:59] 1.47 1.55 1.7 1.64 1.55 1.6 1.5 1.55 1.49 1.52 ...
- $ peso     : num [1:59] 49 58 68 50 53 67 56 64 53 45 ...
- $ anosEst  : num [1:59] 8 8 11 10 6 10 6 7 4 8 ...
- $ renda    : num [1:59] 1.92 1.45 4.82 2.17 1.92 2.41 2.89 1.2 0.96 2.89 ...
- $ ig       : num [1:59] 39 39 37 39 40 39 39 40 37 39 ...
- $ tipoParto: Factor w/ 2 levels "normal","cesareo": 2 2 1 1 2 1 2 1 2 2 ...
- $ fumo     : Factor w/ 2 levels "sim","não": 2 2 2 2 1 2 2 2 1 1 ...
- $ pesoRN   : num [1:59] 3385 3145 2900 3445 2940 ...
+ $ idadeMae : num [1:59] 29 20 30 22 31 26 19 22 23 27 ...
+ $ altura   : num [1:59] 1.71 1.47 1.53 1.65 1.57 1.63 1.68 1.55 1.55 1.66 ...
+ $ peso     : num [1:59] 87 48 57 65 41 61 58 46 63.5 66 ...
+ $ anosEst  : num [1:59] 10 9 8 7 11 7 10 6 8 8 ...
+ $ renda    : num [1:59] 1.92 0.96 1.69 1.93 2.41 3.86 4.82 1.92 1.93 2.24 ...
+ $ ig       : num [1:59] 41 40 40 37 39 39 39 39 39 40 ...
+ $ tipoParto: Factor w/ 2 levels "normal","cesareo": 1 1 2 1 1 1 2 1 2 1 ...
+ $ fumo     : Factor w/ 2 levels "sim","não": 2 2 2 2 1 2 2 2 2 2 ...
+ $ pesoRN   : num [1:59] 4660 2340 3275 2405 2700 ...
  $ sexo     : Factor w/ 2 levels "masc","fem": 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
 </div>
 </div>
@@ -973,26 +973,26 @@ Anexando pacote: 'dplyr'</code></pre>
 <pre><code># A tibble: 20 × 10
    idadeMae altura  peso anosEst renda    ig tipoParto fumo  pesoRN sexo 
       &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;     &lt;fct&gt;  &lt;dbl&gt; &lt;fct&gt;
- 1       20   1.62  50         7  1.93    39 normal    sim     2700 masc 
- 2       25   1.65  60        11  1.93    40 normal    sim     2760 masc 
- 3       38   1.56  56        11  2.89    39 normal    não     3025 masc 
- 4       25   1.82  81         8  1.93    38 cesareo   não     3045 masc 
- 5       17   1.62  46        11  1.93    39 normal    não     3120 masc 
- 6       27   1.6   68         5  0.84    40 normal    sim     3150 masc 
- 7       45   1.55  53        11  2.41    39 normal    sim     3180 masc 
- 8       21   1.55  70         8  1.69    37 normal    sim     3195 masc 
- 9       32   1.74  68         6  2.41    37 normal    sim     3220 masc 
-10       30   1.72  64.2      10  2.89    37 normal    não     3330 masc 
-11       30   1.56  43        11  3.61    41 normal    não     3380 masc 
-12       29   1.55  68        11  2.89    39 cesareo   não     3400 masc 
-13       43   1.43  62        10  2.65    39 cesareo   não     3540 masc 
-14       26   1.63  66        11  0.89    39 cesareo   não     3590 masc 
-15       30   1.61  53         7  1.45    39 cesareo   não     3670 masc 
-16       36   1.7   70         6  1.93    41 normal    não     3715 masc 
-17       24   1.72  51        11  2.41    41 normal    não     3775 masc 
-18       35   1.49  63.5       1  0.84    40 cesareo   não     4025 masc 
-19       34   1.68 112        13  2.41    40 cesareo   não     4095 masc 
-20       30   1.61  90.5      11  4.1     39 cesareo   não     4150 masc </code></pre>
+ 1       19   1.53  53        11 10.7     40 normal    não     2590 masc 
+ 2       27   1.5   74        10  0.96    39 normal    não     2960 masc 
+ 3       35   1.58  74        11  1.93    39 cesareo   não     2965 masc 
+ 4       22   1.54  55         7  4.82    40 normal    não     3025 masc 
+ 5       21   1.65  60        10  2.17    38 normal    não     3105 masc 
+ 6       20   1.67  69        10  1.93    40 cesareo   sim     3150 masc 
+ 7       34   1.55  53         7  1.69    38 cesareo   sim     3170 masc 
+ 8       24   1.56  60         8  1.3     40 cesareo   sim     3230 masc 
+ 9       22   1.6   60         5  1.69    38 normal    sim     3270 masc 
+10       25   1.55  70        11  2.89    41 cesareo   não     3355 masc 
+11       18   1.55  51         8  0.92    39 normal    não     3380 masc 
+12       16   1.47  49         8  1.92    39 cesareo   não     3385 masc 
+13       32   1.55  70         4  1.22    39 normal    sim     3410 masc 
+14       33   1.44  47.2       2  1.92    39 cesareo   sim     3415 masc 
+15       22   1.6   70         5  3.86    39 normal    não     3440 masc 
+16       41   1.51  99         3  0.72    37 cesareo   sim     3510 masc 
+17       21   1.55  62         8  4.82    39 normal    não     3560 masc 
+18       19   1.63  51        11  1.92    39 normal    não     3710 masc 
+19       23   1.73  58        10  3.33    39 normal    não     3830 masc 
+20       17   1.47  65        10  1.69    38 cesareo   não     4400 masc </code></pre>
 </div>
 </div>
 <p>Para a ordem decrescente, colocar a função <code>desc()</code>, dentro da função <code>arrange()</code></p>
@@ -1002,26 +1002,26 @@ Anexando pacote: 'dplyr'</code></pre>
 <pre><code># A tibble: 20 × 10
    idadeMae altura  peso anosEst renda    ig tipoParto fumo  pesoRN sexo 
       &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;     &lt;fct&gt;  &lt;dbl&gt; &lt;fct&gt;
- 1       30   1.61  90.5      11  4.1     39 cesareo   não     4150 masc 
- 2       34   1.68 112        13  2.41    40 cesareo   não     4095 masc 
- 3       35   1.49  63.5       1  0.84    40 cesareo   não     4025 masc 
- 4       24   1.72  51        11  2.41    41 normal    não     3775 masc 
- 5       36   1.7   70         6  1.93    41 normal    não     3715 masc 
- 6       30   1.61  53         7  1.45    39 cesareo   não     3670 masc 
- 7       26   1.63  66        11  0.89    39 cesareo   não     3590 masc 
- 8       43   1.43  62        10  2.65    39 cesareo   não     3540 masc 
- 9       29   1.55  68        11  2.89    39 cesareo   não     3400 masc 
-10       30   1.56  43        11  3.61    41 normal    não     3380 masc 
-11       30   1.72  64.2      10  2.89    37 normal    não     3330 masc 
-12       32   1.74  68         6  2.41    37 normal    sim     3220 masc 
-13       21   1.55  70         8  1.69    37 normal    sim     3195 masc 
-14       45   1.55  53        11  2.41    39 normal    sim     3180 masc 
-15       27   1.6   68         5  0.84    40 normal    sim     3150 masc 
-16       17   1.62  46        11  1.93    39 normal    não     3120 masc 
-17       25   1.82  81         8  1.93    38 cesareo   não     3045 masc 
-18       38   1.56  56        11  2.89    39 normal    não     3025 masc 
-19       25   1.65  60        11  1.93    40 normal    sim     2760 masc 
-20       20   1.62  50         7  1.93    39 normal    sim     2700 masc </code></pre>
+ 1       17   1.47  65        10  1.69    38 cesareo   não     4400 masc 
+ 2       23   1.73  58        10  3.33    39 normal    não     3830 masc 
+ 3       19   1.63  51        11  1.92    39 normal    não     3710 masc 
+ 4       21   1.55  62         8  4.82    39 normal    não     3560 masc 
+ 5       41   1.51  99         3  0.72    37 cesareo   sim     3510 masc 
+ 6       22   1.6   70         5  3.86    39 normal    não     3440 masc 
+ 7       33   1.44  47.2       2  1.92    39 cesareo   sim     3415 masc 
+ 8       32   1.55  70         4  1.22    39 normal    sim     3410 masc 
+ 9       16   1.47  49         8  1.92    39 cesareo   não     3385 masc 
+10       18   1.55  51         8  0.92    39 normal    não     3380 masc 
+11       25   1.55  70        11  2.89    41 cesareo   não     3355 masc 
+12       22   1.6   60         5  1.69    38 normal    sim     3270 masc 
+13       24   1.56  60         8  1.3     40 cesareo   sim     3230 masc 
+14       34   1.55  53         7  1.69    38 cesareo   sim     3170 masc 
+15       20   1.67  69        10  1.93    40 cesareo   sim     3150 masc 
+16       21   1.65  60        10  2.17    38 normal    não     3105 masc 
+17       22   1.54  55         7  4.82    40 normal    não     3025 masc 
+18       35   1.58  74        11  1.93    39 cesareo   não     2965 masc 
+19       27   1.5   74        10  0.96    39 normal    não     2960 masc 
+20       19   1.53  53        11 10.7     40 normal    não     2590 masc </code></pre>
 </div>
 </div>
 </section>
@@ -1101,11 +1101,11 @@ Anexando pacote: 'lubridate'</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">today</span>() </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2025-06-20"</code></pre>
+<pre><code>[1] "2025-06-22"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">now</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2025-06-20 18:45:05 -03"</code></pre>
+<pre><code>[1] "2025-06-22 20:28:10 -03"</code></pre>
 </div>
 </div>
 <section id="convertendo-strings-ou-caractere-para-data" class="level3" data-number="5.4.1">
@@ -1225,15 +1225,15 @@ Anexando pacote: 'lubridate'</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">day</span>(data)             <span class="co"># Extrai o dia</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 20</code></pre>
+<pre><code>[1] 22</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">minute</span>(data)          <span class="co"># Extrai o minuto</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 45</code></pre>
+<pre><code>[1] 28</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">second</span>(data)          <span class="co"># Extrai o segundo</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 5.796157</code></pre>
+<pre><code>[1] 10.48674</code></pre>
 </div>
 </div>
 <p>Para verificar o número de dias tem em um determinado mês, usa-se a função <code>days_in_month()</code>:</p>

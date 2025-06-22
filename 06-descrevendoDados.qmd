@@ -9,6 +9,7 @@ Para trabalhar neste capítulo, serão necessários os seguintes pacotes.
 ```{r}
 pacman::p_load(dplyr,
                DescTools,
+               flextable,
                ggplot2, 
                ggpubr, 
                ggsci, 
@@ -365,33 +366,40 @@ Existem algumas recomendações na construção de uma tabela de frequência @ar
 
 Se os dados forem nominais, a ordenação das categorias é arbitrária, costuma-se colocar em primeiro lugar a maior frequência (@tbl-droga) , colocando-os em categorias ordenadas @oliveira2022tab.
 
-```{r #tbl-droga}
-#| tbl-cap: "Distribuição de frequência de drogadição em parturientes, Hospital Geral, Caxias do Sul, RS, 2008"
-#| echo: false
+```{r}
+#| label: tbl-droga
+#| tbl-cap: "Distribuição de frequência de drogadição em parturientes"
+#| echo: FALSE
+#| message: FALSE
+#| warning: FALSE
 
 df1 <- data.frame(Droga = c("Nenhuma", "Medicamentos", "Álcool", 
-                                 "Crack", "Cocaína", "Total"),
+                            "Crack", "Cocaína", "Total"),
                   f = c(904, 23, 17, 2, 1, 947),
                   fr = c(0.955, 0.024, 0.018, 0.002, 0.001, 1.00),
                   fp = c(95.5, 2.4, 1.8, 0.2, 0.1, 100),
                   Fp = c(95.5, 97.9, 99.7, 99.9, 100, ''))
 
-knitr::kable(
-  df1,
-  format = "html",
-  col.names = c("Droga", "f", "fr", "fp (%)", "Fp (%)"),
-  align = c('l', 'c', 'c', 'c', 'c')
-) %>%
-  kableExtra::kable_styling(
-    bootstrap_options = c("striped", "hover", "condensed"),
-    full_width = FALSE, 
-    position = "left",
-    font_size = 12) %>%
-  kableExtra::column_spec(1, width = "4cm") %>%
-  kableExtra::column_spec(2:5, width = "1.5cm")
+minha_tab <- flextable(df1) %>%
+  autofit() %>%
+  width(j = 2:5, width = 1) %>%
+  theme_booktabs() %>%
+  align(align = "center", part = "header") %>%
+  align(align = "center", part = "body") %>%
+  align(j = 1, align = "left", part = "body") %>%
+  bold(i = 6, part = "body") %>% 
+  bold(part = "header") %>% 
+  hline(i = 5, part = "body", 
+        border = fp_border_default(color = "black", width = 1.5)) %>% 
+  add_footer_lines(value = "FONTE:Hospital Geral, Caxias do Sul, RS, 2008") %>%
+  align(align = "right", part = "footer") %>% 
+  fontsize(size = 9, part = "footer")
+
+minha_tab
+
 ```
 
-#### Construção da tabela de frequência {#sec-tabfreq}
+##### Construção da tabela de frequência {#sec-tabfreq}
 
 Para demonstrar como construir uma tabela de frequência, será usada uma variável categórica que não existe no conjunto de dados `mater.` Esta variável vai ser criada, categorizando a variável numérica `idadeMae` (idade da parturiente) em três categoria, classicamente, usadas: menores de 20 anos (adolescentes), 20 a 35 anos e maiores de 35 anos. No conjunto `mater`, a variável `idadeMae` tem como idade mínima 13 anos e idade máxima 46 anos. A nova variável receberá o nome de `categIdade`. Para realizar este trabalho de transformação da variável numérica em categórica, será usada a função `mutate()` do pacote `dplyr` (veja @sec-mutate). Esta função tem vários argumentos:
 
@@ -451,29 +459,47 @@ Transformando a `tab1` em um dataframe, nomeando a linha 4 e renomeando as colun
 ```{r}
 tab1 <- as.data.frame(tab1)
 row.names(tab1)[4] <-  "Total"
-colnames(tab1) <- c("f", "fr (%)", "fp (%)")
+colnames(tab1) <- c("f", "fr", "fp (%)")
 tab1
 ```
 
-Esta uma tabela simples que serve para visualizar as informações. Não serve para publicações. Para obter uma tabela simples, mas muito mais profissional (@tbl-tisch) pode ser utilizada a função `kable()` do pacote `knitr` @xie2018knitr. Esta função possui um grande número de argumentos para personalizar a aparência das tabelas[^06-descrevendodados-2]:
+Esta uma tabela simples que serve para visualizar as informações. Não serve para publicações. Para obter uma tabela simples, mas muito mais profissional (@tbl-tisch) pode ser utilizada a função `flextable()` do pacote `flextable` @gohel2024flextable. Esta função possui um grande número de argumentos para personalizar a aparência das tabelas[^06-descrevendodados-2]:
 
-[^06-descrevendodados-2]: Para maiores detalhes: https://haozhu233.github.io/kableExtra/awesome_table_in_pdf.pdf ou consulte a ajuda digitando no Console `?kable()` ou `help(kable)`. Um pacote adicional, `kableExtra` @zhu2021construct, permite opções de formatação simples, melhorando o aspecto da tabela, utilizando-se o operador pipe `%>%`. O pacote `kableExtra` foi projetado para estender a funcionalidade básica das tabelas produzidas usando `knitr::kable()`. Podem ser acrescentadas várias das suas funções como `kable_styling()` ou `kable_classic()` para especificar estilos à tabela, como extensão da tabela, alinhamento, tipo e tamanho da fonte
+[^06-descrevendodados-2]: Para maiores detalhes: https://ardata-fr.github.io/flextable-book/index.html ou consulte a ajuda digitando no Console `?flextable()` ou `help(flextable)`.
 
-```{r #tbl-tisch}
-#| tbl-cap: "Distribuição das puérperas por faixa etária, Hospital Geral, Caxias do Sul, RS, 2008"
+```{r}
+#| label: tbl-tisch
+#| tbl-cap: "Distribuição das parturientes por faixa etária"
 #| echo: TRUE
+#| message: FALSE
+#| warning: FALSE
+df <- data.frame(faixaEt = c("< 20 anos", "20 a 35 anos", "> 35 anos", "Total"),
+                 f = c(219, 992, 157, 1368),
+                 fr = c(0.160, 0.725, 0.115, 1.000),
+                 fp = c(16.0, 72.5, 11.5, 100),
+                 Fp = c(16.0, 88.5, 100, ''))
 
-knitr::kable(tab1,
-             format = "html",
-             col.names = c("Faixa Etária", "f", "fr", "fp (%)"),
-             align = c('l', 'c', 'c', 'c')) %>%
- kableExtra::kable_styling(
-    bootstrap_options = c("striped", "hover", "condensed"),
-    full_width = FALSE, 
-    position = "left",
-    font_size = 12) %>%
-  kableExtra::column_spec(1, width = "4cm") %>%
-  kableExtra::column_spec(2:4, width = "1.5cm")
+minha_tab <- flextable(df) %>%
+  set_header_labels(
+    faixaEt = "Faixa Etária",
+    f = "f",
+    fr = "fr",
+    fp = "fp (%)",
+    Fp = "Fp (%)") %>%
+  autofit() %>%
+  theme_booktabs() %>%
+  width(j = "faixaEt", width = 1.5) %>%
+  align(align = "center", part = "header") %>%
+  hline(i = 3, part = "body", 
+        border = fp_border_default(color = "black", width = 1.5)) %>% 
+  align(align = "center", part = "body") %>%
+  align(j = 1, align = "left", part = "body") %>%
+  bold(i = 4, part = "body") %>%
+  bold(part = "header") %>%
+  add_footer_lines(value = "FONTE:Hospital Geral, Caxias do Sul, RS, 2008") %>%
+  align(align = "right", part = "footer") %>% 
+  fontsize(size = 9, part = "footer")
+minha_tab
 ```
 
 #### Tabela de frequência para dados numéricos
@@ -594,21 +620,41 @@ tab2
 
 Colocando em um formato mais científico, tem-se uma tabela ( @tbl-aripaka)) bem mais elegante sobre o estado nutricional pré-gestacional:
 
-```{r #tbl-aripaka}
-#| tbl-cap: "Estado nutricional pré-gestacional das parturientesa, Hospital Geral, Caxias do Sul, RS, 2008"
+```{r}
+#| label: tbl-aripaka
+#| tbl-cap: "Estado nutricional pré-gestacional das parturientes"
 #| echo: TRUE
+#| message: FALSE
+#| warning: FALSE
+df <- data.frame(estNutri = c("Baixo Peso", "Peso adequado", "Sobrepeso", "Obesidade","Total"),
+                 f = c(67, 799, 327, 175, 1368),
+                 fr = c(0.049, 0.584, 0.239, 0.128, 1.000),
+                 fp = c(4.9, 58.4, 23.9, 12.8, 100),
+                 Fp = c(4.9, 63.3, 87.2, 100, ''))
 
-knitr::kable(tab2,
-             format = "html",
-             col.names = c("Estado Nutricional", "f", "fr", "fp (%)"),
-             align = c('l', 'c', 'c', 'c')) %>%
- kableExtra::kable_styling(
-    bootstrap_options = c("striped", "hover", "condensed"),
-    full_width = FALSE, 
-    position = "left",
-    font_size = 12) %>%
-  kableExtra::column_spec(1, width = "4cm") %>%
-  kableExtra::column_spec(2:4, width = "1.5cm")
+minha_tab <- flextable(df) %>%
+  autofit() %>%
+  set_header_labels(
+    estNutri = "Estado Nutricional",
+    f = "f",
+    fr = "fr",
+    fp = "fp (%)",
+    Fp = "Fp (%)") %>%
+  theme_booktabs() %>%
+  width(j = "estNutri", width = 1.5) %>%
+  width(j = 2:5, width = 1) %>%
+  align(align = "center", part = "header") %>%
+  align(align = "center", part = "body") %>%
+  align(j = 1, align = "left", part = "body") %>%
+  bold(i = 5, part = "body") %>%
+  bold(part = "header") %>%
+  hline(i = 4, part = "body", 
+        border = fp_border_default(color = "black", width = 1.5)) %>% 
+  add_footer_lines(value = "FONTE:Hospital Geral, Caxias do Sul, RS, 2008") %>%
+  align(align = "right", part = "footer") %>% 
+  fontsize(size = 9, part = "footer")
+
+minha_tab
 ```
 
 ### Tabelas de contingência
@@ -659,28 +705,42 @@ Também conhecido como gráfico de *pizza*. Cada segmento (fatia) do gráfico de
 
 Em uma consulta, entre estudantes de Medicina, foi perguntado a sua opinião em relação a este tipo de gráfico. A pergunta feita foi: “O que você sente ao ver um gráfico de pizza em um artigo científico?” As alternativas para a resposta eram quatro (ódio, irritação, indiferença, amor). O resultado do inquérito está na @tbl-pizza.
 
-```{r #tbl-pizza}
-#| tbl-cap: "Sentimento dos alunos de Medicina em relação ao gráfico de pizza, UCS, 2012."
-#| echo: false
+```{r}
+#| label: tbl-pizza
+#| tbl-cap: "Sentimento dos alunos do curso de Medicina em relação ao gráfico de pizza"
+#| echo: FALSE
+#| message: FALSE
+#| warning: FALSE
+df2 <- data.frame(sent = c("Odeiam", "Não gostam",
+                                 "Indiferentes", "Amam", "Total"),
+                  f = c(6, 12, 14, 8, 40),
+                  fr = c(0.15, 0.30, 0.35, 0.20, 1.00),
+                  fp = c(15, 30, 35, 20, 100),
+                  Fp = c(15, 45, 80, 100, NA))
 
-df2 <- data.frame(Sentimento = c("Odeiam", "Não gostam",
-                                      "Indiferentes", "Amam", "Total"),
-                       f = c(6, 12, 14, 8, 40),
-                       fr = c(0.15, 0.30, 0.35, 0.20, 1.00),
-                       fp = c(15, 30, 35, 20, 100),
-                       Fp = c(15, 45, 80, 100, NA))
+minha_tab <- flextable(df2) %>%
+  autofit() %>%
+  set_header_labels(
+    sent = "Sentimento",
+    f = "f",
+    fr = "fr",
+    fp = "fp (%)",
+    Fp = "Fp (%)") %>%
+  theme_booktabs() %>%
+  width(j = "sent", width = 1.8) %>%
+  width(j = 2:5, width = 1) %>%
+  align(align = "center", part = "header") %>%
+  align(align = "center", part = "body") %>%
+  align(j = 1, align = "left", part = "body") %>%
+  bold(i = 5, part = "body") %>%
+  bold(part = "header") %>%
+  hline(i = 4, part = "body", 
+        border = fp_border_default(color = "black", width = 1.5)) %>% 
+  add_footer_lines(value = "FONTE: Universidade de Caxias do Sul, 2012") %>%
+  align(align = "right", part = "footer") %>% 
+  fontsize(size = 9, part = "footer")
 
-knitr::kable(df2,
-             format = "html",
-             col.names = c("Sentimento", "f", "fr", "fp (%)", "Fp (%)"),
-             align = c('l', 'c', 'c', 'c', 'c')) %>%
- kableExtra::kable_styling(
-    bootstrap_options = c("striped", "hover", "condensed"),
-    full_width = FALSE, 
-    position = "left",
-    font_size = 12) %>%
-  kableExtra::column_spec(1, width = "4cm") %>%
-  kableExtra::column_spec(2:5, width = "1.5cm")
+minha_tab
 ```
 
 No *R* base, pacote `graphics`, existe a função `pie()`para obter um gráfico de setores simples. Esta função usa os seguintes argumentos basicos, consulte a ajuda do R para outras informações:

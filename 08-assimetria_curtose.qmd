@@ -6,6 +6,7 @@
 pacman::p_load(DescTools,
                dplyr, 
                e1071, 
+               flextable,
                ggplot2, 
                ggpubr, 
                grDevices, 
@@ -184,26 +185,30 @@ Quando a $assimetria = 0$, tem-se uma distribuição simétrica e a média, a me
 
 A @tbl-assimetria sugere uma forma de interpretar o coeficiente de assimetria @george2020asymmetry.
 
-```{r #tbl-assimetria, echo=FALSE, message=FALSE, warning=FALSE}
-library (kableExtra)
+```{r}
+#| label: tbl-assimetria
+#| tbl-cap: "Interpretação do Coeficiente de Assimetria"
+#| echo: FALSE
+#| message: FALSE
+#| warning: FALSE
 
 g1 <- c("-1 a +1", "-1 a -2 e +1 a +2", "-2 a -3 e +2 a +3", "< -3 ou > +3")
 assimetria <- c("leve", "moderada", "importante", "grave")
 
-options(knitr.kable.NA = '')
-knitr::kable(data.frame(g1,assimetria),
-             format = "html",
-             col.names = c("Valor do Coeficiente", "Assimetria"),
-             booktabs = TRUE,
-             caption = "Interpretação do Coeficiente de Assimetria") %>% 
-  kableExtra::kable_styling(
-    full_width = FALSE, 
-    position = "center",
-    html_font = "Cambria",
-    bootstrap_options = c("striped", "hover", "condensed")
-  ) %>% 
-  kableExtra::scroll_box(width = "300px") %>%
-  row_spec(0, bold = TRUE)
+df <- data.frame(g1,assimetria)
+
+minha_tab <- flextable(df) %>%
+  set_header_labels(
+    g1 = "Coeficiente de assimetria",
+    assimetria = "Assimetria") %>%
+  autofit() %>%
+  theme_booktabs() %>%
+  width(j = 1:2, width = 2) %>%
+  align(align = "left", part = "header") %>%
+  align(align = "left", part = "body") %>%
+  bold(part = "header") 
+
+minha_tab
 ```
 
 Observando o formato da distribuição no histograma e no boxplot, na @fig-histbxp, e no resultado do coeficiente de assimetria, conclui-se que a variável `altura` tem uma assimetria positiva leve, não preocupante. É possível aceitar essa variável como praticamente simétrica.

@@ -121,9 +121,9 @@ div.csl-indent {
     "search-label": "Procurar"
   }
 }</script>
-<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/tabwid-1.1.3/tabwid.css" rel="stylesheet">
 
-<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script src="site_libs/tabwid-1.1.3/tabwid.js"></script>
 
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
@@ -388,16 +388,17 @@ window.Quarto = {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(dplyr,</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               DescTools,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>               ggplot2, </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>               ggpubr, </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>               ggsci, </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>               grDevices, </span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>               Hmisc, </span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>               kableExtra, </span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>               knitr, </span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>               plotrix, </span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>               readxl, </span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>               scales)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>               flextable,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>               ggplot2, </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>               ggpubr, </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>               ggsci, </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>               grDevices, </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>               Hmisc, </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>               kableExtra, </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>               knitr, </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>               plotrix, </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>               readxl, </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>               scales)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="dados-brutos" class="level2" data-number="6.2">
@@ -405,7 +406,7 @@ window.Quarto = {
 <p>Habitualmente, costuma-se armazenar os dados em bancos de dados (<em>dataframes</em> ou <em>tibbles</em>). Entretanto, eles estão registrados de forma aleatória e não classificada. Ao se visualizar um dataframe, é difícil responder perguntas em relação a qualquer variável, principalmente, em grandes banco de dados. Eles se constituem uma lista, um rol de valores colocados na ordem em que foram obtidos. Parecem um jogo de quebra cabeça antes de serem organizados e resumidos (<a href="#fig-babel" class="quarto-xref">Figura&nbsp;<span>6.1</span></a>)! São denominados de <em>dados brutos</em> ou, também, de dados não agrupados.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-babel" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-babel" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-babel-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://imgur.com/MrhPiiG.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" data-fig-pos="H">
@@ -664,7 +665,7 @@ s^2= \frac{\sum(x_i - \overline{x})^2}{n-1}
 <p>O desvio padrão, além de medir a precisão com que a média representa os dados, também informa sobre o formato dos dados e por isso é uma medida de dispersão. Em uma amostra onde desvio padrão é pequeno, os dados se agrupam próximo a média e o formato da distribuição fica mais pontiagudo (curva em azul, <a href="#fig-dispersao" class="quarto-xref">Figura&nbsp;<span>6.2</span></a>). Nesse caso a média representa bem os dados. Em outra amostra, com a mesma média anterior, mas com os dados mais dispersos entorno da média, o desvio padrão é maior e o formato da distribuição fica achatado (curva verde, na Figura <a href="#fig-dispersao" class="quarto-xref">Figura&nbsp;<span>6.2</span></a>). Nesse caso a média não é uma boa representação dos dados.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-dispersao" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-dispersao" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-dispersao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-dispersao-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-pos="H" width="672">
@@ -768,75 +769,18 @@ CV = \frac{s}{\overline{x}}
 <div id="tbl-droga" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-droga-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;6.1: Distribuição de frequência de drogadição em parturientes, Hospital Geral, Caxias do Sul, RS, 2008
+Tabela&nbsp;6.1: Distribuição de frequência de drogadição em parturientes
 </figcaption>
 <div aria-describedby="tbl-droga-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="table table-striped table-hover table-condensed do-not-create-environment cell caption-top table-sm small" data-quarto-postprocess="true">
-<thead>
-<tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">Droga</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">f</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">fr</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">fp (%)</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">Fp (%)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left; width: 4cm;">Nenhuma</td>
-<td style="text-align: center; width: 1.5cm;">904</td>
-<td style="text-align: center; width: 1.5cm;">0.955</td>
-<td style="text-align: center; width: 1.5cm;">95.5</td>
-<td style="text-align: center; width: 1.5cm;">95.5</td>
-</tr>
-<tr class="even">
-<td style="text-align: left; width: 4cm;">Medicamentos</td>
-<td style="text-align: center; width: 1.5cm;">23</td>
-<td style="text-align: center; width: 1.5cm;">0.024</td>
-<td style="text-align: center; width: 1.5cm;">2.4</td>
-<td style="text-align: center; width: 1.5cm;">97.9</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left; width: 4cm;">Álcool</td>
-<td style="text-align: center; width: 1.5cm;">17</td>
-<td style="text-align: center; width: 1.5cm;">0.018</td>
-<td style="text-align: center; width: 1.5cm;">1.8</td>
-<td style="text-align: center; width: 1.5cm;">99.7</td>
-</tr>
-<tr class="even">
-<td style="text-align: left; width: 4cm;">Crack</td>
-<td style="text-align: center; width: 1.5cm;">2</td>
-<td style="text-align: center; width: 1.5cm;">0.002</td>
-<td style="text-align: center; width: 1.5cm;">0.2</td>
-<td style="text-align: center; width: 1.5cm;">99.9</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left; width: 4cm;">Cocaína</td>
-<td style="text-align: center; width: 1.5cm;">1</td>
-<td style="text-align: center; width: 1.5cm;">0.001</td>
-<td style="text-align: center; width: 1.5cm;">0.1</td>
-<td style="text-align: center; width: 1.5cm;">100</td>
-</tr>
-<tr class="even">
-<td style="text-align: left; width: 4cm;">Total</td>
-<td style="text-align: center; width: 1.5cm;">947</td>
-<td style="text-align: center; width: 1.5cm;">1.000</td>
-<td style="text-align: center; width: 1.5cm;">100.0</td>
-<td style="text-align: center; width: 1.5cm;"></td>
-</tr>
-</tbody>
-</table>
-
-
+<div class="tabwid"><style>.cl-9393cd04{}.cl-9387407a{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-9387412e{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-93874138{font-family:'Arial';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-938c3dd2{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-938c3de6{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-938c3df0{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-938c685c{width:1.279in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-938c685d{width:1in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-938c6866{width:1.279in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-938c6870{width:1in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-938c6871{width:1.279in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-938c687a{width:1in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-938c687b{width:1.279in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-938c687c{width:1in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-938c6884{width:1.279in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-938c6885{width:1in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-938c688e{width:1.279in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-938c6898{width:1in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-938c68a2{width:1.279in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-938c68a3{width:1in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-938c68ac{width:1.279in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-938c68ad{width:1in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-9393cd04"><thead><tr style="overflow-wrap:break-word;"><th class="cl-938c685c"><p class="cl-938c3dd2"><span class="cl-9387407a">Droga</span></p></th><th class="cl-938c685d"><p class="cl-938c3dd2"><span class="cl-9387407a">f</span></p></th><th class="cl-938c685d"><p class="cl-938c3dd2"><span class="cl-9387407a">fr</span></p></th><th class="cl-938c685d"><p class="cl-938c3dd2"><span class="cl-9387407a">fp</span></p></th><th class="cl-938c685d"><p class="cl-938c3dd2"><span class="cl-9387407a">Fp</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-938c6866"><p class="cl-938c3de6"><span class="cl-9387412e">Nenhuma</span></p></td><td class="cl-938c6870"><p class="cl-938c3dd2"><span class="cl-9387412e">904</span></p></td><td class="cl-938c6870"><p class="cl-938c3dd2"><span class="cl-9387412e">0.955</span></p></td><td class="cl-938c6870"><p class="cl-938c3dd2"><span class="cl-9387412e">95.5</span></p></td><td class="cl-938c6870"><p class="cl-938c3dd2"><span class="cl-9387412e">95.5</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-938c6871"><p class="cl-938c3de6"><span class="cl-9387412e">Medicamentos</span></p></td><td class="cl-938c687a"><p class="cl-938c3dd2"><span class="cl-9387412e">23</span></p></td><td class="cl-938c687a"><p class="cl-938c3dd2"><span class="cl-9387412e">0.024</span></p></td><td class="cl-938c687a"><p class="cl-938c3dd2"><span class="cl-9387412e">2.4</span></p></td><td class="cl-938c687a"><p class="cl-938c3dd2"><span class="cl-9387412e">97.9</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-938c687b"><p class="cl-938c3de6"><span class="cl-9387412e">Álcool</span></p></td><td class="cl-938c687c"><p class="cl-938c3dd2"><span class="cl-9387412e">17</span></p></td><td class="cl-938c687c"><p class="cl-938c3dd2"><span class="cl-9387412e">0.018</span></p></td><td class="cl-938c687c"><p class="cl-938c3dd2"><span class="cl-9387412e">1.8</span></p></td><td class="cl-938c687c"><p class="cl-938c3dd2"><span class="cl-9387412e">99.7</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-938c6884"><p class="cl-938c3de6"><span class="cl-9387412e">Crack</span></p></td><td class="cl-938c6885"><p class="cl-938c3dd2"><span class="cl-9387412e">2</span></p></td><td class="cl-938c6885"><p class="cl-938c3dd2"><span class="cl-9387412e">0.002</span></p></td><td class="cl-938c6885"><p class="cl-938c3dd2"><span class="cl-9387412e">0.2</span></p></td><td class="cl-938c6885"><p class="cl-938c3dd2"><span class="cl-9387412e">99.9</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-938c688e"><p class="cl-938c3de6"><span class="cl-9387412e">Cocaína</span></p></td><td class="cl-938c6898"><p class="cl-938c3dd2"><span class="cl-9387412e">1</span></p></td><td class="cl-938c6898"><p class="cl-938c3dd2"><span class="cl-9387412e">0.001</span></p></td><td class="cl-938c6898"><p class="cl-938c3dd2"><span class="cl-9387412e">0.1</span></p></td><td class="cl-938c6898"><p class="cl-938c3dd2"><span class="cl-9387412e">100</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-938c68a2"><p class="cl-938c3de6"><span class="cl-9387407a">Total</span></p></td><td class="cl-938c68a3"><p class="cl-938c3dd2"><span class="cl-9387407a">947</span></p></td><td class="cl-938c68a3"><p class="cl-938c3dd2"><span class="cl-9387407a">1.000</span></p></td><td class="cl-938c68a3"><p class="cl-938c3dd2"><span class="cl-9387407a">100.0</span></p></td><td class="cl-938c68a3"><p class="cl-938c3dd2"><span class="cl-9387407a"></span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td colspan="5" class="cl-938c68ac"><p class="cl-938c3df0"><span class="cl-93874138">FONTE:Hospital Geral, Caxias do Sul, RS, 2008</span></p></td></tr></tfoot></table></div>
 </div>
 </div>
 </figure>
 </div>
 </div>
-</section>
-<section id="sec-tabfreq" class="level4" data-number="6.4.2.2">
-<h4 data-number="6.4.2.2" class="anchored" data-anchor-id="sec-tabfreq"><span class="header-section-number">6.4.2.2</span> Construção da tabela de frequência</h4>
+<section id="sec-tabfreq" class="level5" data-number="6.4.2.1.1">
+<h5 data-number="6.4.2.1.1" class="anchored" data-anchor-id="sec-tabfreq"><span class="header-section-number">6.4.2.1.1</span> Construção da tabela de frequência</h5>
 <p>Para demonstrar como construir uma tabela de frequência, será usada uma variável categórica que não existe no conjunto de dados <code>mater.</code> Esta variável vai ser criada, categorizando a variável numérica <code>idadeMae</code> (idade da parturiente) em três categoria, classicamente, usadas: menores de 20 anos (adolescentes), 20 a 35 anos e maiores de 35 anos. No conjunto <code>mater</code>, a variável <code>idadeMae</code> tem como idade mínima 13 anos e idade máxima 46 anos. A nova variável receberá o nome de <code>categIdade</code>. Para realizar este trabalho de transformação da variável numérica em categórica, será usada a função <code>mutate()</code> do pacote <code>dplyr</code> (veja <a href="05-manipulandoDados.html#sec-mutate" class="quarto-xref"><span>Seção 5.3.3</span></a>). Esta função tem vários argumentos:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>mater <span class="ot">&lt;-</span> mater <span class="sc">%&gt;%</span></span>
@@ -919,82 +863,62 @@ Tabela&nbsp;6.1: Distribuição de frequência de drogadição em parturientes, 
 <div class="cell">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>tab1 <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(tab1)</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(tab1)[<span class="dv">4</span>] <span class="ot">&lt;-</span>  <span class="st">"Total"</span></span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(tab1) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"f"</span>, <span class="st">"fr (%)"</span>, <span class="st">"fp (%)"</span>)</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(tab1) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"f"</span>, <span class="st">"fr"</span>, <span class="st">"fp (%)"</span>)</span>
 <span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>tab1</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                f fr (%) fp (%)
-&lt; 20 anos     219  0.160   16.0
-20 a 35 anos  992  0.725   72.5
-&gt; 35 anos     157  0.115   11.5
-Total        1368  1.000  100.0</code></pre>
+<pre><code>                f    fr fp (%)
+&lt; 20 anos     219 0.160   16.0
+20 a 35 anos  992 0.725   72.5
+&gt; 35 anos     157 0.115   11.5
+Total        1368 1.000  100.0</code></pre>
 </div>
 </div>
-<p>Esta uma tabela simples que serve para visualizar as informações. Não serve para publicações. Para obter uma tabela simples, mas muito mais profissional (<a href="#tbl-tisch" class="quarto-xref">Tabela&nbsp;<span>6.2</span></a>) pode ser utilizada a função <code>kable()</code> do pacote <code>knitr</code> <span class="citation" data-cites="xie2018knitr">(<a href="references.html#ref-xie2018knitr" role="doc-biblioref">5</a>)</span>. Esta função possui um grande número de argumentos para personalizar a aparência das tabelas<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:</p>
+<p>Esta uma tabela simples que serve para visualizar as informações. Não serve para publicações. Para obter uma tabela simples, mas muito mais profissional (<a href="#tbl-tisch" class="quarto-xref">Tabela&nbsp;<span>6.2</span></a>) pode ser utilizada a função <code>flextable()</code> do pacote <code>flextable</code> <span class="citation" data-cites="gohel2024flextable">(<a href="references.html#ref-gohel2024flextable" role="doc-biblioref">5</a>)</span>. Esta função possui um grande número de argumentos para personalizar a aparência das tabelas<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(tab1,</span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">format =</span> <span class="st">"html"</span>,</span>
-<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Faixa Etária"</span>, <span class="st">"f"</span>, <span class="st">"fr"</span>, <span class="st">"fp (%)"</span>),</span>
-<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">align =</span> <span class="fu">c</span>(<span class="st">'l'</span>, <span class="st">'c'</span>, <span class="st">'c'</span>, <span class="st">'c'</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a> kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>(</span>
-<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>),</span>
-<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">"left"</span>,</span>
-<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">font_size =</span> <span class="dv">12</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">1</span>, <span class="at">width =</span> <span class="st">"4cm"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">width =</span> <span class="st">"1.5cm"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">faixaEt =</span> <span class="fu">c</span>(<span class="st">"&lt; 20 anos"</span>, <span class="st">"20 a 35 anos"</span>, <span class="st">"&gt; 35 anos"</span>, <span class="st">"Total"</span>),</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">f =</span> <span class="fu">c</span>(<span class="dv">219</span>, <span class="dv">992</span>, <span class="dv">157</span>, <span class="dv">1368</span>),</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fr =</span> <span class="fu">c</span>(<span class="fl">0.160</span>, <span class="fl">0.725</span>, <span class="fl">0.115</span>, <span class="fl">1.000</span>),</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fp =</span> <span class="fu">c</span>(<span class="fl">16.0</span>, <span class="fl">72.5</span>, <span class="fl">11.5</span>, <span class="dv">100</span>),</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">Fp =</span> <span class="fu">c</span>(<span class="fl">16.0</span>, <span class="fl">88.5</span>, <span class="dv">100</span>, <span class="st">''</span>))</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>minha_tab <span class="ot">&lt;-</span> <span class="fu">flextable</span>(df) <span class="sc">%&gt;%</span></span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_header_labels</span>(</span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">faixaEt =</span> <span class="st">"Faixa Etária"</span>,</span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">f =</span> <span class="st">"f"</span>,</span>
+<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">fr =</span> <span class="st">"fr"</span>,</span>
+<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">fp =</span> <span class="st">"fp (%)"</span>,</span>
+<span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Fp =</span> <span class="st">"Fp (%)"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autofit</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb59-15"><a href="#cb59-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_booktabs</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb59-16"><a href="#cb59-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">width</span>(<span class="at">j =</span> <span class="st">"faixaEt"</span>, <span class="at">width =</span> <span class="fl">1.5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb59-17"><a href="#cb59-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">align</span>(<span class="at">align =</span> <span class="st">"center"</span>, <span class="at">part =</span> <span class="st">"header"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb59-18"><a href="#cb59-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hline</span>(<span class="at">i =</span> <span class="dv">3</span>, <span class="at">part =</span> <span class="st">"body"</span>, </span>
+<span id="cb59-19"><a href="#cb59-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">border =</span> <span class="fu">fp_border_default</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">width =</span> <span class="fl">1.5</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb59-20"><a href="#cb59-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">align</span>(<span class="at">align =</span> <span class="st">"center"</span>, <span class="at">part =</span> <span class="st">"body"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb59-21"><a href="#cb59-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">align</span>(<span class="at">j =</span> <span class="dv">1</span>, <span class="at">align =</span> <span class="st">"left"</span>, <span class="at">part =</span> <span class="st">"body"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb59-22"><a href="#cb59-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold</span>(<span class="at">i =</span> <span class="dv">4</span>, <span class="at">part =</span> <span class="st">"body"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb59-23"><a href="#cb59-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold</span>(<span class="at">part =</span> <span class="st">"header"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb59-24"><a href="#cb59-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_footer_lines</span>(<span class="at">value =</span> <span class="st">"FONTE:Hospital Geral, Caxias do Sul, RS, 2008"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb59-25"><a href="#cb59-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">align</span>(<span class="at">align =</span> <span class="st">"right"</span>, <span class="at">part =</span> <span class="st">"footer"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb59-26"><a href="#cb59-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fontsize</span>(<span class="at">size =</span> <span class="dv">9</span>, <span class="at">part =</span> <span class="st">"footer"</span>)</span>
+<span id="cb59-27"><a href="#cb59-27" aria-hidden="true" tabindex="-1"></a>minha_tab</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div id="tbl-tisch" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tisch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;6.2: Distribuição das puérperas por faixa etária, Hospital Geral, Caxias do Sul, RS, 2008
+Tabela&nbsp;6.2: Distribuição das parturientes por faixa etária
 </figcaption>
 <div aria-describedby="tbl-tisch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="table table-striped table-hover table-condensed do-not-create-environment cell caption-top table-sm small" data-quarto-postprocess="true">
-<thead>
-<tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">Faixa Etária</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">f</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">fr</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">fp (%)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left; width: 4cm;">&lt; 20 anos</td>
-<td style="text-align: left; width: 1.5cm;">219</td>
-<td style="text-align: center; width: 1.5cm;">0.160</td>
-<td style="text-align: center; width: 1.5cm;">16.0</td>
-</tr>
-<tr class="even">
-<td style="text-align: left; width: 4cm;">20 a 35 anos</td>
-<td style="text-align: left; width: 1.5cm;">992</td>
-<td style="text-align: center; width: 1.5cm;">0.725</td>
-<td style="text-align: center; width: 1.5cm;">72.5</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left; width: 4cm;">&gt; 35 anos</td>
-<td style="text-align: left; width: 1.5cm;">157</td>
-<td style="text-align: center; width: 1.5cm;">0.115</td>
-<td style="text-align: center; width: 1.5cm;">11.5</td>
-</tr>
-<tr class="even">
-<td style="text-align: left; width: 4cm;">Total</td>
-<td style="text-align: left; width: 1.5cm;">1368</td>
-<td style="text-align: center; width: 1.5cm;">1.000</td>
-<td style="text-align: center; width: 1.5cm;">100.0</td>
-</tr>
-</tbody>
-</table>
-
-
+<div class="tabwid"><style>.cl-93e49f9a{}.cl-93dd97d6{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-93dd97ea{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-93dd97eb{font-family:'Arial';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-93e08bbc{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-93e08bda{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-93e08be4{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-93e0ab88{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0ab92{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0ab93{width:0.693in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0ab9c{width:0.744in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0ab9d{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0ab9e{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0aba6{width:0.693in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0aba7{width:0.744in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0aba8{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0abb0{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0abb1{width:0.693in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0abb2{width:0.744in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0abba{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0abbb{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0abbc{width:0.693in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0abc4{width:0.744in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0abc5{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0abce{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0abcf{width:0.693in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0abd0{width:0.744in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0abd1{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0abd8{width:0.668in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0abd9{width:0.693in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-93e0abda{width:0.744in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-93e49f9a"><thead><tr style="overflow-wrap:break-word;"><th class="cl-93e0ab88"><p class="cl-93e08bbc"><span class="cl-93dd97d6">Faixa Etária</span></p></th><th class="cl-93e0ab92"><p class="cl-93e08bbc"><span class="cl-93dd97d6">f</span></p></th><th class="cl-93e0ab92"><p class="cl-93e08bbc"><span class="cl-93dd97d6">fr</span></p></th><th class="cl-93e0ab93"><p class="cl-93e08bbc"><span class="cl-93dd97d6">fp (%)</span></p></th><th class="cl-93e0ab9c"><p class="cl-93e08bbc"><span class="cl-93dd97d6">Fp (%)</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-93e0ab9d"><p class="cl-93e08bda"><span class="cl-93dd97ea">&lt; 20 anos</span></p></td><td class="cl-93e0ab9e"><p class="cl-93e08bbc"><span class="cl-93dd97ea">219</span></p></td><td class="cl-93e0ab9e"><p class="cl-93e08bbc"><span class="cl-93dd97ea">0.160</span></p></td><td class="cl-93e0aba6"><p class="cl-93e08bbc"><span class="cl-93dd97ea">16.0</span></p></td><td class="cl-93e0aba7"><p class="cl-93e08bbc"><span class="cl-93dd97ea">16</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-93e0aba8"><p class="cl-93e08bda"><span class="cl-93dd97ea">20 a 35 anos</span></p></td><td class="cl-93e0abb0"><p class="cl-93e08bbc"><span class="cl-93dd97ea">992</span></p></td><td class="cl-93e0abb0"><p class="cl-93e08bbc"><span class="cl-93dd97ea">0.725</span></p></td><td class="cl-93e0abb1"><p class="cl-93e08bbc"><span class="cl-93dd97ea">72.5</span></p></td><td class="cl-93e0abb2"><p class="cl-93e08bbc"><span class="cl-93dd97ea">88.5</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-93e0abba"><p class="cl-93e08bda"><span class="cl-93dd97ea">&gt; 35 anos</span></p></td><td class="cl-93e0abbb"><p class="cl-93e08bbc"><span class="cl-93dd97ea">157</span></p></td><td class="cl-93e0abbb"><p class="cl-93e08bbc"><span class="cl-93dd97ea">0.115</span></p></td><td class="cl-93e0abbc"><p class="cl-93e08bbc"><span class="cl-93dd97ea">11.5</span></p></td><td class="cl-93e0abc4"><p class="cl-93e08bbc"><span class="cl-93dd97ea">100</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-93e0abc5"><p class="cl-93e08bda"><span class="cl-93dd97d6">Total</span></p></td><td class="cl-93e0abce"><p class="cl-93e08bbc"><span class="cl-93dd97d6">1,368</span></p></td><td class="cl-93e0abce"><p class="cl-93e08bbc"><span class="cl-93dd97d6">1.000</span></p></td><td class="cl-93e0abcf"><p class="cl-93e08bbc"><span class="cl-93dd97d6">100.0</span></p></td><td class="cl-93e0abd0"><p class="cl-93e08bbc"><span class="cl-93dd97d6"></span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td colspan="5" class="cl-93e0abd1"><p class="cl-93e08be4"><span class="cl-93dd97eb">FONTE:Hospital Geral, Caxias do Sul, RS, 2008</span></p></td></tr></tfoot></table></div>
 </div>
 </div>
 </figure>
 </div>
 </div>
 </section>
-<section id="tabela-de-frequência-para-dados-numéricos" class="level4" data-number="6.4.2.3">
-<h4 data-number="6.4.2.3" class="anchored" data-anchor-id="tabela-de-frequência-para-dados-numéricos"><span class="header-section-number">6.4.2.3</span> Tabela de frequência para dados numéricos</h4>
+</section>
+<section id="tabela-de-frequência-para-dados-numéricos" class="level4" data-number="6.4.2.2">
+<h4 data-number="6.4.2.2" class="anchored" data-anchor-id="tabela-de-frequência-para-dados-numéricos"><span class="header-section-number">6.4.2.2</span> Tabela de frequência para dados numéricos</h4>
 <p>Como fazer a distribuição de frequência de uma variável contínua sem um critério pré-determinado para as classes?</p>
 <p>Como exemplo, será usado, agora, o IMC pré-gestacional das parturientes do banco de dados <code>dadosMater.xlsx</code>). Esta variável ainda não existe no banco de dados, tem-se apenas o peso e a altura e, portanto, com estes dados, ela pode ser criada:</p>
 <div class="cell">
@@ -1022,10 +946,10 @@ Tabela&nbsp;6.2: Distribuição das puérperas por faixa etária, Hospital Geral
 <li><em>Estabelecimento do número de classes (k)</em>:</li>
 </ol>
 <p>Antes, as classes foram estabelecidas de acordo com algum critério. Em geral, quando não há um padrão pré-determinado, o número de classes é estabelecido de acordo com o tamanho da amostra. Este número pode ser escolhido lembrando-se das oscilações que ocorrem nos dados e do interesse do pesquisador em mostrar seus dados. Não existe uma regra totalmente eficiente para determinar o número de classes. É importante ter bom senso, de maneira que seja possível ver como os valores se distribuem.</p>
-<p>Para a maioria dos dados, é recomendado e 8 a 20 classes, isto é, 8 <span class="math inline">\(\le\)</span> k <span class="math inline">\(\le\)</span> 20. Com poucas classes, perde-se precisão e, com muitas classes, a tabela torna-se muito extensa. Baseado na regra de Sturges , é sugerido usar a recomendação da <a href="#fig-sturges" class="quarto-xref">Figura&nbsp;<span>6.3</span></a> <span class="citation" data-cites="arango2009classes">(<a href="references.html#ref-arango2009classes" role="doc-biblioref">7</a>)</span>.</p>
+<p>Para a maioria dos dados, é recomendado e 8 a 20 classes, isto é, 8 <span class="math inline">\(\le\)</span> k <span class="math inline">\(\le\)</span> 20. Com poucas classes, perde-se precisão e, com muitas classes, a tabela torna-se muito extensa. Baseado na regra de Sturges , é sugerido usar a recomendação da <a href="#fig-sturges" class="quarto-xref">Figura&nbsp;<span>6.3</span></a> <span class="citation" data-cites="arango2009classes">(<a href="references.html#ref-arango2009classes" role="doc-biblioref">6</a>)</span>.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-sturges" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-sturges" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sturges-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/IXn5SNz.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" data-fig-pos="H">
@@ -1106,7 +1030,7 @@ Figura&nbsp;6.3: Número de classes baseado em Sturges
 </li>
 <li><strong>obesidade</strong> (IMC <span class="math inline">\(\ge\)</span> 30 kg/<span class="math inline">\(m^2\)</span>).</li>
 </ul>
-<p>Assim, é recomendado um ganho de peso total adequado de 12,5 kg a 18 kg para as gestantes classificadas como baixo peso; de 11,5 kg a 16,0 kg para as classificadas como peso adequado; de 7,0 a 11,5 kg nas classificadas com sobrepeso; e de 5,0 a 9,0 kg nas obesas <span class="citation" data-cites="rasmussen2009weight">(<a href="references.html#ref-rasmussen2009weight" role="doc-biblioref">8</a>)</span>.</p>
+<p>Assim, é recomendado um ganho de peso total adequado de 12,5 kg a 18 kg para as gestantes classificadas como baixo peso; de 11,5 kg a 16,0 kg para as classificadas como peso adequado; de 7,0 a 11,5 kg nas classificadas com sobrepeso; e de 5,0 a 9,0 kg nas obesas <span class="citation" data-cites="rasmussen2009weight">(<a href="references.html#ref-rasmussen2009weight" role="doc-biblioref">7</a>)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>mater <span class="ot">&lt;-</span> mater <span class="sc">%&gt;%</span> </span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span> (<span class="at">estNutri =</span> <span class="fu">case_when</span>(</span>
@@ -1147,68 +1071,43 @@ Total         1368 1.000 100.0</code></pre>
 </div>
 <p>Colocando em um formato mais científico, tem-se uma tabela ( <a href="#tbl-aripaka" class="quarto-xref">Tabela&nbsp;<span>6.3</span></a>)) bem mais elegante sobre o estado nutricional pré-gestacional:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(tab2,</span>
-<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">format =</span> <span class="st">"html"</span>,</span>
-<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Estado Nutricional"</span>, <span class="st">"f"</span>, <span class="st">"fr"</span>, <span class="st">"fp (%)"</span>),</span>
-<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">align =</span> <span class="fu">c</span>(<span class="st">'l'</span>, <span class="st">'c'</span>, <span class="st">'c'</span>, <span class="st">'c'</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a> kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>(</span>
-<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>),</span>
-<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">"left"</span>,</span>
-<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">font_size =</span> <span class="dv">12</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">1</span>, <span class="at">width =</span> <span class="st">"4cm"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">width =</span> <span class="st">"1.5cm"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">estNutri =</span> <span class="fu">c</span>(<span class="st">"Baixo Peso"</span>, <span class="st">"Peso adequado"</span>, <span class="st">"Sobrepeso"</span>, <span class="st">"Obesidade"</span>,<span class="st">"Total"</span>),</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">f =</span> <span class="fu">c</span>(<span class="dv">67</span>, <span class="dv">799</span>, <span class="dv">327</span>, <span class="dv">175</span>, <span class="dv">1368</span>),</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fr =</span> <span class="fu">c</span>(<span class="fl">0.049</span>, <span class="fl">0.584</span>, <span class="fl">0.239</span>, <span class="fl">0.128</span>, <span class="fl">1.000</span>),</span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fp =</span> <span class="fu">c</span>(<span class="fl">4.9</span>, <span class="fl">58.4</span>, <span class="fl">23.9</span>, <span class="fl">12.8</span>, <span class="dv">100</span>),</span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">Fp =</span> <span class="fu">c</span>(<span class="fl">4.9</span>, <span class="fl">63.3</span>, <span class="fl">87.2</span>, <span class="dv">100</span>, <span class="st">''</span>))</span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>minha_tab <span class="ot">&lt;-</span> <span class="fu">flextable</span>(df) <span class="sc">%&gt;%</span></span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autofit</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_header_labels</span>(</span>
+<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">estNutri =</span> <span class="st">"Estado Nutricional"</span>,</span>
+<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">f =</span> <span class="st">"f"</span>,</span>
+<span id="cb73-12"><a href="#cb73-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">fr =</span> <span class="st">"fr"</span>,</span>
+<span id="cb73-13"><a href="#cb73-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">fp =</span> <span class="st">"fp (%)"</span>,</span>
+<span id="cb73-14"><a href="#cb73-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">Fp =</span> <span class="st">"Fp (%)"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb73-15"><a href="#cb73-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_booktabs</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb73-16"><a href="#cb73-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">width</span>(<span class="at">j =</span> <span class="st">"estNutri"</span>, <span class="at">width =</span> <span class="fl">1.5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb73-17"><a href="#cb73-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">width</span>(<span class="at">j =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">width =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb73-18"><a href="#cb73-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">align</span>(<span class="at">align =</span> <span class="st">"center"</span>, <span class="at">part =</span> <span class="st">"header"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb73-19"><a href="#cb73-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">align</span>(<span class="at">align =</span> <span class="st">"center"</span>, <span class="at">part =</span> <span class="st">"body"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb73-20"><a href="#cb73-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">align</span>(<span class="at">j =</span> <span class="dv">1</span>, <span class="at">align =</span> <span class="st">"left"</span>, <span class="at">part =</span> <span class="st">"body"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb73-21"><a href="#cb73-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold</span>(<span class="at">i =</span> <span class="dv">5</span>, <span class="at">part =</span> <span class="st">"body"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb73-22"><a href="#cb73-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold</span>(<span class="at">part =</span> <span class="st">"header"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb73-23"><a href="#cb73-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hline</span>(<span class="at">i =</span> <span class="dv">4</span>, <span class="at">part =</span> <span class="st">"body"</span>, </span>
+<span id="cb73-24"><a href="#cb73-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">border =</span> <span class="fu">fp_border_default</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">width =</span> <span class="fl">1.5</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb73-25"><a href="#cb73-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_footer_lines</span>(<span class="at">value =</span> <span class="st">"FONTE:Hospital Geral, Caxias do Sul, RS, 2008"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb73-26"><a href="#cb73-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">align</span>(<span class="at">align =</span> <span class="st">"right"</span>, <span class="at">part =</span> <span class="st">"footer"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb73-27"><a href="#cb73-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fontsize</span>(<span class="at">size =</span> <span class="dv">9</span>, <span class="at">part =</span> <span class="st">"footer"</span>)</span>
+<span id="cb73-28"><a href="#cb73-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-29"><a href="#cb73-29" aria-hidden="true" tabindex="-1"></a>minha_tab</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div id="tbl-aripaka" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-aripaka-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;6.3: Estado nutricional pré-gestacional das parturientesa, Hospital Geral, Caxias do Sul, RS, 2008
+Tabela&nbsp;6.3: Estado nutricional pré-gestacional das parturientes
 </figcaption>
 <div aria-describedby="tbl-aripaka-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="table table-striped table-hover table-condensed do-not-create-environment cell caption-top table-sm small" data-quarto-postprocess="true">
-<thead>
-<tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">Estado Nutricional</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">f</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">fr</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">fp (%)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left; width: 4cm;">Baixo Peso</td>
-<td style="text-align: left; width: 1.5cm;">67</td>
-<td style="text-align: center; width: 1.5cm;">0.049</td>
-<td style="text-align: center; width: 1.5cm;">4.9</td>
-</tr>
-<tr class="even">
-<td style="text-align: left; width: 4cm;">Peso adequado</td>
-<td style="text-align: left; width: 1.5cm;">791</td>
-<td style="text-align: center; width: 1.5cm;">0.578</td>
-<td style="text-align: center; width: 1.5cm;">57.8</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left; width: 4cm;">Sobrepeso</td>
-<td style="text-align: left; width: 1.5cm;">335</td>
-<td style="text-align: center; width: 1.5cm;">0.245</td>
-<td style="text-align: center; width: 1.5cm;">24.5</td>
-</tr>
-<tr class="even">
-<td style="text-align: left; width: 4cm;">Obesidade</td>
-<td style="text-align: left; width: 1.5cm;">175</td>
-<td style="text-align: center; width: 1.5cm;">0.128</td>
-<td style="text-align: center; width: 1.5cm;">12.8</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left; width: 4cm;">Total</td>
-<td style="text-align: left; width: 1.5cm;">1368</td>
-<td style="text-align: center; width: 1.5cm;">1.000</td>
-<td style="text-align: center; width: 1.5cm;">100.0</td>
-</tr>
-</tbody>
-</table>
-
-
+<div class="tabwid"><style>.cl-9431318e{}.cl-942a7d08{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-942a7d12{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-942a7d13{font-family:'Arial';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-942d3f84{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-942d3f8e{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-942d3f98{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-942d5960{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-942d596a{width:1in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-942d5974{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-942d5975{width:1in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-942d597e{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-942d597f{width:1in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-942d5980{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-942d5988{width:1in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-942d5989{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-942d5992{width:1in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-942d5993{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-942d5994{width:1in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-942d599c{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-942d599d{width:1in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-9431318e"><thead><tr style="overflow-wrap:break-word;"><th class="cl-942d5960"><p class="cl-942d3f84"><span class="cl-942a7d08">Estado Nutricional</span></p></th><th class="cl-942d596a"><p class="cl-942d3f84"><span class="cl-942a7d08">f</span></p></th><th class="cl-942d596a"><p class="cl-942d3f84"><span class="cl-942a7d08">fr</span></p></th><th class="cl-942d596a"><p class="cl-942d3f84"><span class="cl-942a7d08">fp (%)</span></p></th><th class="cl-942d596a"><p class="cl-942d3f84"><span class="cl-942a7d08">Fp (%)</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-942d5974"><p class="cl-942d3f8e"><span class="cl-942a7d12">Baixo Peso</span></p></td><td class="cl-942d5975"><p class="cl-942d3f84"><span class="cl-942a7d12">67</span></p></td><td class="cl-942d5975"><p class="cl-942d3f84"><span class="cl-942a7d12">0.049</span></p></td><td class="cl-942d5975"><p class="cl-942d3f84"><span class="cl-942a7d12">4.9</span></p></td><td class="cl-942d5975"><p class="cl-942d3f84"><span class="cl-942a7d12">4.9</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-942d597e"><p class="cl-942d3f8e"><span class="cl-942a7d12">Peso adequado</span></p></td><td class="cl-942d597f"><p class="cl-942d3f84"><span class="cl-942a7d12">799</span></p></td><td class="cl-942d597f"><p class="cl-942d3f84"><span class="cl-942a7d12">0.584</span></p></td><td class="cl-942d597f"><p class="cl-942d3f84"><span class="cl-942a7d12">58.4</span></p></td><td class="cl-942d597f"><p class="cl-942d3f84"><span class="cl-942a7d12">63.3</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-942d5980"><p class="cl-942d3f8e"><span class="cl-942a7d12">Sobrepeso</span></p></td><td class="cl-942d5988"><p class="cl-942d3f84"><span class="cl-942a7d12">327</span></p></td><td class="cl-942d5988"><p class="cl-942d3f84"><span class="cl-942a7d12">0.239</span></p></td><td class="cl-942d5988"><p class="cl-942d3f84"><span class="cl-942a7d12">23.9</span></p></td><td class="cl-942d5988"><p class="cl-942d3f84"><span class="cl-942a7d12">87.2</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-942d5989"><p class="cl-942d3f8e"><span class="cl-942a7d12">Obesidade</span></p></td><td class="cl-942d5992"><p class="cl-942d3f84"><span class="cl-942a7d12">175</span></p></td><td class="cl-942d5992"><p class="cl-942d3f84"><span class="cl-942a7d12">0.128</span></p></td><td class="cl-942d5992"><p class="cl-942d3f84"><span class="cl-942a7d12">12.8</span></p></td><td class="cl-942d5992"><p class="cl-942d3f84"><span class="cl-942a7d12">100</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-942d5993"><p class="cl-942d3f8e"><span class="cl-942a7d08">Total</span></p></td><td class="cl-942d5994"><p class="cl-942d3f84"><span class="cl-942a7d08">1,368</span></p></td><td class="cl-942d5994"><p class="cl-942d3f84"><span class="cl-942a7d08">1.000</span></p></td><td class="cl-942d5994"><p class="cl-942d3f84"><span class="cl-942a7d08">100.0</span></p></td><td class="cl-942d5994"><p class="cl-942d3f84"><span class="cl-942a7d08"></span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td colspan="5" class="cl-942d599c"><p class="cl-942d3f98"><span class="cl-942a7d13">FONTE:Hospital Geral, Caxias do Sul, RS, 2008</span></p></td></tr></tfoot></table></div>
 </div>
 </div>
 </figure>
@@ -1264,70 +1163,21 @@ fumo   sim  não  sum
 </section>
 <section id="gráficos" class="level2" data-number="6.5">
 <h2 data-number="6.5" class="anchored" data-anchor-id="gráficos"><span class="header-section-number">6.5</span> Gráficos</h2>
-<p>Para descrever os dados e visualizar o que está acontecendo, recomenda-se utilizar um gráfico adequado. O que é adequado depende principalmente do tipo de dados, bem como das características particulares do que se quer explorar. Além disso, um gráfico em um relatório sempre é um fator de “impacto”. Ou seja, pode ter um efeito positivo no leitor ou fazê-lo abandonar a leitura. Finalmente, um gráfico de frequência pode ser utilizado para ilustrar, explicar uma situação complexa onde palavras ou uma tabela podem ser confusos, extensos ou de outro modo insuficiente. Por outro lado, deve-se evitar usar gráficos onde poucas palavras expressam claramente o que se quer mostrar. Aconselha-se que, ao analisar os dados, é importante inspecioná-los como se fossem uma imagem, uma fotografia, ver como eles se parecem, qual o seu aspecto, e só então pensar em interpretar os aspectos vitais da estatística <span class="citation" data-cites="field2012graphs">(<a href="references.html#ref-field2012graphs" role="doc-biblioref">9</a>)</span>.</p>
-<p>O <em>R</em> básico fornece uma grande variedade de funções para visualizar dados, elas de uma maneira relativamente simples permitem a construção de gráficos que facilitam a interpretação tanto de variáveis categórica como contínuas. Para gráficos mais sofisticados existe um pacote denominado <code>ggplot2</code> <span class="citation" data-cites="wickham2016getting">(<a href="references.html#ref-wickham2016getting" role="doc-biblioref">10</a>)</span>. Este pacote é uma ferramenta extremamente versátil. É um pouco mais complexo e exige mais tempo para dominá-lo, mas, uma vez que se aprenda a sua lógica, oferece uma estrutura extremamente flexível para exibir os dados . Inicialmente, serão usadas as funções do <em>R</em> básico e,posteriormente, será feita uma introdução ao <code>ggplot2</code> (<a href="#sec-ggplot2" class="quarto-xref"><span>Seção 6.6</span></a>).</p>
+<p>Para descrever os dados e visualizar o que está acontecendo, recomenda-se utilizar um gráfico adequado. O que é adequado depende principalmente do tipo de dados, bem como das características particulares do que se quer explorar. Além disso, um gráfico em um relatório sempre é um fator de “impacto”. Ou seja, pode ter um efeito positivo no leitor ou fazê-lo abandonar a leitura. Finalmente, um gráfico de frequência pode ser utilizado para ilustrar, explicar uma situação complexa onde palavras ou uma tabela podem ser confusos, extensos ou de outro modo insuficiente. Por outro lado, deve-se evitar usar gráficos onde poucas palavras expressam claramente o que se quer mostrar. Aconselha-se que, ao analisar os dados, é importante inspecioná-los como se fossem uma imagem, uma fotografia, ver como eles se parecem, qual o seu aspecto, e só então pensar em interpretar os aspectos vitais da estatística <span class="citation" data-cites="field2012graphs">(<a href="references.html#ref-field2012graphs" role="doc-biblioref">8</a>)</span>.</p>
+<p>O <em>R</em> básico fornece uma grande variedade de funções para visualizar dados, elas de uma maneira relativamente simples permitem a construção de gráficos que facilitam a interpretação tanto de variáveis categórica como contínuas. Para gráficos mais sofisticados existe um pacote denominado <code>ggplot2</code> <span class="citation" data-cites="wickham2016getting">(<a href="references.html#ref-wickham2016getting" role="doc-biblioref">9</a>)</span>. Este pacote é uma ferramenta extremamente versátil. É um pouco mais complexo e exige mais tempo para dominá-lo, mas, uma vez que se aprenda a sua lógica, oferece uma estrutura extremamente flexível para exibir os dados . Inicialmente, serão usadas as funções do <em>R</em> básico e,posteriormente, será feita uma introdução ao <code>ggplot2</code> (<a href="#sec-ggplot2" class="quarto-xref"><span>Seção 6.6</span></a>).</p>
 <section id="gráfico-de-setores" class="level3" data-number="6.5.1">
 <h3 data-number="6.5.1" class="anchored" data-anchor-id="gráfico-de-setores"><span class="header-section-number">6.5.1</span> Gráfico de setores</h3>
-<p>Também conhecido como gráfico de <em>pizza</em>. Cada segmento (fatia) do gráfico de pizza deve ser proporcional à frequência da categoria que representa. A desvantagem do gráfico de pizza é que ele só pode representar uma variável, portanto, há necessidade de um gráfico separado para cada variável que se deseja representar. Além disso, um gráfico de pizza pode perder clareza se ele é usado para representar mais do que quatro ou cinco categorias. Na maioria das vezes, em um artigo ou relatório científico não há necessidade de se usar este tipo de gráfico. As tabelas são muito melhores. Segundo Edward Tufte, professor emérito de estatística, <em>design</em> gráfico e economia política na Universidade de Yale, o único gráfico pior do que um gráfico de pizza são vários deles <span class="citation" data-cites="tufte2001aesthetics">(<a href="references.html#ref-tufte2001aesthetics" role="doc-biblioref">11</a>)</span>! Ele é usado mais no mundo dos negócios. Como regra, evite usar gráfico de pizza!</p>
+<p>Também conhecido como gráfico de <em>pizza</em>. Cada segmento (fatia) do gráfico de pizza deve ser proporcional à frequência da categoria que representa. A desvantagem do gráfico de pizza é que ele só pode representar uma variável, portanto, há necessidade de um gráfico separado para cada variável que se deseja representar. Além disso, um gráfico de pizza pode perder clareza se ele é usado para representar mais do que quatro ou cinco categorias. Na maioria das vezes, em um artigo ou relatório científico não há necessidade de se usar este tipo de gráfico. As tabelas são muito melhores. Segundo Edward Tufte, professor emérito de estatística, <em>design</em> gráfico e economia política na Universidade de Yale, o único gráfico pior do que um gráfico de pizza são vários deles <span class="citation" data-cites="tufte2001aesthetics">(<a href="references.html#ref-tufte2001aesthetics" role="doc-biblioref">10</a>)</span>! Ele é usado mais no mundo dos negócios. Como regra, evite usar gráfico de pizza!</p>
 <p>Em uma consulta, entre estudantes de Medicina, foi perguntado a sua opinião em relação a este tipo de gráfico. A pergunta feita foi: “O que você sente ao ver um gráfico de pizza em um artigo científico?” As alternativas para a resposta eram quatro (ódio, irritação, indiferença, amor). O resultado do inquérito está na <a href="#tbl-pizza" class="quarto-xref">Tabela&nbsp;<span>6.4</span></a>.</p>
 <div class="cell">
 <div id="tbl-pizza" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-pizza-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;6.4: Sentimento dos alunos de Medicina em relação ao gráfico de pizza, UCS, 2012.
+Tabela&nbsp;6.4: Sentimento dos alunos do curso de Medicina em relação ao gráfico de pizza
 </figcaption>
 <div aria-describedby="tbl-pizza-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="table table-striped table-hover table-condensed do-not-create-environment cell caption-top table-sm small" data-quarto-postprocess="true">
-<thead>
-<tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">Sentimento</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">f</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">fr</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">fp (%)</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">Fp (%)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left; width: 4cm;">Odeiam</td>
-<td style="text-align: center; width: 1.5cm;">6</td>
-<td style="text-align: center; width: 1.5cm;">0.15</td>
-<td style="text-align: center; width: 1.5cm;">15</td>
-<td style="text-align: center; width: 1.5cm;">15</td>
-</tr>
-<tr class="even">
-<td style="text-align: left; width: 4cm;">Não gostam</td>
-<td style="text-align: center; width: 1.5cm;">12</td>
-<td style="text-align: center; width: 1.5cm;">0.30</td>
-<td style="text-align: center; width: 1.5cm;">30</td>
-<td style="text-align: center; width: 1.5cm;">45</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left; width: 4cm;">Indiferentes</td>
-<td style="text-align: center; width: 1.5cm;">14</td>
-<td style="text-align: center; width: 1.5cm;">0.35</td>
-<td style="text-align: center; width: 1.5cm;">35</td>
-<td style="text-align: center; width: 1.5cm;">80</td>
-</tr>
-<tr class="even">
-<td style="text-align: left; width: 4cm;">Amam</td>
-<td style="text-align: center; width: 1.5cm;">8</td>
-<td style="text-align: center; width: 1.5cm;">0.20</td>
-<td style="text-align: center; width: 1.5cm;">20</td>
-<td style="text-align: center; width: 1.5cm;">100</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left; width: 4cm;">Total</td>
-<td style="text-align: center; width: 1.5cm;">40</td>
-<td style="text-align: center; width: 1.5cm;">1.00</td>
-<td style="text-align: center; width: 1.5cm;">100</td>
-<td style="text-align: center; width: 1.5cm;">NA</td>
-</tr>
-</tbody>
-</table>
-
-
+<div class="tabwid"><style>.cl-945fdafc{}.cl-94593d1e{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-94593d28{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-94593d29{font-family:'Arial';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-945be46a{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-945be474{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-945be47e{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-945bfe5a{width:1.8in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-945bfe64{width:1in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-945bfe65{width:1.8in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-945bfe6e{width:1in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-945bfe6f{width:1.8in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-945bfe70{width:1in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-945bfe78{width:1.8in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-945bfe79{width:1in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-945bfe82{width:1.8in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-945bfe83{width:1in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-945bfe8c{width:1.8in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-945bfe8d{width:1in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-945bfe8e{width:1.8in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-945bfe8f{width:1in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-945fdafc"><thead><tr style="overflow-wrap:break-word;"><th class="cl-945bfe5a"><p class="cl-945be46a"><span class="cl-94593d1e">Sentimento</span></p></th><th class="cl-945bfe64"><p class="cl-945be46a"><span class="cl-94593d1e">f</span></p></th><th class="cl-945bfe64"><p class="cl-945be46a"><span class="cl-94593d1e">fr</span></p></th><th class="cl-945bfe64"><p class="cl-945be46a"><span class="cl-94593d1e">fp (%)</span></p></th><th class="cl-945bfe64"><p class="cl-945be46a"><span class="cl-94593d1e">Fp (%)</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-945bfe65"><p class="cl-945be474"><span class="cl-94593d28">Odeiam</span></p></td><td class="cl-945bfe6e"><p class="cl-945be46a"><span class="cl-94593d28">6</span></p></td><td class="cl-945bfe6e"><p class="cl-945be46a"><span class="cl-94593d28">0.15</span></p></td><td class="cl-945bfe6e"><p class="cl-945be46a"><span class="cl-94593d28">15</span></p></td><td class="cl-945bfe6e"><p class="cl-945be46a"><span class="cl-94593d28">15</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-945bfe6f"><p class="cl-945be474"><span class="cl-94593d28">Não gostam</span></p></td><td class="cl-945bfe70"><p class="cl-945be46a"><span class="cl-94593d28">12</span></p></td><td class="cl-945bfe70"><p class="cl-945be46a"><span class="cl-94593d28">0.30</span></p></td><td class="cl-945bfe70"><p class="cl-945be46a"><span class="cl-94593d28">30</span></p></td><td class="cl-945bfe70"><p class="cl-945be46a"><span class="cl-94593d28">45</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-945bfe78"><p class="cl-945be474"><span class="cl-94593d28">Indiferentes</span></p></td><td class="cl-945bfe79"><p class="cl-945be46a"><span class="cl-94593d28">14</span></p></td><td class="cl-945bfe79"><p class="cl-945be46a"><span class="cl-94593d28">0.35</span></p></td><td class="cl-945bfe79"><p class="cl-945be46a"><span class="cl-94593d28">35</span></p></td><td class="cl-945bfe79"><p class="cl-945be46a"><span class="cl-94593d28">80</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-945bfe82"><p class="cl-945be474"><span class="cl-94593d28">Amam</span></p></td><td class="cl-945bfe83"><p class="cl-945be46a"><span class="cl-94593d28">8</span></p></td><td class="cl-945bfe83"><p class="cl-945be46a"><span class="cl-94593d28">0.20</span></p></td><td class="cl-945bfe83"><p class="cl-945be46a"><span class="cl-94593d28">20</span></p></td><td class="cl-945bfe83"><p class="cl-945be46a"><span class="cl-94593d28">100</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-945bfe8c"><p class="cl-945be474"><span class="cl-94593d1e">Total</span></p></td><td class="cl-945bfe8d"><p class="cl-945be46a"><span class="cl-94593d1e">40</span></p></td><td class="cl-945bfe8d"><p class="cl-945be46a"><span class="cl-94593d1e">1.00</span></p></td><td class="cl-945bfe8d"><p class="cl-945be46a"><span class="cl-94593d1e">100</span></p></td><td class="cl-945bfe8d"><p class="cl-945be46a"><span class="cl-94593d1e"></span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td colspan="5" class="cl-945bfe8e"><p class="cl-945be47e"><span class="cl-94593d29">FONTE: Universidade de Caxias do Sul, 2012</span></p></td></tr></tfoot></table></div>
 </div>
 </div>
 </figure>
@@ -1349,7 +1199,7 @@ Tabela&nbsp;6.4: Sentimento dos alunos de Medicina em relação ao gráfico de p
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pie</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">8</span>),</span>
 <span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Odeiam"</span>, <span class="st">"Não gostam"</span>, <span class="st">"Indiferentes"</span>, <span class="st">"Amam"</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-pie" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-pie" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-pie-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-pie-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:90.0%;height:90.0%" data-fig-pos="H">
@@ -1367,7 +1217,7 @@ Figura&nbsp;6.4: Gráfico de Pizza: Opinião dos estudantes de Medicina.
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Odeiam"</span>, <span class="st">"Não gostam"</span>, <span class="st">"Indiferentes"</span>, <span class="st">"Amam"</span>),</span>
 <span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"gray58"</span>, <span class="st">"yellow4"</span>, <span class="st">"cyan"</span>, <span class="st">"tomato"</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-pie2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-pie2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-pie2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-pie2-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:90.0%;height:90.0%" data-fig-pos="H">
@@ -1379,7 +1229,7 @@ Figura&nbsp;6.5: Figura anterior com cores personalizadas.
 </div>
 </div>
 </div>
-<p>As cores parecem “espetaculosas”, mas o objetivo foi de criticar os gráficos tipo pizza. Se o leitor quiser insistir no seu uso e com um gráfico em 3D (<a href="#fig-pie3d" class="quarto-xref">Figura&nbsp;<span>6.6</span></a>), pode-se instalar o pacote <code>plotrix</code> <span class="citation" data-cites="lemon2015package">(<a href="references.html#ref-lemon2015package" role="doc-biblioref">12</a>)</span> e carregar a função <code>pie3D()</code>. Os argumentos são praticamente os mesmos do gráfico simples. Acrescenta-se <code>radius = 0.9</code> que muda o raio da pizza e <code>explode = 0.1</code> que determina o afastamento das fatias (0, as mantém juntas). Além disso, como o gráfico exibe rótulos com textos muito grandes, usa-se o argumento <code>labelcex = 1</code>. Como qualquer função nova, basta clicar na tecla <em>Tab</em>, dentro da mesma, que aparece um menu com as alternativas de argumentos.</p>
+<p>As cores parecem “espetaculosas”, mas o objetivo foi de criticar os gráficos tipo pizza. Se o leitor quiser insistir no seu uso e com um gráfico em 3D (<a href="#fig-pie3d" class="quarto-xref">Figura&nbsp;<span>6.6</span></a>), pode-se instalar o pacote <code>plotrix</code> <span class="citation" data-cites="lemon2015package">(<a href="references.html#ref-lemon2015package" role="doc-biblioref">11</a>)</span> e carregar a função <code>pie3D()</code>. Os argumentos são praticamente os mesmos do gráfico simples. Acrescenta-se <code>radius = 0.9</code> que muda o raio da pizza e <code>explode = 0.1</code> que determina o afastamento das fatias (0, as mantém juntas). Além disso, como o gráfico exibe rótulos com textos muito grandes, usa-se o argumento <code>labelcex = 1</code>. Como qualquer função nova, basta clicar na tecla <em>Tab</em>, dentro da mesma, que aparece um menu com as alternativas de argumentos.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span> (plotrix)</span>
 <span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1390,7 +1240,7 @@ Figura&nbsp;6.5: Figura anterior com cores personalizadas.
 <span id="cb82-7"><a href="#cb82-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"gray58"</span>, <span class="st">"yellow4"</span>, <span class="st">"cyan"</span>, <span class="st">"tomato"</span>),</span>
 <span id="cb82-8"><a href="#cb82-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">labelcex =</span> <span class="dv">1</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-pie3d" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-pie3d" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-pie3d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-pie3d-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:90.0%;height:90.0%" data-fig-pos="H">
@@ -1405,7 +1255,7 @@ Figura&nbsp;6.6: Gráfico de Pizza: Opinião dos estudantes de Medicina.
 </section>
 <section id="gráfico-de-barras" class="level3" data-number="6.5.2">
 <h3 data-number="6.5.2" class="anchored" data-anchor-id="gráfico-de-barras"><span class="header-section-number">6.5.2</span> Gráfico de barras</h3>
-<p>Os gráficos de barra exibem a distribuição (frequências) de uma variável categórica através de barras verticais ou horizontais, ou sobrepostas <span class="citation" data-cites="kabacoff2011graphs">(<a href="references.html#ref-kabacoff2011graphs" role="doc-biblioref">13</a>)</span>.</p>
+<p>Os gráficos de barra exibem a distribuição (frequências) de uma variável categórica através de barras verticais ou horizontais, ou sobrepostas <span class="citation" data-cites="kabacoff2011graphs">(<a href="references.html#ref-kabacoff2011graphs" role="doc-biblioref">12</a>)</span>.</p>
 <p>Assim como o gráfico de setores, o gráfico de barras é utilizado para representar a frequência absoluta ou percentual de diferentes categorias. As barras são proporcionais as frequências. A forma mais simples de solicitar um gráfico de barra no <em>R</em> é digitar a função <code>barplot()</code> do pacote básico. Esta função é específica para desenhar gráficos de barras horizontais e verticais e usa os seguintes argumentos:</p>
 <ul>
 <li><strong>height</strong> <span class="math inline">\(\to\)</span> um vetor ou matriz de valores que descreve as barras que constituem o gráfico;<br>
@@ -1422,11 +1272,11 @@ Figura&nbsp;6.6: Gráfico de Pizza: Opinião dos estudantes de Medicina.
 </li>
 <li><strong>…</strong> <span class="math inline">\(\to\)</span> outros argumentos. Consulte a ajuda do R.</li>
 </ul>
-<p>Para a construção do gráfico de barras simples da <a href="#fig-barra1" class="quarto-xref">Figura&nbsp;<span>6.7</span></a>, será utilizada a variável <code>categIdade</code>, anteriormente criada (<a href="#sec-tabfreq" class="quarto-xref"><span>Seção 6.4.2.2</span></a>), a partir do conjunto de dados <code>dadosMater.xlsx</code>.</p>
+<p>Para a construção do gráfico de barras simples da <a href="#fig-barra1" class="quarto-xref">Figura&nbsp;<span>6.7</span></a>, será utilizada a variável <code>categIdade</code>, anteriormente criada (<a href="#sec-tabfreq" class="quarto-xref"><span>Seção 6.4.2.1.1</span></a>), a partir do conjunto de dados <code>dadosMater.xlsx</code>.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">table</span>(mater<span class="sc">$</span>categIdade))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-barra1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-barra1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-barra1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-barra1-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -1460,7 +1310,7 @@ Figura&nbsp;6.7: Gráfico de barra simples.
 <span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">las =</span> <span class="dv">1</span>)</span>
 <span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a><span class="fu">box</span>(<span class="at">bty =</span> <span class="st">"L"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-barra2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-barra2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-barra2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-barra2-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -1484,7 +1334,7 @@ Figura&nbsp;6.8: Gráfico de barra simples modificado.
 <span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">horiz=</span><span class="cn">TRUE</span>)</span>
 <span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a><span class="fu">box</span>(<span class="at">bty =</span> <span class="st">"L"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-barrah" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-barrah" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-barrah-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-barrah-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -1517,7 +1367,7 @@ Figura&nbsp;6.9: Gráfico com barras horizontais.
 <span id="cb86-12"><a href="#cb86-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb86-13"><a href="#cb86-13" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span> (x, y, <span class="at">labels =</span> <span class="fu">as.character</span>(y), <span class="at">adj =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">2</span>), <span class="at">col =</span> <span class="st">"black"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-barra3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-barra3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-barra3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-barra3-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -1554,7 +1404,7 @@ Acrescenta-se uma legenda com a função <code>legend()</code> na parte superior
 <span id="cb87-17"><a href="#cb87-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">bty=</span><span class="st">"n"</span>, </span>
 <span id="cb87-18"><a href="#cb87-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">cex =</span> <span class="dv">1</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-stacked" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-stacked" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-stacked-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-stacked-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:90.0%;height:90.0%" data-fig-pos="H">
@@ -1588,7 +1438,7 @@ Figura&nbsp;6.11: Gráfico de barras empilhadas.
 <span id="cb88-15"><a href="#cb88-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">bty=</span><span class="st">"n"</span>, </span>
 <span id="cb88-16"><a href="#cb88-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">cex =</span> <span class="dv">1</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-side" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-side" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-side-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-side-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:90.0%;height:90.0%" data-fig-pos="H">
@@ -1618,7 +1468,7 @@ Figura&nbsp;6.12: Gráfico de barras lado a lado
 <span id="cb89-11"><a href="#cb89-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">las =</span> <span class="dv">1</span>)</span>
 <span id="cb89-12"><a href="#cb89-12" aria-hidden="true" tabindex="-1"></a><span class="fu">box</span>(<span class="at">bty =</span> <span class="st">"L"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-discreta" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-discreta" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-discreta-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-discreta-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -1636,7 +1486,7 @@ Figura&nbsp;6.13: Gráfico de barras para uma variável discreta
 <h3 data-number="6.5.3" class="anchored" data-anchor-id="sec-errorbar"><span class="header-section-number">6.5.3</span> Gráfico de barra de erro</h3>
 <p>O <em>gráfico de barra de erro</em> é um tipo de gráfico barra acrescido de uma medida de dispersão: desvio padrão, intervalos de confiança ou erro padrão. As barras de erro dão uma ideia geral de quão precisa é uma medição ou, inversamente, quão longe o valor observado está do valor verdadeiro.</p>
 <p>Continuando a usar o arquivo <code>dadosMater.xlsx</code>, será selecionada uma amostra de recém-nascidos a termo, definido pela OMS como o nascido de 37 semanas completas a 42 semanas incompletas (259 a 293 dias). A partir destes dados, será construido um gráfico de barra de erro dos recém-nascidos do sexo masculino e feminino.</p>
-<p>Inicialmente, deve ser instalado e carregado o pacote <code>Hmisc</code> <span class="citation" data-cites="harrell2022hmisc">(<a href="references.html#ref-harrell2022hmisc" role="doc-biblioref">14</a>)</span>, necessário para fornecer a função <code>errbar()</code> que irá construir o gráfico de de barra de erro.</p>
+<p>Inicialmente, deve ser instalado e carregado o pacote <code>Hmisc</code> <span class="citation" data-cites="harrell2022hmisc">(<a href="references.html#ref-harrell2022hmisc" role="doc-biblioref">13</a>)</span>, necessário para fornecer a função <code>errbar()</code> que irá construir o gráfico de de barra de erro.</p>
 <p>A seguir, serão filtrados do conjunto de dados em uso, <code>mater</code>, os recém-nascidos a termo. O conjunto resultante será atribuído a um objeto denominado <code>rnt</code> e , usando o operador pipe %&gt;% será usada a função <code>summarise()</code> e <code>group_by()</code> provenientes do pacote <code>dplyr</code>, para calcular as medidas resumidoras, de acordo com o sexo. Como a variável <code>sexo</code> encontra-se como numérica, será transformada em fator:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>mater<span class="sc">$</span>sexo <span class="ot">&lt;-</span> <span class="fu">factor</span>(mater<span class="sc">$</span>sexo,</span>
@@ -1681,7 +1531,7 @@ Figura&nbsp;6.13: Gráfico de barras para uma variável discreta
 <span id="cb92-17"><a href="#cb92-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb92-18"><a href="#cb92-18" aria-hidden="true" tabindex="-1"></a> <span class="fu">errbar</span>(bp, barras, lim_inf, lim_sup, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">xlab =</span> <span class="cn">NULL</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-errorbar" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-errorbar" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-errorbar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-errorbar-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -1715,7 +1565,7 @@ Figura&nbsp;6.14: Gráfico de barras de erro
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(mater<span class="sc">$</span>altura)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-histb" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-histb" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-histb-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-histb-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -1766,7 +1616,7 @@ Figura&nbsp;6.15: Histograma básico
 <span id="cb100-9"><a href="#cb100-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">las =</span> <span class="dv">1</span>)</span>
 <span id="cb100-10"><a href="#cb100-10" aria-hidden="true" tabindex="-1"></a><span class="fu">box</span>(<span class="at">bty =</span> <span class="st">"L"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-histmod" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-histmod" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-histmod-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-histmod-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -1811,7 +1661,7 @@ Figura&nbsp;6.16: Histograma modificado
 <span id="cb101-20"><a href="#cb101-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">lwd=</span><span class="dv">2</span>,</span>
 <span id="cb101-21"><a href="#cb101-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">add=</span><span class="cn">TRUE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-histnormal" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-histnormal" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-histnormal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-histnormal-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -1886,7 +1736,7 @@ attr(,"class")
 <span id="cb105-10"><a href="#cb105-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb105-11"><a href="#cb105-11" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span> (h<span class="sc">$</span>mids, h<span class="sc">$</span>counts, <span class="at">labels =</span> h<span class="sc">$</span>counts, <span class="at">adj=</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="sc">-</span><span class="fl">0.5</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-histfreq" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-histfreq" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-histfreq-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-histfreq-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -1906,7 +1756,7 @@ Figura&nbsp;6.18: Histograma com frequência sobreposta
 <p>O <em>boxplot</em> descreve a distribuição de uma variável contínua exibindo o resumo de cinco números: mínimo, 1º quartil (percentil 25), mediana (percentil 50), 3ª quartil (percentil 75) e máximo (<a href="#fig-boxplot" class="quarto-xref">Figura&nbsp;<span>6.19</span></a>).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-boxplot" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-boxplot" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-boxplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/Dh2UszX.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%" data-fig-pos="H">
@@ -1944,7 +1794,7 @@ Figura&nbsp;6.19: Boxplot
 <span id="cb106-6"><a href="#cb106-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb106-7"><a href="#cb106-7" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span> (rnt<span class="sc">$</span>pesoRN)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-bxps" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-bxps" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bxps-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-bxps-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -1968,7 +1818,7 @@ Figura&nbsp;6.20: Boxplot simples
 <span id="cb107-8"><a href="#cb107-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">cex.names =</span> <span class="dv">1</span>,</span>
 <span id="cb107-9"><a href="#cb107-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">las =</span> <span class="dv">1</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-bxpmod" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-bxpmod" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bxpmod-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-bxpmod-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -2016,7 +1866,7 @@ Figura&nbsp;6.21: Boxplot modificado
 <span id="cb108-15"><a href="#cb108-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">vertical =</span> <span class="cn">TRUE</span>, </span>
 <span id="cb108-16"><a href="#cb108-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-boxstrip" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-boxstrip" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-boxstrip-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-boxstrip-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -2044,7 +1894,7 @@ Figura&nbsp;6.22: Boxplot com pontos de dispersão
 <span id="cb109-8"><a href="#cb109-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">las =</span> <span class="dv">1</span>,</span>
 <span id="cb109-9"><a href="#cb109-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">notch =</span> <span class="cn">TRUE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-boxnotch" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-boxnotch" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-boxnotch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-boxnotch-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -2116,7 +1966,7 @@ Será realizada uma comparação visual, usando boxplots, dos pesos dos recém-n
 <span id="cb113-8"><a href="#cb113-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">cex.names =</span> <span class="dv">1</span>,</span>
 <span id="cb113-9"><a href="#cb113-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">las =</span> <span class="dv">1</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-bxpm" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-bxpm" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bxpm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-bxpm-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -2142,7 +1992,7 @@ Figura&nbsp;6.24: Múltiplos boxplots
 <span id="cb114-9"><a href="#cb114-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">las =</span> <span class="dv">1</span>,</span>
 <span id="cb114-10"><a href="#cb114-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">notch =</span> <span class="cn">TRUE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-bxpnotch" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-bxpnotch" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bxpnotch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-bxpnotch-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -2170,7 +2020,7 @@ Figura&nbsp;6.25: Boxplots com entalhes
 <span id="cb115-9"><a href="#cb115-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">cex.names =</span> <span class="dv">1</span>,</span>
 <span id="cb115-10"><a href="#cb115-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">las =</span> <span class="dv">1</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-bxph" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-bxph" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bxph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-bxph-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -2197,7 +2047,7 @@ Figura&nbsp;6.26: Boxplots horizontais
 <span id="cb116-5"><a href="#cb116-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">cex.axis =</span> <span class="fl">0.8</span>,</span>
 <span id="cb116-6"><a href="#cb116-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">las =</span> <span class="dv">1</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-scatter" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-scatter" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-scatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-scatter-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -2227,7 +2077,7 @@ Figura&nbsp;6.27: Gráfico de dispersão
 <span id="cb117-6"><a href="#cb117-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">las =</span> <span class="dv">1</span>,</span>
 <span id="cb117-7"><a href="#cb117-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">bty =</span> <span class="st">"L"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-scatter1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-scatter1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-scatter1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-scatter1-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -2242,7 +2092,7 @@ Figura&nbsp;6.28: Gráfico de dispersão
 <p>Como em qualquer outro gráfico, este também pode ser melhorado em seu aspecto, tornando os pontos sólidos e coloridos. O argumento <code>pch</code> estabelece o tipo de pontos (<a href="#fig-pch" class="quarto-xref">Figura&nbsp;<span>6.29</span></a>).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-pch" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-pch" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-pch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/8VWZSGk.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%" data-fig-pos="H">
@@ -2268,7 +2118,7 @@ Figura&nbsp;6.29: Símbolo dos formatos
 <span id="cb118-10"><a href="#cb118-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">cex.lab =</span> <span class="fl">1.1</span>,</span>
 <span id="cb118-11"><a href="#cb118-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">cex.axis =</span> <span class="fl">0.8</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-jitter" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-jitter" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-jitter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-jitter-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -2304,7 +2154,7 @@ Figura&nbsp;6.30: Gráfico de dispersão com <em>jitter</em>
 <span id="cb119-18"><a href="#cb119-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">cex =</span> <span class="dv">1</span>,</span>
 <span id="cb119-19"><a href="#cb119-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">"topleft"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-map" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-map" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-map-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -2344,7 +2194,7 @@ Figura&nbsp;6.31: Mapeamento dos pontos de acordo com uma variável categórica
 <span id="cb120-21"><a href="#cb120-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">lwd=</span><span class="dv">2</span>, </span>
 <span id="cb120-22"><a href="#cb120-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-reta" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-reta" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-reta-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-reta-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:80.0%;height:80.0%" data-fig-pos="H">
@@ -2393,7 +2243,7 @@ F-statistic: 946.6 on 1 and 1083 DF,  p-value: &lt; 2.2e-16</code></pre>
 </section>
 <section id="sec-ggplot2" class="level2" data-number="6.6">
 <h2 data-number="6.6" class="anchored" data-anchor-id="sec-ggplot2"><span class="header-section-number">6.6</span> Introdução ao <code>ggplot2</code></h2>
-<p>O R tem vários sistemas para fazer gráficos e, na ,maioria das vezes, eles são suficientes. Entretanto, o surgimento do <code>ggplot2</code> <span class="citation" data-cites="wickham2016ggplot2">(<a href="references.html#ref-wickham2016ggplot2" role="doc-biblioref">15</a>)</span> trouxe a possibilidade de serem construídos gráficos mais elegantes e versáteis. Além disso, torna o processo mais rápido, baseado em uma sofisticada gramática <span class="citation" data-cites="wickham2010layered">(<a href="references.html#ref-wickham2010layered" role="doc-biblioref">16</a>)</span>.</p>
+<p>O R tem vários sistemas para fazer gráficos e, na ,maioria das vezes, eles são suficientes. Entretanto, o surgimento do <code>ggplot2</code> <span class="citation" data-cites="wickham2016ggplot2">(<a href="references.html#ref-wickham2016ggplot2" role="doc-biblioref">14</a>)</span> trouxe a possibilidade de serem construídos gráficos mais elegantes e versáteis. Além disso, torna o processo mais rápido, baseado em uma sofisticada gramática <span class="citation" data-cites="wickham2010layered">(<a href="references.html#ref-wickham2010layered" role="doc-biblioref">15</a>)</span>.</p>
 <p>Os três componentes principais de cada gráfico do <code>ggplot2</code>são: dados, estética e geometria.</p>
 <ol type="1">
 <li><strong>Dados</strong> (<em>data</em>),</li>
@@ -2422,7 +2272,7 @@ F-statistic: 946.6 on 1 and 1083 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dados) </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-base" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-base" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-base-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-base-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2440,7 +2290,7 @@ Figura&nbsp;6.33: Camada base do ggplot2
 <span id="cb126-2"><a href="#cb126-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> idade, <span class="at">y =</span> comp)) <span class="sc">+</span></span>
 <span id="cb126-3"><a href="#cb126-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-scatter2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-scatter2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-scatter2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-scatter2-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2467,7 +2317,7 @@ Figura&nbsp;6.34: Gráfico de dispersão
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<div id="fig-scatter4" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-scatter4" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-scatter4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-scatter4-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2486,7 +2336,7 @@ Figura&nbsp;6.35: Gráfico de dispersão com reta de regressão
 <div class="sourceCode cell-code" id="cb130"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dados, <span class="fu">aes</span>(<span class="at">x =</span> idade, <span class="at">y =</span> comp, <span class="at">color =</span> sexo)) <span class="sc">+</span></span>
 <span id="cb130-2"><a href="#cb130-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-scatter5" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-scatter5" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-scatter5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-scatter5-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2504,7 +2354,7 @@ O que acontece se colocarmos a cor fora da função <code>aes()</code>?</p>
 <div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dados, <span class="fu">aes</span>(<span class="at">x =</span> idade, <span class="at">y =</span> comp), <span class="at">color =</span> sexo) <span class="sc">+</span></span>
 <span id="cb131-2"><a href="#cb131-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-scatter6" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-scatter6" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-scatter6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-scatter6-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2522,7 +2372,7 @@ Figura&nbsp;6.37: Gráfico de dispersão com a cor sendo especificada fora da ae
 <div class="sourceCode cell-code" id="cb132"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dados, <span class="fu">aes</span>(<span class="at">x =</span> idade, <span class="at">y =</span> comp)) <span class="sc">+</span></span>
 <span id="cb132-2"><a href="#cb132-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"tomato"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-scatter7" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-scatter7" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-scatter7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-scatter7-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2541,7 +2391,7 @@ Figura&nbsp;6.38: Gráfico de dispersão com a cor dos pontos por escolha pessoa
 <span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> idade, <span class="at">y =</span> comp, <span class="at">shape =</span> sexo)) <span class="sc">+</span> </span>
 <span id="cb133-3"><a href="#cb133-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"tomato"</span>, <span class="at">size =</span> <span class="dv">3</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-scatter8" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-scatter8" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-scatter8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-scatter8-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2559,7 +2409,7 @@ Figura&nbsp;6.39: Gráfico de dispersão com pontos aumentados e com formatos di
 <div class="sourceCode cell-code" id="cb134"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dados, <span class="fu">aes</span>(<span class="at">x =</span> idade, <span class="at">y =</span> comp, <span class="at">fill =</span> sexo)) <span class="sc">+</span></span>
 <span id="cb134-2"><a href="#cb134-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">shape =</span> <span class="dv">21</span>) </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-scatter9" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-scatter9" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-scatter9-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-scatter9-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2578,7 +2428,7 @@ Figura&nbsp;6.40: Gráfico de dispersão semelhante ao da Figura 5, apenas com p
 <span id="cb135-2"><a href="#cb135-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">fill =</span> <span class="st">"tomato"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">shape =</span> <span class="dv">21</span>) <span class="sc">+</span></span>
 <span id="cb135-3"><a href="#cb135-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>sexo)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-scatter10" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-scatter10" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-scatter10-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-scatter10-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2600,7 +2450,7 @@ Figura&nbsp;6.41: Facetamento: gráfico de dispersão por categorias.
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<div id="fig-scatter11" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-scatter11" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-scatter11-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-scatter11-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2621,7 +2471,7 @@ Figura&nbsp;6.42: Reta de regressão com intervalo de confiança por categorias
 <div class="sourceCode cell-code" id="cb138"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dados, <span class="fu">aes</span>(<span class="at">x =</span> sexo, <span class="at">y =</span>  comp)) <span class="sc">+</span></span>
 <span id="cb138-2"><a href="#cb138-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-ggbxp0" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-ggbxp0" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ggbxp0-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-ggbxp0-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2640,7 +2490,7 @@ Figura&nbsp;6.43: FIGURA 14: Boxplot padrão do ggplot2
 <span id="cb139-3"><a href="#cb139-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">"skyblue"</span>, </span>
 <span id="cb139-4"><a href="#cb139-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">alpha =</span> <span class="fl">0.3</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-ggbxp1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-ggbxp1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ggbxp1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-ggbxp1-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2661,7 +2511,7 @@ Figura&nbsp;6.44: Boxplots com as cores das caixas alteradas.
 <span id="cb140-4"><a href="#cb140-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
 <span id="cb140-5"><a href="#cb140-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.10</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-ggbxp2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-ggbxp2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ggbxp2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-ggbxp2-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2680,7 +2530,7 @@ Figura&nbsp;6.45: Boxplot com jitter.
 <span id="cb141-3"><a href="#cb141-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">colour =</span> <span class="st">"black"</span>, </span>
 <span id="cb141-4"><a href="#cb141-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">"chartreuse"</span>) </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-ggbxp3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-ggbxp3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ggbxp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-ggbxp3-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2717,7 +2567,7 @@ Figura&nbsp;6.46: Boxplot no ggplot2 com bigodes finalizando em T.
 <span id="cb144-4"><a href="#cb144-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>)) <span class="sc">+</span></span>
 <span id="cb144-5"><a href="#cb144-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-violino" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-violino" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-violino-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-violino-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2736,7 +2586,7 @@ Figura&nbsp;6.47: Gráfico de violino com os quartis.
 <span id="cb145-3"><a href="#cb145-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
 <span id="cb145-4"><a href="#cb145-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-violino1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-violino1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-violino1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-violino1-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2756,7 +2606,7 @@ Figura&nbsp;6.48: Gráfico de violino com boxplot.
 <span id="cb146-4"><a href="#cb146-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
 <span id="cb146-5"><a href="#cb146-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-violino2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-violino2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-violino2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-violino2-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2791,7 +2641,7 @@ Figura&nbsp;6.49: Gráfico de violino horizontal.
 <div class="sourceCode cell-code" id="cb148"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dados_fumo, <span class="fu">aes</span>(<span class="at">x =</span> pesoRN)) <span class="sc">+</span> </span>
 <span id="cb148-2"><a href="#cb148-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-hist" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-hist" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-hist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-hist-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2812,7 +2662,7 @@ O <code>geom_histogram()</code> tem um argumento, denominado <code>binwidth</cod
 <span id="cb149-3"><a href="#cb149-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"chartreuse"</span>,</span>
 <span id="cb149-4"><a href="#cb149-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">colour =</span> <span class="st">"darkgreen"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-hist2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-hist2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-hist2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-hist2-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2839,7 +2689,7 @@ Figura&nbsp;6.51: Histograma modificado com o argumento binwidth = 100 e com pre
 <span id="cb150-11"><a href="#cb150-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">linewidth =</span> <span class="dv">1</span>,</span>
 <span id="cb150-12"><a href="#cb150-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">"red"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-hist3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-hist3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-hist3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-hist3-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2862,7 +2712,7 @@ A função <code>geom_bar()</code> permite delinear um gráfico de barras (<a hr
 <span id="cb151-2"><a href="#cb151-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> quantFumo, </span>
 <span id="cb151-3"><a href="#cb151-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">y =</span> <span class="fu">after_stat</span>(count<span class="sc">/</span><span class="fu">sum</span>(count))))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-bar" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-bar" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-bar-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2881,7 +2731,7 @@ Figura&nbsp;6.53: Gráfico de barras padrão do ggplot2.
 <span id="cb152-3"><a href="#cb152-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">y =</span> <span class="fu">after_stat</span>(count<span class="sc">/</span><span class="fu">sum</span>(count)),</span>
 <span id="cb152-4"><a href="#cb152-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> quantFumo))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-bar1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-bar1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bar1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-bar1-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2901,7 +2751,7 @@ Figura&nbsp;6.54: Gráfico de barras com as cores das barras estabelecidas pelo 
 <span id="cb153-4"><a href="#cb153-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> quantFumo)) <span class="sc">+</span></span>
 <span id="cb153-5"><a href="#cb153-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-bar2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-bar2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bar2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-bar2-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2923,7 +2773,7 @@ Figura&nbsp;6.55: Gráfico de barras anterior sem legenda.
 <span id="cb154-6"><a href="#cb154-6" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"lightsalmon4"</span>, <span class="st">"lightblue"</span>)) <span class="sc">+</span></span>
 <span id="cb154-7"><a href="#cb154-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-bar3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-bar3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bar3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-bar3-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2953,7 +2803,7 @@ Figura&nbsp;6.56: Gráfico de barras com cores customizadas.
 <span id="cb155-8"><a href="#cb155-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Tabagismo Materno"</span>) <span class="sc">+</span></span>
 <span id="cb155-9"><a href="#cb155-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-bar4" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-bar4" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bar4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-bar4-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -2998,7 +2848,7 @@ Figura&nbsp;6.57: Gráfico de barras com os rótulos dos eixos alterados.
 <span id="cb157-14"><a href="#cb157-14" aria-hidden="true" tabindex="-1"></a>                              <span class="st">"Moderado"</span>, <span class="st">"Pesado"</span>)) <span class="sc">+</span></span>
 <span id="cb157-15"><a href="#cb157-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-bar6" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-bar6" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bar6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-bar6-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -3043,7 +2893,7 @@ Figura&nbsp;6.58: Gráfico de barras com nome e ordem dos rótulos alterados.
 <span id="cb158-24"><a href="#cb158-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb158-25"><a href="#cb158-25" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(bxp)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-ggbxp4" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-ggbxp4" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ggbxp4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-ggbxp4-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -3064,7 +2914,7 @@ Figura&nbsp;6.59: Boxplots mostrando o impacto do tabagismo materno no peso do r
 <span id="cb159-5"><a href="#cb159-5" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">face =</span> <span class="st">"bold"</span>,</span>
 <span id="cb159-6"><a href="#cb159-6" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">color =</span> <span class="st">"darkgreen"</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-ggbxp5" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-ggbxp5" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ggbxp5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-ggbxp5-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -3090,7 +2940,7 @@ Figura&nbsp;6.60: Gráfico anterior com pequenas alterações na fonte e cores d
 <span id="cb160-6"><a href="#cb160-6" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">color =</span> <span class="st">"darkgreen"</span>)) <span class="sc">+</span></span>
 <span id="cb160-7"><a href="#cb160-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">1500</span>, <span class="dv">5000</span>, <span class="dv">500</span>)) </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-ggbxp6" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-ggbxp6" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ggbxp6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-ggbxp6-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -3125,7 +2975,7 @@ Figura&nbsp;6.61: Gráfico anterior com modificação da escala do eixo Y
 <span id="cb161-15"><a href="#cb161-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span> (<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.05</span>))) <span class="sc">+</span></span>
 <span id="cb161-16"><a href="#cb161-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-bar7" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-bar7" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bar7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-bar7-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -3161,7 +3011,7 @@ Figura&nbsp;6.62: Gráfico de barra sem a expansão abaixo de 0 (zero)
 <span id="cb162-17"><a href="#cb162-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Proporção em cada categoria"</span>) <span class="sc">+</span></span>
 <span id="cb162-18"><a href="#cb162-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-bar8" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-bar8" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bar8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-bar8-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -3201,7 +3051,7 @@ Figura&nbsp;6.63: Gráfico de barra com eixo Y em porcentagem
 <span id="cb163-18"><a href="#cb163-18" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">decimal.mark =</span> <span class="st">","</span>)) <span class="sc">+</span></span>
 <span id="cb163-19"><a href="#cb163-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-bar9" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-bar9" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bar9-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-bar9-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -3244,7 +3094,7 @@ Figura&nbsp;6.64: Gráfico de barras com cores modificadas fora da estética do 
 <span id="cb164-24"><a href="#cb164-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
 <span id="cb164-25"><a href="#cb164-25" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(bxp1)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-ggbxp7" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-ggbxp7" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ggbxp7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-ggbxp7-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -3267,7 +3117,7 @@ Figura&nbsp;6.65: Gráfico com paleta de cores do Lancet.
 <span id="cb165-2"><a href="#cb165-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb165-3"><a href="#cb165-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-ggbxp8" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-ggbxp8" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ggbxp8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-ggbxp8-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -3284,7 +3134,7 @@ Figura&nbsp;6.66: Gráfico da Figura 36 com o theme_bw().
 <span id="cb166-2"><a href="#cb166-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
 <span id="cb166-3"><a href="#cb166-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-ggbxp9" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-ggbxp9" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ggbxp9-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-ggbxp9-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -3363,7 +3213,7 @@ Figura&nbsp;6.67: Gráfico da Figura 36 com o theme_classic().
 <span id="cb170-17"><a href="#cb170-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span> (<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.05</span>))) <span class="sc">+</span></span>
 <span id="cb170-18"><a href="#cb170-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-bar10" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-bar10" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bar10-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="06-descrevendoDados_files/figure-html/fig-bar10-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:60.0%;height:60.0%" data-fig-pos="H">
@@ -3390,41 +3240,38 @@ Figura&nbsp;6.68: Gráfico de barra de erro.
 <div id="ref-oliveira2022tab" class="csl-entry" role="listitem">
 <div class="csl-left-margin">4. </div><div class="csl-right-inline">Oliveira Filho PF de. Tabelas. Em: Epidemiologia e Bioestatística-Fundamentos para a Leitura Crítica. 2ª edição. Editora Rubio; 2022. p. 9–12. </div>
 </div>
-<div id="ref-xie2018knitr" class="csl-entry" role="listitem">
-<div class="csl-left-margin">5. </div><div class="csl-right-inline">Xie Y. knitr: a comprehensive tool for reproducible research in R. Em: Implementing reproducible research. Chapman; Hall/CRC; 2018. p. 3–31. </div>
-</div>
-<div id="ref-zhu2021construct" class="csl-entry" role="listitem">
-<div class="csl-left-margin">6. </div><div class="csl-right-inline">Zhu H et al. Construct complex table with <span>«kable»</span> and Pipe syntax [Internet]. 2021. Disponível em: <a href="https://CRAN.R-project.org/package=kableExtra">https://CRAN.R-project.org/package=kableExtra</a></div>
+<div id="ref-gohel2024flextable" class="csl-entry" role="listitem">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Gohel D, Skintzos P. flextable: Functions for Tabular Reporting [Internet]. 2024. Disponível em: <a href="https://CRAN.R-project.org/package=flextable">https://CRAN.R-project.org/package=flextable</a></div>
 </div>
 <div id="ref-arango2009classes" class="csl-entry" role="listitem">
-<div class="csl-left-margin">7. </div><div class="csl-right-inline">Arango HG. Números de classes e Intervalo de Classes. Em: Bioestatística teórica e computacional. Terceira edição. Guanabara Koogan, RJ; 2009. p. 35–40. </div>
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Arango HG. Números de classes e Intervalo de Classes. Em: Bioestatística teórica e computacional. Terceira edição. Guanabara Koogan, RJ; 2009. p. 35–40. </div>
 </div>
 <div id="ref-rasmussen2009weight" class="csl-entry" role="listitem">
-<div class="csl-left-margin">8. </div><div class="csl-right-inline">Rasmussen KM, Yaktine AL, et al. Weight gain during pregnancy: reexamining the guidelines. 2009; </div>
+<div class="csl-left-margin">7. </div><div class="csl-right-inline">Rasmussen KM, Yaktine AL, et al. Weight gain during pregnancy: reexamining the guidelines. 2009; </div>
 </div>
 <div id="ref-field2012graphs" class="csl-entry" role="listitem">
-<div class="csl-left-margin">9. </div><div class="csl-right-inline">Field A, Miles J, Field Z. Exploring data with graphs. Em: Discovering statistics using R. Sage Publications, Ltd; 2012. p. 117. </div>
+<div class="csl-left-margin">8. </div><div class="csl-right-inline">Field A, Miles J, Field Z. Exploring data with graphs. Em: Discovering statistics using R. Sage Publications, Ltd; 2012. p. 117. </div>
 </div>
 <div id="ref-wickham2016getting" class="csl-entry" role="listitem">
-<div class="csl-left-margin">10. </div><div class="csl-right-inline">Wickham H. Getting Started with ggplot2. Em: ggplot2. Second edition. Springer; 2016. p. 11–31. </div>
+<div class="csl-left-margin">9. </div><div class="csl-right-inline">Wickham H. Getting Started with ggplot2. Em: ggplot2. Second edition. Springer; 2016. p. 11–31. </div>
 </div>
 <div id="ref-tufte2001aesthetics" class="csl-entry" role="listitem">
-<div class="csl-left-margin">11. </div><div class="csl-right-inline">Tufte ER. Aesthetics and Technique in Data Graphical Design. Em: The Visual Display of Quantitative Information. Second edition. Graphics Press; 2001. p. 178. </div>
+<div class="csl-left-margin">10. </div><div class="csl-right-inline">Tufte ER. Aesthetics and Technique in Data Graphical Design. Em: The Visual Display of Quantitative Information. Second edition. Graphics Press; 2001. p. 178. </div>
 </div>
 <div id="ref-lemon2015package" class="csl-entry" role="listitem">
-<div class="csl-left-margin">12. </div><div class="csl-right-inline">Lemon J, Bolker B, Oom S, et al. Package <span>«plotrix»</span>. Vienna: R Development Core Team. 2015; </div>
+<div class="csl-left-margin">11. </div><div class="csl-right-inline">Lemon J, Bolker B, Oom S, et al. Package <span>«plotrix»</span>. Vienna: R Development Core Team. 2015; </div>
 </div>
 <div id="ref-kabacoff2011graphs" class="csl-entry" role="listitem">
-<div class="csl-left-margin">13. </div><div class="csl-right-inline">Kabacoff RI. Basic graphs. Em: R in Action: Data analysis and graphics with R. Manning Publications Co.; 2011. p. 120–4. </div>
+<div class="csl-left-margin">12. </div><div class="csl-right-inline">Kabacoff RI. Basic graphs. Em: R in Action: Data analysis and graphics with R. Manning Publications Co.; 2011. p. 120–4. </div>
 </div>
 <div id="ref-harrell2022hmisc" class="csl-entry" role="listitem">
-<div class="csl-left-margin">14. </div><div class="csl-right-inline">Harrell FE, Dupont C. Hmisc: Harrell Miscellaneous [Internet]. R package version. 2022. Disponível em: <a href="https://cran.r-project.org/web/packages/Hmisc/index.html">https://cran.r-project.org/web/packages/Hmisc/index.html</a></div>
+<div class="csl-left-margin">13. </div><div class="csl-right-inline">Harrell FE, Dupont C. Hmisc: Harrell Miscellaneous [Internet]. R package version. 2022. Disponível em: <a href="https://cran.r-project.org/web/packages/Hmisc/index.html">https://cran.r-project.org/web/packages/Hmisc/index.html</a></div>
 </div>
 <div id="ref-wickham2016ggplot2" class="csl-entry" role="listitem">
-<div class="csl-left-margin">15. </div><div class="csl-right-inline">Wickham H. ggplot2: Elegant Graphics for Data Analysis [Internet]. Springer-Verlag New York; 2016. Disponível em: <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a></div>
+<div class="csl-left-margin">14. </div><div class="csl-right-inline">Wickham H. ggplot2: Elegant Graphics for Data Analysis [Internet]. Springer-Verlag New York; 2016. Disponível em: <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a></div>
 </div>
 <div id="ref-wickham2010layered" class="csl-entry" role="listitem">
-<div class="csl-left-margin">16. </div><div class="csl-right-inline">Wickham H. A layered grammar of graphics. Journal of Computational and Graphical Statistics. 2010;19(1):3–28. </div>
+<div class="csl-left-margin">15. </div><div class="csl-right-inline">Wickham H. A layered grammar of graphics. Journal of Computational and Graphical Statistics. 2010;19(1):3–28. </div>
 </div>
 </div>
 </section>
@@ -3434,7 +3281,7 @@ Figura&nbsp;6.68: Gráfico de barra de erro.
 <hr>
 <ol>
 <li id="fn1"><p>Usa-se esta sintaxe: <code>round(x, digits = 0)</code>, onde <code>x</code> é o numero que se quer arredondar e <code>digits</code> é número de casas decimais. O padrão é <code>0</code>, ou seja, arredonda para o inteiro mais próximo.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>Para maiores detalhes: https://haozhu233.github.io/kableExtra/awesome_table_in_pdf.pdf ou consulte a ajuda digitando no Console <code>?kable()</code> ou <code>help(kable)</code>. Um pacote adicional, <code>kableExtra</code> <span class="citation" data-cites="zhu2021construct">(<a href="references.html#ref-zhu2021construct" role="doc-biblioref">6</a>)</span>, permite opções de formatação simples, melhorando o aspecto da tabela, utilizando-se o operador pipe <code>%&gt;%</code>. O pacote <code>kableExtra</code> foi projetado para estender a funcionalidade básica das tabelas produzidas usando <code>knitr::kable()</code>. Podem ser acrescentadas várias das suas funções como <code>kable_styling()</code> ou <code>kable_classic()</code> para especificar estilos à tabela, como extensão da tabela, alinhamento, tipo e tamanho da fonte<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Para maiores detalhes: https://ardata-fr.github.io/flextable-book/index.html ou consulte a ajuda digitando no Console <code>?flextable()</code> ou <code>help(flextable)</code>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>Poderiam ser transformados em fatores sem trocar os rótulos e manter os números 1 e 2, como se fossem palavras. O autor prefere usar nomes.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4"><p>Foi escolhido o nome <em>x</em>, porque lembra o eixo <em>X</em>, onde estão as barras<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn5"><p>para lembrar o eixo <em>Y</em><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>

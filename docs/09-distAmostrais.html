@@ -361,9 +361,8 @@ window.Quarto = {
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               e1071, </span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>               ggplot2, </span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>               ggpubr, </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>               kableExtra, </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>               knitr, </span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>               readxl)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>               knitr, </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>               readxl)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="distribuições-populacional-e-amostral" class="level2" data-number="9.2">
@@ -443,7 +442,7 @@ window.Quarto = {
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-dam" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-dam" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-dam-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="09-distAmostrais_files/figure-html/fig-dam-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%" data-fig-pos="H">
@@ -495,11 +494,11 @@ EP_{\bar{x}} = \frac {s}{\sqrt{n}}
 <ul>
 <li>a média da distribuição amostral, <span class="math inline">\(\mu_{\bar{x}}\)</span>, é igual a média populacional, <span class="math inline">\(\mu\)</span>;</li>
 <li>desvio padrão da distribuição amostral, <span class="math inline">\(\sigma_{\bar{x}}\)</span>, é igual a <span class="math inline">\(\frac {\sigma}{\sqrt{n}}\)</span>;</li>
-<li>o erro padrão da média, <span class="math inline">\(\sigma_{\bar{x}}\)</span>, é sempre menor que o desvio padrão populacional, <span class="math inline">\(\sigma\)</span> (<a href="#fig-standard" class="quarto-xref">Figura&nbsp;<span>9.2</span></a>).</li>
+<li>o erro padrão da média, <span class="math inline">\(\sigma_{\bar{x}}\)</span>, é sempre menor (<a href="#fig-standard" class="quarto-xref">Figura&nbsp;<span>9.2</span></a>) que o desvio padrão populacional, <span class="math inline">\(\sigma\)</span>.</li>
 </ul>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-standard" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-standard" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-standard-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="https://i.imgur.com/I2CxksB.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" data-fig-pos="H">
@@ -532,7 +531,7 @@ Figura&nbsp;9.2: Erro padrão versus desvio padrão.
 <p>O desvio padrão é grande em relação à média, com um coeficiente de variação de 55.1% e uma mediana &lt; média. Estas métricas junto com os coeficientes de assimetria e curtose apontam para a assimetria positiva da variável <code>renda</code>. O gráfico da <a href="#fig-skewpos" class="quarto-xref">Figura&nbsp;<span>9.3</span></a> confirma esta afirmação:</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-skewpos" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-skewpos" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-skewpos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="09-distAmostrais_files/figure-html/fig-skewpos-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%" data-fig-pos="H">
@@ -575,7 +574,7 @@ Se extrairmos múltiplas amostras dessa população, observa-se a modificação 
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-semskew" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="H" data-fig-align="center">
+<div id="fig-semskew" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="H">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-semskew-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="09-distAmostrais_files/figure-html/fig-semskew-1.png" class="quarto-figure quarto-figure-center figure-img" style="width:70.0%;height:70.0%" data-fig-pos="H">

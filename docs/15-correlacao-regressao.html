@@ -121,9 +121,9 @@ div.csl-indent {
     "search-label": "Procurar"
   }
 }</script>
-<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/tabwid-1.1.3/tabwid.css" rel="stylesheet">
 
-<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script src="site_libs/tabwid-1.1.3/tabwid.js"></script>
 
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
@@ -368,11 +368,11 @@ window.Quarto = {
 <h2 data-number="15.1" class="anchored" data-anchor-id="pacotes-necessários"><span class="header-section-number">15.1</span> Pacotes necessários</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(car,</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               dplyr, </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>               ggplot2,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>               ggpubr,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>               ggsci,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>               kableExtra,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               dplyr,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>               flextable,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>               ggplot2,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>               ggpubr,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>               ggsci,</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>               knitr,</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>               lmtest,</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>               readxl,</span>
@@ -667,43 +667,7 @@ Tabela&nbsp;15.1: Interpretação do Coeficiente de Correlação
 </figcaption>
 <div aria-describedby="tbl-coefr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:600px; ">
-<table class="table table-striped table-hover table-condensed do-not-create-environment cell caption-top table-sm small" data-quarto-postprocess="true">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">Coeficiente de Correlação</th>
-<th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;">Interpretação</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">0,0 &lt; 0,3</td>
-<td style="text-align: left;">desprezável</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">0,3 &lt; 0,5</td>
-<td style="text-align: left;">fraca</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">0,5 &lt; 0,7</td>
-<td style="text-align: left;">moderada</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">0,7 &lt; 0,9</td>
-<td style="text-align: left;">forte</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">0,9 &lt; 1,0</td>
-<td style="text-align: left;">muito forte</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">1,0</td>
-<td style="text-align: left;">perfeita</td>
-</tr>
-</tbody>
-</table>
-</div>
-
+<div class="tabwid"><style>.cl-e4f1dda8{}.cl-e4e20748{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e4e20766{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e4e8e77a{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e4e92956{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4e9296a{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4e9296b{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4e92974{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-e4f1dda8"><thead><tr style="overflow-wrap:break-word;"><th class="cl-e4e92956"><p class="cl-e4e8e77a"><span class="cl-e4e20748">Coeficiente de Correlação (r)</span></p></th><th class="cl-e4e92956"><p class="cl-e4e8e77a"><span class="cl-e4e20748">Interpretação</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-e4e9296a"><p class="cl-e4e8e77a"><span class="cl-e4e20766">0,0&lt;0,3</span></p></td><td class="cl-e4e9296a"><p class="cl-e4e8e77a"><span class="cl-e4e20766">desprezável</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4e9296b"><p class="cl-e4e8e77a"><span class="cl-e4e20766">0,3&lt;0,5</span></p></td><td class="cl-e4e9296b"><p class="cl-e4e8e77a"><span class="cl-e4e20766">fraca</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4e9296b"><p class="cl-e4e8e77a"><span class="cl-e4e20766">0,5,0,7</span></p></td><td class="cl-e4e9296b"><p class="cl-e4e8e77a"><span class="cl-e4e20766">moderada</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4e9296b"><p class="cl-e4e8e77a"><span class="cl-e4e20766">0,7&lt;0,9</span></p></td><td class="cl-e4e9296b"><p class="cl-e4e8e77a"><span class="cl-e4e20766">forte</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4e9296b"><p class="cl-e4e8e77a"><span class="cl-e4e20766">0,9&lt;1,0</span></p></td><td class="cl-e4e9296b"><p class="cl-e4e8e77a"><span class="cl-e4e20766">muito forte</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4e92974"><p class="cl-e4e8e77a"><span class="cl-e4e20766">1,0</span></p></td><td class="cl-e4e92974"><p class="cl-e4e8e77a"><span class="cl-e4e20766">perfeita</span></p></td></tr></tbody></table></div>
 </div>
 </div>
 </figure>
@@ -966,7 +930,7 @@ Figura&nbsp;15.10: Gráfico QQ mostrando a normalidade dos resíduos do modelo d
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">durbinWatsonTest</span>(mod_reg)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> lag Autocorrelation D-W Statistic p-value
-   1      -0.1044054      2.204843    0.63
+   1      -0.1044054      2.204843    0.66
  Alternative hypothesis: rho != 0</code></pre>
 </div>
 </div>
@@ -981,47 +945,11 @@ Figura&nbsp;15.10: Gráfico QQ mostrando a normalidade dos resíduos do modelo d
 <div id="tbl-samplesize" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-samplesize-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;15.2: Tamanho amostral para regressão
+Tabela&nbsp;15.2: Tamanho amostral para regressão de acordo com o r de Pearson e o número de preditores
 </figcaption>
 <div aria-describedby="tbl-samplesize-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:600px; ">
-<table class="table table-striped table-hover table-condensed do-not-create-environment cell caption-top table-sm small" data-quarto-postprocess="true">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold;">Valor r</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold;">1 variável preditora</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold;">2 variáveis preditoras</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold;">3 variáveis preditoras</th>
-<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold;">4 variáveis preditoras</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">0.2</td>
-<td style="text-align: center;">190</td>
-<td style="text-align: center;">230</td>
-<td style="text-align: center;">265</td>
-<td style="text-align: center;">290</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">0.3</td>
-<td style="text-align: center;">80</td>
-<td style="text-align: center;">100</td>
-<td style="text-align: center;">115</td>
-<td style="text-align: center;">125</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">0.4</td>
-<td style="text-align: center;">45</td>
-<td style="text-align: center;">55</td>
-<td style="text-align: center;">65</td>
-<td style="text-align: center;">70</td>
-</tr>
-</tbody>
-</table>
-</div>
-
+<div class="tabwid"><style>.cl-e70e3e74{}.cl-e7022a6c{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e7022a80{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e706dc6a{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e7070fa0{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e7070faa{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e7070fb4{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e7070fbe{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e7070fbf{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e7070fc8{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e7070fc9{width:1.5in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e7070fd2{width:0.752in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-e70e3e74"><thead><tr style="overflow-wrap:break-word;"><th class="cl-e7070fa0"><p class="cl-e706dc6a"><span class="cl-e7022a6c"></span></p></th><th colspan="4" class="cl-e7070fa0"><p class="cl-e706dc6a"><span class="cl-e7022a6c">Número de Variáveis Preditoras</span></p></th></tr><tr style="overflow-wrap:break-word;"><th class="cl-e7070fb4"><p class="cl-e706dc6a"><span class="cl-e7022a6c">r de Pearson</span></p></th><th class="cl-e7070fb4"><p class="cl-e706dc6a"><span class="cl-e7022a6c">Uma</span></p></th><th class="cl-e7070fb4"><p class="cl-e706dc6a"><span class="cl-e7022a6c">Duas</span></p></th><th class="cl-e7070fb4"><p class="cl-e706dc6a"><span class="cl-e7022a6c">Três</span></p></th><th class="cl-e7070fbe"><p class="cl-e706dc6a"><span class="cl-e7022a6c">Quatro</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-e7070fbf"><p class="cl-e706dc6a"><span class="cl-e7022a80">0.2</span></p></td><td class="cl-e7070fbf"><p class="cl-e706dc6a"><span class="cl-e7022a80">190</span></p></td><td class="cl-e7070fbf"><p class="cl-e706dc6a"><span class="cl-e7022a80">230</span></p></td><td class="cl-e7070fbf"><p class="cl-e706dc6a"><span class="cl-e7022a80">265</span></p></td><td class="cl-e7070fc8"><p class="cl-e706dc6a"><span class="cl-e7022a80">290</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e7070fbf"><p class="cl-e706dc6a"><span class="cl-e7022a80">0.3</span></p></td><td class="cl-e7070fbf"><p class="cl-e706dc6a"><span class="cl-e7022a80">80</span></p></td><td class="cl-e7070fbf"><p class="cl-e706dc6a"><span class="cl-e7022a80">100</span></p></td><td class="cl-e7070fbf"><p class="cl-e706dc6a"><span class="cl-e7022a80">115</span></p></td><td class="cl-e7070fc8"><p class="cl-e706dc6a"><span class="cl-e7022a80">125</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e7070fc9"><p class="cl-e706dc6a"><span class="cl-e7022a80">0.4</span></p></td><td class="cl-e7070fc9"><p class="cl-e706dc6a"><span class="cl-e7022a80">45</span></p></td><td class="cl-e7070fc9"><p class="cl-e706dc6a"><span class="cl-e7022a80">55</span></p></td><td class="cl-e7070fc9"><p class="cl-e706dc6a"><span class="cl-e7022a80">65</span></p></td><td class="cl-e7070fd2"><p class="cl-e706dc6a"><span class="cl-e7022a80">70</span></p></td></tr></tbody></table></div>
 </div>
 </div>
 </figure>

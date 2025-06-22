@@ -305,6 +305,7 @@ minha_tab <- flextable(df) %>%
   align(align = "left", part = "footer") %>% 
   fontsize(size = 9, part = "footer") %>% 
   theme_booktabs() %>%
+  width(j = 1:2, width = 1.5) %>%
   align(align = "center", part = "header") %>% 
   align(align = "center", part = "body") %>%   
   bold(part = "header")
@@ -452,7 +453,7 @@ O sinal negativo demonstra que houve um aumento do PFM do momento basal para o f
 
 Da mesma maneira que o teste *t* pareado, as hipóteses estabelecidas comparam dois grupos dependentes. O teste de Wilcoxon é usado para avaliar a hipótese nula de que a distribuição das diferenças entre os grupos tem uma diferença mediana igual a 0.
 
-> $H_{0}: D_{i} = 0$   
+> $H_{0}: D_{i} = 0$
 
 > $H_{A}: D_{i} \ne 0$
 
@@ -514,7 +515,7 @@ T <- min (soma_neg : soma_pos)
 T
 ```
 
-8.  Para dados com tamanhos grandes (> 20 pares), a significância de *T* pode ser determinada @zar2014wilcoxon, considerando que a distribuição de *T* tem aproximadamente distribuição normal com média igual a
+8.  Para dados com tamanhos grandes (\> 20 pares), a significância de *T* pode ser determinada @zar2014wilcoxon, considerando que a distribuição de *T* tem aproximadamente distribuição normal com média igual a
 
 $$
 \mu_{T} =\frac{n \times \left (n + 1  \right )}{4}
@@ -582,7 +583,7 @@ $$
 r = \frac {Z_{T}}{\sqrt{n}}
 $$
 
-Pode-se usar também a função `wilcox_effsize()` para calcular a estatística *r*. A Saída exibe junto a magnitude o efeito, que no caso é grande (> 0,5 como mostra a @tbl-wilcoxef do teste de Mann-Whitney).
+Pode-se usar também a função `wilcox_effsize()` para calcular a estatística *r*. A Saída exibe junto a magnitude o efeito, que no caso é grande (\> 0,5 como mostra a @tbl-wilcoxef do teste de Mann-Whitney).
 
 ```{r}
 dadosL %>% 
@@ -640,9 +641,9 @@ Os dados encontram-se no arquivo `dadosResposta.xlsx`. Clique [**aqui**](https:/
 
 As variáveis são:
 
-- **id** $\to$ identificação do participante;
-- **tempo** $\to$ tempo de reação na simulação de direção em segundos;
-- **bebida** $\to$ três grupo: água, álcool e café.
+-   **id** $\to$ identificação do participante;
+-   **tempo** $\to$ tempo de reação na simulação de direção em segundos;
+-   **bebida** $\to$ três grupo: água, álcool e café.
 
 O estudo pretende verificar se existe diferença no tempo de reação dos participantes em um teste de direção com a ingesta de água, café e álcool.
 
@@ -713,9 +714,9 @@ resumo
 
 Se não houver diferença entre os grupos, ou seja, os grupos são provenientes de uma mesma população, as somas dos postos em cada grupo devem ficar próximas. Desta forma,
 
-> $H_{0}$: As populações são iguais.  
+> $H_{0}$: As populações são iguais.
 
-> $H_{1}$: Pelo menos uma das populações tende a exibir valores diferentes do que as outras populações. 
+> $H_{1}$: Pelo menos uma das populações tende a exibir valores diferentes do que as outras populações.
 
 ### Pressupostos do teste
 

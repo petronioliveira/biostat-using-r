@@ -5,7 +5,8 @@
 Instalar e carregar os seguintes pacotes:
 
 ```{r message=FALSE}
-pacman::p_load(dplyr, 
+pacman::p_load(dplyr,
+               flextable,
                ggplot2, 
                ggpubr, 
                ggsci,
@@ -370,25 +371,24 @@ mod.anova2
 
 Analisando o teste de Mauchly para a esfericidade, verifica-se que houve violação da esfericidade, tanto para o efeito do `tempo` (*W* = 0,582, *P* = 0,003) como para a interação `tratamento:tempo` (*W* = 0,582, *P* = 0,003). Esses resultados indicam a necessidade de correção para ajustar os graus de liberdade. A correção de Greenhouse-Geisser é utilizada, pois é o recomendado quando *W* \< 0,75 (veja @sec-esfero). O modelo ANOVA, gerado pela função `anova_test()`, entregou a tabela da ANOVA sem correção, o teste de Mauchly e a correção dos graus de liberdade da esfericidade (Greenhouse-Geisser (GGe) e Huynh-Feldt (HFe)). A tabela da ANOVA corrigida (@tbl-tabanova2) pode, então, ser obtida, usando a função `get_anova_table ()`, do pacote `rstatix`, com o `mod.anova2` e `correction = “GG”` como argumentos:
 
-```{r #tbl-tabanova2, echo=FALSE, warning=FALSE, message=FALSE}
+```{r}
+#| label: tbl-tabanova2
+#| tbl-cap: "Tabela da Anova Corrigida (GGe)"
+#| echo: FALSE
+#| message: FALSE
+#| warning: FALSE
+
 tab_anova2 <- rstatix::get_anova_table(mod.anova2, correction = "GG")
 
-knitr::kable(tab_anova2,
-             booktabs = TRUE,
-             format = "html",
-             align = "lcccccc",  
-             caption = "Tabela da Anova Corrigida (GGe)") %>% 
-  kableExtra::kable_styling(full_width = FALSE, 
-                            html_font = "Cambria",
-                            position = "center",
-                            bootstrap_options = c("striped", 
-                                                   "hover", 
-                                                   "condensed")) %>% 
-  kableExtra::scroll_box(width = "650px") %>%
-  row_spec(0, bold = TRUE)
+minha_tab <- flextable(tab_anova2) %>%
+  autofit() %>%
+  theme_booktabs() %>%
+  bold(part = "header") 
+
+minha_tab
 ```
 
-Como existe uma interação estatisticamente significativa (*F*(1,41, 31,26) = 29,6, *P* \< 0,0001) entre `tratamento` e o `tempo`, deve-se prestar atenção a este fato. Os efeitos principais isolados perdem a importância. Para esta análise são necessários testes posteriores.
+Como existe uma interação estatisticamente significativa (*F*(1,41, 31,03) = 29,26, *P* \< 0,0001) entre `tratamento` e o `tempo`, deve-se prestar atenção a este fato. Os efeitos principais isolados perdem a importância. Para esta análise são necessários testes posteriores.
 
 ### Teste post hoc
 

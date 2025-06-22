@@ -6,7 +6,7 @@
 pacman::p_load(DescTools, 
                dplyr,
                ggplot2, 
-               kableExtra,
+               flextable,
                knitr,
                readxl, 
                Rmisc, 
@@ -67,7 +67,7 @@ Para melhorar a precisão, usa-se uma estimativa de intervalo. Em vez de atribui
 
 Este procedimento é conhecido como *estimação por intervalo* e o intervalo construído, estabelecendo um limite inferior e um limite superior em torno da estimativa amostral, é denominado de **intervalo de confiança**. Desta forma, é possível afirmar que o intervalo de confiança, provavelmente, contém o parâmetro populacional correspondente (@fig-intconf).
 
-```{r #fig-intconf, echo = FALSE, out.width = '70%', fig.align = 'center', fig.cap="Intervalo de Confiança.", fig.pos="H"}
+```{r #fig-intconf, echo = FALSE, out.width = '60%', fig.align = 'center', fig.cap="Intervalo de Confiança.", fig.pos="H"}
  knitr::include_graphics("https://i.imgur.com/oAGF5Xs.png")
 ```
 
@@ -211,7 +211,7 @@ IC_z(x = amostra$pesoRN, s = sigma, nc = 0.995)
 
 Observando o IC95% e o IC99%, verifica-se que a amplitude do intervalo aumentou com o crescimento da confiança de 95% para 99%, porque houve um aumento na margem de erro (@fig-IC9599).
 
-```{r #fig-IC9599, echo = FALSE, out.width = '70%', fig.align = 'center', fig.cap="Comparação do IC95% e IC99%.", fig.pos="H"}
+```{r #fig-IC9599, echo = FALSE, out.width = '60%', fig.align = 'center', fig.cap="Comparação do IC95% e IC99%.", fig.pos="H"}
 knitr::include_graphics("https://i.imgur.com/vaPrkze.png")
 ```
 
@@ -247,7 +247,7 @@ dfx <- data.frame(sample.means,
 dfx$erro <- dfx$ucl < my.mean | dfx$lcl > my.mean
 ```
 
-```{r #fig-vinte, echo=FALSE, fig.out="75%", fig.cap="Intervalos de confiança de 95% que mostra 20 replicações simuladas de amostras de n = 30 do peso do recém-nascido. Apenas um intervalo (em vermelho) não inclui a média populacional (linha vertical azul)."}
+```{r #fig-vinte, echo=FALSE, fig.out="60%", fig.cap="Intervalos de confiança de 95% que mostra 20 replicações simuladas de amostras de n = 30 do peso do recém-nascido. Apenas um intervalo (em vermelho) não inclui a média populacional (linha vertical azul)."}
 ggplot2::ggplot(dfx, 
                 aes(x = sample.means, 
                     y = trial, 
@@ -414,34 +414,29 @@ $$
 
 Quando o tamanho amostral é grande, o valor de *t* se aproxima do valor de *z*, portanto, em situações em que não se conhece o desvio padrão populacional, não há muita diferença se houver uma aproximação de *t* para *z* (@tbl-tabtz).
 
-```{r #tbl-tabtz, echo=FALSE, message=FALSE, warning=FALSE}
+```{r}
+#| label: tbl-tabtz
+#| tbl-cap: "Comparação dos valores z e t(gl)"
+#| echo: FALSE
+#| message: FALSE
+#| warning: FALSE
 
-data_table <- data.frame(
-  z = c("1,96", "1,96", "1,96", "1,96", "1,96", "1,96", "1,96", "1,96"),
+df3 <- data.frame(
   n = c(5, 10, 30, 50, 100, 200, 500, 1000),
   gl = c(4, 9, 29, 49, 99, 199, 499, 999),
+  z = c(1.96, 1.96, 1.96, 1.96, 1.96, 1.96, 1.96, 1.96),
   t = c(2.57, 2.23, 2.04, 2.01, 1.98, 1.97, 1.96, 1.96)
 )
 
-data_table %>%
-  kable(
-    booktabs = TRUE,
-    caption = "Comparação dos valores z e t(gl).",
-    format.args = list(decimal.mark = ","),
-    format = "html"
-  ) %>%
-  kable_styling(
-    full_width = FALSE, 
-    position = "center",
-    html_font = "Cambria",
-    bootstrap_options = c("striped", "hover", "condensed")
-  ) %>%
-  scroll_box(width = "600px") %>%
-  column_spec(1, width = "2.5cm") %>%
-  column_spec(2, width = "2cm") %>%
-  column_spec(3, width = "2cm") %>%
-  column_spec(4, width = "2cm") %>%
-  row_spec(0, bold = TRUE)
+minha_tab <- flextable(df3) %>%
+  autofit() %>%
+  theme_booktabs() %>%
+  width(j = 1:4, width = 1.5) %>%
+  align(align = "center", part = "header") %>%
+  align(align = "center", part = "body") %>%
+  bold(part = "header") 
+
+minha_tab
 ```
 
 A `amostra1` de *n* = 30, $\overline x$ = `r round(x_barra1, 3)`m e $s$ = `r round(s1,3)`m. Essas estimativas servirão para o cálculo do intervalo de confiança, usando uma distribuição t bicaudal e um nível de significância $\alpha = 0,05$.
